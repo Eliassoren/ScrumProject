@@ -10,7 +10,7 @@ public class DbManager {
 
     public static Connection connection;
     private String dbDriver = "com.mysql.jdbc.Driver";
-    private String dbLink = "jdbc:mysql://mysql.stud.iie.ntnu.no/g_scrum01?user=g_scrum01&password=DarP7yTs";
+    private String dbLink = "jdbc:mysql://xxx";
 
     public DbManager() throws Exception{
         Class.forName(dbDriver);
