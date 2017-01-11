@@ -14,10 +14,14 @@ public class DbManager {
     public static Connection connection;
 
     public DbManager() throws Exception{
+
+        ReadConfig readConfig = new ReadConfig();
+        String [] result = readConfig.getConfigValues();
+
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setUser("g_scrum01");
         dataSource.setDatabaseName("g_scrum01");
-        dataSource.setPassword("");
+        dataSource.setPassword(result[1]);
         dataSource.setServerName("mysql.stud.iie.ntnu.no");
         Connection connection = dataSource.getConnection();
 
