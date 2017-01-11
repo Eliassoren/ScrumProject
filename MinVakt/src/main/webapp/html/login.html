@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/mobileView.css">
     <link rel="stylesheet" media="screen and (min-device-width: 800px)" href="../css/style.css"/>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
     <script type="text/javascript" src="../js/script.js"></script>
     <title>MinVakt</title>
 </head>
@@ -26,14 +27,15 @@
     <div class="main-area__box">
         <form action="http://localhost:8080/MinVakt/" method="post">
             <div>
-                <input class="input" type="text" placeholder="Username" id="uname" required>
+                <input class="input" type="text" placeholder="Brukernavn" id="uname" required>
             </div>
             <div>
-                <input class="input" type="text" placeholder="Password" id="password" required>
+                <input class="input" type="text" placeholder="passord" id="password" required>
             </div>
         </form>
     </div>
-    <button class="button" type="button" id="login"> Login </button>
+    <h2 id="errormessage">Feil brukernavn eller passord</h2>
+    <button class="button" type="button" onclick="login()"> Log inn </button>
 </div>
 <footer>
     <p>
@@ -44,3 +46,5 @@
 </footer>
 </body>
 </html>
+
+
