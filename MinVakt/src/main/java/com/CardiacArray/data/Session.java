@@ -14,11 +14,18 @@ import java.util.Date;
 public class Session {
     
     /*Variabler*/
+    String email;
     Date loginDate;
     
-    /*Konstruktør*/
-    public Session(Date loginDate) {
-        this.loginDate = loginDate;
+    public Session() {  
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
     }
     
     /*Metoder*/
