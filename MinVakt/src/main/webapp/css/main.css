@@ -1,5 +1,5 @@
 body{
-    font-family: 'Georgia';
+    font-family: 'Georgia', 'sans-serif';
 }
 #header{
     position: absolute;
@@ -43,6 +43,16 @@ h1{
     color: gray;
     text-decoration: none;
 }
+
+.icon-bar a:visited {
+    text-decoration: none;
+}
+
+[class^="fa"]:before {
+    display: inline-block;
+    text-decoration: none;
+}
+
 footer{
     padding: 1rem;
     margin-top: auto;
