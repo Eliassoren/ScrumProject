@@ -21,9 +21,8 @@ public class User {
     private String email;
     private String password;
     private int admin;
-    private Shift shift = new Shift(int time, Date date, int departmentId, String role, int shiftId, boolean tradeable, boolean shiftManager);
     
-    /*Konstrukt�r*/
+    /*Construktor*/
     public User(int Id, String firstName, String lastName, int phoneNumber, String email, String password, int admin) {
         this.Id = Id;
         this.firstName = firstName;
@@ -94,15 +93,6 @@ public class User {
     public void setAdmin(int newStatus) {
         this.admin = newStatus;
     }
-
-    public Shift getShift() {
-        return shift;
-    }
-        
-    public void setShiftTradeable(boolean newStatus) {
-        shift.setTradeable(newStatus);
-    }
-    
     
 
     public static void main(String[] args) {

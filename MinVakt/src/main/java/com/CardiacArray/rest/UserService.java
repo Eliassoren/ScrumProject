@@ -5,9 +5,12 @@
  */
 package com.CardiacArray.rest;
 
+import com.CardiacArray.data.Session;
 import com.CardiacArray.data.User;
+import com.CardiacArray.db.SessionDb;
 import com.CardiacArray.db.UserDb;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import javax.ws.rs.Consumes;
@@ -26,7 +29,7 @@ import javax.ws.rs.core.Response;
  * @author OddErik
  */
 public class UserService {
-    
+    private Connection connection =
     private UserDb userDb = new UserDb();
     
     @GET
