@@ -1,4 +1,5 @@
 import com.CardiacArray.db.ReadConfig;
+import com.CardiacArray.db.SessionDb;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.*;
 import java.sql.DriverManager;
@@ -23,21 +24,24 @@ public class DbManager {
         dataSource.setDatabaseName("g_scrum01");
         dataSource.setPassword(result[1]);
         dataSource.setServerName("mysql.stud.iie.ntnu.no");
-        Connection connection = dataSource.getConnection();
+        connection = dataSource.getConnection();
 
         try{
             connection.setAutoCommit(false);
         }catch (SQLException e){
             connection.rollback();
             e.printStackTrace(System.err);
-        } finally {
-            connection.close();
         }
 
     }
 
     public static void main(String[] args)throws Exception{
         DbManager db = new DbManager();
+        SessionDb sessionTest = new SessionDb(db.connection);
+        System.out.println(sessionTest.login("epost@internett.no", "123"));
+        System.out.println(sessionTest.login("eposten@internett.no", "123"));
+        System.out.println(sessionTest.login("oddErik@gmail.com", "123"));
+        db.connection.close();
     }
 
 
