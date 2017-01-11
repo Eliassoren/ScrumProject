@@ -5,5 +5,5 @@ package com.CardiacArray.db;
  */
 public class UserDb {
 
-    public
+    //public
 }
