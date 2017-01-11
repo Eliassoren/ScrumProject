@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/mobileView.css">
     <link rel="stylesheet" media="screen and (min-device-width: 800px)" href="../css/style.css"/>
-    <script type="text/javascript" src=""></script>
+    <script type="text/javascript" src="../js/script.js"></script>
     <title>MinVakt</title>
 </head>
 
@@ -24,14 +24,16 @@
 <div class="container">
     <h2 class="text">Velkommen</h2>
     <div class="main-area__box">
-        <div>
-            <input class="input" type="text" placeholder="Username" name="uname" required>
-        </div>
-        <div>
-            <input class="input" type="text" placeholder="Password" name="password" required>
-        </div>
+        <form action="http://localhost:8080/MinVakt/" method="post">
+            <div>
+                <input class="input" type="text" placeholder="Username" id="uname" required>
+            </div>
+            <div>
+                <input class="input" type="text" placeholder="Password" id="password" required>
+            </div>
+        </form>
     </div>
-    <button class="button" type="submit" onclick="blurFunction()"> Login </button>
+    <button class="button" type="button" id="login"> Login </button>
 </div>
 <footer>
     <p>
