@@ -1,5 +1,7 @@
 target
 *.ipr
 *.iwr
+MinVakt.iws
+config.properties
 *.iml
 .DS*
