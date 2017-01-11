@@ -1,0 +1,51 @@
+body{
+    font-family: 'Georgia';
+}
+#header{
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height: 100px;
+    background-color: #0066ff;
+    padding: 10px;
+}
+h1{
+    width:60%;
+    float: left;
+    text-align: center;
+    margin: auto;
+}
+#h1-title{
+    color: white;
+    font-size: 36px;
+}
+.icon-bar{
+    float:left;
+    display: inline;
+    width: 20%;
+    height: 100%;
+//z-index: 1;
+}
+.icon-bar a{
+//display: block;
+    float: left;
+// width: 50%;
+    font-size: 40px;
+    color: white;
+    margin: 20px 20px auto 10px;
+}
+#search{
+    float:right;
+}
+.icon-bar a:hover {
+    background-color: #0065ff;
+    color: gray;
+    text-decoration: none;
+}
+footer{
+    padding: 1rem;
+    margin-top: auto;
+    text-align: center;
+    bottom: 0;
+}
