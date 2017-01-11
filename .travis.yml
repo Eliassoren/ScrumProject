@@ -3,3 +3,7 @@ sudo: false
 script: cd MinVakt && mvn clean verify
 jdk:
   - oraclejdk8
+branches:
+   only:
+      - master
+      - development
