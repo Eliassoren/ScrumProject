@@ -22,8 +22,6 @@ public class SessionDb {
             statement = connection.prepareStatement(toSQL);
             statement.setString(1, email);
             statement.setString(2, password);
-            System.out.println(email);
-            System.out.println(password);
             res = statement.executeQuery();
             if (!res.next()) {
                 return adminRights;

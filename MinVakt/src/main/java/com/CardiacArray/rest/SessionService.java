@@ -5,7 +5,7 @@
  */
 package com.CardiacArray.rest;
 
-import com.CardiacArray.data.Session;
+import com.CardiacArray.data.*;
 import com.CardiacArray.db.DbManager;
 import com.CardiacArray.db.SessionDb;
 
@@ -53,8 +53,8 @@ public class SessionService {
             session.setLoginDate(new Date());
             session.setEmail(email);
             request.getSession().invalidate();
-            request.setAttribute("session",session);
-            System.out.println("Funker");
+            request.setAttribute("session", session);
+            //System.out.println("Funker");
         } else {
             request.getSession().invalidate();
             throw new NotAuthorizedException("Feil brukernavn eller passord");
