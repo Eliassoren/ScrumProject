@@ -1,10 +1,43 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Hello</title>
+    <meta name="viewport" content="user-scalable = yes">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="src\main\webapp\WEB-INF\css\style.css">
+    <link rel="stylesheet" media="screen and (min-device-width: 800px)" href="css/style.css"/>
+    <script type="text/javascript" src="js/script.js"></script>
+    <title>MinVakt</title>
 </head>
-<body>
-<h1>Hello!</h1>
+
+<body id="body">
+
+<header>
+    <h1>MinVakt</h1>
+</header>
+
+<div class="space">  </div>
+
+<div class="container">
+    <h2 class="text">Velkommen</h2>
+    <div class="main-area__box">
+        <div>
+            <input class="input" type="text" placeholder="Username" name="uname" required>
+        </div>
+        <div>
+            <input class="input" type="text" placeholder="Password" name="password" required>
+        </div>
+    </div>
+    <button class="button" type="submit" onclick="blurFunction()"> Login </button>
+</div>
+<footer>
+    <p>
+        <a href="#" class="footer-link">Brukervilkår</a> &bullet;
+        <a href="#" class="footer-link">Hjelp</a> &bullet;
+        <a href="#" class="footer-link">Kontakt</a>
+    </p>
+</footer>
 </body>
 </html>
