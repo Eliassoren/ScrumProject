@@ -6,6 +6,8 @@
 package com.CardiacArray.rest;
 
 import com.CardiacArray.data.User;
+import com.CardiacArray.db.UserDb;
+
 import java.sql.SQLException;
 import java.util.logging.Level;
 import javax.ws.rs.Consumes;

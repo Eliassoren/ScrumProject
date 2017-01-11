@@ -6,8 +6,9 @@
 package com.CardiacArray.rest;
 
 import com.CardiacArray.data.Session;
-import com.CardiacArray.data.User;
-import com.CardiacArray.db.*;
+import com.CardiacArray.db.DbManager;
+import com.CardiacArray.db.SessionDb;
+
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.logging.Level;
@@ -39,12 +40,15 @@ public class SessionService {
     @POST
     @Consumes("application/json")
     @Produces("application/json")
-    
     public Session login(String email, String password) {
-        DbManager dbManager = new DbManager();
+        DbManager dbManager = null;
+        try {
+            dbManager = new DbManager();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         sessionDb = new SessionDb(dbManager.connection);
         Session session = new Session();
-        
         if(sessionDb.login(email, password) > -1) {
             session.setLoginDate(new Date());
             session.setEmail(email);
