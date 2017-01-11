@@ -1,0 +1,109 @@
+header h1{
+    width: 100%;
+
+    background: #58ACFA;
+
+    margin: 0px;
+    line-height: 10rem;
+    font-size: 5rem;
+    text-align: center;
+    font-weight: 500;
+    color: white;
+}
+
+.main-area{
+    position: relative;
+
+}
+
+html, body{
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    display: flex;
+    flex-flow: column wrap;
+    min-height: 100vh;
+    background: url(http://www.imageif.com/images/medical-physician-doctor-hands-healthcare-background-banner-cmipa.jpg);
+    background-size: cover;
+}
+
+div.container{
+
+    padding: 50px;
+    border: 2.5px solid #000;
+    height: 350px;
+    width: 500px;
+    text-align: center;
+
+}
+
+.main-area__box{
+
+    font-size: 15px;
+    padding: 20px;
+    margin: 10px;
+    height: 50%;
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.text{
+    font-size: 4rem;
+}
+
+.button {
+
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 8px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    border: 2px solid #555555;
+}
+
+.button:active {
+    transform: translate(0px,3px);
+    background-color: #a5a5a5;
+
+
+
+}
+
+.input{
+    margin: 1vh;
+    height: 3.5vh;
+    width: 32vw;
+    padding: 2vh;
+    font-size: 3rem;
+}
+
+.space{
+    padding: 20px;
+}
+
+footer{
+    font-size: 15px;
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto;
+    bottom:0;
+}
+
+#errormessage{
+    text-align: center;
+    font-size: medium;
+    text-decoration-style: double;
+    color: red;
+    visibility: hidden;
+}
+
