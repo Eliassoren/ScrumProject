@@ -5,6 +5,8 @@
  */
 package com.CardiacArray.data;
 
+import java.util.Date;
+
 /**
  *
  * @author OddErik
@@ -19,7 +21,7 @@ public class User {
     String email;
     String password;
     boolean admin;
-    Shift shift = new Shift(int time, Date date, int departmentId, String role, int shiftId, boolean tradeable, boolean shiftManager);
+    Shift shift;
     
     /*Konstruktør*/
     public User(int Id, String firstName, String lastName, int phoneNumber, String email, String password, boolean admin) {
@@ -30,6 +32,10 @@ public class User {
         this.email = email;
         this.password = password;
         this.admin = admin;
+    }
+    
+    public User() {
+        
     }
     
     /*Metoder*/
@@ -92,13 +98,9 @@ public class User {
     public Shift getShift() {
         return shift;
     }
-    
-    public boolean checkValidUser() {
         
-    }
-    
-    public boolean setShiftTradeable(boolean newStatus) {
-        shift.tradeable = newStatus;
+    public void setShiftTradeable(boolean newStatus) {
+        shift.setTradeable(newStatus);
     }
     
     
