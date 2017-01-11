@@ -5,30 +5,35 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel= "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js" />
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <title>MinVakt</title>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#hamburger-toggle").click(function(){
+                $("#hamburger-menu").toggleClass("hamburger-menu-open");
+                $("#hamburger-toggle").toggleClass("hamburger-toggle-open");
+            });
+        });
+    </script>
 </head>
 <body>
-
 <div id="header">
     <div class="icon-bar">
-        <a class="fa fa-bars"  id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
-        <div class="dropdown">
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-            </ul>
-        </div>
+        <a id="hamburger-toggle" class="fa fa-bars"></a>
+        <ul id="hamburger-menu">
+            <li>Action</li>
+            <li>Another action</li>
+            <li>Something else here</li>
+            <li>Separated link</li>
+        </ul>
     </div>
     <h1 id="h1-title">
         MinVakt
     </h1>
     <div class="icon-bar">
-        <a id="search" href="#" class="fa fa-search"></a>
+        <a id="search" href="#" class="fa fa-search-right"></a>
 
     </div>
 </div>
