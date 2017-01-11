@@ -1,38 +1,32 @@
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang = "en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="user-scalable = yes">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="src\main\webapp\WEB-INF\css\style.css">
-    <link rel="stylesheet" media="screen and (min-device-width: 800px)" href="css/style.css"/>
-    <script type="text/javascript" src="js/script.js"></script>
+    <meta charset = "UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel= "stylesheet" href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <title>MinVakt</title>
 </head>
+<body>
 
-<body id="body">
-
-<header>
-    <h1>MinVakt</h1>
-</header>
-
-<div class="space">  </div>
-
-<div class="container">
-    <h2 class="text">Velkommen</h2>
-    <div class="main-area__box">
-        <div>
-            <input class="input" type="text" placeholder="Username" name="uname" required>
-        </div>
-        <div>
-            <input class="input" type="text" placeholder="Password" name="password" required>
-        </div>
+<div id="header">
+    <div class="icon-bar">
+        <a href="#" class="fa fa-bars">
+        </a>
     </div>
-    <button class="button" type="submit" onclick="blurFunction()"> Login </button>
+    <h1 id="h1-title">
+        MinVakt
+    </h1>
+    <div class="icon-bar">
+        <a id="search" href="#" class="fa fa-search"></a>
+    </div>
+</div>
+<div class = "main-area">
+    <div class = "calendar">
+    </div>
 </div>
 <footer>
+    <p>&copy; 2017 Cardiac Array</p>
     <p>
         <a href="#" class="footer-link">Brukervilkår</a> &bullet;
         <a href="#" class="footer-link">Hjelp</a> &bullet;
