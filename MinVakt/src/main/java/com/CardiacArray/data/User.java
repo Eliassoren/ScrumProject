@@ -5,6 +5,8 @@
  */
 package com.CardiacArray.data;
 
+import java.util.Date;
+
 /**
  *
  * @author OddErik
@@ -30,6 +32,10 @@ public class User {
         this.email = email;
         this.password = password;
         this.admin = admin;
+    }
+    
+    public User() {
+        
     }
     
     /*Metoder*/
@@ -92,9 +98,9 @@ public class User {
     public Shift getShift() {
         return shift;
     }
-
-    public boolean setShiftTradeable(boolean newStatus) {
-        shift.tradeable = newStatus;
+        
+    public void setShiftTradeable(boolean newStatus) {
+        shift.setTradeable(newStatus);
     }
     
     
