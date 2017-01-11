@@ -7,3 +7,5 @@ branches:
    only:
       - master
       - development
+notifications:
+  slack: dat15hscrum1:STbUzEN3OEb7Kd8SfUGahsDd
