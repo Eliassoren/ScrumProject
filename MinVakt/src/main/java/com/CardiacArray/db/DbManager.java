@@ -24,8 +24,6 @@ public class DbManager {
 
         try{
             connection.setAutoCommit(false);
-            }
-
         }catch (SQLException e){
             connection.rollback();
             e.printStackTrace(System.err);
