@@ -15,12 +15,12 @@ public class SessionDb {
        this.connection = connection;
     }
 
-    public int login(String username, String password) {
+    public int login(String email, String password) {
         int adminRights = -1;
         try {
             String toSQL = "select admin_rights from user where email = ? and password = ?";
             statement = connection.prepareStatement(toSQL);
-            statement.setString(1, username);
+            statement.setString(1, email);
             statement.setString(2, password);
             res = statement.executeQuery();
             if (!res.next()) {
