@@ -12,17 +12,17 @@ package com.CardiacArray.data;
 public class User {
     
     /*Variabler*/
-    int Id;
-    String firstName;
-    String lastName;
-    int phoneNumber;
-    String email;
-    String password;
-    boolean admin;
-    Shift shift = new Shift(int time, Date date, int departmentId, String role, int shiftId, boolean tradeable, boolean shiftManager);
+    private int Id;
+    private String firstName;
+    private String lastName;
+    private int phoneNumber;
+    private String email;
+    private String password;
+    private int admin;
+    private Shift shift = new Shift(int time, Date date, int departmentId, String role, int shiftId, boolean tradeable, boolean shiftManager);
     
-    /*Konstruktør*/
-    public User(int Id, String firstName, String lastName, int phoneNumber, String email, String password, boolean admin) {
+    /*Konstruktï¿½r*/
+    public User(int Id, String firstName, String lastName, int phoneNumber, String email, String password, int admin) {
         this.Id = Id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -81,22 +81,18 @@ public class User {
         this.password = password;
     }
 
-    public boolean isAdmin() {
+    public int getAdmin() {
         return admin;
     }
 
-    public void setAdmin(boolean newStatus) {
+    public void setAdmin(int newStatus) {
         this.admin = newStatus;
     }
 
     public Shift getShift() {
         return shift;
     }
-    
-    public boolean checkValidUser() {
-        
-    }
-    
+
     public boolean setShiftTradeable(boolean newStatus) {
         shift.tradeable = newStatus;
     }
