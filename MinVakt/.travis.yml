@@ -6,5 +6,5 @@ jdk:
 branches:
  only:
   - master
-  - stable
+  - travis-oppsett 
 
