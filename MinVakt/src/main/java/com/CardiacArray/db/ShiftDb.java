@@ -19,13 +19,14 @@ public class ShiftDb {
         this.connection = connection;
     }
 
-    /*
+    /**
     * Returns a single shift object
     *
     * @author Vegard Stenvik
     * @param date the date for the shift
     * @param userId the id that identifies the user
     * @see com.CardiacArray.data.Shift
+    * @return Returns single shift object
     * */
     public Shift getShift(Date date, int userId){
         Shift shift;
@@ -40,7 +41,7 @@ public class ShiftDb {
                 "FROM shift\n" +
                 "    JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
                 "    JOIN user ON user_shift.user_id = user.user_id\n" +
-                "WHERE shift.date = ? AND user_shift.user_id = ?;";
+                "WHERE shift.date = ? AND user_shift.user_id = ?";
 
         try {
             statement = connection.prepareStatement(sql);
