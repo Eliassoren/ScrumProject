@@ -22,7 +22,7 @@ public class UserDb {
             String toSQL = "select * from user where email = ?";
             statement = connection.prepareStatement(toSQL);
             statement.setString(1, email);
-            res = statement.executeQuery()
+            res = statement.executeQuery();
             if(res.next()){
                 int id = res.getInt("user_id");
                 String firstName= res.getString("fist_name");
@@ -31,9 +31,13 @@ public class UserDb {
                 int adminRights = res.getInt("admin_rights");
                 int mobile = res.getInt("mobile");
                 String address = res.getString("address");
-            User user = new User(id,firstName,lastName,mobile,email,password)
 
+                User user = new User(id,firstName,lastName,mobile,email,password);
+            }
 
+        }
+        catch (SQLException e) {
+            e.printStackTrace(System.err);
         }
 
     }
