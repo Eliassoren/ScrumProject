@@ -849,14 +849,21 @@
       <workItem from="1484134004059" duration="3076000" />
       <workItem from="1484140449851" duration="7114000" />
 <<<<<<< HEAD
+      <workItem from="1484223615548" duration="3059000" />
+=======
+<<<<<<< HEAD
       <workItem from="1484226373203" duration="390000" />
 =======
       <workItem from="1484223615548" duration="2213000" />
 >>>>>>> 88ff31f9f64e043400b1cab89dc24d4915706182
+>>>>>>> e3d5b46821bd5764639217aa1a643d0ce86aadb9
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
+    <option name="totallyTimeSpent" value="22734000" />
+=======
 <<<<<<< HEAD
     <option name="totallyTimeSpent" value="20065000" />
   </component>
@@ -864,6 +871,7 @@
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
 =======
     <option name="totallyTimeSpent" value="21888000" />
+>>>>>>> e3d5b46821bd5764639217aa1a643d0ce86aadb9
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -1198,8 +1206,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/login-script.js">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="340">
+          <caret line="20" column="60" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="60" />
+=======
         <state relative-caret-position="425">
           <caret line="17" column="3" selection-start-line="17" selection-start-column="3" selection-end-line="17" selection-end-column="3" />
+>>>>>>> e3d5b46821bd5764639217aa1a643d0ce86aadb9
           <folding />
         </state>
       </provider>
