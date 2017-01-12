@@ -38,17 +38,12 @@ body{
     float:left;
     display: inline;
     position: relative;
-    width: 10%;
     height: 100%;
 }
 
 .icon-bar a{
-//display: block;
-  //  float: right;
-// width: 50%;
     font-size: 40px;
     color: white;
-
     background: transparent;
     border-style: none;
     padding: 30px;
@@ -213,6 +208,14 @@ h2{
     content:"\f002";
     float: right;
     text-decoration: none;
+}
+
+#search-toglge {
+    float: right;
+}
+
+#icon-bar-right {
+    float: right;
 }
 
 #hamburger-toggle {
