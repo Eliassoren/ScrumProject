@@ -38,6 +38,20 @@ public class User {
         this.userCategoryInt = userCategoryInt;
         this.userCategoryString = userCategoryString;
     }
+
+    /*
+    *Construcor used to creat new users that needs to be added to the database.
+     */
+    public User(String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mobile = mobile;
+        this.email = email;
+        this.password = password;
+        this.admin = admin;
+        this.address = address;
+        this.userCategoryInt = userCategoryInt;
+    }
     
     public User() {
         
