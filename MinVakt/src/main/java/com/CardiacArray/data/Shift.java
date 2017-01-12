@@ -4,55 +4,26 @@ import java.util.Date;
 
 public class Shift {
 
-    private int time;
-    private Date date;
-    private int departmentId;
-    private String role;
     private int shiftId;
+    private Date startTime;
+    private Date endTime;
+    private int userId;
+    private String userName;
+    private int departmentId;
+    private int role;
     private boolean tradeable;
-    private boolean shiftManager;
-    
-    
-    public Shift(int time, Date date, int departmentId, String role, int shiftId, boolean tradeable, boolean shiftManager) {
-        this.time = time;
-        this.date = date;
-        this.departmentId = departmentId;
-        this.role = role;
+    private boolean responsibleUser;
+
+    public Shift(int shiftId, Date startTime, Date endTime, int userId, String userName, int departmentId, int role, boolean tradeable, boolean responsibleUser) {
         this.shiftId = shiftId;
-        this.tradeable = tradeable;
-        this.shiftManager = shiftManager;
-    }
-    
-    public int getTime() {
-        return time;
-    }
-    
-    public void setTime(int time) {
-        this.time = time;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public int getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(int departmentId) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.userId = userId;
+        this.userName = userName;
         this.departmentId = departmentId;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
         this.role = role;
+        this.tradeable = tradeable;
+        this.responsibleUser = responsibleUser;
     }
 
     public int getShiftId() {
@@ -63,7 +34,55 @@ public class Shift {
         this.shiftId = shiftId;
     }
 
-    public boolean getTradeable() {
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public int getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
+    public boolean isTradeable() {
         return tradeable;
     }
 
@@ -71,17 +90,14 @@ public class Shift {
         this.tradeable = tradeable;
     }
 
-    public boolean getShiftManager() {
-        return shiftManager;
+    public boolean isResponsibleUser() {
+        return responsibleUser;
     }
 
-    public void setShiftManager(boolean shiftManager) {
-        this.shiftManager = shiftManager;
+    public void setResponsibleUser(boolean responsibleUser) {
+        this.responsibleUser = responsibleUser;
     }
-    
-    
-    
-    
+
     public static void main(String[] args) {
         
     }
