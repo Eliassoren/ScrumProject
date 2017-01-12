@@ -8,9 +8,11 @@
     <meta name="viewport" content="user-scalable = yes">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/login-style.css">
-    <!--link rel="stylesheet" media="screen and (min-device-width: 800px)" href="../css/login-style.css"/-->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/login-script.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="http://localhost:8080/MinVakt/js/login-script.js"></script>
     <title>MinVakt</title>
 </head>
 
@@ -22,10 +24,11 @@
 <div class="custom-container">
     <div class="main-area">
         <h2 id="h2-title">Velkommen</h2>
-        <form action="http://localhost:8080/MinVakt/" method="post">
-            <input class="input" type="text" placeholder="Brukernavn" id="uname" required>
-            <input class="input" type="text" placeholder="Passord" id="password" required>
+        <form id="login-form" action="http://localhost:8080/MinVakt/" method="post">
+            <input class="input" id="username" name="username" type="text">
+            <input class="input" id="password" name="password" type="password">
             <input id="button" class="input" type="submit"  value="Logg inn"/>
+
         </form>
         <span class="elem"> <a href="#">Glemt passord?</a></span>
         <p id="error-message">Feil brukernavn eller passord</p>
