@@ -28,7 +28,7 @@ public class ShiftDb {
     * */
     public Shift getShift(Date date, int userId){
         Shift shift;
-        Shift shiftFromQuery;
+        Shift shiftFromQuery = null;
 
         // Formats date to form yyyy-MM-dd
         SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -39,7 +39,7 @@ public class ShiftDb {
                 "FROM shift\n" +
                 "    JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
                 "    JOIN user ON user_shift.user_id = user.user_id\n" +
-                "WHERE shift.date = '" + ? + "' AND user_shift.user_id = " + ? + ";";
+                "WHERE shift.date = ? AND user_shift.user_id = ?;";
 
         try {
             statement = connection.prepareStatement(sql);
@@ -48,6 +48,7 @@ public class ShiftDb {
             res = statement.executeQuery();
 
             if (!res.next()) {
+                System.out.println("Fudge");
                 return null;
             } else {
                 Date dateFromQuery = res.getDate("date");
@@ -77,4 +78,15 @@ public class ShiftDb {
         shift = shiftFromQuery;
         return shift;
     }
+
+    public static void main(String args[]) throws Exception {
+        Date d = new Date(1483225200000L);
+        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+        String s = simpleDate.format(d);
+        System.out.println(s);
+        DbManager db = new DbManager();
+        ShiftDb shiftDb = new ShiftDb(db.connection);
+        System.out.println(shiftDb.getShift(d, 1));
+    }
+
 }
