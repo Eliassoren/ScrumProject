@@ -7,31 +7,9 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../js/shift-script.js"></script>
 
     <title>MinVakt</title>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $("#hamburger-toggle").click(function(){
-                $("#hamburger-menu").toggleClass("hamburger-menu-open");
-                $("#hamburger-toggle").toggleClass("hamburger-toggle-open");
-            });
-        });
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $("#dropdown-toggle-day").click(function(){
-                $("#day").toggleClass("dropdown-active");
-            });
-            $("#dropdown-toggle-evening").click(function(){
-                $("#evening").toggleClass("dropdown-active");
-            });
-            $("#dropdown-toggle-night").click(function(){
-                $("#night").toggleClass("dropdown-active");
-            });
-        });
-    </script>
 
 </head>
 <body>
@@ -57,38 +35,36 @@
 <div class="main-area">
     <div class="dropdown" id="day">
         <button class="dropdown-button" id="dropdown-toggle-day">Dagvakt</button>
-        <table class="table">
+        <table class="table" id="day-table">
             <tr>
-                <th>Company</th>
-                <th>Contact</th>
-                <th>Country</th>
+                <th>Navn</th>
+                <th>Start</th>
+                <th>Slutt</th>
+                <th>Stilling</th>
             </tr>
         </table>
     </div>
 
     <div class="dropdown" id="evening">
         <button class="dropdown-button" id="dropdown-toggle-evening">Kveldsvakt</button>
-        <table class="table">
+        <table class="table" id="evening-table">
             <tr>
-                <th>Company</th>
-                <th>Contact</th>
-                <th>Country</th>
-            </tr>
-            <tr>
-                <th>Elias</th>
-                <th>is</th>
-                <th>dumb</th>
+                <th>Navn</th>
+                <th>Start</th>
+                <th>Slutt</th>
+                <th>Stilling</th>
             </tr>
         </table>
     </div>
 
     <div class="dropdown" id="night">
         <button class="dropdown-button" id="dropdown-toggle-night">Nattvakt</button>
-        <table class="table">
+        <table class="table" id="night-table">
             <tr>
-                <th>Company</th>
-                <th>Contact</th>
-                <th>Country</th>
+                <th>Navn</th>
+                <th>Start</th>
+                <th>Slutt</th>
+                <th>Stilling</th>
             </tr>
         </table>
     </div>
