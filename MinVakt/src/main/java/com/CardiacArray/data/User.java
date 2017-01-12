@@ -23,7 +23,7 @@ public class User {
     private int admin;
     private String address;
     private int userCategoryInt;
-    private String userCategoryString
+    private String userCategoryString;
     
 
     public User(int Id, String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, String userCategoryString) {
@@ -36,7 +36,7 @@ public class User {
         this.admin = admin;
         this.address = address;
         this.userCategoryInt = userCategoryInt;
-        this.userCategoryString;
+        this.userCategoryString = userCategoryString;
     }
     
     public User() {
