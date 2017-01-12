@@ -21,10 +21,12 @@ public class User {
     private String email;
     private String password;
     private int admin;
+    private String address;
+    private int userCategoryInt;
+    private String userCategoryString
     
-    /*Konstrukt�r*/
-    public User(int Id, String firstName, String lastName, int mobile, String email, String password, int admin) {
-    /*Construktor*/
+
+    public User(int Id, String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, String userCategoryString) {
         this.Id = Id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -32,7 +34,9 @@ public class User {
         this.email = email;
         this.password = password;
         this.admin = admin;
-        this.adress
+        this.address = address;
+        this.userCategoryInt = userCategoryInt;
+        this.userCategoryString;
     }
     
     public User() {
@@ -95,7 +99,30 @@ public class User {
     public void setAdmin(int newStatus) {
         this.admin = newStatus;
     }
-    
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getUserCategoryInt() {
+        return userCategoryInt;
+    }
+
+    public void setUserCategoryInt(int userCategoryInt) {
+        this.userCategoryInt = userCategoryInt;
+    }
+
+    public String getUserCategoryString() {
+        return userCategoryString;
+    }
+
+    public void setUserCategoryString(String userCategoryString) {
+        this.userCategoryString = userCategoryString;
+    }
 
     public static void main(String[] args) {
         // TODO code application logic here
