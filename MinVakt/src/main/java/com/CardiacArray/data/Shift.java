@@ -98,8 +98,21 @@ public class Shift {
         this.responsibleUser = responsibleUser;
     }
 
-    public static void main(String[] args) {
-        
+    @Override
+    public String toString() {
+        return "Shift{" +
+                "shiftId=" + shiftId +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", departmentId=" + departmentId +
+                ", role=" + role +
+                ", tradeable=" + tradeable +
+                ", responsibleUser=" + responsibleUser +
+                '}';
     }
+
+
     
 }
