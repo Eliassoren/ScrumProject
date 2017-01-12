@@ -17,20 +17,26 @@ public class User {
     private int Id;
     private String firstName;
     private String lastName;
-    private int phoneNumber;
+    private int mobile;
     private String email;
     private String password;
     private int admin;
+    private String address;
+    private int userCategoryInt;
+    private String userCategoryString
     
-    /*Construktor*/
-    public User(int Id, String firstName, String lastName, int phoneNumber, String email, String password, int admin) {
+
+    public User(int Id, String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, String userCategoryString) {
         this.Id = Id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
+        this.mobile = mobile;
         this.email = email;
         this.password = password;
         this.admin = admin;
+        this.address = address;
+        this.userCategoryInt = userCategoryInt;
+        this.userCategoryString;
     }
     
     public User() {
@@ -62,12 +68,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public int getPhoneNumber() {
-        return phoneNumber;
+    public int getMobile() {
+        return mobile;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setMobile(int phoneNumber) {
+        this.mobile = mobile;
     }
 
     public String getEmail() {
@@ -93,7 +99,30 @@ public class User {
     public void setAdmin(int newStatus) {
         this.admin = newStatus;
     }
-    
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getUserCategoryInt() {
+        return userCategoryInt;
+    }
+
+    public void setUserCategoryInt(int userCategoryInt) {
+        this.userCategoryInt = userCategoryInt;
+    }
+
+    public String getUserCategoryString() {
+        return userCategoryString;
+    }
+
+    public void setUserCategoryString(String userCategoryString) {
+        this.userCategoryString = userCategoryString;
+    }
 
     public static void main(String[] args) {
         // TODO code application logic here

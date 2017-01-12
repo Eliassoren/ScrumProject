@@ -33,7 +33,14 @@ public class DbManager {
             connection.rollback();
             e.printStackTrace(System.err);
         }
+    }
 
+    public static void rollback(){
+        try{
+            connection.rollback();
+        }catch(SQLException e){
+            e.printStackTrace(System.err);
+        }
     }
 
     public static void main(String[] args)throws Exception{
