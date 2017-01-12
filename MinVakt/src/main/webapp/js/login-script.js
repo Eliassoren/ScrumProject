@@ -15,9 +15,23 @@ $(document).ready(function() {
             }
         },
         submitHandler: function(form) {
-            if(confirm("Er du sikker på at du vil logge inn?")) {
-                form.submit();
-            }
+            $.ajax({
+                type: "POST",
+                url: "/MinVakt/rest/login",
+                data: $(form).serialize(),
+                statusCode: {
+                    200: function() {
+                        $("#error-message").text("Du er logget inn!");
+                        //window.location.replace("/MinVakt/html/shift.html"):
+                    },
+                    401: function() {
+                        $("#error-message").text("Feil e-postadresse eller passord.");
+                    },
+                    404: function() {
+                        $("#error-message").text("Feil: Serveren er nede.");
+                    }
+                }
+            });
         }
     });
 });
