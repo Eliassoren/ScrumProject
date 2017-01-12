@@ -5,52 +5,49 @@
  */
 package com.CardiacArray.rest;
 
-import com.CardiacArray.data.Session;
 import com.CardiacArray.data.User;
-import com.CardiacArray.db.SessionDb;
 import com.CardiacArray.db.UserDb;
 
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.ServerErrorException;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 
 /**
  *
  * @author OddErik
  */
+
+@Path("/users")
 public class UserService {
-    private Connection connection =
-    private UserDb userDb = new UserDb();
-    
+    private UserDb userDb;
+
+    public UserService(Connection con) {
+        userDb = new UserDb(con);
+    }
+
     @GET
-    @Path("/user/{userId}")
+    @Path("/{email}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String get() {
-        return userDb.getUser;
+    public User getUser(@PathParam("email") String email) {
+        return userDb.getUser(email);
     }
     
     @PUT
-    @Path("/user/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void update(User user) {
+    public void updateUser(User user) {
         userDb.updateUser(user);
     }
-    
+
     @DELETE
-    @Path("/user/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void delete(User user) {
+    public void deleteUser(User user) {
         userDb.deleteUser(user);
     }
-    
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public void addUser(User user) {
+        userDb.addUser(user);
+    }
+
 }
