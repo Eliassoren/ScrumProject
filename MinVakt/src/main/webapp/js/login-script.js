@@ -1,17 +1,22 @@
 $(document).ready(function() {
-    $("#loginform").validate({
+    $("#login-form").validate({
         rules: {
-            username: "required",
+            email: "required",
             password: {
                 required: true,
                 minlength: 8
             }
         },
         messages: {
-            username: "Brukernavn er obligatorisk.",
+            email: "E-postadresse er obligatorisk.",
             password: {
                 required: "Passord er obligatorisk.",
                 minlength: "Passordet må bestå av minimum 8 tegn."
+            }
+        },
+        submitHandler: function(form) {
+            if(confirm("Er du sikker på at du vil logge inn?")) {
+                form.submit();
             }
         }
     });
