@@ -24,6 +24,16 @@ body{
     margin: 0 auto 0 auto;
     height: 100%;
 }
+
+#h1-title a {
+    color: white;
+}
+
+#h1-title a:hover {
+    color: white;
+    text-decoration: none;
+}
+
 .icon-bar{
     float:left;
     display: inline;
