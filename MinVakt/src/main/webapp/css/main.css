@@ -86,12 +86,12 @@ h2{
     position: relative;
     flex-wrap: wrap;
     font-size: 1.25rem;
-    margin-top: 200px;
+    margin-top: 180px;
     width: 100%;
     text-align: center;
 }
 .calendar-head{
-    posision: relative;
+    position: relative;
 }
 #calendar {
     width: 100%;
@@ -209,7 +209,7 @@ h2{
     text-decoration: none;
 }
 
-#search-toglge {
+#search-toggle {
     float: right;
 }
 
