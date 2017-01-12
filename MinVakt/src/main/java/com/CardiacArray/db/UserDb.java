@@ -20,9 +20,9 @@ public class UserDb {
     public User getUser(String email){
         User user = new User();
         try {
-            String toSQL = "select * from user join user_category" +
-                    "on user.user_category_id = user_category.user_category_id" +
-                    "where email=? ";
+            String toSQL = "select * from user join user_category " +
+                    "on user.user_category_id = user_category.user_category_id " +
+                    "where email=?";
             statement = connection.prepareStatement(toSQL);
             statement.setString(1, email);
             res = statement.executeQuery();
@@ -50,7 +50,7 @@ public class UserDb {
 
     public void updateUser(User user){
         try {
-            String toSQL = "UPDATE user" +
+            String toSQL = "UPDATE user " +
                     "SET first_name=?, last_name=?, password=?, admin_rights=?, mobile=?, address=?, user_category_id=?, email=?" +
                     "WHERE user_id = ?";
             statement = connection.prepareStatement(toSQL);
@@ -62,12 +62,31 @@ public class UserDb {
             statement.setString(6, user.getAddress());
             statement.setInt(7, user.getUserCategoryInt());
             statement.setString(8, user.getEmail());
-            statement.setInt(user.getId());
+            statement.setInt(9,user.getId());
             statement.execute();
+            connection.commit();
+            statement.close();
         }catch (SQLException e){
             e.printStackTrace(System.err);
             DbManager.rollback();
         }
+    }
 
+    public void deleteUser(User user){
+        try {
+            String toSQL = "DELETE FROM user WHERE user_id =?";
+            statement = connection.prepareStatement(toSQL);
+            statement.setInt(1,user.getId());
+            statement.execute();
+            connection.commit();
+            statement.close();
+        }catch (SQLException e){
+            e.printStackTrace(System.err);
+            DbManager.rollback();
+        }
+    }
+
+    public void createUser(User user){
+        
     }
 }
