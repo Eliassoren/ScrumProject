@@ -32,7 +32,7 @@ public class UserDb {
                 int mobile = res.getInt("mobile");
                 String address = res.getString("address");
             User user = new User(id,firstName,lastName,mobile,email,password)
-            }
+
 
         }
 

@@ -17,21 +17,22 @@ public class User {
     private int Id;
     private String firstName;
     private String lastName;
-    private int phoneNumber;
+    private int mobile;
     private String email;
     private String password;
     private int admin;
     private Shift shift = new Shift(int time, Date date, int departmentId, String role, int shiftId, boolean tradeable, boolean shiftManager);
     
     /*Konstrukt�r*/
-    public User(int Id, String firstName, String lastName, int phoneNumber, String email, String password, int admin) {
+    public User(int Id, String firstName, String lastName, int mobile, String email, String password, int admin) {
         this.Id = Id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
+        this.mobile = mobile;
         this.email = email;
         this.password = password;
         this.admin = admin;
+        this.adress
     }
     
     public User() {
@@ -63,12 +64,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public int getPhoneNumber() {
-        return phoneNumber;
+    public int getMobile() {
+        return mobile;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setMobile(int phoneNumber) {
+        this.mobile = mobile;
     }
 
     public String getEmail() {
