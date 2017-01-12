@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $("#loginform").validate({
+    $("#login-form").validate({
         rules: {
             username: "required",
             password: {
