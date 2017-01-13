@@ -20,7 +20,6 @@ public class UserDb {
     @param id
     @return User
      */
-
     public User getUser(int id){
         User user = new User();
         try {
@@ -32,7 +31,7 @@ public class UserDb {
             res = statement.executeQuery();
             if(res.next()){
                 String email = res.getString("email");
-                String firstName= res.getString("fist_name");
+                String firstName= res.getString("first_name");
                 String lastName = res.getString("last_name");
                 String password = res.getString("password");
                 int adminRights = res.getInt("admin_rights");
@@ -56,7 +55,6 @@ public class UserDb {
     @param email
     @return User
      */
-
     public User getUser(String email){
         User user = new User();
         try {
@@ -68,7 +66,7 @@ public class UserDb {
             res = statement.executeQuery();
             if(res.next()){
                 int id = res.getInt("user_id");
-                String firstName= res.getString("fist_name");
+                String firstName= res.getString("first_name");
                 String lastName = res.getString("last_name");
                 String password = res.getString("password");
                 int adminRights = res.getInt("admin_rights");
@@ -171,8 +169,10 @@ public class UserDb {
         UserDb udb = new UserDb(manager.connection);
         udb.createUser(testUser1);
         User testUser2 = udb.getUser(testUser1.getEmail());
+        int testCounter = 0;
         if(testUser1.getEmail().equals(testUser2.getEmail())) {
             System.out.println("user added and retrieved OK");
+            testCounter ++;
         }else{
             System.out.println("user added and retrievde FAILED");
         }
@@ -181,9 +181,11 @@ public class UserDb {
         User testUser3 = udb.getUser(testUser2.getId());
         if(testUser2.getFirstName().equals(testUser3.getFirstName())){
             System.out.println("user update OK");
+            testCounter ++;
         }else{
             System.out.println("user update FAILED");
         }
         udb.deleteUser(testUser2);
+        System.out.println(testCounter + "/2 tests complete.");
     }
 }
