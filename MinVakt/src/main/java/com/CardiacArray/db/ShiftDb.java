@@ -5,7 +5,9 @@ import com.CardiacArray.data.Shift;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Vegard on 12/01/2017.
@@ -50,14 +52,13 @@ public class ShiftDb {
             res = statement.executeQuery();
 
             if (!res.next()) {
-                System.out.println("Fudge");
                 return null;
             } else {
                 Date dateFromQuery = res.getDate("date");
                 Time startTimeFromQuery = res.getTime("start");
                 Time endTimeFromQuery = res.getTime("end");
-                Date startDateFormatted = new Date(dateFromQuery.getTime() + startTimeFromQuery.getTime());
-                Date endDateFormatted = new Date(endTimeFromQuery.getTime() + endTimeFromQuery.getTime());
+                Date startDateFormatted = new Date(dateFromQuery.getTime() + startTimeFromQuery.getTime() + 3600000L);
+                Date endDateFormatted = new Date(dateFromQuery.getTime() + endTimeFromQuery.getTime() + 3600000L);
 
                 shiftFromQuery = new Shift(
                         res.getInt("shift_id"),
@@ -119,8 +120,8 @@ public class ShiftDb {
                 Date dateFromQuery = res.getDate("date");
                 Time startTimeFromQuery = res.getTime("start");
                 Time endTimeFromQuery = res.getTime("end");
-                Date startDateFormatted = new Date(dateFromQuery.getTime() + startTimeFromQuery.getTime());
-                Date endDateFormatted = new Date(endTimeFromQuery.getTime() + endTimeFromQuery.getTime());
+                Date startDateFormatted = new Date(dateFromQuery.getTime() + startTimeFromQuery.getTime() + 3600000L);
+                Date endDateFormatted = new Date(dateFromQuery.getTime() + endTimeFromQuery.getTime() + 3600000L);
 
                 shiftArray.add(new Shift(
                         res.getInt("shift_id"),
@@ -160,6 +161,7 @@ public class ShiftDb {
 
         // Formats date to form yyyy-MM-dd
         SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleTime = new SimpleDateFormat("HH:mm");
         String onlyDateStart= simpleDate.format(dateStart);
         String onlyDateEnd = simpleDate.format(dateEnd);
 
@@ -178,10 +180,11 @@ public class ShiftDb {
 
             while (res.next()) {
                 Date dateFromQuery = res.getDate("date");
+                System.out.println("Date from query: " + dateFromQuery);
                 Time startTimeFromQuery = res.getTime("start");
                 Time endTimeFromQuery = res.getTime("end");
-                Date startDateFormatted = new Date(dateFromQuery.getTime() + startTimeFromQuery.getTime());
-                Date endDateFormatted = new Date(endTimeFromQuery.getTime() + endTimeFromQuery.getTime());
+                Date startDateFormatted = new Date(dateFromQuery.getTime() + startTimeFromQuery.getTime() + 3600000L);
+                Date endDateFormatted = new Date(dateFromQuery.getTime() + endTimeFromQuery.getTime() + 3600000L);
 
                 shiftArray.add(new Shift(
                         res.getInt("shift_id"),
@@ -207,6 +210,43 @@ public class ShiftDb {
         return shiftArray;
     }
 
+    private String DateToSQLTimeString(Date date){
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+    }
+
+    public void updateShift(Shift shift){
+        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+        String date = simpleDate.format(shift.getStartTime());
+
+        String sql = "UPDATE shift SET shift.date = ?,\n" +
+                "    shift.start = ?,\n" +
+                "    shift.end = ?,\n" +
+                "    shift.department_id = ?,\n" +
+                "    shift.responsible_user = ?,\n" +
+                "    shift.tradeable = ?\n" +
+                "WHERE shift_id = ?";
+
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setDate(1, new java.sql.Date(shift.getStartTime().getTime()));
+            statement.setString(2, DateToSQLTimeString(shift.getStartTime()));
+            statement.setString(3, DateToSQLTimeString(shift.getEndTime()));
+            statement.setInt(4, shift.getDepartmentId());
+            statement.setBoolean(5, shift.isResponsibleUser());
+            statement.setBoolean(6, shift.isTradeable());
+            statement.setInt(7, shift.getShiftId());
+            statement.execute();
+            connection.commit();
+            statement.close();
+            }
+            catch (SQLException e) {
+            e.printStackTrace();
+            DbManager.rollback();
+        }
+    }
+
     public static void main(String args[]) throws Exception {
         Date d = new Date(1483225200000L);
         Date e = new Date(1484438400000L);
@@ -217,7 +257,7 @@ public class ShiftDb {
         System.out.println(es);
         DbManager db = new DbManager();
         ShiftDb shiftDb = new ShiftDb(db.connection);
-        ArrayList<Shift> a = shiftDb.getShiftsForPeriod(d, e, 1);
+        ArrayList<Shift> a = shiftDb.getShiftsForPeriod(d, e);
 
         for (Shift shifttet: a) {
             System.out.println(shifttet);
