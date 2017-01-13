@@ -24,41 +24,25 @@
     display: block;
     margin: 2rem auto 2rem auto;
 }
-.main-area{
-    position: relative;
-}
-
 html, body{
     height: 100%;
     width: 100%;
 }
 
 body {
-
-    flex-flow: column wrap;
     background: url(http://www.imageif.com/images/medical-physician-doctor-hands-healthcare-background-banner-cmipa.jpg);
     background-size: cover;
 }
 
-.custom-container{
-    margin: auto;
-    top: 200px;
-    width: 80%;
-}
-
-.main-area{
-    top: 14rem;
-    display: block;
+#login-form{
     padding: 1rem;
-    margin: auto;
+    margin: 5rem auto 0 auto;
     height: 35rem;
     justify-content: center;
     align-content: center;
     width: 50rem;
     border: 0.3rem solid black;
 }
-
-
 
 #button:active {
     text-decoration: none;
@@ -86,20 +70,25 @@ body {
     display: block;
 }
 #error-message{
-    display:none;
+    margin: auto;
+    width: 50%;
+    height: 2rem;
+    font-size: 2rem;
     color: red;
+    text-align: center;
 }
 
 @media (max-width: 768px) {
 
 }
 footer{
-    position: relative;
-    font-size: 1rem;
+    font-size: 1.5rem;
     text-align: center;
     padding: 1rem;
-    margin-top: auto;
-    bottom:0;
+    width: 100%;
+    text-align: center;
+    bottom: 0;
+    position: fixed;
 }
 
 
