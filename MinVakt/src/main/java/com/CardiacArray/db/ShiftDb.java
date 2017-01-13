@@ -82,6 +82,57 @@ public class ShiftDb {
         return shift;
     }
 
+    public Shift getShift(Shift shit){
+        Shift shiftFromQuery = null;
+
+        // Formats date to form yyyy-MM-dd
+        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+        String onlyDate = simpleDate.format(date);
+
+        String sql = "SELECT shift.shift_id, shift.date, shift.start, shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable,\n" +
+                "    user.user_id, concat_ws(' ', user.first_name, user.last_name) AS user_name\n" +
+                "FROM shift\n" +
+                "    JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
+                "    JOIN user ON user_shift.user_id = user.user_id\n" +
+                "WHERE shift.date = ? AND user_shift.user_id = ?";
+
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, onlyDate);
+            statement.setInt(2, userId);
+            res = statement.executeQuery();
+
+            if (!res.next()) {
+                return null;
+            } else {
+                Date dateFromQuery = res.getDate("date");
+                Time startTimeFromQuery = res.getTime("start");
+                Time endTimeFromQuery = res.getTime("end");
+                Date startDateFormatted = new Date(dateFromQuery.getTime() + startTimeFromQuery.getTime() + 3600000L);
+                Date endDateFormatted = new Date(dateFromQuery.getTime() + endTimeFromQuery.getTime() + 3600000L);
+
+                shiftFromQuery = new Shift(
+                        res.getInt("shift_id"),
+                        startDateFormatted,
+                        endDateFormatted,
+                        res.getInt("user_id"),
+                        res.getString("user_name"),
+                        res.getInt("department_id"),
+                        res.getInt("user_category_id"),
+                        res.getBoolean("tradeable"),
+                        res.getBoolean("responsible_user"));
+                res.close();
+                statement.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            DbManager.rollback();
+        }
+
+        shift = shiftFromQuery;
+        return shift;
+    }
+
 
 
     /**
@@ -247,6 +298,39 @@ public class ShiftDb {
         }
     }
 
+    /**
+     * Methode used to create new shifts which are not saved in the database.
+     * @author Erik Kjosavik
+     * @param shift
+     * @see Shift
+     */
+    public void createShift(Shift shift){
+        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+        String date = simpleDate.format(shift.getStartTime());
+
+        String sql = "insert into shift " +
+                "(shift_id, date, start, end, department_id, user_category_id, tradeable, responsible_user)\n" +
+                "VALUES (DEFAULT , ?,?,?,?,?,?,?)";
+
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setDate(1, new java.sql.Date(shift.getStartTime().getTime()));
+            statement.setString(2, DateToSQLTimeString(shift.getStartTime()));
+            statement.setString(3, DateToSQLTimeString(shift.getEndTime()));
+            statement.setInt(4, shift.getDepartmentId());
+            statement.setInt(5, shift.getRole());
+            statement.setBoolean(6, shift.isTradeable());
+            statement.setBoolean(7, shift.isResponsibleUser());
+            statement.execute();
+            connection.commit();
+            statement.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            DbManager.rollback();
+        }
+    }
+
     public static void main(String args[]) throws Exception {
         Date d = new Date(1483225200000L);
         Date e = new Date(1484438400000L);
@@ -257,11 +341,9 @@ public class ShiftDb {
         System.out.println(es);
         DbManager db = new DbManager();
         ShiftDb shiftDb = new ShiftDb(db.connection);
-        ArrayList<Shift> a = shiftDb.getShiftsForPeriod(d, e);
-
-        for (Shift shifttet: a) {
-            System.out.println(shifttet);
-        }
+        Shift testShiftStart = new Shift(728002800000, 728037900000, 1, 1, 0, false);
+        shiftDb.createShift(testShiftStart);
+        shiftDb.getShift()
 
     }
 
