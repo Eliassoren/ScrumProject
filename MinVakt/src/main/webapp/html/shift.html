@@ -6,7 +6,11 @@
     <link rel="stylesheet" href="../css/shift-style.css">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
     <script type="text/javascript" src="../js/shift-script.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <title>MinVakt</title>
 
@@ -32,6 +36,25 @@
 </div>
 
 <div class="main-area">
+
+    <div class="temp">
+
+        <div class="picker-div">
+        <select class="section-picker picker">
+            <option value="" disabled selected>Velg avdeling</option>
+            <option>Apples</option>
+            <option>Pineapples</option>
+            <option>Chocklate</option>
+            <option>Pancakes</option>
+        </select>
+        </div>
+
+        <div class="picker-div">
+        <input type="text" id="date-picker" class="date-picker picker" value="Dato">
+        </div>
+
+    </div>
+
     <div class="dropdown" id="day">
         <button class="dropdown-button" id="dropdown-toggle-day">Dagvakt</button>
         <div class="table-div">

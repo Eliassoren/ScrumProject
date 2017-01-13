@@ -83,3 +83,6 @@ window.onload = function addRow() {
     }
 }
 
+$( function() {
+    $( "#date-picker" ).datepicker();
+} );
