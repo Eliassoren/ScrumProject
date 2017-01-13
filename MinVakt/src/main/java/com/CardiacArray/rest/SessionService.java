@@ -28,15 +28,10 @@ import javax.ws.rs.core.Response;
  *
  * @author OddErik
  */
-
 @Path("/session")
 public class SessionService {
     private SessionDb sessionDb = new SessionDb();
-
-    public SessionService () throws Exception {
-        //sessionDb = new SessionDb();
-    }
-
+    
     @POST
     @Produces("application/json")
     public Session login(@FormParam("email") String email, @FormParam("password")String password) {
@@ -56,17 +51,8 @@ public class SessionService {
     @POST
     @Consumes("application/json")
     @Produces("application/json")
-    /*public Response login2(@PathParam("email") String email, @PathParam("password") String password) throws URISyntaxException {
-            if(sessionDb1.login(email, password) == -1){
-                HttpSession session = request.getSession();
-                session.setAttribute("session", session);
-                return Response.status(Response.Status.UNAUTHORIZED).build();
-            }
-
-        return Response.ok("token").build();
-    }
-    */
-     public static void main(String[] args) throws Exception {
+     
+    public static void main(String[] args) throws Exception {
          DbManager dbManager = new DbManager();
          SessionService sc = new SessionService();
 
