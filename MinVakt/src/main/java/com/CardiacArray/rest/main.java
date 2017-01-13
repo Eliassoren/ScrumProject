@@ -7,7 +7,7 @@ import javax.ws.rs.Produces;
 /**
  * Created by Vegard on 10/01/2017.
  */
-@Path("/")
+@Path("/restshit/")
 public class main {
     @GET
     @Produces("text/html")

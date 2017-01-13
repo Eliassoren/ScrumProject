@@ -17,7 +17,7 @@ $(document).ready(function() {
         submitHandler: function(form) {
             $.ajax({
                 type: "POST",
-                url: "/MinVakt/rest/login",
+                url: "/MinVakt/rest/session",
                 data: $(form).serialize(),
                 statusCode: {
                     200: function() {
@@ -28,7 +28,7 @@ $(document).ready(function() {
                         $("#error-message").text("Feil e-postadresse eller passord.");
                     },
                     404: function() {
-                        $("#error-message").text("Feil: Serveren er nede.");
+                        $("#error-message").text("Feil: Serveren.");
                     }
                 }
             });
