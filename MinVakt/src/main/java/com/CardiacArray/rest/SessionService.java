@@ -31,6 +31,10 @@ import javax.ws.rs.core.Response;
 @Path("/session")
 public class SessionService {
     private SessionDb sessionDb = new SessionDb();
+
+    public SessionService () throws Exception {
+        sessionDb = new SessionDb();
+    }
     
     @POST
     @Produces("application/json")
