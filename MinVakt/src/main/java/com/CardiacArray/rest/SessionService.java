@@ -83,6 +83,5 @@ public class SessionService {
 
         SessionService sc = new SessionService(dbManager.connection);
         
-        System.out.println(sc.login("epost@internett.no", "123", hs));
     }
 }
