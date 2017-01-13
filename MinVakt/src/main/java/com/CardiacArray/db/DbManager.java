@@ -16,23 +16,26 @@ public class DbManager {
     public static Connection connection;
 
     public DbManager() throws Exception{
-        if(connection == null) {
-            ReadConfig readConfig = new ReadConfig();
-            String[] result = readConfig.getConfigValues();
 
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setUser("g_scrum01");
-            dataSource.setDatabaseName("g_scrum01");
-            dataSource.setPassword(result[1]);
-            dataSource.setServerName("mysql.stud.iie.ntnu.no");
-            connection = dataSource.getConnection();
+        if(connection == null){
 
-            try {
-                connection.setAutoCommit(false);
-            } catch (SQLException e) {
-                connection.rollback();
-                e.printStackTrace(System.err);
-            }
+
+        ReadConfig readConfig = new ReadConfig();
+        String [] result = readConfig.getConfigValues();
+
+        MysqlDataSource dataSource = new MysqlDataSource();
+        dataSource.setUser("g_scrum01");
+        dataSource.setDatabaseName("g_scrum01");
+        dataSource.setPassword(result[1]);
+        dataSource.setServerName("mysql.stud.iie.ntnu.no");
+        connection = dataSource.getConnection();
+
+        try{
+            connection.setAutoCommit(false);
+        }catch (SQLException e){
+            connection.rollback();
+            e.printStackTrace(System.err);
+        }
         }
     }
 
