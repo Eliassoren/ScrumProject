@@ -14,6 +14,7 @@ import java.util.Date;
 public class Session {
     
     /*Variabler*/
+
     private String email;
     private Date loginDate;
     private boolean loggedIn;
@@ -27,9 +28,10 @@ public class Session {
     }
 
     public Session() {
+
     }
-    
-    public String getEmail() {
+
+    public String getEmail(){
         return email;
     }
     

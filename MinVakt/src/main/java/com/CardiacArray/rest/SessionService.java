@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSessionContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.Consumes;
@@ -30,48 +29,34 @@ import javax.ws.rs.core.Response;
  * @author OddErik
  */
 
-@Path("session")
+@Path("/session")
 public class SessionService {
-    
-    SessionDb sessionDb;
-    private DbManager dbManager = new DbManager();
-    private SessionDb sessionDb1;
+    private SessionDb sessionDb = new SessionDb();
 
-    public SessionService (Connection connection) throws Exception {
-        sessionDb1 = new SessionDb(connection);
+    public SessionService () throws Exception {
+        //sessionDb = new SessionDb();
     }
 
-    @Context private HttpServletRequest request;
-
     @POST
-    @Consumes("application/json")
     @Produces("application/json")
-    public Session login(String email, String password, HttpSession httpSession) {
-        try {
-            dbManager = new DbManager();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        sessionDb = new SessionDb(dbManager.connection);
+    public Session login(@FormParam("email") String email, @FormParam("password")String password) {
         Session session = new Session();
-
-        if(sessionDb1.login(email, password) > -1) {
+        System.out.print("testtest");
+        if(sessionDb.login(email, password) > -1) {
             session.setLoginDate(new Date());
             session.setEmail(email);
             session.setLoggedIn(true);
-            httpSession.setAttribute("websession", session);
-
+            //httpSession.setAttribute("websession", session);
         } else {
             throw new NotAuthorizedException("Feil brukernavn eller passord");
         }
-
         return session;
     }
 
     @POST
     @Consumes("application/json")
     @Produces("application/json")
-    public Response login2(@PathParam("email") String email, @PathParam("password") String password) throws URISyntaxException {
+    /*public Response login2(@PathParam("email") String email, @PathParam("password") String password) throws URISyntaxException {
             if(sessionDb1.login(email, password) == -1){
                 HttpSession session = request.getSession();
                 session.setAttribute("session", session);
@@ -80,10 +65,10 @@ public class SessionService {
 
         return Response.ok("token").build();
     }
-    
+    */
      public static void main(String[] args) throws Exception {
-        DbManager dbManager = new DbManager();
+         DbManager dbManager = new DbManager();
+         SessionService sc = new SessionService();
 
-        SessionService sc = new SessionService(dbManager.connection);
-    }
+     }
 }
