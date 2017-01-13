@@ -55,26 +55,31 @@ window.onload = function addRow() {
          alert("ERROR CHECK THE ADD ROW FUNCTION IN SHIFT-SCRIPT.JS!")
          }*/
 
-        tabBody = document.getElementById(table);
-        row = document.createElement("tr");
-        cell1 = document.createElement("td");
-        cell2 = document.createElement("td");
-        cell3 = document.createElement("td");
-        cell4 = document.createElement("td");
-        textnode1 = document.createTextNode(obj.User[i].firstName);
-        textnode2 = document.createTextNode(obj.User[i].from);
-        textnode3 = document.createTextNode(obj.User[i].to);
-        textnode4 = document.createTextNode(obj.User[i].userCategoryString);
-        ;
-        cell1.appendChild(textnode1);
-        cell2.appendChild(textnode2)
-        cell3.appendChild(textnode3);
-        cell4.appendChild(textnode4);
-        row.appendChild(cell1);
-        row.appendChild(cell2);
-        row.appendChild(cell3);
-        row.appendChild(cell4);
-        tabBody.appendChild(row);
+
+        //this loop is just for extra test data, remove for real thing.
+        for (var j = 0;j < 10;j++){
+
+            tabBody = document.getElementById(table);
+            row = document.createElement("tr");
+            cell1 = document.createElement("td");
+            cell2 = document.createElement("td");
+            cell3 = document.createElement("td");
+            cell4 = document.createElement("td");
+            textnode1 = document.createTextNode(obj.User[i].firstName);
+            textnode2 = document.createTextNode(obj.User[i].from);
+            textnode3 = document.createTextNode(obj.User[i].to);
+            textnode4 = document.createTextNode(obj.User[i].userCategoryString);
+            cell1.appendChild(textnode1);
+            cell2.appendChild(textnode2)
+            cell3.appendChild(textnode3);
+            cell4.appendChild(textnode4);
+            row.appendChild(cell1);
+            row.appendChild(cell2);
+            row.appendChild(cell3);
+            row.appendChild(cell4);
+            tabBody.appendChild(row);
+        }
+        table = "evening-table";
     }
 }
 
