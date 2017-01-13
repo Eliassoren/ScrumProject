@@ -7,7 +7,6 @@ import java.sql.*;
  * Created by kjosavik on 11-Jan-17.
  */
 public class SessionDb extends DbManager {
-
     private ResultSet res;
     private PreparedStatement statement;
 
