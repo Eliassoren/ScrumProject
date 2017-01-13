@@ -82,24 +82,24 @@ public class ShiftDb {
         return shift;
     }
 
-    public Shift getShift(Shift shit){
-        Shift shiftFromQuery = null;
+
+    /**
+     *
+     * @param shitId
+     * @return shift
+     */
+    public Shift getShift(int shitId){
+        Shift shift;
 
         // Formats date to form yyyy-MM-dd
         SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
         String onlyDate = simpleDate.format(date);
 
-        String sql = "SELECT shift.shift_id, shift.date, shift.start, shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable,\n" +
-                "    user.user_id, concat_ws(' ', user.first_name, user.last_name) AS user_name\n" +
-                "FROM shift\n" +
-                "    JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
-                "    JOIN user ON user_shift.user_id = user.user_id\n" +
-                "WHERE shift.date = ? AND user_shift.user_id = ?";
+        String sql = "Select * from shift WHERE shift_id=?";
 
         try {
             statement = connection.prepareStatement(sql);
-            statement.setString(1, onlyDate);
-            statement.setInt(2, userId);
+            statement.setString(1, shitId);
             res = statement.executeQuery();
 
             if (!res.next()) {
@@ -129,11 +129,8 @@ public class ShiftDb {
             DbManager.rollback();
         }
 
-        shift = shiftFromQuery;
         return shift;
     }
-
-
 
     /**
      * Returns a list of shifts for a user in  a given period
@@ -219,8 +216,6 @@ public class ShiftDb {
         String sql = "SELECT shift.shift_id, shift.date, shift.start, shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable,\n" +
                 "    user.user_id, concat_ws(' ', user.first_name, user.last_name) AS user_name\n" +
                 "FROM shift\n" +
-                "    JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
-                "    JOIN user ON user_shift.user_id = user.user_id\n" +
                 "WHERE shift.date >= ? AND shift.date <= ?";
 
         try {
@@ -304,9 +299,10 @@ public class ShiftDb {
      * @param shift
      * @see Shift
      */
-    public void createShift(Shift shift){
+    public int createShift(Shift shift){
         SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
         String date = simpleDate.format(shift.getStartTime());
+        int returnValue = -1;
 
         String sql = "insert into shift " +
                 "(shift_id, date, start, end, department_id, user_category_id, tradeable, responsible_user)\n" +
@@ -323,12 +319,19 @@ public class ShiftDb {
             statement.setBoolean(7, shift.isResponsibleUser());
             statement.execute();
             connection.commit();
+            ResultSet res = statement.getGeneratedKeys();
+            if(res.next()){
+                returnValue = res.getInt(1);
+            } else{
+                return -1;
+            }
             statement.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
             DbManager.rollback();
         }
+        return returnValue;
     }
 
     public static void main(String args[]) throws Exception {
@@ -342,8 +345,8 @@ public class ShiftDb {
         DbManager db = new DbManager();
         ShiftDb shiftDb = new ShiftDb(db.connection);
         Shift testShiftStart = new Shift(728002800000, 728037900000, 1, 1, 0, false);
-        shiftDb.createShift(testShiftStart);
-        shiftDb.getShift()
+        int id = shiftDb.createShift(testShiftStart);
+        shiftDb.getShift(id);
 
     }
 
