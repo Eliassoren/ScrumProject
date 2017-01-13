@@ -15,9 +15,12 @@ import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.logging.Level;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.Consumes;
@@ -32,6 +35,7 @@ import javax.ws.rs.core.Response;
  *
  * @author OddErik
  */
+
 @Path("session")
 public class SessionService {
     
@@ -48,7 +52,7 @@ public class SessionService {
     @POST
     @Consumes("application/json")
     @Produces("application/json")
-    public Session login(String email, String password) {
+    public Session login(String email, String password, HttpSession httpSession) {
         try {
             dbManager = new DbManager();
         } catch (Exception e) {
@@ -60,8 +64,9 @@ public class SessionService {
         if(sessionDb1.login(email, password) > -1) {
             session.setLoginDate(new Date());
             session.setEmail(email);
-            request.setAttribute("session", session);
-            System.out.println("Funker");
+            session.setLoggedIn(true);
+            httpSession.setAttribute("websession", session);
+
         } else {
             throw new NotAuthorizedException("Feil brukernavn eller passord");
         }
@@ -84,9 +89,95 @@ public class SessionService {
     
      public static void main(String[] args) throws Exception {
           DbManager dbManager = new DbManager();
+         HttpSession hs = new HttpSession() {
+             @Override
+             public long getCreationTime() {
+                 return 0;
+             }
+
+             @Override
+             public String getId() {
+                 return null;
+             }
+
+             @Override
+             public long getLastAccessedTime() {
+                 return 0;
+             }
+
+             @Override
+             public ServletContext getServletContext() {
+                 return null;
+             }
+
+             @Override
+             public void setMaxInactiveInterval(int i) {
+
+             }
+
+             @Override
+             public int getMaxInactiveInterval() {
+                 return 0;
+             }
+
+             @Override
+             public HttpSessionContext getSessionContext() {
+                 return null;
+             }
+
+             @Override
+             public Object getAttribute(String s) {
+                 return null;
+             }
+
+             @Override
+             public Object getValue(String s) {
+                 return null;
+             }
+
+             @Override
+             public Enumeration<String> getAttributeNames() {
+                 return null;
+             }
+
+             @Override
+             public String[] getValueNames() {
+                 return new String[0];
+             }
+
+             @Override
+             public void setAttribute(String s, Object o) {
+
+             }
+
+             @Override
+             public void putValue(String s, Object o) {
+
+             }
+
+             @Override
+             public void removeAttribute(String s) {
+
+             }
+
+             @Override
+             public void removeValue(String s) {
+
+             }
+
+             @Override
+             public void invalidate() {
+
+             }
+
+             @Override
+             public boolean isNew() {
+                 return false;
+             }
+         };
 
          SessionService sc = new SessionService(dbManager.connection);
         
-        System.out.println(sc.login("epost@internett.no", "123"));
+        System.out.println(sc.login("epost@internett.no", "123", hs));
     }
 }
