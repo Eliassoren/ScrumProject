@@ -1,9 +1,6 @@
 package com.CardiacArray.rest;
 
 import com.CardiacArray.data.Shift;
-import com.CardiacArray.data.User;
-import com.CardiacArray.db.UserDb;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.Connection;
@@ -30,21 +27,19 @@ public class ShiftService {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public void updateShift(int id) {
-        shiftDb.updateShift(id);
+    public void updateShift(Shift shift) {
+        shiftDb.updateShift(shift);
     }
 
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
-    public void deleteShift(int id) {
-        shiftDb.deleteShift(id);
+    public void deleteShift(Shift shift) {
+        shiftDb.deleteShift(shift);
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public void addShift(int id) {
-        shiftDb.addShift(id);
+    public void addShift(Shift shift) {
+        shiftDb.addShift(shift);
     }
-
-
 }

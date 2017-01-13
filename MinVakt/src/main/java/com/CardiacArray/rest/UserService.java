@@ -7,7 +7,6 @@ package com.CardiacArray.rest;
 
 import com.CardiacArray.data.User;
 import com.CardiacArray.db.UserDb;
-
 import java.sql.Connection;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -49,5 +48,4 @@ public class UserService {
     public void addUser(User user) {
         userDb.addUser(user);
     }
-
 }
