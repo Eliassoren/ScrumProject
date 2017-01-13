@@ -27,7 +27,7 @@ import javax.ws.rs.core.Response;
 /**
  *
  * @author OddErik
- */
+ *//*
 public class UserService {
     private Connection connection =
     private UserDb userDb = new UserDb();
@@ -52,5 +52,6 @@ public class UserService {
     public void delete(User user) {
         userDb.deleteUser(user);
     }
-    
+
 }
+*/
