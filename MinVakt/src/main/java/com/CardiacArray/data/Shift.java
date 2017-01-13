@@ -26,6 +26,9 @@ public class Shift {
         this.responsibleUser = responsibleUser;
     }
 
+    public Shift(){
+    }
+
     public int getShiftId() {
         return shiftId;
     }
