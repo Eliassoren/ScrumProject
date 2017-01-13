@@ -32,15 +32,9 @@ import javax.ws.rs.core.Response;
 public class SessionService {
     private SessionDb sessionDb = new SessionDb();
 
-<<<<<<< HEAD
-    public SessionService () throws Exception {}
-
-=======
     public SessionService () throws Exception {
-        sessionDb = new SessionDb();
     }
     
->>>>>>> origin/development
     @POST
     @Produces("application/json")
     public Session login(@FormParam("email") String email, @FormParam("password")String password, HttpSession httpSession) {
