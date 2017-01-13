@@ -210,11 +210,18 @@ public class ShiftDb {
         return shiftArray;
     }
 
+    /*
+    * Converts Date to HH:mm
+    * @author Vegard Stenvik
+    * @param date The date to convert to time formatted HH:mm
+    * */
     private String DateToSQLTimeString(Date date){
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(date);
         return calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
     }
+
+
 
     public void updateShift(Shift shift){
         SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
