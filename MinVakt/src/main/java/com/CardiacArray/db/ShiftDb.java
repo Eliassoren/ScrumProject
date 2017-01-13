@@ -1,6 +1,7 @@
 package com.CardiacArray.db;
 
 import com.CardiacArray.data.Shift;
+import com.CardiacArray.data.User;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -254,7 +255,24 @@ public class ShiftDb {
         }
     }
 
+    public void setUser(Shift shift, User user) {
+        String sql = "UPDATE user_shift SET user_id = ? WHERE shift_id = ?";
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, user.getId());
+            statement.setInt(2, shift.getShiftId());
+            statement.execute();
+            connection.commit();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            DbManager.rollback();
+        }
+    }
+
     public static void main(String args[]) throws Exception {
+        DbManager db = new DbManager();
+/*
         Date d = new Date(1483225200000L);
         Date e = new Date(1484438400000L);
         SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -262,13 +280,22 @@ public class ShiftDb {
         String es = simpleDate.format(e);
         System.out.println(s);
         System.out.println(es);
-        DbManager db = new DbManager();
+
         ShiftDb shiftDb = new ShiftDb(db.connection);
         ArrayList<Shift> a = shiftDb.getShiftsForPeriod(d, e);
 
         for (Shift shifttet: a) {
             System.out.println(shifttet);
         }
+        */
+
+        ShiftDb shiftdb = new ShiftDb(db.connection);
+        //Shift shift = shiftdb.getShift(new Date(1483225200000L), 1);
+        User user = new User();
+        user.setId(1);
+        Shift shift = new Shift();
+        shift.setShiftId(5);
+        shiftdb.setUser(shift, user);
 
     }
 
