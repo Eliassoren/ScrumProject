@@ -14,10 +14,19 @@ import java.util.Date;
 public class Session {
     
     /*Variabler*/
-    String email;
-    Date loginDate;
-    
-    public Session() {  
+    private String email;
+    private Date loginDate;
+    private boolean loggedIn;
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+
+    public Session() {
     }
     
     public String getEmail() {
