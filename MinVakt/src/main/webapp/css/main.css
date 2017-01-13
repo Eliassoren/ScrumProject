@@ -85,6 +85,7 @@ h2{
     margin-left: 10rem;
     margin-right: 10rem;
     width: 30%;
+    line-height: 0;
     text-align: center;
 }
 .calendar-head{
