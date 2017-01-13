@@ -10,8 +10,8 @@ public class SessionDb extends DbManager {
     private ResultSet res;
     private PreparedStatement statement;
 
-    public SessionDb(Connection connection){
-       this.connection = connection;
+    public SessionDb() throws Exception {
+        super();
     }
 
     public int login(String email, String password) {
