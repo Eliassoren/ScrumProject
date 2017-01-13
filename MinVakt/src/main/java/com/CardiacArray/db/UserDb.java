@@ -39,7 +39,7 @@ public class UserDb {
                 String address = res.getString("address");
                 int userCategoryInt = res.getInt("user.user_category_id");
                 String userCategoryString = res.getString("type");
-                user = new User(id,firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt,userCategoryString);
+                user = new User(firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt);
                 res.close();
                 statement.close();
             }

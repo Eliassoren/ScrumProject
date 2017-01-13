@@ -1,13 +1,10 @@
-package com.CardiacArray.rest;
+/*package com.CardiacArray.rest;
 
 import com.CardiacArray.data.Shift;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.Connection;
 
-/**
- * Created by OddErik on 12.01.2017.
- */
 
 @Path("/shifts")
 public class ShiftService {
@@ -42,4 +39,4 @@ public class ShiftService {
     public void addShift(Shift shift) {
         shiftDb.addShift(shift);
     }
-}
+}*/

@@ -6,6 +6,7 @@
 package com.CardiacArray.rest;
 
 import com.CardiacArray.data.User;
+import com.CardiacArray.db.DbManager;
 import com.CardiacArray.db.UserDb;
 import java.sql.Connection;
 import javax.ws.rs.*;
@@ -19,9 +20,10 @@ import javax.ws.rs.core.MediaType;
 @Path("/users")
 public class UserService {
     private UserDb userDb;
+    private DbManager dbManager = new DbManager();
 
-    public UserService(Connection con) {
-        userDb = new UserDb(con);
+    public UserService(Connection con) throws Exception {
+        userDb = new UserDb(dbManager.connection);
     }
 
     @GET
@@ -45,7 +47,7 @@ public class UserService {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public void addUser(User user) {
-        userDb.addUser(user);
+    public void createUser(User user) {
+        userDb.createUser(user);
     }
 }
