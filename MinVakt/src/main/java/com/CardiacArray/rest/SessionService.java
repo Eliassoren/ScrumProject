@@ -33,20 +33,18 @@ import javax.ws.rs.core.Response;
 public class SessionService {
     private SessionDb sessionDb = new SessionDb();
 
-    public SessionService () throws Exception {
-        //sessionDb = new SessionDb();
-    }
+    public SessionService () throws Exception {}
 
     @POST
     @Produces("application/json")
-    public Session login(@FormParam("email") String email, @FormParam("password")String password) {
+    public Session login(@FormParam("email") String email, @FormParam("password")String password, HttpSession httpSession) {
         Session session = new Session();
         System.out.print("testtest");
         if(sessionDb.login(email, password) > -1) {
             session.setLoginDate(new Date());
             session.setEmail(email);
             session.setLoggedIn(true);
-            //httpSession.setAttribute("websession", session);
+            httpSession.setAttribute("websession", session);
         } else {
             throw new NotAuthorizedException("Feil brukernavn eller passord");
         }
