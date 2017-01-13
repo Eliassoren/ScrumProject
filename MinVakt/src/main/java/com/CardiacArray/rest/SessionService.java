@@ -13,6 +13,9 @@ import java.sql.Connection;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Enumeration;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSessionContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.Consumes;
@@ -82,6 +85,5 @@ public class SessionService {
         DbManager dbManager = new DbManager();
 
         SessionService sc = new SessionService(dbManager.connection);
-        
     }
 }
