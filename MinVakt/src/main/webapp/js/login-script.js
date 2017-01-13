@@ -17,7 +17,7 @@ $(document).ready(function() {
         submitHandler: function(form) {
             $.ajax({
                 type: "POST",
-                url: "/MinVakt/rest/login",
+                url: "/MinVakt/rest/session/",
                 data: $(form).serialize(),
                 statusCode: {
                     200: function() {

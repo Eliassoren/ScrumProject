@@ -6,7 +6,7 @@ import javax.ws.rs.Produces;
 
 /**
  * Created by Vegard on 10/01/2017.
- */
+ *//*
 @Path("/")
 public class main {
     @GET
@@ -15,3 +15,4 @@ public class main {
         return "Hello!";
     }
 }
+*/
