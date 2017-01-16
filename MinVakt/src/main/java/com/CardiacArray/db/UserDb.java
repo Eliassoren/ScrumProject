@@ -41,7 +41,7 @@ public class UserDb extends DbManager {
                 user = new User(firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt);
                 res.close();
                 statement.close();
-            }
+            } else{ return null; }
         }
         catch (SQLException e) {
             e.printStackTrace(System.err);
@@ -76,7 +76,7 @@ public class UserDb extends DbManager {
                 user = new User(id,firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt,userCategoryString);
                 res.close();
                 statement.close();
-            }
+            } else{ return null;}
         }
         catch (SQLException e) {
             e.printStackTrace(System.err);
