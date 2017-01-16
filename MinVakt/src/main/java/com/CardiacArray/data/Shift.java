@@ -26,7 +26,7 @@ public class Shift {
         this.responsibleUser = responsibleUser;
     }
 
-    public Shift(Date startTime, Date endTime, int departmentId, int role, boolean tradeable, boolean responsibleUser) {
+    public Shift(Date startTime, Date endTime, int departmentId, int role, boolean tradeable) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.departmentId = departmentId;
