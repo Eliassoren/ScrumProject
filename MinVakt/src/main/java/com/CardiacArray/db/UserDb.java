@@ -91,7 +91,8 @@ public class UserDb extends DbManager {
     }
 
     /**
-    @param user
+    * @param user
+     *
      */
     public boolean updateUser(User user){
         boolean success = false;
