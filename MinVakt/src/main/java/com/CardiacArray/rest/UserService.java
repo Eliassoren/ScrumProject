@@ -6,9 +6,7 @@
 package com.CardiacArray.rest;
 
 import com.CardiacArray.data.User;
-import com.CardiacArray.db.DbManager;
 import com.CardiacArray.db.UserDb;
-import java.sql.Connection;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -19,9 +17,10 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/users")
 public class UserService {
-    private UserDb userDb= new UserDb();
+    private UserDb userDb = new UserDb();
 
-    public UserService() throws Exception {
+    public UserService(UserDb userDb) throws Exception {
+        this.userDb = userDb;
     }
 
     @GET
@@ -29,35 +28,34 @@ public class UserService {
     @Produces(MediaType.APPLICATION_JSON)
     public User getUser(@PathParam("email") String email) {
         User userFound = userDb.getUser(email);
-        if(userFound.getFirstName() == null && userFound.getLastName() == null) throw new NotFoundException();
+        if(userFound.getFirstName() == null || userFound.getLastName() == null) throw new NotFoundException();
         else return userFound;
     }
     
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public boolean updateUser(User user) {
+        if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null) {
+            throw new BadRequestException();
+        }
         boolean updateResponse = userDb.updateUser(user);
-        if(!updateResponse) throw new BadRequestException();
-        else return updateResponse;
-    }
-
-    @DELETE
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void deleteUser(User user) {
-        User userFound = userDb.getUser(user.getEmail());
-        if(userFound.getFirstName() == null && userFound.getLastName() == null) throw new NotFoundException();
-        else userDb.deleteUser(user);
+        if (!updateResponse) {
+            throw new BadRequestException();
+        } else {
+            return updateResponse;
+        }
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public boolean createUser(User user) {
-        User checkUser = getUser(user.getEmail());
-        if(checkUser.getFirstName() == null && checkUser.getLastName() == null){
+        User checkUser = userDb.getUser(user.getEmail());
+        if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || checkUser.getEmail() != null) {
+            throw new BadRequestException();
+        }
+        else {
             userDb.createUser(user);
             return true;
         }
-        else throw new BadRequestException();
-
     }
 }
