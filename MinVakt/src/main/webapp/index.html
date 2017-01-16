@@ -6,10 +6,11 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel= "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-    <link rel="script" href="js/main.js">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
     <title>MinVakt</title>
     <!--script type="text/javascript">
         $(document).ready(function() {
@@ -25,8 +26,9 @@
     <div class="icon-bar">
         <a id="hamburger-toggle" class="fa fa-bars"></a>
         <ul id="hamburger-menu">
+            <li><a href="#">Hjem</a></li>
             <li><a href="#">Min profil</a></li>
-            <li><a href="#">Vaktliste</a></li>
+            <li><a href="#">Vaktlister</a></li>
             <li><a href="#">Logg ut</a></li>
         </ul>
     </div>
@@ -41,9 +43,10 @@
 <div class = "container">
 
     <div class = "calendar-head">
-        <a class="arrow" id="arrow-left"></a>
+        <a id= "left-arrow" class="fa fa-chevron-left fa-2x"></a>
         <h2 id="month-title">Januar 2017</h2>
-        <a class="arrow" id="arrow-right"></a>
+        <a id="right-arrow" class = "fa fa-chevron-right fa-2x"></a>
+
     </div>
     <div id="calendar">
         <ul class="weekdays">
