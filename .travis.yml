@@ -1,6 +1,6 @@
 language: java
 sudo: false
-install: true
+install: /bin/true
 script:
         - cd MinVakt
         - mvn install
