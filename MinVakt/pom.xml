@@ -12,7 +12,12 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
-            <scope>test</scope>
+	    <scope>test</scope>
+	    <includes>
+		     <include>**/test*.java</include>
+		      <include>**/*Test.java</include>
+		       <include>**/*TestCase.java</include>
+	       </includes>
         </dependency>
 
         <dependency>
