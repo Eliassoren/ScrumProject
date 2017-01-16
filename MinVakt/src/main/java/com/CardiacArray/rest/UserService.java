@@ -5,52 +5,55 @@
  */
 package com.CardiacArray.rest;
 
-import com.CardiacArray.data.Session;
 import com.CardiacArray.data.User;
-import com.CardiacArray.db.SessionDb;
 import com.CardiacArray.db.UserDb;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.ServerErrorException;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 
 /**
  *
  * @author OddErik
  */
+
+@Path("/users")
 public class UserService {
-    private Connection connection =
     private UserDb userDb = new UserDb();
-    
+
     @GET
-    @Path("/user/{userId}")
+    @Path("/{email}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String get() {
-        return userDb.getUser;
+    public User getUser(@PathParam("email") String email) {
+        User userFound = userDb.getUserByEmail(email);
+        if(userFound.getFirstName() == null && userFound.getLastName() == null) throw new NotFoundException();
+        else return userFound;
     }
     
     @PUT
-    @Path("/user/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void update(User user) {
-        userDb.updateUser(user);
+    public boolean updateUser(User user) {
+        boolean updateResponse = userDb.updateUser(user);
+        if(!updateResponse) throw new BadRequestException();
+        else return updateResponse;
     }
-    
+
     @DELETE
-    @Path("/user/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void delete(User user) {
-        userDb.deleteUser(user);
+    public void deleteUser(User user) {
+        User userFound = userDb.getUserByEmail(user.getEmail());
+        if(userFound.getFirstName() == null && userFound.getLastName() == null) throw new NotFoundException();
+        else userDb.deleteUser(user);
     }
-    
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public boolean createUser(User user) {
+        User checkUser = getUser(user.getEmail());
+        if(checkUser.getFirstName() == null && checkUser.getLastName() == null){
+            userDb.createUser(user);
+            return true;
+        }
+        else throw new BadRequestException();
+
+    }
 }
