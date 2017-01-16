@@ -139,9 +139,11 @@ public class UserDb extends DbManager {
     }
 
     /**
-    @param user
+    * @param user
+    *
      */
-    public void createUser(User user){
+    public int createUser(User user){
+        int returnValue = -1;
         try {
             String toSQL = "INSERT into user (user_id, first_name, last_name, password, admin_rights, user_category_id, mobile, address, email)\n" +
                     "  VALUES (DEFAULT ,?, ?, ?, ?, ?, ?, ?, ?)";
@@ -156,11 +158,18 @@ public class UserDb extends DbManager {
             statement.setString(8, user.getEmail());
             statement.execute();
             connection.commit();
+            ResultSet res = statement.getGeneratedKeys();
+            if(res.next()){
+                returnValue = res.getInt(1);
+            } else{
+                return returnValue;
+            }
             statement.close();
         }catch (SQLException e){
             e.printStackTrace(System.err);
             DbManager.rollback();
         }
+        return returnValue;
     }
     /**
      * Main methode that does the following:
