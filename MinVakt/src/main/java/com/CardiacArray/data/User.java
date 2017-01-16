@@ -172,14 +172,6 @@ public class User {
         return expired;
     }
     
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     public static void main(String[] args) {
     }
 }
