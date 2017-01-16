@@ -15,23 +15,21 @@ public class DbManager {
 
     public static Connection connection;
 
-    public DbManager() throws Exception{
-
-        ReadConfig readConfig = new ReadConfig();
-        String [] result = readConfig.getConfigValues();
-
-        MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setUser("g_scrum01");
-        dataSource.setDatabaseName("g_scrum01");
-        dataSource.setPassword(result[1]);
-        dataSource.setServerName("mysql.stud.iie.ntnu.no");
-        connection = dataSource.getConnection();
-
-        try{
-            connection.setAutoCommit(false);
-        }catch (SQLException e){
-            connection.rollback();
-            e.printStackTrace(System.err);
+    public DbManager() {
+        if(connection == null){
+            try {
+                ReadConfig readConfig = new ReadConfig();
+                String [] result = readConfig.getConfigValues();
+                MysqlDataSource dataSource = new MysqlDataSource();
+                dataSource.setUser(result[0]);
+                dataSource.setDatabaseName(result[0]);
+                dataSource.setPassword(result[1]);
+                dataSource.setServerName("mysql.stud.iie.ntnu.no");
+                connection = dataSource.getConnection();
+                connection.setAutoCommit(false);
+            }catch (Exception e){
+                e.printStackTrace(System.err);
+            }
         }
     }
 
@@ -45,7 +43,7 @@ public class DbManager {
 
     public static void main(String[] args)throws Exception{
         DbManager db = new DbManager();
-        SessionDb sessionTest = new SessionDb(db.connection);
+        SessionDb sessionTest = new SessionDb();
         System.out.println(sessionTest.login("epost@internett.no", "123"));
         System.out.println(sessionTest.login("eposten@internett.no", "123"));
         System.out.println(sessionTest.login("oddErik@gmail.com", "123"));
