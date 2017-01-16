@@ -19,14 +19,15 @@ $(document).ready(function() {
                 type: "POST",
                 url: "/MinVakt/rest/session/login",
                 data: $(form).serialize(),
+                response: "text",
                 statusCode: {
-                    200: function() {
-                        $("#error-message").text("Du er logget inn!");
-                        //window.location.replace("/MinVakt/html/shift.html"):
-                    },
-                    404: function() {
+                    401: function() {
                         $("#error-message").text("Feil e-postadresse eller passord.");
                     }
+                },
+                success: function(token) {
+                    localStorage.setItem("token", token);
+                    window.location.replace("/MinVakt/");
                 }
             });
         }

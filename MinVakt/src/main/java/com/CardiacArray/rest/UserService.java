@@ -27,35 +27,36 @@ public class UserService {
     @Path("/{email}")
     @Produces(MediaType.APPLICATION_JSON)
     public User getUser(@PathParam("email") String email) {
-        User userFound = userDb.getUser(email);
-        if(userFound.getFirstName() == null || userFound.getLastName() == null) throw new NotFoundException();
+        User userFound = userDb.getUserByEmail(email);
+        if(userFound.getFirstName() == null && userFound.getLastName() == null) throw new NotFoundException();
         else return userFound;
     }
     
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public boolean updateUser(User user) {
-        if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null) {
-            throw new BadRequestException();
-        }
         boolean updateResponse = userDb.updateUser(user);
-        if (!updateResponse) {
-            throw new BadRequestException();
-        } else {
-            return updateResponse;
-        }
+        if(!updateResponse) throw new BadRequestException();
+        else return updateResponse;
+    }
+
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void deleteUser(User user) {
+        User userFound = userDb.getUserByEmail(user.getEmail());
+        if(userFound.getFirstName() == null && userFound.getLastName() == null) throw new NotFoundException();
+        else userDb.deleteUser(user);
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public boolean createUser(User user) {
-        User checkUser = userDb.getUser(user.getEmail());
-        if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || checkUser.getEmail() != null) {
-            throw new BadRequestException();
-        }
-        else {
+        User checkUser = getUserByEmail(user.getEmail());
+        if(checkUser.getFirstName() == null && checkUser.getLastName() == null){
             userDb.createUser(user);
             return true;
         }
+        else throw new BadRequestException();
+
     }
 }
