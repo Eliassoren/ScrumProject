@@ -3,7 +3,7 @@ package com.CardiacArray.dbTests;
 import com.CardiacArray.db.SessionDb;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

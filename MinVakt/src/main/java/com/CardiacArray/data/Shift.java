@@ -1,9 +1,9 @@
 package com.CardiacArray.data;
 
 import java.util.Date;
+import java.util.TimeZone;
 
 public class Shift {
-
     private int shiftId;
     private Date startTime;
     private Date endTime;
@@ -15,6 +15,8 @@ public class Shift {
     private boolean responsibleUser;
 
     public Shift(int shiftId, Date startTime, Date endTime, int userId, String userName, int departmentId, int role, boolean tradeable, boolean responsibleUser) {
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
+        if (startTime.getTime() >= endTime.getTime()) throw new IllegalArgumentException("Shift duration is less than 1 min");
         this.shiftId = shiftId;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -27,6 +29,8 @@ public class Shift {
     }
 
     public Shift(Date startTime, Date endTime, int departmentId, int role, boolean tradeable) {
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
+        if (startTime.getTime() >= endTime.getTime()) throw new IllegalArgumentException("Shift duration is less than 1 min");
         this.startTime = startTime;
         this.endTime = endTime;
         this.departmentId = departmentId;

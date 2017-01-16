@@ -13,8 +13,7 @@ import java.sql.Timestamp;
  * @author OddErik
  */
 public class User {
-    
-    /*Variabler*/
+
     private int Id;
     private String firstName;
     private String lastName;
@@ -27,9 +26,9 @@ public class User {
     private String userCategoryString;
     private String token;
     private Timestamp expired;
-    
+    private boolean active;
 
-    public User(int Id, String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired) {
+    public User(int Id, String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired, boolean active) {
         this.Id = Id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -45,9 +44,11 @@ public class User {
     }
 
     /*
-    *Construcor used to creat new users that needs to be added to the database.
+     *Constructor used to create new users that needs to be added to the database.
      */
     public User(String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt) {
+        if (firstName == null || lastName == null || email == null || password == null) throw new IllegalArgumentException("Name, password or email cannot be null");
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.mobile = mobile;
@@ -57,6 +58,7 @@ public class User {
         this.address = address;
         this.userCategoryInt = userCategoryInt;
     }
+
     
     public User() {
         
@@ -157,5 +159,16 @@ public class User {
 
     public Timestamp getExpired() {
         return expired;
+    }
+    
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public static void main(String[] args) {
     }
 }
