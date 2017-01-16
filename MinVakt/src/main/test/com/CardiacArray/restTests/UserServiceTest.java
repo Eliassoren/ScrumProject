@@ -13,7 +13,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by OddErik on 16.01.2017.
+ * Created by Odd Erik on 16.01.2017.
  */
 public class UserServiceTest {
 
@@ -41,7 +41,7 @@ public class UserServiceTest {
     public void updateUser() throws Exception {
         UserDb mockUserDb = mock(UserDb.class);
         UserService service = new UserService((mockUserDb));
-        User updatedUser = new User(1, "Ola", "Nordmann", 12345678, "test@test.no",
+        User updatedUser = new User("Ola", "Nordmann", 12345678, "test@test.no",
                 "Passord", 0, "Testveien 21", 1, "Assistent");
         when(mockUserDb.updateUser(updatedUser)).thenReturn(true);
         Assert.assertEquals(true, service.updateUser(updatedUser));
