@@ -15,6 +15,7 @@ body{
     font-size: 56px;
     padding-top: 20px;
     text-align: center;
+    display: inline;
     margin: 0 auto 0 auto;
     height: 100%;
     overflow: hidden;
@@ -77,16 +78,57 @@ body{
 }
 h2{
     padding: 1.25rem;
-    display: block;
+    display: inline;
     position: relative;
-    flex-wrap: wrap;
     font-size: 1.25rem;
     margin-top: 180px;
-    width: 100%;
+    margin-left: 10rem;
+    margin-right: 10rem;
+    width: 30%;
+    line-height: 0;
     text-align: center;
 }
 .calendar-head{
+    text-align: center;
     position: relative;
+    margin: 2rem auto 2rem auto;
+}
+#arrow-right {
+    display: inline;
+    width: 0;
+    height: 0;
+    border-top: 1.5rem solid transparent;
+    border-bottom: 1.5rem solid transparent;
+    //float: right;
+    border-left: 2rem solid black;
+    font-size: 0;
+    line-height: 0;
+}
+.arrow{
+    height: 0;
+    width: 0;
+}
+
+#arrow-left {
+    //overflow: visible;
+    display: inline;
+    font-size: 0;
+    //line-height: 0;
+    height: 0;
+    width: 0;
+    border-top: 1.5rem solid transparent;
+    border-bottom: 1.5rem solid transparent;
+    border-right:2rem solid black;
+}
+#arrow-left:hover{
+    border-top: 1.5rem solid transparent;
+    border-bottom: 1.5rem solid transparent;
+    border-right:2rem solid gray;
+}
+#arrow-right:hover{
+    border-top: 1.5rem solid transparent;
+    border-bottom: 1.5rem solid transparent;
+    border-left: 2rem solid gray;
 }
 #calendar {
     width: 100%;
@@ -195,6 +237,11 @@ h2{
 
     #calendar .date {
         float: none;
+    }
+    h2{
+        margin-left: 0.1rem;
+        margin-right: 0.1rem;
+        font-size: 0.8rem;
     }
 }
 
