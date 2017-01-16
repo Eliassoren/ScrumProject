@@ -19,13 +19,12 @@ public class DbManager {
 
         if(connection == null){
 
-
         ReadConfig readConfig = new ReadConfig();
         String [] result = readConfig.getConfigValues();
 
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setUser("g_scrum01");
-        dataSource.setDatabaseName("g_scrum01");
+        dataSource.setUser(result[0]);
+        dataSource.setDatabaseName(result[0]);
         dataSource.setPassword(result[1]);
         dataSource.setServerName("mysql.stud.iie.ntnu.no");
         connection = dataSource.getConnection();
