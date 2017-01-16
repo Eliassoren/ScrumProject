@@ -13,13 +13,13 @@ import java.util.GregorianCalendar;
 /**
  * Created by Vegard on 12/01/2017.
  */
-public class ShiftDb {
-    private Connection connection;
+public class ShiftDb extends DbManager{
+
     private ResultSet res;
     private PreparedStatement statement;
 
-    public ShiftDb(Connection connection){
-        this.connection = connection;
+    public ShiftDb() throws Exception {
+        super();
     }
 
     /**
@@ -356,7 +356,6 @@ public class ShiftDb {
         String es = simpleDate.format(e);
         System.out.println(s);
         System.out.println(es);
-
         ShiftDb shiftDb = new ShiftDb(db.connection);
         ArrayList<Shift> a = shiftDb.getShiftsForPeriod(d, e);
 
