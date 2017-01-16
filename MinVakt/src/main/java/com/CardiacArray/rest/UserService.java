@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author OddErik
+ * @author OddErik & Olof Andreas
  */
 
 @Path("/users")
@@ -57,5 +57,9 @@ public class UserService {
             userDb.createUser(user);
             return true;
         }
+<<<<<<< Updated upstream
+=======
+        else throw new BadRequestException();
+>>>>>>> Stashed changes
     }
 }
