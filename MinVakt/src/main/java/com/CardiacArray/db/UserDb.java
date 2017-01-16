@@ -1,20 +1,16 @@
 package com.CardiacArray.db;
 
 import com.CardiacArray.data.User;
+import com.CardiacArray.db.DbManager;
 
 import java.sql.*;
 
 /**
  * Created by kjosavik on 11-Jan-17.
  */
-public class UserDb {
-    private Connection connection;
+public class UserDb extends DbManager {
     private ResultSet res;
     private PreparedStatement statement;
-
-    public UserDb(Connection connection){
-        this.connection = connection;
-    }
 
     /**
     @param id
@@ -39,7 +35,9 @@ public class UserDb {
                 String address = res.getString("address");
                 int userCategoryInt = res.getInt("user.user_category_id");
                 String userCategoryString = res.getString("type");
-                user = new User(firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt);
+                String token = res.getString("token");
+                Timestamp expired = res.getTimestamp("expired");
+                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired);
                 res.close();
                 statement.close();
             }
@@ -74,7 +72,9 @@ public class UserDb {
                 String address = res.getString("address");
                 int userCategoryInt = res.getInt("user.user_category_id");
                 String userCategoryString = res.getString("type");
-                user = new User(id,firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt,userCategoryString);
+                String token = res.getString("token");
+                Timestamp expired = res.getTimestamp("expired");
+                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired);
                 res.close();
                 statement.close();
             }
@@ -166,7 +166,7 @@ public class UserDb {
     public static void main(String[] args)throws Exception{
         DbManager manager = new DbManager();
         User testUser1 = new User("Dirck", "Delete", 90269026, "dirk@delete.com", "passs", 0, "trondheim", 0);
-        UserDb udb = new UserDb(manager.connection);
+        UserDb udb = new UserDb();
         udb.createUser(testUser1);
         User testUser2 = udb.getUser(testUser1.getEmail());
         int testCounter = 0;

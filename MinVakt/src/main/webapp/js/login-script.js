@@ -17,18 +17,15 @@ $(document).ready(function() {
         submitHandler: function(form) {
             $.ajax({
                 type: "POST",
-                url: "/MinVakt/rest/session",
+                url: "/MinVakt/rest/session/login",
                 data: $(form).serialize(),
                 statusCode: {
                     200: function() {
                         $("#error-message").text("Du er logget inn!");
                         //window.location.replace("/MinVakt/html/shift.html"):
                     },
-                    401: function() {
-                        $("#error-message").text("Feil e-postadresse eller passord.");
-                    },
                     404: function() {
-                        $("#error-message").text("Feil: Serveren er nede.");
+                        $("#error-message").text("Feil e-postadresse eller passord.");
                     }
                 }
             });
