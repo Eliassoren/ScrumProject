@@ -19,12 +19,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/users")
 public class UserService {
-    private UserDb userDb;
-    private DbManager dbManager = new DbManager();
-
-    public UserService(Connection con) throws Exception {
-        userDb = new UserDb(dbManager.connection);
-    }
+    private UserDb userDb = new UserDb();
 
     @GET
     @Path("/{email}")

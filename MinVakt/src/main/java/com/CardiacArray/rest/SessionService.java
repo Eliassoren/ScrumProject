@@ -7,10 +7,15 @@ package com.CardiacArray.rest;
 
 import com.CardiacArray.data.*;
 import com.CardiacArray.db.DbManager;
-import com.CardiacArray.db.SessionDb;
+import com.CardiacArray.db.UserDb;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
+
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.util.Date;
+import java.security.SecureRandom;
+import java.math.BigInteger;
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
@@ -30,27 +35,23 @@ import javax.ws.rs.core.Response;
  */
 @Path("/session")
 public class SessionService {
-    private SessionDb sessionDb = new SessionDb();
+    private UserDb userDb = new UserDb();
 
-    public SessionService () throws Exception {
-        //sessionDb = new SessionDb();
-    }
-
+    @Path("/login")
     @POST
     @Produces("application/json")
-    public Session login(@FormParam("email") String email, @FormParam("password")String password) {
-        Session session = new Session();
-        System.out.print("testtest");
-        if(sessionDb.login(email, password) > -1) {
-            session.setLoginDate(new Date());
-            session.setEmail(email);
-            session.setLoggedIn(true);
-            //httpSession.setAttribute("websession", session);
-        } else {
-            throw new NotAuthorizedException("Feil brukernavn eller passord");
-        }
-
-        return session;
+    public Session login(@FormParam("email") String email, @FormParam("password") String password) {
+        User user = userDb.getUser(email);
+        if(user.getEmail() != null) {
+            if (user.getPassword().equals(password)) {
+                SecureRandom random = new SecureRandom();
+                String token = new BigInteger(130, random).toString(32);
+                System.out.println(token);/*
+            user.setToken(token);
+            userDb.updateUser(user);*/
+            } else throw new NotFoundException();
+        } else throw new NotFoundException();
+        return new Session();
     }
 
     @POST
