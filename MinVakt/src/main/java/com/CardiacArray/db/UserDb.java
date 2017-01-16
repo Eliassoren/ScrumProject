@@ -37,7 +37,9 @@ public class UserDb extends DbManager {
                 String address = res.getString("address");
                 int userCategoryInt = res.getInt("user.user_category_id");
                 String userCategoryString = res.getString("type");
-                user = new User(id,firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt,userCategoryString);
+                String token = res.getString("token");
+                Timestamp expired = res.getTimestamp("expired");
+                user = new User(id,firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt,userCategoryString, token, expired);
                 res.close();
                 statement.close();
             }
@@ -72,7 +74,9 @@ public class UserDb extends DbManager {
                 String address = res.getString("address");
                 int userCategoryInt = res.getInt("user.user_category_id");
                 String userCategoryString = res.getString("type");
-                user = new User(id,firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt,userCategoryString);
+                String token = res.getString("token");
+                Timestamp expired = res.getTimestamp("expired");
+                user = new User(id,firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt,userCategoryString, token, expired);
                 res.close();
                 statement.close();
             }
@@ -126,7 +130,7 @@ public class UserDb extends DbManager {
     @param user
     @return boolean
      */
-    public void updateUser(User user){
+    public boolean updateUser(User user){
         try {
             String toSQL = "UPDATE user " +
                     "SET first_name=?, last_name=?, password=?, admin_rights=?, mobile=?, address=?, user_category_id=?, email=? " +
@@ -144,9 +148,11 @@ public class UserDb extends DbManager {
             statement.execute();
             connection.commit();
             statement.close();
+            return true;
         }catch (SQLException e){
             e.printStackTrace(System.err);
             DbManager.rollback();
+            return false;
         }
     }
 
@@ -223,7 +229,7 @@ public class UserDb extends DbManager {
     public static void main(String[] args)throws Exception{
         DbManager manager = new DbManager();
         User testUser1 = new User("Dirck", "Delete", 90269026, "dirk@delete.com", "passs", 0, "trondheim", 0);
-        UserDb udb = new UserDb(manager.connection);
+        UserDb udb = new UserDb();
         udb.createUser(testUser1);
         User testUser2 = udb.getUserByEmail(testUser1.getEmail());
         int testCounter = 0;
