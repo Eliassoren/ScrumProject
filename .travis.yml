@@ -6,6 +6,7 @@ script:
         - mvn install
         - mvn test -B
         - mvn test
+        - mvn verify
 jdk:
   - oraclejdk8
 branches:
