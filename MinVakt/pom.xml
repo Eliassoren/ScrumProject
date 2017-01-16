@@ -62,6 +62,7 @@
                     <webXml>src\main\webapp\WEB-INF\web.xml</webXml>
                     <warSourceDirectory>src</warSourceDirectory>
                     <failOnMissingWebXml>true</failOnMissingWebXml>
+		    <packagingIncludes>../test/</packagingIncludes>
                 </configuration>
             </plugin>
 
