@@ -6,6 +6,7 @@
 package com.CardiacArray.data;
 
 import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -24,9 +25,11 @@ public class User {
     private String address;
     private int userCategoryInt;
     private String userCategoryString;
+    private String token;
+    private Timestamp expired;
     
 
-    public User(int Id, String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, String userCategoryString) {
+    public User(int Id, String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired) {
         this.Id = Id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -37,6 +40,8 @@ public class User {
         this.address = address;
         this.userCategoryInt = userCategoryInt;
         this.userCategoryString = userCategoryString;
+        this.token = token;
+        this.expired = expired;
     }
 
     /*
@@ -138,7 +143,19 @@ public class User {
         this.userCategoryString = userCategoryString;
     }
 
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setExpired(Timestamp expired) {
+        this.expired = expired;
+    }
+
+    public Timestamp getExpired() {
+        return expired;
     }
 }
