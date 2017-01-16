@@ -8,14 +8,11 @@ import java.time.LocalDateTime;
 /**
  * Created by kjosavik on 11-Jan-17.
  */
-public class UserDb {
-    private Connection connection;
+
+public class UserDb extends DbManager {
     private ResultSet res;
     private PreparedStatement statement;
 
-    public UserDb(Connection connection){
-        this.connection = connection;
-    }
 
     /**
     @param id
