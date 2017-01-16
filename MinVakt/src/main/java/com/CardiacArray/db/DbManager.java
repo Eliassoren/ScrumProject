@@ -27,7 +27,7 @@ public class DbManager {
                 dataSource.setServerName("mysql.stud.iie.ntnu.no");
                 connection = dataSource.getConnection();
                 connection.setAutoCommit(false);
-            }catch (SQLException e){
+            }catch (Exception e){
                 connection.rollback();
                 e.printStackTrace(System.err);
             }
