@@ -7,6 +7,8 @@ package com.CardiacArray.rest;
 
 import com.CardiacArray.data.User;
 import com.CardiacArray.db.UserDb;
+import com.CardiacArray.db.DbManager;
+import java.sql.Connection;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -31,7 +33,7 @@ public class UserService {
         if(userFound.getFirstName() == null && userFound.getLastName() == null) throw new NotFoundException();
         else return userFound;
     }
-    
+
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public boolean updateUser(User user) {

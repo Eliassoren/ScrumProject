@@ -37,7 +37,6 @@ import javax.ws.rs.core.*;
 public class SessionService {
     private UserDb userDb = new UserDb();
 
-
     @Path("/login")
     @POST
     public Response login(@FormParam("email") String email, @FormParam("password") String password) {
