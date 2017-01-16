@@ -117,7 +117,8 @@ public class UserDb extends DbManager {
                 int userCategoryInt = res.getInt("user.user_category_id");
                 String userCategoryString = res.getString("type");
                 Timestamp expired = res.getTimestamp("expired");
-                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired);
+                boolean active = res.getBoolean("active");
+                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active);
                 res.close();
                 statement.close();
             } else{ return null;}

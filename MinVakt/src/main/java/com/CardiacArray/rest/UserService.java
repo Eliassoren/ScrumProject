@@ -51,7 +51,7 @@ public class UserService {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public boolean createUser(User user) {
-        User checkUser = getUserByEmail(user.getEmail());
+        User checkUser = userDb.getUserByEmail(user.getEmail());
         if(checkUser.getFirstName() == null && checkUser.getLastName() == null){
             userDb.createUser(user);
             return true;
