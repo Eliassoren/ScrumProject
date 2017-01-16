@@ -15,26 +15,21 @@ public class DbManager {
 
     public static Connection connection;
 
-    public DbManager() throws Exception{
-
+    public DbManager() {
         if(connection == null){
-
-        ReadConfig readConfig = new ReadConfig();
-        String [] result = readConfig.getConfigValues();
-
-        MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setUser(result[0]);
-        dataSource.setDatabaseName(result[0]);
-        dataSource.setPassword(result[1]);
-        dataSource.setServerName("mysql.stud.iie.ntnu.no");
-        connection = dataSource.getConnection();
-
-        try{
-            connection.setAutoCommit(false);
-        }catch (SQLException e){
-            connection.rollback();
-            e.printStackTrace(System.err);
-        }
+            try {
+                ReadConfig readConfig = new ReadConfig();
+                String [] result = readConfig.getConfigValues();
+                MysqlDataSource dataSource = new MysqlDataSource();
+                dataSource.setUser(result[0]);
+                dataSource.setDatabaseName(result[0]);
+                dataSource.setPassword(result[1]);
+                dataSource.setServerName("mysql.stud.iie.ntnu.no");
+                connection = dataSource.getConnection();
+                connection.setAutoCommit(false);
+            }catch (Exception e){
+                e.printStackTrace(System.err);
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package com.CardiacArray.db;
 
 import com.CardiacArray.data.User;
+import com.CardiacArray.db.DbManager;
 
 import java.sql.*;
 
@@ -10,10 +11,6 @@ import java.sql.*;
 public class UserDb extends DbManager {
     private ResultSet res;
     private PreparedStatement statement;
-
-    public UserDb() throws Exception {
-        super();
-    }
 
     /**
     @param id
@@ -38,10 +35,12 @@ public class UserDb extends DbManager {
                 String address = res.getString("address");
                 int userCategoryInt = res.getInt("user.user_category_id");
                 String userCategoryString = res.getString("type");
-                user = new User(firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt);
+                String token = res.getString("token");
+                Timestamp expired = res.getTimestamp("expired");
+                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired);
                 res.close();
                 statement.close();
-            }
+            } else{ return null; }
         }
         catch (SQLException e) {
             e.printStackTrace(System.err);
@@ -73,7 +72,9 @@ public class UserDb extends DbManager {
                 String address = res.getString("address");
                 int userCategoryInt = res.getInt("user.user_category_id");
                 String userCategoryString = res.getString("type");
-                user = new User(id,firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt,userCategoryString);
+                String token = res.getString("token");
+                Timestamp expired = res.getTimestamp("expired");
+                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired);
                 res.close();
                 statement.close();
             } else {
