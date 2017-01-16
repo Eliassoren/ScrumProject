@@ -15,7 +15,7 @@ public class DbManager {
 
     public static Connection connection;
 
-    public DbManager() throws Exception{
+    public DbManager() {
         if(connection == null){
             try {
                 ReadConfig readConfig = new ReadConfig();
@@ -28,7 +28,6 @@ public class DbManager {
                 connection = dataSource.getConnection();
                 connection.setAutoCommit(false);
             }catch (Exception e){
-                connection.rollback();
                 e.printStackTrace(System.err);
             }
         }
