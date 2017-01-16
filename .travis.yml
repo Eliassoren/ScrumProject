@@ -3,6 +3,8 @@ sudo: false
 install: true
 script:
         - cd MinVakt
+        - mvn install
+        - mvn test -B
         - mvn test
 jdk:
   - oraclejdk8
