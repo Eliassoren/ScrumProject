@@ -154,7 +154,7 @@ public class UserDb extends DbManager {
             statement.execute();
             connection.commit();
             statement.close();
-            success = true;
+            return true;
         }catch (SQLException e){
             e.printStackTrace(System.err);
             DbManager.rollback();
