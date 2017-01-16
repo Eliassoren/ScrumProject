@@ -42,7 +42,7 @@ public class UserServiceTest {
     public void updateUser() throws Exception {
         UserDb mockUserDb = mock(UserDb.class);
         UserService service = new UserService((mockUserDb));
-        User updatedUser = new User("Ola", "Nordmann", 12345678, "test@test.no",
+        User updatedUser = new User("Ola", null, 12345678, "test@test.no",
                 "Passord", 0, "Testveien 2", 1, true);
         when(mockUserDb.updateUser(updatedUser)).thenReturn(true);
         Assert.assertEquals(true, service.updateUser(updatedUser));
