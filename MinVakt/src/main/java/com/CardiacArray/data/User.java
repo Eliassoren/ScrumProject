@@ -27,9 +27,10 @@ public class User {
     private String userCategoryString;
     private String token;
     private Timestamp expired;
-    
+    private boolean active; //false if user does not work at the facility anymore.
 
-    public User(int Id, String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired) {
+
+    public User(int Id, String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired, boolean active) {
         this.Id = Id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -42,12 +43,13 @@ public class User {
         this.userCategoryString = userCategoryString;
         this.token = token;
         this.expired = expired;
+        this.active = active;
     }
 
     /*
     *Construcor used to creat new users that needs to be added to the database.
      */
-    public User(String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt) {
+    public User(String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, boolean active) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.mobile = mobile;
@@ -56,13 +58,22 @@ public class User {
         this.admin = admin;
         this.address = address;
         this.userCategoryInt = userCategoryInt;
+        this.active = active;
     }
     
     public User() {
         
     }
-    
-    /*Metoder*/
+
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public int getId() {
         return Id;
     }
