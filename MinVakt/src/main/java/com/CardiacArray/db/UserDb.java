@@ -40,7 +40,7 @@ public class UserDb extends DbManager {
                 user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired);
                 res.close();
                 statement.close();
-            }
+            } else{ return null; }
         }
         catch (SQLException e) {
             e.printStackTrace(System.err);
@@ -77,7 +77,7 @@ public class UserDb extends DbManager {
                 user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired);
                 res.close();
                 statement.close();
-            }
+            } else{ return null;}
         }
         catch (SQLException e) {
             e.printStackTrace(System.err);
@@ -89,7 +89,8 @@ public class UserDb extends DbManager {
     /**
     @param user
      */
-    public void updateUser(User user){
+    public boolean updateUser(User user){
+        boolean success = false;
         try {
             String toSQL = "UPDATE user " +
                     "SET first_name=?, last_name=?, password=?, admin_rights=?, mobile=?, address=?, user_category_id=?, email=?" +
@@ -107,10 +108,13 @@ public class UserDb extends DbManager {
             statement.execute();
             connection.commit();
             statement.close();
+            success = true;
         }catch (SQLException e){
             e.printStackTrace(System.err);
             DbManager.rollback();
+            return false;
         }
+        return success;
     }
 
     /**
@@ -164,7 +168,6 @@ public class UserDb extends DbManager {
      * and finally deletes user from database
     */
     public static void main(String[] args)throws Exception{
-        DbManager manager = new DbManager();
         User testUser1 = new User("Dirck", "Delete", 90269026, "dirk@delete.com", "passs", 0, "trondheim", 0);
         UserDb udb = new UserDb();
         udb.createUser(testUser1);

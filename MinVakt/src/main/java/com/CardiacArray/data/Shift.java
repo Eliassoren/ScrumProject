@@ -26,6 +26,18 @@ public class Shift {
         this.responsibleUser = responsibleUser;
     }
 
+    public Shift(Date startTime, Date endTime, int departmentId, int role, boolean tradeable) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.departmentId = departmentId;
+        this.role = role;
+        this.tradeable = tradeable;
+        this.responsibleUser = responsibleUser;
+    }
+
+    public Shift(){
+    }
+
     public int getShiftId() {
         return shiftId;
     }
@@ -97,6 +109,8 @@ public class Shift {
     public void setResponsibleUser(boolean responsibleUser) {
         this.responsibleUser = responsibleUser;
     }
+
+
 
     @Override
     public String toString() {
