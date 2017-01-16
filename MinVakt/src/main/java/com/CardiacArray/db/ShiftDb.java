@@ -362,7 +362,6 @@ public class ShiftDb extends DbManager{
         for (Shift shifttet: a) {
             System.out.println(shifttet);
         }
-        */
 
         ShiftDb shiftdb = new ShiftDb(db.connection);
         //Shift shift = shiftdb.getShift(new Date(1483225200000L), 1);
@@ -371,6 +370,7 @@ public class ShiftDb extends DbManager{
         Shift shift = new Shift();
         shift.setShiftId(5);
         shiftdb.setUser(shift, user);
+        */
 
     }
 
