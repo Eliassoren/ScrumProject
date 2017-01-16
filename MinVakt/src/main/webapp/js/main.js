@@ -3,8 +3,8 @@
  */
 var day = new Date();
 var month = day.getMonth();
-var monthNames = new Array();
-var year = day.getYear();
+var monthNames = new Array(12);
+var year = day.getFullYear();
 monthNames[0] = "Januar";
 monthNames[1] = "Februar";
 monthNames[2] = "Mars";
@@ -19,6 +19,7 @@ monthNames[10] = "November";
 monthNames[11] = "Desember";
 
 var title = monthNames[month] +" "+ year;
+
 $(document).ready(function() {
     $("#hamburger-toggle").click(function(){
         $("#hamburger-menu").toggleClass("hamburger-menu-open");
@@ -26,10 +27,10 @@ $(document).ready(function() {
     });
 
 
-$("#month-title").textContent = title;
+$("#month-title").text(title);
 
     $("#left-arrow").click(function () {
-        alert("Clicked left");
+
         if(month > 0){
             month--;
         }else{
@@ -37,11 +38,10 @@ $("#month-title").textContent = title;
             month = 11;
         }
         title = monthNames[month] + " " + year;
-        $("#month-title").textContent = title;
+        $("#month-title").text(title);
     });
 
     $("#right-arrow").click(function () {
-        alert("Clicked right");
         if(month < 11){
             month++;
         }else{
@@ -49,6 +49,6 @@ $("#month-title").textContent = title;
             month = 0;
         }
         title = monthNames[month] + " " + year;
-        $("#month-title").textContent = title;
+        $("#month-title").text(title);
     });
 });
