@@ -49,7 +49,7 @@ public class User {
      *Constructor used to create new users that needs to be added to the database.
      */
     public User(String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, boolean active) {
-        if (firstName == null || lastName == null || email == null || password == null) throw new IllegalArgumentException("Name, password or email cannot be null");
+        //if (firstName == null || lastName == null || email == null || password == null) throw new IllegalArgumentException("Name, password or email cannot be null");
 
         this.firstName = firstName;
         this.lastName = lastName;
