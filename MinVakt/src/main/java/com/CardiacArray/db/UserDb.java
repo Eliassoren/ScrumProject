@@ -135,7 +135,6 @@ public class UserDb extends DbManager {
     @return boolean
      */
     public boolean updateUser(User user){
-        boolean success = false;
         try {
             String toSQL = "UPDATE user " +
                     "SET first_name=?, last_name=?, password=?, admin_rights=?, mobile=?, address=?, user_category_id=?, email=?, active=?" +
@@ -160,7 +159,6 @@ public class UserDb extends DbManager {
             DbManager.rollback();
             return false;
         }
-        return success;
     }
 
     public boolean updateUserToken(User user) {
