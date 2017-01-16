@@ -97,7 +97,7 @@ public class UserDb extends DbManager {
         boolean success = false;
         try {
             String toSQL = "UPDATE user " +
-                    "SET first_name=?, last_name=?, password=?, admin_rights=?, mobile=?, address=?, user_category_id=?, email=?" +
+                    "SET first_name=?, last_name=?, password=?, admin_rights=?, mobile=?, address=?, user_category_id=?, email=?, active=?" +
                     "WHERE user_id = ?";
             statement = connection.prepareStatement(toSQL);
             statement.setString(1, user.getFirstName());
@@ -108,7 +108,8 @@ public class UserDb extends DbManager {
             statement.setString(6, user.getAddress());
             statement.setInt(7, user.getUserCategoryInt());
             statement.setString(8, user.getEmail());
-            statement.setInt(9,user.getId());
+            statement.setBoolean(9, user.isActive());
+            statement.setInt(10,user.getId());
             statement.execute();
             connection.commit();
             statement.close();
@@ -122,7 +123,8 @@ public class UserDb extends DbManager {
     }
 
     /**
-    @param user
+     *@deprecated
+     *@param user
      */
     public void deleteUser(User user){
         try {
@@ -145,8 +147,8 @@ public class UserDb extends DbManager {
     public int createUser(User user){
         int returnValue = -1;
         try {
-            String toSQL = "INSERT into user (user_id, first_name, last_name, password, admin_rights, user_category_id, mobile, address, email)\n" +
-                    "  VALUES (DEFAULT ,?, ?, ?, ?, ?, ?, ?, ?)";
+            String toSQL = "INSERT into user (user_id, first_name, last_name, password, admin_rights, user_category_id, mobile, address, email, active)\n" +
+                    "  VALUES (DEFAULT ,?, ?, ?, ?, ?, ?, ?, ?, ?)";
             statement = connection.prepareStatement(toSQL);
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
@@ -156,6 +158,7 @@ public class UserDb extends DbManager {
             statement.setString(7, user.getAddress());
             statement.setInt(5, user.getUserCategoryInt());
             statement.setString(8, user.getEmail());
+            statement.setBoolean(9, user.isActive());
             statement.execute();
             connection.commit();
             ResultSet res = statement.getGeneratedKeys();
@@ -181,7 +184,7 @@ public class UserDb extends DbManager {
      * and finally deletes user from database
     */
     public static void main(String[] args)throws Exception{
-        User testUser1 = new User("Dirck", "Delete", 90269026, "dirk@delete.com", "passs", 0, "trondheim", 0);
+        User testUser1 = new User("Dirck", "Delete", 90269026, "dirk@delete.com", "passs", 0, "trondheim", 0,true);
         UserDb udb = new UserDb();
         udb.createUser(testUser1);
         User testUser2 = udb.getUser(testUser1.getEmail());

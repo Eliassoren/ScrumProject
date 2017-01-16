@@ -26,7 +26,8 @@ public class User {
     private String userCategoryString;
     private String token;
     private Timestamp expired;
-    private boolean active;
+    private boolean active; //false if user does not work at the facility anymore.
+
 
     public User(int Id, String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired, boolean active) {
         this.Id = Id;
@@ -41,12 +42,13 @@ public class User {
         this.userCategoryString = userCategoryString;
         this.token = token;
         this.expired = expired;
+        this.active = active;
     }
 
     /*
      *Constructor used to create new users that needs to be added to the database.
      */
-    public User(String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt) {
+    public User(String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, boolean active) {
         if (firstName == null || lastName == null || email == null || password == null) throw new IllegalArgumentException("Name, password or email cannot be null");
 
         this.firstName = firstName;
@@ -57,14 +59,23 @@ public class User {
         this.admin = admin;
         this.address = address;
         this.userCategoryInt = userCategoryInt;
+        this.active = active;
     }
 
     
     public User() {
         
     }
-    
-    /*Metoder*/
+
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public int getId() {
         return Id;
     }
