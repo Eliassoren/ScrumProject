@@ -3,10 +3,6 @@ sudo: false
 install: /bin/true
 script:
         - cd MinVakt
-        - mvn install
-        - mvn clean install -DskipTests=false -Dmaven.javadoc.skip=true -B -V
-        - mvn test -B
-        - mvn test
         - mvn verify
 jdk:
   - oraclejdk8
