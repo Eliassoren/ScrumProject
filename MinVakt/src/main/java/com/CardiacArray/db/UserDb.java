@@ -37,7 +37,8 @@ public class UserDb extends DbManager {
                 String userCategoryString = res.getString("type");
                 String token = res.getString("token");
                 Timestamp expired = res.getTimestamp("expired");
-                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired);
+                boolean active = res.getBoolean("active");
+                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active);
                 res.close();
                 statement.close();
             } else{ return null; }
@@ -74,7 +75,8 @@ public class UserDb extends DbManager {
                 String userCategoryString = res.getString("type");
                 String token = res.getString("token");
                 Timestamp expired = res.getTimestamp("expired");
-                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired);
+                boolean active = res.getBoolean("active");
+                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active);
                 res.close();
                 statement.close();
             } else {
