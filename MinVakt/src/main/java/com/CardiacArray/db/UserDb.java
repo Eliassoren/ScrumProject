@@ -3,6 +3,7 @@ package com.CardiacArray.db;
 import com.CardiacArray.data.User;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 
 /**
  * Created by kjosavik on 11-Jan-17.
@@ -55,7 +56,7 @@ public class UserDb {
     @param email
     @return User
      */
-    public User getUser(String email){
+    public User getUserByEmail(String email){
         User user = new User();
         try {
             String toSQL = "select * from user join user_category " +
@@ -86,13 +87,52 @@ public class UserDb {
         return user;
     }
 
+
+    /**
+     @param token
+     @return User
+     */
+    public User getUserByToken(String token){
+        User user = new User();
+        try {
+            String toSQL = "select * from user join user_category " +
+                    "on user.user_category_id = user_category.user_category_id " +
+                    "where token=?";
+            statement = connection.prepareStatement(toSQL);
+            statement.setString(1, token);
+            res = statement.executeQuery();
+            if(res.next()){
+                int id = res.getInt("user_id");
+                String firstName= res.getString("first_name");
+                String lastName = res.getString("last_name");
+                String email = res.getString("email");
+                String password = res.getString("password");
+                int adminRights = res.getInt("admin_rights");
+                int mobile = res.getInt("mobile");
+                String address = res.getString("address");
+                int userCategoryInt = res.getInt("user.user_category_id");
+                String userCategoryString = res.getString("type");
+                Timestamp expired = res.getTimestamp("expired");
+                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired);
+                res.close();
+                statement.close();
+            } else{ return null;}
+        }
+        catch (SQLException e) {
+            e.printStackTrace(System.err);
+            DbManager.rollback();
+        }
+        return user;
+    }
+
     /**
     @param user
+    @return boolean
      */
     public void updateUser(User user){
         try {
             String toSQL = "UPDATE user " +
-                    "SET first_name=?, last_name=?, password=?, admin_rights=?, mobile=?, address=?, user_category_id=?, email=?" +
+                    "SET first_name=?, last_name=?, password=?, admin_rights=?, mobile=?, address=?, user_category_id=?, email=? " +
                     "WHERE user_id = ?";
             statement = connection.prepareStatement(toSQL);
             statement.setString(1, user.getFirstName());
@@ -110,6 +150,26 @@ public class UserDb {
         }catch (SQLException e){
             e.printStackTrace(System.err);
             DbManager.rollback();
+        }
+    }
+
+    public boolean updateUserToken(User user) {
+        try {
+            String toSQL = "UPDATE user SET token = ?, expired = ? WHERE user_id = ?;";
+            LocalDateTime expiredTime = LocalDateTime.now().plusWeeks(1);
+            Timestamp expired = Timestamp.valueOf(expiredTime);
+            PreparedStatement statement = connection.prepareStatement(toSQL);
+            statement.setString(1, user.getToken());
+            statement.setTimestamp(2, expired);
+            statement.setInt(3, user.getId());
+            statement.execute();
+            connection.commit();
+            statement.close();
+            return true;
+
+        } catch(SQLException e) {
+            e.printStackTrace(System.err);
+            return false;
         }
     }
 
@@ -168,7 +228,7 @@ public class UserDb {
         User testUser1 = new User("Dirck", "Delete", 90269026, "dirk@delete.com", "passs", 0, "trondheim", 0);
         UserDb udb = new UserDb(manager.connection);
         udb.createUser(testUser1);
-        User testUser2 = udb.getUser(testUser1.getEmail());
+        User testUser2 = udb.getUserByEmail(testUser1.getEmail());
         int testCounter = 0;
         if(testUser1.getEmail().equals(testUser2.getEmail())) {
             System.out.println("user added and retrieved OK");

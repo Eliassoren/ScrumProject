@@ -5,27 +5,15 @@
  */
 package com.CardiacArray.rest;
 
+import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.data.*;
 import com.CardiacArray.db.DbManager;
-import com.CardiacArray.db.SessionDb;
+import com.CardiacArray.db.UserDb;
 
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.logging.Level;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.ServerErrorException;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import java.security.SecureRandom;
+import java.math.BigInteger;
 
 /**
  *
@@ -33,39 +21,23 @@ import javax.ws.rs.core.Response;
  */
 @Path("/session")
 public class SessionService {
-    
-    SessionDb sessionDb;
-    @Context private HttpServletRequest request;
-    
-    @POST
-    @Consumes("application/json")
-    @Produces("application/json")
-    public Session login(String email, String password) {
-        DbManager dbManager = null;
-        try {
-            dbManager = new DbManager();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        sessionDb = new SessionDb(dbManager.connection);
-        Session session = new Session();
-        if(sessionDb.login(email, password) > -1) {
-            session.setLoginDate(new Date());
-            session.setEmail(email);
-            request.getSession().invalidate();
-            request.setAttribute("session", session);
-            //System.out.println("Funker");
-        } else {
-            request.getSession().invalidate();
-            throw new NotAuthorizedException("Feil brukernavn eller passord");
-        }
+    private UserDb userDb = new UserDb();
 
-        return session;
-    }
-    
-     public static void main(String[] args) {
-        SessionService sc = new SessionService();
-        
-        sc.login("epost@internett.no", "123");
+    @Path("/login")
+    @POST
+    public Response login(@FormParam("email") String email, @FormParam("password") String password) {
+        User user = userDb.getUserByEmail(email);
+        System.out.println("test");
+        if(user != null) {
+            System.out.println("test 2");
+            if(user.getPassword().equals(password)) {
+                System.out.println("test 3");
+                SecureRandom random = new SecureRandom();
+                String token = new BigInteger(130, random).toString(32);
+                user.setToken(token);
+                userDb.updateUserToken(user);
+                return Response.ok(token).build();
+            } else return Response.status(Response.Status.UNAUTHORIZED).build();
+        } else return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 }
