@@ -1,9 +1,15 @@
 $(document).ready(function() {
+    var onLoginPage = true;
     if(localStorage.getItem("token") != null) {
         $.ajax({
             type: "GET",
             url: "/MinVakt/rest/session/checktoken",
             headers: { "Authorization": "Bearer " + localStorage.getItem("token")},
+            success: function() {
+                if(onLoginPage != undefined && onLoginPage) {
+                    window.location.replace("/MinVakt/html/calendar.html");
+                }
+            },
             statusCode: {
                 401: function() {
                     localStorage.removeItem("token");
