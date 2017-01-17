@@ -9,7 +9,7 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author Odd Erik
+ * @author Team 1 
  */
 
 @Path("/users")
