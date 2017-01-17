@@ -2,11 +2,11 @@ html,body{
     width: 100%;
 }
 body{
-    font-family: 'Georgia', 'sans-serif';
+    font-family: 'Georgia', 'serif';
 }
 #header{
     height: 100px;
-    background-color: #0066ff;
+    background-color: #016cc2;
     padding: 0;
 }
 
@@ -15,6 +15,7 @@ body{
     font-size: 56px;
     padding-top: 20px;
     text-align: center;
+    display: inline;
     margin: 0 auto 0 auto;
     height: 100%;
     overflow: hidden;
@@ -61,6 +62,7 @@ body{
     border-style: none;
 }
 
+
 .icon-bar > a:focus {
     color: black;
     border-style: none;
@@ -77,17 +79,31 @@ body{
 }
 h2{
     padding: 1.25rem;
-    display: block;
+    display: inline-block;
     position: relative;
-    flex-wrap: wrap;
-    font-size: 1.25rem;
+    font-size: 2.5rem !important;
     margin-top: 180px;
-    width: 100%;
+    margin-left: 10rem;
+    margin-right: 10rem;
+    width: 220px !important;
+    line-height: 0;
     text-align: center;
 }
 .calendar-head{
+    text-align: center;
     position: relative;
+    margin: 2rem auto 2rem auto;
 }
+.fa-chevron-left{
+    display: inline;
+    color: black;
+
+}
+.fa-chevron-right{
+    display: inline;
+    color: black;
+}
+
 #calendar {
     width: 100%;
 }
@@ -102,21 +118,34 @@ h2{
     margin: 0;
     width: 100%;
 }
-
+#calendar .week{
+    font-size: 2rem;
+    float: right;
+}
+#calendar .week-name {
+    display: none;
+    visibility: hidden;
+}
 #calendar li {
     display: block;
     float: left;
-    width:14.342%;
+    width:12.5%;
     padding: 5px;
     box-sizing:border-box;
     border: 1px solid #ccc;
-    margin-right: -1px;
-    margin-bottom: -1px;
+    //margin-right: -1px;
+    //margin-bottom: -1px;
 }
-
+#calendar .week-number{
+    background-color: grey;
+}
+#calendar .week-number li:hover{
+    background-color: grey;
+}
 #calendar ul.weekdays {
     height: 40px;
     background: #6d81a6;
+    width: 100%;
 }
 
 #calendar ul.weekdays li {
@@ -126,6 +155,7 @@ h2{
     border: none !important;
     padding: 10px 6px;
     color: #fff;
+    width: 12.5%;
     font-size: 13px;
 }
 
@@ -136,6 +166,7 @@ h2{
 #calendar .days li:hover {
     background: #d3d3d3;
 }
+
 
 #calendar .date {
     text-align: center;
@@ -195,6 +226,34 @@ h2{
 
     #calendar .date {
         float: none;
+    }
+    #calendar .week-name {
+        font-size: 2rem;
+        display: inline;
+        float: left;
+        visibility: visible;
+        margin-right: 1rem;
+    }
+    #calendar .week{
+        display: inline;
+        float: left;
+    }
+    h2{
+        margin-left: 0.3rem;
+        margin-right: 0.3rem;
+        font-size: 1.8rem !important;
+        text-align: center;
+    }
+
+    #h1-title{
+
+        font-size: 36px;
+        padding-top: 20px;
+        text-align: center;
+        display: inline;
+        margin: 0 auto 0 auto;
+        height: 100%;
+        overflow: hidden;
     }
 }
 
