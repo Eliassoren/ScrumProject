@@ -35,7 +35,9 @@ import javax.ws.rs.core.*;
  */
 @Path("/session")
 public class SessionService {
+
     private UserDb userDb = new UserDb();
+    public SessionService () throws Exception {}
 
     @Path("/login")
     @POST
@@ -56,7 +58,5 @@ public class SessionService {
     }
      public static void main(String[] args) throws Exception {
          DbManager dbManager = new DbManager();
-         SessionService sc = new SessionService();
-
      }
 }
