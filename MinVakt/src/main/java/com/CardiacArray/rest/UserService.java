@@ -57,9 +57,5 @@ public class UserService {
             userDb.createUser(user);
             return true;
         }
-<<<<<<< Updated upstream
-=======
-        else throw new BadRequestException();
->>>>>>> Stashed changes
     }
 }
