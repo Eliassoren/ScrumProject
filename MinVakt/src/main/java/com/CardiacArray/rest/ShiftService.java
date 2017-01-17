@@ -5,15 +5,17 @@ import com.CardiacArray.data.Shift;
 import com.CardiacArray.db.ShiftDb;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.Date;
-
+import java.util.*;
 
 
 @Path("/shifts")
 public class ShiftService {
 
     private ShiftDb shiftDb = new ShiftDb();
+
+    public ShiftService(ShiftDb shiftDb) throws Exception {
+        this.shiftDb = shiftDb;
+    }
 
     public ShiftService() throws Exception {}
 
@@ -42,11 +44,16 @@ public class ShiftService {
     @Path("/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ArrayList<Shift> getShift(Shift shift, @PathParam("userId") int userId) {
+    public Collection<Shift> getShift(Shift shift, @PathParam("userId") int userId) {
         if (shift.getEndTime().before(shift.getStartTime())){
             throw  new BadRequestException();
         }
-        return shiftDb.getShiftsForPeriod(shift.getStartTime(),shift.getEndTime(),userId);
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(shift.getStartTime(),shift.getEndTime(),userId);
+        Map<Shift, Shift> map = new HashMap<>();
+        for (Shift shiftElement : shifts) {
+            map.put(shiftElement, shiftElement);
+        }
+        return map.values();
     }
 
     /**
