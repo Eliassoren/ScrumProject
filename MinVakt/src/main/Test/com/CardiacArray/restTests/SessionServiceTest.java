@@ -17,6 +17,7 @@ public class SessionServiceTest {
     public void login() throws Exception {
         UserDb userDb = mock(UserDb.class);
         when(userDb.getUserByEmail("test@test.no")).thenReturn(validUser);
+
     }
 
 }
