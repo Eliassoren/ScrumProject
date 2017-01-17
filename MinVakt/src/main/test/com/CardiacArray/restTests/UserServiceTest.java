@@ -5,9 +5,7 @@ import com.CardiacArray.db.UserDb;
 import com.CardiacArray.rest.UserService;
 import org.junit.Assert;
 import org.junit.Test;
-
 import javax.ws.rs.BadRequestException;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
