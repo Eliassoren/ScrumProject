@@ -38,7 +38,7 @@ public class ShiftService {
      * @param userId the id that identifies the user
      * @return ArrayList of found shifts
      */
-    @GET
+    @POST
     @Path("/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
