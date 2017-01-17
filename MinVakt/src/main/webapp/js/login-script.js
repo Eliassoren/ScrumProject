@@ -4,12 +4,10 @@ $(document).ready(function() {
             type: "GET",
             url: "/MinVakt/rest/session/checktoken",
             headers: { "Authorization": "Bearer " + localStorage.getItem("token")},
-            success: function() {
-                window.location.replace("/MinVakt/html/calendar.html");
-            },
             statusCode: {
                 401: function() {
                     localStorage.removeItem("token");
+                    window.location.replace("/MinVakt/");
                 }
             }
         })

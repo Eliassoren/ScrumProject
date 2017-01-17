@@ -28,6 +28,9 @@ public class SessionService {
 
     private UserDb userDb = new UserDb();
 
+    public SessionService() {
+    }
+
     public SessionService(UserDb userDb) throws Exception {
         this.userDb = userDb;
     }
