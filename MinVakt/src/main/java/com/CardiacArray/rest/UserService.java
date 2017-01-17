@@ -2,6 +2,8 @@ package com.CardiacArray.rest;
 
 import com.CardiacArray.data.User;
 import com.CardiacArray.db.UserDb;
+import com.CardiacArray.db.DbManager;
+import java.sql.Connection;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -27,10 +29,11 @@ public class UserService {
     @Path("/{email}")
     @Produces(MediaType.APPLICATION_JSON)
     public User getUser(@PathParam("email") String email) {
-        User userFound = userDb.getUser(email);
-        if(userFound.getFirstName() == null || userFound.getLastName() == null) throw new NotFoundException();
+        User userFound = userDb.getUserByEmail(email);
+        if(userFound.getFirstName() == null && userFound.getLastName() == null) throw new NotFoundException();
         else return userFound;
     }
+
 
     /**
      *
@@ -52,6 +55,14 @@ public class UserService {
         return updateResponse;
     }
 
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void deleteUser(User user) {
+        User userFound = userDb.getUserByEmail(user.getEmail());
+        if(userFound.getFirstName() == null && userFound.getLastName() == null) throw new NotFoundException();
+        else userDb.deleteUser(user);
+    }
+
     /**
      *
      * @param user user object
@@ -60,13 +71,12 @@ public class UserService {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public boolean createUser(User user) {
-        User checkUser = userDb.getUser(user.getEmail());
-        if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || checkUser.getEmail() != null || !user.isValidEmail(user.getEmail())) {
-            throw new BadRequestException();
-        }
-        else {
+        User checkUser = userDb.getUserByEmail(user.getEmail());
+        if(checkUser.getFirstName() == null && checkUser.getLastName() == null){
             userDb.createUser(user);
             return true;
         }
+        else throw new BadRequestException();
+
     }
 }
