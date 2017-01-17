@@ -13,7 +13,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by OddErik on 16.01.2017.
+ * Created by Odd Erik on 16.01.2017.
  */
 public class UserServiceTest {
 
