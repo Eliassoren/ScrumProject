@@ -30,7 +30,7 @@ public class UserService {
     @Produces(MediaType.APPLICATION_JSON)
     public User getUser(@PathParam("email") String email) {
         User userFound = userDb.getUserByEmail(email);
-        if(userFound.getFirstName() == null && userFound.getLastName() == null) throw new NotFoundException();
+        if(userFound.getFirstName() == null || userFound.getLastName() == null) throw new NotFoundException();
         else return userFound;
     }
 
