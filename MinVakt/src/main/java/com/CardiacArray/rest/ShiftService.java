@@ -36,21 +36,19 @@ public class ShiftService {
 
     /**
      * Returns a list of shifts for a user in  a given period
-     * @param shift shiftobject with start and end time
+     * @param startTime start time
      * @param userId the id that identifies the user
      * @return ArrayList of found shifts
      */
-    @POST
-    @Path("/{userId}")
+    @GET
+    @Path("/{startTime}/{endTime}/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Collection<Shift> getShift(Shift shift, @PathParam("userId") int userId) {
-        if (shift.getEndTime().before(shift.getStartTime())){
-            throw  new BadRequestException();
-        }
-        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(shift.getStartTime(),shift.getEndTime(),userId);
+    public Collection<Shift> getShift(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime, @PathParam("userId") int userId) {
+        if (startTime > endTime) throw new BadRequestException();
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime),userId);
         Map<Shift, Shift> map = new HashMap<>();
         for (Shift shiftElement : shifts) {
+            System.out.println("Hallo " + shiftElement);
             map.put(shiftElement, shiftElement);
         }
         return map.values();

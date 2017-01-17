@@ -9,13 +9,28 @@ var year = day.getFullYear();
 var date = new Date(new Date().getFullYear(), 0, 1);
 var week = 0;
 
-function getShifts(){
+function getShiftById(id){
     $.ajax({
         type: "GET",
-        url: "/MinVakt/rest/shifts/1",
+        url: "/MinVakt/rest/shifts/" + id,
         success: function(data){
             console.log(data);
-            console.log(data);
+            return data;
+        }
+    })
+}
+
+function getShiftsForUser(year, month, userId) {
+    console.log(getFirstDateOfEachMonth(year)[month].getTime());
+    console.log(new Date(year, month + 1, 3).getTime());
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + new Date(year, month + 1, 0).getTime() + "/" + userId,
+        success: function(data){
+
+            console.log(data[0]);
+            console.log(data[1]);
+            //return data;
         }
     })
 }
