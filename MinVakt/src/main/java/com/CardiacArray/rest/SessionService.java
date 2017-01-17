@@ -58,7 +58,6 @@ public class SessionService {
     @GET
     @Path("/checktoken")
     public Response checkToken() {
-        System.out.println("checkToken");
         return Response.ok().build();
     }
 
