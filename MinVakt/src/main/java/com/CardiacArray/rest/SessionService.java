@@ -9,7 +9,6 @@ import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.data.*;
 import com.CardiacArray.db.DbManager;
 import com.CardiacArray.db.UserDb;
-
 import java.security.SecureRandom;
 import java.math.BigInteger;
 import javax.ws.rs.*;
@@ -29,13 +28,16 @@ public class SessionService {
 
     private UserDb userDb = new UserDb();
 
+    public SessionService() {
+    }
+
     public SessionService(UserDb userDb) throws Exception {
         this.userDb = userDb;
     }
 
     @Path("/login")
     @POST
-    public Response login(@FormParam("email") String email, @FormParam("password") String password) {
+    public Response login(@FormParam("login_email") String email, @FormParam("login_password") String password) {
         User user = userDb.getUserByEmail(email);
         if(user != null) {
             if(user.getPassword().equals(password)) {
@@ -47,4 +49,15 @@ public class SessionService {
             } else return Response.status(Response.Status.UNAUTHORIZED).build();
         } else return Response.status(Response.Status.UNAUTHORIZED).build();
     }
+
+    @Secured
+    @GET
+    @Path("/checktoken")
+    public Response checkToken() {
+        return Response.ok().build();
+    }
+
+     public static void main(String[] args) throws Exception {
+         DbManager dbManager = new DbManager();
+     }
 }
