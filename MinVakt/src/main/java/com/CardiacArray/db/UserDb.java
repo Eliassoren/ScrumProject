@@ -118,7 +118,7 @@ public class UserDb extends DbManager {
                 Timestamp expired = res.getTimestamp("expired");
                 boolean active = res.getBoolean("active");
                 LocalDateTime expiredTime = expired.toLocalDateTime();
-                if(expiredTime.isAfter(LocalDateTime.now())) {
+                if(expiredTime.isBefore(LocalDateTime.now())) {
                     user.setToken(null);
                     user.setExpired(null);
                     updateUserToken(user);
