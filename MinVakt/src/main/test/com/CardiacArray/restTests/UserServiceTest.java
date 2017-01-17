@@ -21,8 +21,9 @@ public class UserServiceTest {
     public void getUser() throws Exception {
         UserDb mockUserDb = mock(UserDb.class);
         UserService service = new UserService((mockUserDb));
-        User validUser = new User(1, "Ola", "Nordmann", 12345678, "test@test.no",
-                "Passord", 0, "Testveien 2", 1, "Assistent");
+        //String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, boolean active
+        User validUser = new User("Ola", "Nordmann", 12345678, "test@test.no",
+                "Passord", 0, "Testveien 2", 1, true);
         when(mockUserDb.getUser("test@test.no")).thenReturn(validUser);
         Assert.assertEquals(service.getUser("test@test.no").getFirstName(), "Ola");
     }
@@ -31,8 +32,8 @@ public class UserServiceTest {
     public void getInvalidUser() throws Exception {
         UserDb mockUserDb = mock(UserDb.class);
         UserService service = new UserService((mockUserDb));
-        User invalidUser = new User(1, null, "Nordmann", 12345678, "test@test.no",
-                "Passord", 0, "Testveien 2", 1, "Assistent");
+        User invalidUser = new User("Ola", null, 12345678, "test@test.no",
+                "Passord", 0, "Testveien 2", 1, true);
         when(mockUserDb.getUser("test@test.no")).thenReturn(invalidUser);
         service.getUser("test@test.no");
     }
@@ -42,7 +43,7 @@ public class UserServiceTest {
         UserDb mockUserDb = mock(UserDb.class);
         UserService service = new UserService((mockUserDb));
         User updatedUser = new User("Ola", "Nordmann", 12345678, "test@test.no",
-                "Passord", 0, "Testveien 21", 1, "Assistent");
+                "Passord", 0, "Testveien 2", 1, true);
         when(mockUserDb.updateUser(updatedUser)).thenReturn(true);
         Assert.assertEquals(true, service.updateUser(updatedUser));
     }
@@ -51,8 +52,8 @@ public class UserServiceTest {
     public void updateUserFailed() throws Exception {
         UserDb mockUserDb = mock(UserDb.class);
         UserService service = new UserService((mockUserDb));
-        User updatedUser = new User(1, null, "Nordmann", 12345678, "test@test.no",
-                "Passord", 0, "Testveien 2", 1, "Assistent");
+        User updatedUser = new User("Ola", null, 12345678, "test@test.no",
+                "Passord", 0, "Testveien 2", 1, true);
         when(mockUserDb.updateUser(updatedUser)).thenReturn(false);
         service.updateUser(updatedUser);
     }
@@ -61,18 +62,18 @@ public class UserServiceTest {
     public void createUser() throws Exception {
         UserDb mockUserDb = mock(UserDb.class);
         UserService service = new UserService((mockUserDb));
-        User validUser = new User(1, "Ola", "Nordmann", 12345678, "test@test.no",
-                "Passord", 0, "Testveien 2", 1, "Assistent");
-        when(mockUserDb.getUser("test@test.no")).thenReturn(validUser);
-        Assert.assertEquals(true, service.createUser(validUser));
+        User validUser = new User("Ola", "Nordmann", 12345678, "test@test.no",
+                "Passord", 0, "Testveien 2", 1, true);
+        when(mockUserDb.getUser("test@test.no")).thenReturn(new User());
+        Assert.assertTrue(service.createUser(validUser));
     }
 
     @Test(expected = BadRequestException.class)
     public void createUserFailed() throws Exception {
         UserDb mockUserDb = mock(UserDb.class);
         UserService service = new UserService((mockUserDb));
-        User invalidUser = new User(1, null, "Nordmann", 12345678, "test@test.no",
-                "Passord", 0, "Testveien 2", 1, "Assistent");
+        User invalidUser = new User("Ola", null, 12345678, "test@test.no",
+                "Passord", 0, "Testveien 2", 1, true);
         when(mockUserDb.getUser("test@test.no")).thenReturn(invalidUser);
         service.createUser(invalidUser);
     }
