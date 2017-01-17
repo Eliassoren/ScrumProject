@@ -109,8 +109,8 @@ function generateCalendar( year, month){
 
     $(".day").each(function () {
         $(this).find(".date").text(count);
-        if (monthPreviewed == 1){
-            if(shifts[count-1]!=null){
+        if (monthPreviewed == 1 || (count < 14 && monthPreviewed === 0)){
+            if(shifts[count-1] != null){
                 shiftDesc = shifts[count-1].split(",")[0];
                 shiftTime = shifts[count-1].split(",")[1];
                 var eventdiv = $("<div/>").addClass("event").attr("id","day-"+count-1);
@@ -119,7 +119,6 @@ function generateCalendar( year, month){
                 eventdiv.append($("<span/>").addClass("event-time").text(shiftTime));
             }
         }
-
         if (count < lastDateOfPrevMonth) {
             count++;
         } else {
@@ -127,7 +126,6 @@ function generateCalendar( year, month){
             lastDateOfPrevMonth = lastDateOfMonth;
             monthPreviewed++;
         }
-
     });
     var week = firstDate.getWeek();
 
