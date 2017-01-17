@@ -9,7 +9,6 @@ $(document).ready(function() {
             },
             statusCode: {
                 401: function() {
-                    alert("401!");
                     localStorage.removeItem("token");
                 }
             }
