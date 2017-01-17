@@ -109,7 +109,62 @@ for(var i = 0; i< tab.length;i++){
     out += tab[i]+"\n";
 }
 var title = monthNames[month] + " " + year;
+var shifts = new Array(31);
+shifts[0] = "Dagvakt avdeling 1,07:00-15:00";
+shifts[8] = "Dagvakt avdeling 1,07:00-15:00";
+shifts[10] = "Dagvakt avdeling 1,07:00-15:00";
+shifts[12] = "Dagvakt avdeling 1,07:00-15:00";
+shifts[15] = "Dagvakt avdeling 1,07:00-15:00";
+shifts[16] = "Dagvakt avdeling 1,07:00-15:00";
+shifts[19] = "Dagvakt avdeling 1,07:00-15:00";
+shifts[22] = "Dagvakt avdeling 1,07:00-15:00";
+shifts[25] = "Dagvakt avdeling 1,07:00-15:00";
+shifts[29] = "Dagvakt avdeling 1,07:00-15:00";
+shifts[30] = "Dagvakt avdeling 1,07:00-15:00";
+function generateCalendar( year, month){
+    var firstDate = getFirstDateOfEachMonth(year)[month];
+    var lastDateOfMonth = new Date(firstDate.getFullYear(), firstDate.getMonth() + 1, 0).getDate();
+    var count = getMonday(firstDate);
+    var monday = convertToMonday(firstDate); // first monday of calendar view (of previous month)
+    var monthPreviewed = 0; // 0 when previous, 1 when current, 2 when next
+    var lastDateOfPrevMonth = new Date(monday.getFullYear(), monday.getMonth() + 1, 0).getDate();
+    var shiftDesc = "";
+    var shiftTime = "";
+    moment().year(year);
+    $(".event").remove();
 
+    $(".day").each(function () {
+        $(this).find(".date").text(count);
+        if (monthPreviewed == 1 || (count < 14 && monthPreviewed === 0)){
+            if(shifts[count-1] != null){
+                shiftDesc = shifts[count-1].split(",")[0];
+                shiftTime = shifts[count-1].split(",")[1];
+                var eventdiv = $("<div/>").addClass("event").attr("id","day-"+count-1);
+                $(this).append(eventdiv);
+                eventdiv.append($("<span/>").addClass("event-desc").text(shiftDesc));
+                eventdiv.append($("<span/>").addClass("event-time").text(shiftTime));
+            }
+        }
+        if (count < lastDateOfPrevMonth) {
+            count++;
+        } else {
+            count = 1;
+            lastDateOfPrevMonth = lastDateOfMonth;
+            monthPreviewed++;
+        }
+    });
+    var week = firstDate.getWeek();
+
+    $(".week-number").each(function(){
+        $(this).find(".week").text(week);
+        if(week < moment().isoWeeksInYear()){
+            week++;
+        }else{
+            week = 1;
+        }
+
+    })
+}
 $(document).ready(function() {
     $("#hamburger-toggle").click(function () {
         $("#hamburger-menu").toggleClass("hamburger-menu-open");
@@ -132,41 +187,14 @@ $(document).ready(function() {
         }
         title = monthNames[month] + " " + year;
         $("#month-title").text(title);
-
-        var firstDate = getFirstDateOfEachMonth(year)[month];
-        var lastDate = new Date(firstDate.getFullYear(), firstDate.getMonth() + 1, 0).getDate();
-        var count = getMonday(firstDate);
-        var monday = convertToMonday(firstDate)
-        var lastDateOfPrevMonth = new Date(monday.getFullYear(), monday.getMonth() + 1, 0).getDate();
-        moment().year(year);
-
-        //alert(lastDateOfPrevMonth + " " + lastDate);
-        $(".day").each(function () {
-            $(this).find(".date").text(count);
-            if (count < lastDateOfPrevMonth) {
-                count++;
-            } else {
-                count = 1;
-                lastDateOfPrevMonth = lastDate;
-            }
-
-        });
-        var week = firstDate.getWeek();
-
-        $(".week-number").each(function(){
-            $(this).find(".week").text(week);
-            if(week < moment().isoWeeksInYear()){
-                week++;
-            }else{
-                week = 1;
-            }
-
-        })
+        generateCalendar(year,month);
     });
+
     /**
      * "Increase" month
      */
     $("#right-arrow").click(function () {
+        // Increment month and/or year
         if (month < 11) {
             month++;
         } else {
@@ -175,37 +203,7 @@ $(document).ready(function() {
         }
         title = monthNames[month] + " " + year;
         $("#month-title").text(title);
-
-        var firstDate = getFirstDateOfEachMonth(year)[month];
-        var lastDate = new Date(firstDate.getFullYear(), firstDate.getMonth() + 1, 0).getDate();
-        var count = getMonday(firstDate);
-        var monday = convertToMonday(firstDate)
-        var lastDateOfPrevMonth = new Date(monday.getFullYear(), monday.getMonth() + 1, 0).getDate();
-        moment().year(year);
-       // alert(lastDateOfPrevMonth + " " + lastDate);
-
-        $(".day").each(function () {
-            $(this).find(".date").text(count);
-            if (count < lastDateOfPrevMonth) {
-                count++;
-            } else {
-                count = 1;
-                lastDateOfPrevMonth = lastDate;
-            }
-
-        });
-
-        var week = firstDate.getWeek();
-
-        $(".week-number").each(function(){
-            $(this).find(".week").text(week);
-                if(week < moment().isoWeeksInYear()){
-                    week++;
-                }else{
-                    week = 1;
-                }
-
-        })
+        generateCalendar(year,month);
     });
 });
 
