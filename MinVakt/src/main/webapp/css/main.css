@@ -219,7 +219,7 @@ h2{
 
 @media(max-width: 768px) {
 
-    #calendar .weekdays, #calendar .other-month {
+    #calendar .weekdays{
         display: none;
     }
 
