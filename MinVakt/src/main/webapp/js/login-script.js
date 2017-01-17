@@ -14,6 +14,7 @@ $(document).ready(function() {
                 minlength: "Passordet må bestå av minimum 8 tegn."
             }
         },
+
         submitHandler: function(form) {
             $.ajax({
                 type: "POST",
