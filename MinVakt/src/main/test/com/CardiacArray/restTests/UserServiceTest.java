@@ -23,7 +23,7 @@ public class UserServiceTest {
         //String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, boolean active
         User validUser = new User("Ola", "Nordmann", 12345678, "test@test.no",
                 "Passord", 0, "Testveien 2", 1, true);
-        when(mockUserDb.getUser("test@test.no")).thenReturn(validUser);
+        when(mockUserDb.getUserByEmail("test@test.no")).thenReturn(validUser);
         Assert.assertEquals(service.getUser("test@test.no").getFirstName(), "Ola");
     }
 
@@ -33,7 +33,7 @@ public class UserServiceTest {
         UserService service = new UserService((mockUserDb));
         User invalidUser = new User("Ola", null, 12345678, "test@test.no",
                 "Passord", 0, "Testveien 2", 1, true);
-        when(mockUserDb.getUser("test@test.no")).thenReturn(invalidUser);
+        when(mockUserDb.getUserByEmail("test@test.no")).thenReturn(invalidUser);
         service.getUser("test@test.no");
     }
 
@@ -63,7 +63,7 @@ public class UserServiceTest {
         UserService service = new UserService((mockUserDb));
         User validUser = new User("Ola", "Nordmann", 12345678, "test@test.no",
                 "Passord", 0, "Testveien 2", 1, true);
-        when(mockUserDb.getUser("test@test.no")).thenReturn(new User());
+        when(mockUserDb.getUserByEmail("test@test.no")).thenReturn(new User());
         Assert.assertTrue(service.createUser(validUser));
     }
 
@@ -73,7 +73,7 @@ public class UserServiceTest {
         UserService service = new UserService((mockUserDb));
         User invalidUser = new User("Ola", null, 12345678, "test@test.no",
                 "Passord", 0, "Testveien 2", 1, true);
-        when(mockUserDb.getUser("test@test.no")).thenReturn(invalidUser);
+        when(mockUserDb.getUserByEmail("test@test.no")).thenReturn(invalidUser);
         service.createUser(invalidUser);
     }
 
