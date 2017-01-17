@@ -257,8 +257,13 @@ public class ShiftDb extends DbManager{
     }
 
 
-
-    public void updateShift(Shift shift){
+    /**
+     * @Erik Kjosavik
+     * @param shift
+     * @return Success
+     */
+    public boolean updateShift(Shift shift){
+        boolean success = false;
         SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
         String date = simpleDate.format(shift.getStartTime());
 
@@ -282,11 +287,14 @@ public class ShiftDb extends DbManager{
             statement.execute();
             connection.commit();
             statement.close();
+            success = true;
             }
             catch (SQLException e) {
-            e.printStackTrace();
-            DbManager.rollback();
+                e.printStackTrace();
+                DbManager.rollback();
+                return success;
         }
+        return success;
     }
 
     /**
@@ -331,8 +339,15 @@ public class ShiftDb extends DbManager{
         return returnValue;
     }
 
-    public void setUser(Shift shift, User user) {
+    /**
+     * Adds a user to a shift.
+     * @param shift
+     * @param user
+     * @return Success
+     */
+    public boolean setUser(Shift shift, User user) {
         String sql = "UPDATE user_shift SET user_id = ? WHERE shift_id = ?";
+        boolean success = false;
         try {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, user.getId());
@@ -340,10 +355,13 @@ public class ShiftDb extends DbManager{
             statement.execute();
             connection.commit();
             statement.close();
+            success = true;
         } catch (SQLException e) {
             e.printStackTrace();
             DbManager.rollback();
+            return success;
         }
+        return success;
     }
 
     public static void main(String args[]) throws Exception {
