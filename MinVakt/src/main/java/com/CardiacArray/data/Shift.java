@@ -54,16 +54,16 @@ public class Shift {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStartTime(String startTime) {
+        this.startTime = new Date(Long.parseLong(startTime));
     }
 
     public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setEndTime(String endTime) {
+        this.endTime = new Date(Long.parseLong(endTime));
     }
 
     public int getUserId() {
