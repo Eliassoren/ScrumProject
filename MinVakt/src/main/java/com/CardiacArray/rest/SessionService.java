@@ -11,6 +11,8 @@ import com.CardiacArray.db.DbManager;
 import com.CardiacArray.db.UserDb;
 import java.security.SecureRandom;
 import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import javax.ws.rs.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -43,7 +45,10 @@ public class SessionService {
             if(user.getPassword().equals(password)) {
                 SecureRandom random = new SecureRandom();
                 String token = new BigInteger(130, random).toString(32);
+                LocalDateTime expiredTime = LocalDateTime.now().plusWeeks(1);
+                Timestamp expired = Timestamp.valueOf(expiredTime);
                 user.setToken(token);
+                user.setExpired(expired);
                 userDb.updateUserToken(user);
                 return Response.ok(token).build();
             } else return Response.status(Response.Status.UNAUTHORIZED).build();

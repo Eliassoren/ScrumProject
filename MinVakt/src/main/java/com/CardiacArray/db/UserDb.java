@@ -96,14 +96,13 @@ public class UserDb extends DbManager {
      @return User
      */
     public User getUserByToken(String token){
-        User user = new User();
         try {
             String toSQL = "select * from user join user_category " +
                     "on user.user_category_id = user_category.user_category_id " +
                     "where token=?";
-            statement = connection.prepareStatement(toSQL);
+            PreparedStatement statement = connection.prepareStatement(toSQL);
             statement.setString(1, token);
-            res = statement.executeQuery();
+            ResultSet res = statement.executeQuery();
             if(res.next()){
                 int id = res.getInt("user_id");
                 String firstName= res.getString("first_name");
@@ -118,22 +117,24 @@ public class UserDb extends DbManager {
                 Timestamp expired = res.getTimestamp("expired");
                 boolean active = res.getBoolean("active");
                 LocalDateTime expiredTime = expired.toLocalDateTime();
+                User user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active);
+                res.close();
+                statement.close();
                 if(expiredTime.isBefore(LocalDateTime.now())) {
                     user.setToken(null);
                     user.setExpired(null);
                     updateUserToken(user);
                     return null;
-                }
-                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active);
-                res.close();
-                statement.close();
-            } else{ return null;}
+                } else return user;
+            } else{
+                return null;
+            }
         }
         catch (SQLException e) {
             e.printStackTrace(System.err);
             DbManager.rollback();
+            return null;
         }
-        return user;
     }
 
     /**
@@ -157,7 +158,6 @@ public class UserDb extends DbManager {
             statement.setBoolean(9, user.isActive());
             statement.setInt(10,user.getId());
             statement.execute();
-            connection.commit();
             statement.close();
             return true;
         }catch (SQLException e){
@@ -170,14 +170,11 @@ public class UserDb extends DbManager {
     public boolean updateUserToken(User user) {
         try {
             String toSQL = "UPDATE user SET token = ?, expired = ? WHERE user_id = ?;";
-            LocalDateTime expiredTime = LocalDateTime.now().plusWeeks(1);
-            Timestamp expired = Timestamp.valueOf(expiredTime);
             PreparedStatement statement = connection.prepareStatement(toSQL);
             statement.setString(1, user.getToken());
-            statement.setTimestamp(2, expired);
+            statement.setTimestamp(2, user.getExpired());
             statement.setInt(3, user.getId());
             statement.execute();
-            connection.commit();
             statement.close();
             return true;
 
@@ -197,7 +194,6 @@ public class UserDb extends DbManager {
             statement = connection.prepareStatement(toSQL);
             statement.setInt(1,user.getId());
             statement.execute();
-            connection.commit();
             statement.close();
         }catch (SQLException e){
             e.printStackTrace(System.err);
@@ -225,7 +221,6 @@ public class UserDb extends DbManager {
             statement.setString(8, user.getEmail());
             statement.setBoolean(9, user.isActive());
             statement.execute();
-            connection.commit();
             ResultSet res = statement.getGeneratedKeys();
             if(res.next()){
                 returnValue = res.getInt(1);
