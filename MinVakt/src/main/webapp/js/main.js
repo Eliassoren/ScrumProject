@@ -8,6 +8,7 @@ var monthNames = new Array(12)
 var year = day.getFullYear();
 var date = new Date(new Date().getFullYear(), 0, 1);
 var week = 0;
+var shiftArray = new Array(Number(new Date(year, month + 1, 0).getDate()));
 
 function getShiftById(id){
     $.ajax({
@@ -21,18 +22,18 @@ function getShiftById(id){
 }
 
 function getShiftsForUser(year, month, userId) {
-    console.log(getFirstDateOfEachMonth(year)[month].getTime());
-    console.log(new Date(year, month + 1, 3).getTime());
-    $.ajax({
+        $.ajax({
         type: "GET",
-        url: "/MinVakt/rest/shifts/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + new Date(year, month + 1, 0).getTime() + "/" + userId,
-        success: function(data){
-
-            console.log(data[0]);
-            console.log(data[1]);
-            //return data;
+        url: "/MinVakt/rest/shifts/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + (new Date(year, month + 1, 0)).getTime() + "/" + userId,
+        success: function(year, month, data){
+            console.log(data.length);
+            for (i = 0; i < data.length; i++){
+                console.log(data[i]);
+                var shiftBefore = String(data[i].startTime).split(" ")[2];
+                shiftArray[Number(shiftBefore)] = (data[i]);
+            }
         }
-    })
+    });
 }
 
 // This script is released to the public domain and may be used, modified and
@@ -110,20 +111,10 @@ for(var i = 0; i< tab.length;i++){
 }
 var title = monthNames[month] + " " + year;
 var shifts = new Array(31);
-shifts[0] = "Dagvakt avdeling 1,07:00-15:00";
-shifts[8] = "Dagvakt avdeling 1,07:00-15:00";
-shifts[10] = "Dagvakt avdeling 1,07:00-15:00";
-shifts[12] = "Dagvakt avdeling 1,07:00-15:00";
-shifts[15] = "Dagvakt avdeling 1,07:00-15:00";
-shifts[16] = "Dagvakt avdeling 1,07:00-15:00";
-shifts[19] = "Dagvakt avdeling 1,07:00-15:00";
-shifts[22] = "Dagvakt avdeling 1,07:00-15:00";
-shifts[25] = "Dagvakt avdeling 1,07:00-15:00";
-shifts[29] = "Dagvakt avdeling 1,07:00-15:00";
-shifts[30] = "Dagvakt avdeling 1,07:00-15:00";
-function generateCalendar( year, month){
+function generateCalendar(year, month){
+    console.log(getFirstDateOfEachMonth(year)[month]);
     var firstDate = getFirstDateOfEachMonth(year)[month];
-    var lastDateOfMonth = new Date(firstDate.getFullYear(), firstDate.getMonth() + 1, 0).getDate();
+    var lastDateOfMonth = new Date(year, month + 1, 0).getDate();
     var count = getMonday(firstDate);
     var monday = convertToMonday(firstDate); // first monday of calendar view (of previous month)
     var monthPreviewed = 0; // 0 when previous, 1 when current, 2 when next
@@ -132,13 +123,14 @@ function generateCalendar( year, month){
     var shiftTime = "";
     moment().year(year);
     $(".event").remove();
-
     $(".day").each(function () {
         $(this).find(".date").text(count);
         if (monthPreviewed == 1 || (count < 14 && monthPreviewed === 0)){
-            if(shifts[count-1] != null){
-                shiftDesc = shifts[count-1].split(",")[0];
-                shiftTime = shifts[count-1].split(",")[1];
+            if(shiftArray[count-1] != null){
+
+                shiftDesc = shiftArray[count-1].split(",")[0];
+                shiftTime = shiftArray[count-1].split(",")[1];
+
                 var eventdiv = $("<div/>").addClass("event").attr("id","day-"+count-1);
                 $(this).append(eventdiv);
                 eventdiv.append($("<span/>").addClass("event-desc").text(shiftDesc));
@@ -205,6 +197,8 @@ $(document).ready(function() {
         $("#month-title").text(title);
         generateCalendar(year,month);
     });
+
+    $.when(getShiftsForUser(2017, 0, 16)).then(generateCalendar(2017, 0));
 });
 
 
