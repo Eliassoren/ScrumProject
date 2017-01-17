@@ -5,6 +5,7 @@
  */
 package com.CardiacArray.rest;
 
+import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.data.*;
 import com.CardiacArray.db.DbManager;
 import com.CardiacArray.db.UserDb;
@@ -21,13 +22,12 @@ import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
 
+import javax.ws.rs.core.*;
 
 /**
  *
@@ -39,34 +39,21 @@ public class SessionService {
 
     @Path("/login")
     @POST
-    @Produces("application/json")
-    public Session login(@FormParam("email") String email, @FormParam("password") String password) {
-        User user = userDb.getUser(email);
-        if(user.getEmail() != null) {
-            if (user.getPassword().equals(password)) {
+    public Response login(@FormParam("email") String email, @FormParam("password") String password) {
+        User user = userDb.getUserByEmail(email);
+        System.out.println("test");
+        if(user != null) {
+            System.out.println("test 2");
+            if(user.getPassword().equals(password)) {
+                System.out.println("test 3");
                 SecureRandom random = new SecureRandom();
                 String token = new BigInteger(130, random).toString(32);
-                System.out.println(token);/*
-            user.setToken(token);
-            userDb.updateUser(user);*/
-            } else throw new NotFoundException();
-        } else throw new NotFoundException();
-        return new Session();
+                user.setToken(token);
+                userDb.updateUserToken(user);
+                return Response.ok(token).build();
+            } else return Response.status(Response.Status.UNAUTHORIZED).build();
+        } else return Response.status(Response.Status.UNAUTHORIZED).build();
     }
-
-    @POST
-    @Consumes("application/json")
-    @Produces("application/json")
-    /*public Response login2(@PathParam("email") String email, @PathParam("password") String password) throws URISyntaxException {
-            if(sessionDb1.login(email, password) == -1){
-                HttpSession session = request.getSession();
-                session.setAttribute("session", session);
-                return Response.status(Response.Status.UNAUTHORIZED).build();
-            }
-
-        return Response.ok("token").build();
-    }
-    */
      public static void main(String[] args) throws Exception {
          DbManager dbManager = new DbManager();
          SessionService sc = new SessionService();
