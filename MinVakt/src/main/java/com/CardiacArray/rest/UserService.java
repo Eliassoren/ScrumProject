@@ -61,7 +61,7 @@ public class UserService {
     @Produces(MediaType.APPLICATION_JSON)
     public boolean createUser(User user) {
         User checkUser = userDb.getUser(user.getEmail());
-        if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || checkUser.getEmail() != null || !user.isValidEmail(user.getEmail()))) {
+        if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || checkUser.getEmail() != null || !user.isValidEmail(user.getEmail())) {
             throw new BadRequestException();
         }
         else {
