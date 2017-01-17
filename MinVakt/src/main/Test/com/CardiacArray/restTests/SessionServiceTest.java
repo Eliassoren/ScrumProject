@@ -4,7 +4,6 @@ import com.CardiacArray.data.User;
 import com.CardiacArray.db.UserDb;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -17,8 +16,7 @@ public class SessionServiceTest {
     @Test
     public void login() throws Exception {
         UserDb userDb = mock(UserDb.class);
-        when(userDb.getUser("test@test.no")).thenReturn(validUser);
-        when()
+        when(userDb.getUserByEmail("test@test.no")).thenReturn(validUser);
     }
 
 }
