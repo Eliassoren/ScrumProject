@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.CardiacArray.rest;
 
 import com.CardiacArray.data.User;
@@ -12,7 +7,7 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author OddErik
+ * @author Odd Erik
  */
 
 @Path("/users")
@@ -23,6 +18,11 @@ public class UserService {
         this.userDb = userDb;
     }
 
+    /**
+     *
+     * @param email email of the user
+     * @return user object
+     */
     @GET
     @Path("/{email}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -31,26 +31,37 @@ public class UserService {
         if(userFound.getFirstName() == null || userFound.getLastName() == null) throw new NotFoundException();
         else return userFound;
     }
-    
+
+    /**
+     *
+     * @param user user object
+     * @return true if updated, throws exception if not
+     */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public boolean updateUser(User user) {
-        if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null) {
+        if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || !user.isValidEmail(user.getEmail())) {
             throw new BadRequestException();
         }
+
         boolean updateResponse = userDb.updateUser(user);
-        if (!updateResponse) {
+        if(!updateResponse) {
             throw new BadRequestException();
-        } else {
-            return updateResponse;
         }
+
+        return updateResponse;
     }
 
+    /**
+     *
+     * @param user user object
+     * @return True if the user is created, throw exception if not
+     */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public boolean createUser(User user) {
         User checkUser = userDb.getUser(user.getEmail());
-        if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || checkUser.getEmail() != null) {
+        if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || checkUser.getEmail() != null || !user.isValidEmail(user.getEmail())) {
             throw new BadRequestException();
         }
         else {
