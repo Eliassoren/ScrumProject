@@ -61,15 +61,12 @@ public class ShiftService {
      * @param shift the end date for the shifts
      * @return ArrayList of found shifts
      */
-    @POST
-    @Path("/shiftsforperiod")
+    @GET
+    @Path("/{startTime}/{endTime}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public ArrayList<Shift> getShift(Shift shift) {
-        if (shift.getEndTime().before(shift.getStartTime()) || shift == null){
-            throw  new BadRequestException();
-        }
-        return shiftDb.getShiftsForPeriod(shift.getStartTime(),shift.getEndTime());
+    public ArrayList<Shift> getShift(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime) {
+        if (startTime > endTime) throw  new BadRequestException();
+        return shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
     }
 
     /**
