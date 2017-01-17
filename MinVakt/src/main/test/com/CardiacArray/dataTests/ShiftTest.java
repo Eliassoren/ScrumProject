@@ -3,7 +3,6 @@ package com.CardiacArray.dataTests;
 import com.CardiacArray.data.Shift;
 import junit.framework.TestCase;
 import org.junit.Test;
-
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;

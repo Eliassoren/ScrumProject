@@ -3,7 +3,6 @@ package com.CardiacArray.restTests;
 import com.CardiacArray.data.User;
 import com.CardiacArray.db.UserDb;
 import com.CardiacArray.rest.UserService;
-import javassist.NotFoundException;
 import org.junit.Assert;
 import org.junit.Test;
 
