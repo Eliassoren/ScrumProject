@@ -29,8 +29,10 @@ public class AuthFilter implements ContainerRequestFilter {
      */
     @Override
     public void filter(ContainerRequestContext containerRequest) throws WebApplicationException {
+        System.out.println("AuthFilter");
         String authHeader = containerRequest.getHeaderString(HttpHeaders.AUTHORIZATION);
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println("Token not found");
             throw new NotAuthorizedException("Error");
         }
         String token = authHeader.substring("Bearer".length()).trim();
@@ -38,8 +40,10 @@ public class AuthFilter implements ContainerRequestFilter {
             UserDb userDb = new UserDb();
             User user = userDb.getUserByToken(token);
             if(user == null) {
+                System.out.println("User not found");
                 throw new NotAuthorizedException("Error");
             } else {
+                System.out.println("User found");
                 return;
             }
         } catch(Exception e) {

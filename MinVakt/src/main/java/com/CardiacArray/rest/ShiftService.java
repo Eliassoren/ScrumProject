@@ -19,7 +19,7 @@ public class ShiftService {
     private ShiftDb shiftDb = new ShiftDb();
 
     public ShiftService() throws Exception {}
-
+/*
     @GET
     @Path("/{date}/{shiftId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -42,7 +42,7 @@ public class ShiftService {
      * @param userId the id that identifies the user
      * @return ArrayList of found shifts
      */
-
+/*
     @GET
     @Path("/{dateStart}/{dateEnd}/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -52,7 +52,7 @@ public class ShiftService {
         }
         return shiftDb.getShiftsForPeriod(dateStart,dateEnd,userId);
     }
-
+*/
     /**
      *
      * Returns a list of shifts for in a given period
@@ -61,16 +61,16 @@ public class ShiftService {
      * @param dateEnd the end date for the shifts
      * @return ArrayList of found shifts
      */
-
+/*
     @GET
     @Path("/{dateStart}/{dateEnd}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)/*
     public ArrayList<Shift> getShift(Date dateStart, Date dateEnd) {
         if (dateEnd.before(dateStart)){
             throw  new BadRequestException();
         }
         return shiftDb.getShiftsForPeriod(dateStart,dateEnd);
-    }
+    }*/
 
     /**
      * Updates an existing shift
@@ -78,21 +78,21 @@ public class ShiftService {
      * @param shift-object with updated infomation
      * @return boolean value if shift correctly updated
      */
-    @PUT
+    /*@PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public boolean updateShift(Shift shift) {
         if(validateShift(shift)){
             return shiftDb.updateShift(shift);
         }
        throw new BadRequestException();
-    }
+    }*/
 
     /**
      *
      * @param shift-object to be created
      * @return  a negative number if the shift was not created. shiftId if it was created
      */
-    @POST
+   /* @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public int createShift(Shift shift) {
         if(!validateShift(shift)){
@@ -115,5 +115,5 @@ public class ShiftService {
             return true;
         }
         return false;
-    }
+    }*/
 }

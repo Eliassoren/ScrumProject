@@ -41,13 +41,10 @@ public class SessionService {
 
     @Path("/login")
     @POST
-    public Response login(@FormParam("email") String email, @FormParam("password") String password) {
+    public Response login(@FormParam("login_email") String email, @FormParam("login_password") String password) {
         User user = userDb.getUserByEmail(email);
-        System.out.println("test");
         if(user != null) {
-            System.out.println("test 2");
             if(user.getPassword().equals(password)) {
-                System.out.println("test 3");
                 SecureRandom random = new SecureRandom();
                 String token = new BigInteger(130, random).toString(32);
                 user.setToken(token);
@@ -56,6 +53,15 @@ public class SessionService {
             } else return Response.status(Response.Status.UNAUTHORIZED).build();
         } else return Response.status(Response.Status.UNAUTHORIZED).build();
     }
+
+    @Secured
+    @GET
+    @Path("/checktoken")
+    public Response checkToken() {
+        System.out.println("checkToken");
+        return Response.ok().build();
+    }
+
      public static void main(String[] args) throws Exception {
          DbManager dbManager = new DbManager();
      }
