@@ -9,6 +9,17 @@ var year = day.getFullYear();
 var date = new Date(new Date().getFullYear(), 0, 1);
 var week = 0;
 
+function getShifts(){
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/1",
+        success: function(data){
+            console.log(data);
+            console.log(data);
+        }
+    })
+}
+
 // This script is released to the public domain and may be used, modified and
 // distributed without restrictions. Attribution not necessary but appreciated.
 // Source: https://weeknumber.net/how-to/javascript
@@ -182,3 +193,30 @@ $(document).ready(function() {
         })
     });
 });
+
+
+/*function getShiftArray(month, year) {
+    var firstDate = getFirstDateOfEachMonth(year)[month];
+    var lastDate = new Date(firstDate.getFullYear(), firstDate.getMonth() + 1, 0);
+    return $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/1",
+        contentType: "application/json",
+        response: "json",
+        data: JSON.stringify({
+            shiftId:"0",
+            startTime: firstDate.getMilliseconds(),
+            endTime: lastDate.getMilliseconds(),
+            userId:0,
+            userName:"hallo",
+            departmentId:"0",
+            role:"0",
+            tradeable:"false",
+            responsibleUser:"false",
+        }),
+        success: function (data){
+            var jsonshit = JSON.parse(data);
+            console.log(jsonshit);
+        }
+    })
+}*/

@@ -84,15 +84,21 @@ public class ShiftDb extends DbManager{
 
     /**
      * @author Erik
-     * @param shitId
+     * @param shiftId
      * @return shift
      */
-    public Shift getShift(int shitId){
+    public Shift getShift(int shiftId){
         Shift shift = null;
-        String sql = "Select * from shift WHERE shift_id=?";
+        String sql = "SELECT shift.shift_id, shift.date, shift.start,\n" +
+                "  shift.end, shift.department_id, shift.user_category_id,\n" +
+                "  shift.responsible_user, shift.tradeable, user.user_id,\n" +
+                "  concat_ws(' ', user.first_name, user.last_name) AS user_name FROM shift\n" +
+                "  JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
+                "  JOIN user ON user_shift.user_id = user.user_id\n" +
+                "WHERE shift.shift_id = ?";
         try {
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, shitId);
+            statement.setInt(1, shiftId);
             res = statement.executeQuery();
 
             if (!res.next()) {
@@ -105,12 +111,15 @@ public class ShiftDb extends DbManager{
                 Date endDateFormatted = new Date(dateFromQuery.getTime() + endTimeFromQuery.getTime() + 3600000L);
 
                 shift = new Shift(
+                        res.getInt("shift_id"),
                         startDateFormatted,
                         endDateFormatted,
+                        res.getInt("user_id"),
+                        res.getString("user_name"),
                         res.getInt("department_id"),
                         res.getInt("user_category_id"),
-                        res.getBoolean("tradeable"));
-                res.close();
+                        res.getBoolean("tradeable"),
+                        res.getBoolean("responsible_user"));
                 statement.close();
             }
         } catch (SQLException e) {
