@@ -271,7 +271,12 @@ public class ShiftDb extends DbManager{
      * @param shift
      * @return Success
      */
-    public boolean updateShift(Shift shift){
+    public boolean updateShift(Shift shift) {
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         boolean success = false;
         SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
         String date = simpleDate.format(shift.getStartTime());
