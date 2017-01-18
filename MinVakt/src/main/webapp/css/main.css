@@ -9,7 +9,6 @@ body{
     background-color: #016cc2;
     padding: 0;
 }
-
 #h1-title{
     color: white;
     font-size: 56px;
@@ -20,7 +19,6 @@ body{
     height: 100%;
     overflow: hidden;
 }
-
 #h1-title a {
     color: white;
 }
@@ -61,7 +59,6 @@ body{
     text-decoration: none;
     border-style: none;
 }
-
 
 .icon-bar > a:focus {
     color: black;
@@ -118,7 +115,6 @@ h2{
     color: #8e352e;
     text-decoration: none;
 }
-
 #calendar ul {
     list-style: none;
     padding: 0;
