@@ -93,8 +93,8 @@ public class ShiftDb extends DbManager{
                 "  shift.end, shift.department_id, shift.user_category_id,\n" +
                 "  shift.responsible_user, shift.tradeable, user.user_id,\n" +
                 "  concat_ws(' ', user.first_name, user.last_name) AS user_name FROM shift\n" +
-                "  JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
-                "  JOIN user ON user_shift.user_id = user.user_id\n" +
+                "  LEFT JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
+                "  LEFT JOIN user ON user_shift.user_id = user.user_id\n" +
                 "WHERE shift.shift_id = ?";
         try {
             statement = connection.prepareStatement(sql);
