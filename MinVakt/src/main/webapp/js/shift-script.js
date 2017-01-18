@@ -128,3 +128,13 @@ function setShiftTradeablePut(shift, bool) {
     })
 }
 
+function getAvailableShifts(startTime, endTime) {
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/tradeable/" + startTime + "/" + endTime,
+        success: function (data) {
+            return data;
+        }
+    })
+}
+

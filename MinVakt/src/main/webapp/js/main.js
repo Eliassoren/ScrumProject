@@ -27,13 +27,15 @@ function getShiftsForUser(year, month, userId) {
             //async: false,
         success: function(data){
             console.log(data.length);
+            shiftArray = new Array(Number(new Date(year, month + 1, 0).getDate()));
             for (i = 0; i < data.length; i++){
                 console.log(" Lagt til " + data[i].shiftId);
                 var shiftBefore = String(new Date(data[i].startTime)).split(" ")[2];
                 console.log(" Split :" + String(new Date(data[i].startTime)).split(" ")[2]);
                 shiftArray[Number(shiftBefore)] = data[i];
             }
-            generateCalendar(year, month);
+            generateCalendar(shiftArray,year, month);
+
         }
     });
 }
@@ -115,11 +117,25 @@ var title = monthNames[month] + " " + year;
 var shifts = new Array(31);
 
 function clearCalendar() {
+    //alert("clear");
     $(".event").remove();
 }
 
+function formatTime(string) {
+    var time = "";
+    var hour = string.split(":")[0];
+    var min = string.split(":")[1];
+    if (Number(hour) < 10) {
+        time += "0" + hour + ":";
+    } else time += hour + ":";
+    if (Number(min) < 10) {
+        time += "0" + min;
+    } else time += min;
+    return time;
+}
 
-function generateCalendar(year, month){
+
+function generateCalendar(shiftArray,year, month){
     console.log(getFirstDateOfEachMonth(year)[month]);
     var firstDate = getFirstDateOfEachMonth(year)[month];
     var lastDateOfMonth = new Date(year, month + 1, 0).getDate();
@@ -128,17 +144,15 @@ function generateCalendar(year, month){
     var monthPreviewed = 0; // 0 when previous, 1 when current, 2 when next
     var lastDateOfPrevMonth = new Date(monday.getFullYear(), monday.getMonth() + 1, 0).getDate();
     var shiftDesc = "";
-    var shiftTime = "";
+    var shiftTime = "h";
     moment().year(year);
-    $(".event").remove();
+    //$(".event").remove();
     $(".day").each(function () {
         $(this).find(".date").text(count);
         if (monthPreviewed == 1 || (count < 14 && monthPreviewed === 0)){
             if(shiftArray[count] != null){
-
-                shiftDesc = "Avd: " +  shiftArray[count].departmentId;
-                shiftTime = new Date(shiftArray[count].startTime).getHours() + ":" + new Date(shiftArray[count].startTime).getMinutes() + " - " + new Date(shiftArray[count].endTime).getHours() + ":" + new Date(shiftArray[count].endTime).getMinutes();
-
+                shiftDesc = "Avdeling " +  shiftArray[count].departmentId;
+                shiftTime = formatTime(new Date(shiftArray[count].startTime))) + " - " + formatTime(new Date(shiftArray[count].endTime)));
                 var eventdiv = $("<div/>").addClass("event").attr("id","day-"+count-1);
                 $(this).append(eventdiv);
                 eventdiv.append($("<span/>").addClass("event-desc").text(shiftDesc));
@@ -178,7 +192,6 @@ $(document).ready(function() {
      * "Decrease" month
      */
     $("#left-arrow").click(function () {
-
         if (month > 0) {
             month--;
         } else {
@@ -187,8 +200,9 @@ $(document).ready(function() {
         }
         title = monthNames[month] + " " + year;
         $("#month-title").text(title);
+        //clearCalendar();
         clearCalendar();
-        generateCalendar(year,month);
+        getShiftsForUser(year,month,16);
     });
 
     /**
@@ -205,10 +219,11 @@ $(document).ready(function() {
         title = monthNames[month] + " " + year;
         $("#month-title").text(title);
         clearCalendar();
-        generateCalendar(year,month);
+        getShiftsForUser(year,month,16);
+        //clearCalendar();
     });
 
-    $.when(getShiftsForUser(2017, 0, 16)).then(generateCalendar(2017, 0));
+    $.when(getShiftsForUser(2017, month, 16)).then(generateCalendar(2017, 0));
 });
 
 

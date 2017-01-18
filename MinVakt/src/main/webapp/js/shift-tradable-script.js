@@ -35,15 +35,14 @@ function formatTime(string) {
     return time;
 }
 
-window.onload = function addRow() {
+function addRow(data) {
 
     //DUMMY DATA
-    var text= '[{"shiftId":1,"startTime":1483254000000,"endTime":1483282800000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":false,"responsibleUser":false},{"shiftId":6,"startTime":1483542000000,"endTime":1483570740000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":false,"responsibleUser":false}]'
-    var obj = JSON.parse(text);
-    console.log(obj);
+    //var text= '[{"shiftId":1,"startTime":1483254000000,"endTime":1483282800000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":true,"responsibleUser":false},{"shiftId":6,"startTime":1483542000000,"endTime":1483570740000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":false,"responsibleUser":false}]'
+    var obj = data;
 
     //TODO this needs to be removed after the table slector below works
-    table = "day-table";
+    var table = "day-table";
 
 
     if (!document.getElementsByTagName) return;
@@ -53,6 +52,7 @@ window.onload = function addRow() {
         //TODO: This part needs to add to the correct table given a working time.
 
         var startTime = new Date(obj[i].startTime).getHours();
+        var isFree = obj[i].tradeable;
 
         if (startTime >= 8 && startTime < 16) {
             table = "day-table";
@@ -63,8 +63,6 @@ window.onload = function addRow() {
         } else {
             alert("ERROR CHECK THE ADD ROW FUNCTION IN SHIFT-SCRIPT.JS!")
         }
-
-
 
         tabBody = document.getElementById(table);
         row = document.createElement("tr");
@@ -82,6 +80,9 @@ window.onload = function addRow() {
         row.appendChild(cell3);
         tabBody.appendChild(row);
         //table = "evening-table";
+        if (isFree) {
+            $('tr').css('background-color', '#4DFA90');
+        }
     }
 };
 
@@ -124,3 +125,20 @@ function setShiftTradeablePut(shift, bool) {
     })
 }
 
+function getAvailableShifts(startTime, endTime) {
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/tradeable/" + startTime + "/" + endTime,
+        success: function (data) {
+            addRow(data);
+        }
+    })
+}
+
+$(document).ready(function() {
+    getAvailableShifts(0,1589483849399);
+});
+
+$( function() {
+    $("#date-picker" ).datepicker();
+});
