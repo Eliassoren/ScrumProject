@@ -40,6 +40,7 @@ public class SessionService {
 
     @Path("/login")
     @POST
+    @Produces(MediaType.APPLICATION_JSON)
     public Response login(@FormParam("login_email") String email, @FormParam("login_password") String password) {
         User user = userDb.getUserByEmail(email);
         if(user != null) {
@@ -51,6 +52,7 @@ public class SessionService {
                 user.setToken(token);
                 user.setExpired(expired);
                 userDb.updateUserToken(user);
+                Login login = new Login(user.getId(), token, true);
                 return Response.ok(token).build();
             } else return Response.status(Response.Status.UNAUTHORIZED).build();
         } else return Response.status(Response.Status.UNAUTHORIZED).build();
