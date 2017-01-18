@@ -211,10 +211,13 @@ public class ShiftDb extends DbManager{
         String onlyDateStart= simpleDate.format(dateStart);
         String onlyDateEnd = simpleDate.format(dateEnd);
 
-        String sql = "SELECT shift.shift_id, shift.date, shift.start, shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable,\n" +
-                "    user.user_id, concat_ws(' ', user.first_name, user.last_name) AS user_name\n" +
-                "FROM shift\n" +
-                "WHERE shift.date >= ? AND shift.date <= ?";
+        String sql = "SELECT shift.shift_id, shift.date, shift.start," +
+                " shift.end, shift.department_id, shift.user_category_id," +
+                " shift.responsible_user, shift.tradeable, user.user_id," +
+                " concat_ws(' ', user.first_name, user.last_name) AS user_name FROM shift" +
+        " LEFT JOIN user_shift ON shift.shift_id = user_shift.shift_id" +
+        " LEFT JOIN user ON user_shift.user_id = user.user_id" +
+        "  WHERE shift.date >= ? AND shift.date <= ? ";
 
         try {
             statement = connection.prepareStatement(sql);
