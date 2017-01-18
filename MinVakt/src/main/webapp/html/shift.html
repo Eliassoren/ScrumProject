@@ -4,13 +4,10 @@
     <link rel= "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/shift-style.css">
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
     <script type="text/javascript" src="../js/shift-script.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <title>MinVakt</title>
 
@@ -27,74 +24,55 @@
             <li><a href="#">Logg ut</a></li>
         </ul>
     </div>
+
+    <div id="icon-bar-right" class="icon-bar">
+        <a id="search" href="#" class="fa fa-search-right"></a>
+    </div>
     <h1 id="h1-title">
         <a id="search-toggle" href="/MinVakt/">MinVakt</a>
     </h1>
-    <div class="icon-bar">
-        <a id="search" href="#" class="fa fa-search-right"></a>
-
-    </div>
 </div>
 
 <div class="main-area">
-
-    <div class="temp">
-
-        <div class="picker-div">
-            <select class="section-picker picker">
-                <option value="" disabled selected>Velg avdeling</option>
-                <option>Apples</option>
-                <option>Pineapples</option>
-                <option>Chocklate</option>
-                <option>Pancakes</option>
-            </select>
-        </div>
-
-        <div class="picker-div">
-            <input type="text" id="date-picker" class="date-picker picker" value="Dato">
-        </div>
-
-    </div>
-
     <div class="dropdown" id="day">
         <button class="dropdown-button" id="dropdown-toggle-day">Dagvakt</button>
         <div class="table-div">
-            <table class="table" id="day-table">
-                <tr>
-                    <th>Navn</th>
-                    <th>Start</th>
-                    <th>Slutt</th>
-                    <th>Stilling</th>
-                </tr>
-            </table>
+        <table class="table" id="day-table">
+            <tr>
+                <th>Navn</th>
+                <th>Start</th>
+                <th>Slutt</th>
+                <th>Stilling</th>
+            </tr>
+        </table>
         </div>
     </div>
 
     <div class="dropdown" id="evening">
         <button class="dropdown-button" id="dropdown-toggle-evening">Kveldsvakt</button>
         <div class="table-div">
-            <table class="table" id="evening-table">
-                <tr>
-                    <th>Navn</th>
-                    <th>Start</th>
-                    <th>Slutt</th>
-                    <th>Stilling</th>
-                </tr>
-            </table>
+        <table class="table" id="evening-table">
+            <tr>
+                <th>Navn</th>
+                <th>Start</th>
+                <th>Slutt</th>
+                <th>Stilling</th>
+            </tr>
+        </table>
         </div>
     </div>
 
     <div class="dropdown" id="night">
         <button class="dropdown-button" id="dropdown-toggle-night">Nattvakt</button>
         <div class="table-div">
-            <table class="table" id="night-table">
-                <tr>
-                    <th>Navn</th>
-                    <th>Start</th>
-                    <th>Slutt</th>
-                    <th>Stilling</th>
-                </tr>
-            </table>
+        <table class="table" id="night-table">
+            <tr>
+                <th>Navn</th>
+                <th>Start</th>
+                <th>Slutt</th>
+                <th>Stilling</th>
+            </tr>
+        </table>
         </div>
     </div>
 </div>

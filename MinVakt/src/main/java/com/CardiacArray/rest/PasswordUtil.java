@@ -12,11 +12,11 @@ public class PasswordUtil {
      * Creates hashed password
      *
      * @param password user password
-     * @param email user email for salt-string
+     * @param firstName user's first name for salt-string
      * @return hashed password as string
      */
-    public String hashPassword(String password, String email) {
-        String salt = new StringBuilder(email).reverse().toString();
+    public String hashPassword(String password, String firstName) {
+        String salt = new StringBuilder(firstName).reverse().toString();
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update((password + salt).getBytes());
@@ -25,6 +25,7 @@ public class PasswordUtil {
             for(byte b : hashedPassword) {
                 sb.append(String.format("%02x", b & 0xff));
             }
+            System.out.println(sb.toString());
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {
         }
@@ -35,12 +36,12 @@ public class PasswordUtil {
      * Verifies email and password from user
      *
      * @param givenPassword input password
-     * @param email user email
+     * @param firstName user's first name
      * @param userPassword hashed password from database
      * @return boolean true if verify succeeded, false else
      */
-    public boolean verifyPassword(String givenPassword, String email, String userPassword) {
-        String inputHashed = hashPassword(givenPassword,email);
+    public boolean verifyPassword(String givenPassword, String firstName, String userPassword) {
+        String inputHashed = hashPassword(givenPassword,firstName);
         return inputHashed.equals(userPassword);
     }
 }
