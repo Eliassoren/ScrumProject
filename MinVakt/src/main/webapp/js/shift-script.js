@@ -51,16 +51,18 @@ window.onload = function addRow() {
     for (var i = 0; i < obj.length; i++) {
 
         //TODO: This part needs to add to the correct table given a working time.
-        /*
-         if (tableSelect == 1) {
+
+        var startTime = new Date(obj[i].startTime).getHours();
+
+         if (startTime >= 8 && startTime < 16) {
          table = "day-table";
-         } else if (tableSelect == 2) {
+         } else if (startTime >= 16 && startTime < 25) {
          table = "evening-table";
-         } else if (tableSelect == 3) {
+         } else if (startTime >= 0 && startTime < 8) {
          table = "night-table";
          } else {
          alert("ERROR CHECK THE ADD ROW FUNCTION IN SHIFT-SCRIPT.JS!")
-         }*/
+         }
 
 
 
@@ -71,7 +73,7 @@ window.onload = function addRow() {
             cell3 = document.createElement("td");
             cell4 = document.createElement("td");
             textnode1 = document.createTextNode(obj[i].userName);
-            textnode2 = document.createTextNode(formatTime(new Date(obj[i].startTime).getHours() + ":" + new Date(obj[i].startTime).getMinutes()));
+            textnode2 = document.createTextNode(formatTime(startTime + ":" + new Date(obj[i].startTime).getMinutes()));
             textnode3 = document.createTextNode(formatTime(new Date(obj[i].endTime).getHours() + ":" + new Date(obj[i].endTime).getMinutes()));
             textnode4 = document.createTextNode(obj[i].departmentId);
             cell1.appendChild(textnode1);
