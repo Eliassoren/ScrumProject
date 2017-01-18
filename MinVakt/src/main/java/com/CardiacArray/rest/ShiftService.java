@@ -58,7 +58,7 @@ public class ShiftService {
      *
      * Returns a list of shifts for in a given period
      *
-     * @param shift the end date for the shifts
+     * @param startTime the end date for the shifts
      * @return ArrayList of found shifts
      */
     @GET
