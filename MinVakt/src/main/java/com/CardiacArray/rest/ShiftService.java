@@ -48,7 +48,6 @@ public class ShiftService {
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime),userId);
         Map<Shift, Shift> map = new HashMap<>();
         for (Shift shiftElement : shifts) {
-            System.out.println("Hallo " + shiftElement);
             map.put(shiftElement, shiftElement);
         }
         return map.values();
@@ -64,9 +63,14 @@ public class ShiftService {
     @GET
     @Path("/{startTime}/{endTime}")
     @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList<Shift> getShift(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime) {
+    public Collection<Shift> getShift(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime) {
         if (startTime > endTime) throw  new BadRequestException();
-        return shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
+        Map<Shift, Shift> map = new HashMap<>();
+        for (Shift shiftElement : shifts){
+            map.put(shiftElement, shiftElement);
+        }
+        return map.values();
     }
 
     /**
@@ -98,6 +102,21 @@ public class ShiftService {
         int responseId = shiftDb.createShift(shift);
         if(responseId < 0) throw new BadRequestException();
         else return responseId;
+    }
+
+    @GET
+    @Path("/tradeable/{startTime}/{endTime}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Shift> getTradeable(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
+        if (startTime > endTime) throw  new BadRequestException();
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
+        Map<Shift, Shift> map = new HashMap<>();
+        for(Shift shiftElement: shifts){
+            if(shiftElement.isTradeable()){
+                map.put(shiftElement,shiftElement);
+            }
+        }
+        return map.values();
     }
 
     private boolean validateShift(Shift shift){
