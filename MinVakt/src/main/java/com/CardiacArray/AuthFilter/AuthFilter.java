@@ -9,6 +9,7 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.ext.Provider;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import com.CardiacArray.data.User;
@@ -40,6 +41,13 @@ public class AuthFilter implements ContainerRequestFilter {
             if(user == null) {
                 throw new NotAuthorizedException("Error");
             } else {
+                LocalDateTime expiredTime = user.getExpired().toLocalDateTime();
+                if(expiredTime.isBefore(LocalDateTime.now())) {
+                    user.setToken(null);
+                    user.setExpired(null);
+                    userDb.updateUserToken(user);
+                    throw new NotAuthorizedException("Error");
+                }
                 return;
             }
         } catch(Exception e) {
