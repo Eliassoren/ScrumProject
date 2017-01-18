@@ -5,12 +5,10 @@ public class Login {
 
     private int id;
     private String token;
-    private boolean loggedIn;
 
-    public Login(int id, String token, boolean loggedIn) {
+    public Login(int id, String token) {
         this.id = id;
         this.token = token;
-        this.loggedIn = loggedIn;
     }
 
     public Login() {
@@ -30,13 +28,5 @@ public class Login {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public boolean isLoggedIn() {
-        return loggedIn;
-    }
-
-    public void setLoggedIn(boolean loggedIn) {
-        this.loggedIn = loggedIn;
     }
 }

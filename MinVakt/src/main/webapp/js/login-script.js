@@ -47,14 +47,16 @@ $(document).ready(function() {
                 type: "POST",
                 url: "/MinVakt/rest/session/login",
                 data: $(form).serialize(),
-                response: "text",
+                response: "json",
                 statusCode: {
                     401: function() {
                         $("#error-message").text("Feil e-postadresse eller passord.");
                     }
                 },
-                success: function(token) {
-                    localStorage.setItem("token", token);
+                success: function(loginObj) {
+                    localStorage.setItem("token", loginObj.token);
+                    alert(loginObj.token);
+                    localStorage.setItem("userid", loginObj.id);
                     window.location.replace("/MinVakt/html/calendar.html");
                 }
             });
