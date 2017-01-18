@@ -83,3 +83,27 @@ window.onload = function addRow() {
     }
 }
 
+function setShiftTradeable(id) {
+    var shift = getShiftById(id);
+    $.ajax({
+        type: "PUT",
+        url: "/MinVakt/rest/shifts/",
+        data: JSON.stringify({
+            shiftId: shift.shiftId
+            startTime: shift.startTime,
+            endTime: shift.endTime,
+            userId: shift.userId,
+            userName: shift.userName,
+            departmentId: shift.departmentId,
+            role: shift.role,
+            tradeable: "true",
+            responsibleUser: shift.responsibleUser,
+        }),
+        success: function (data) {
+            console.log(data);
+            returnValue = JSON.parse(data);
+            return returnValue;
+        }
+    })
+}
+
