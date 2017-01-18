@@ -306,6 +306,7 @@ $(document).ready(function() {
 });
 
 function getShiftAndTrade(id, bool){
+    alert(localStorage.getItem("token"));
     $.ajax({
         type: "GET",
         url: "/MinVakt/rest/shifts/" + id,
@@ -324,6 +325,7 @@ function getShiftAndTrade(id, bool){
 }
 
 function setShiftTradeablePut(shift, bool) {
+    alert(localStorage.getItem("token"));
     $.ajax({
         headers: {
             'Accept': 'application/json',
