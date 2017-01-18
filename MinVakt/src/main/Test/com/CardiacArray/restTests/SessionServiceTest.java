@@ -2,6 +2,7 @@ package com.CardiacArray.restTests;
 
 import com.CardiacArray.data.User;
 import com.CardiacArray.db.UserDb;
+import com.CardiacArray.rest.PasswordUtil;
 import com.CardiacArray.rest.SessionService;
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ import static org.mockito.Mockito.*;
  */
 public class SessionServiceTest {
     User validUser = new User("Ola", "Nordmann", 12345678, "test@test.no",
-            "Passord", 0, "Testveien 2", 1, true);
+            "fd2fa59c22d8353ea4e7b3a51329d27eac86ebeaea0a5e653515035c8e51309d", 0, "Testveien 2", 1, true);
 
     @Test
     public void loginSuccess() throws Exception {

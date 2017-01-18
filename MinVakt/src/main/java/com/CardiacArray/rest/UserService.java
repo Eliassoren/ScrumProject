@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 @Path("/users")
 public class UserService {
     private UserDb userDb = new UserDb();
+    private PasswordUtil passwordUtil = new PasswordUtil();
 
     public UserService(UserDb userDb) throws Exception {
         this.userDb = userDb;
@@ -72,7 +73,10 @@ public class UserService {
     public boolean createUser(User user) {
         User checkUser = userDb.getUserByEmail(user.getEmail());
         if(checkUser.getFirstName() == null && checkUser.getLastName() == null){
+
+            user.setPassword(passwordUtil.hashPassword(user.getPassword(),user.getEmail()));
             userDb.createUser(user);
+
             return true;
         }
         else throw new BadRequestException();
