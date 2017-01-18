@@ -34,7 +34,7 @@ function getShiftsForUser(year, month, userId) {
                 console.log(" Split :" + String(new Date(data[i].startTime)).split(" ")[2]);
                 shiftArray[Number(shiftBefore)] = data[i];
             }
-            generateCalendar(shiftArray,year, month);
+            generateCalendar(shiftArray, year, month);
 
         }
     });
@@ -121,7 +121,8 @@ function clearCalendar() {
     $(".event").remove();
 }
 
-function formatTime(string) {
+function formatTime(date) {
+    var string = date.getHours() + ":" + date.getMinutes();
     var time = "";
     var hour = string.split(":")[0];
     var min = string.split(":")[1];
@@ -152,8 +153,8 @@ function generateCalendar(shiftArray,year, month){
         if (monthPreviewed == 1 || (count < 14 && monthPreviewed === 0)){
             if(shiftArray[count] != null){
                 shiftDesc = "Avdeling " +  shiftArray[count].departmentId;
-                shiftTime = formatTime(new Date(shiftArray[count].startTime))) + " - " + formatTime(new Date(shiftArray[count].endTime)));
-                var eventdiv = $("<div/>").addClass("event").attr("id","day-"+count-1);
+                shiftTime = formatTime(new Date(shiftArray[count].startTime)) + " - " + formatTime(new Date(shiftArray[count].endTime));
+                var eventdiv = $("<div/>").addClass("event").attr("shiftId", shiftArray[count].shiftId);
                 $(this).append(eventdiv);
                 eventdiv.append($("<span/>").addClass("event-desc").text(shiftDesc));
                 eventdiv.append($("<span/>").addClass("event-time").text(shiftTime));
@@ -223,8 +224,81 @@ $(document).ready(function() {
         //clearCalendar();
     });
 
+    $(".day").click(function(){
+        var shiftId = $(this).children('.event').attr('shiftId');
+        if($(".event-open").length == 0){
+            $("body").prepend("<div class='event-open'></div>");
+            $.ajax({
+                type: "GET",
+                url: "/MinVakt/rest/shifts/" + shiftId,
+                success: function(data){
+                    console.log(data);
+                    $('.event-open').append('<h5>Shift ID: ' +data.shiftId + '</h5>');
+                    $('.event-open').append("<p><b>Tid:</b> " + formatTime(new Date(data.startTime)) + ":" + formatTime(new Date(data.endTime)) + "</p>");
+                    $('.event-open').append('<p> <b>Ansatt: </b> ' +data.userName + '</p>');
+                    $('.event-open').append("<div class='button'>Lukk</div>").click(function(){
+                        $('.event-open').remove();
+                    });
+                    $('.event-open').append("<div class='button-tradeable'>Sett ledig</div>").click(function(){
+                        getShiftAndTrade(data.shiftId, true);
+                    });
+
+
+                }
+            })
+        }
+
+    });
+
     $.when(getShiftsForUser(2017, month, 16)).then(generateCalendar(2017, 0));
 });
+
+function getShiftAndTrade(id, bool){
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/" + id,
+        success: function(data){
+            console.log(data);
+            setShiftTradeablePut(data, bool)
+        }
+    })
+}
+
+function setShiftTradeablePut(shift, bool) {
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "PUT",
+        url: "/MinVakt/rest/shifts/",
+        dataType: 'json',
+        data: JSON.stringify({
+            shiftId: shift.shiftId,
+            startTime: shift.startTime,
+            endTime: shift.endTime,
+            userId: shift.userId,
+            userName: shift.userName,
+            departmentId: shift.departmentId,
+            role: shift.role,
+            tradeable: bool,
+            responsibleUser: shift.responsibleUser
+        }),
+        success: function (data) {
+            console.log("Result: " + data);
+            returnValue = JSON.parse(data);
+            if(returnValue) {
+                $("body").prepend("<div class='event-open'></div>");
+                $('.event-open').append('<h3> Din vakt er nå tilgjengelig for bytte </h3>');
+                $('.event-open').append("<div class='button'>Lukk</div>").click(function(){
+                    $('.event-open').remove();
+                });
+            }
+            return returnValue;
+        }
+    })
+}
+
 
 
 /*function getShiftArray(month, year) {
