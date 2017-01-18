@@ -127,26 +127,37 @@ function generateCalendar(shiftArray,year, month){
     var firstDate = getFirstDateOfEachMonth(year)[month];
     var lastDateOfMonth = new Date(year, month + 1, 0).getDate();
     var count = getMonday(firstDate);
+    var noPrev = count == 1;
     var monday = convertToMonday(firstDate); // first monday of calendar view (of previous month)
     var monthPreviewed = 0; // 0 when previous, 1 when current, 2 when next
     var lastDateOfPrevMonth = new Date(monday.getFullYear(), monday.getMonth() + 1, 0).getDate();
     var shiftDesc = "";
-    var shiftTime = "h";
+    var shiftTime = "";
     moment().year(year);
     //$(".event").remove();
+
     $(".day").each(function () {
-        $(this).find(".date").text(count);
-        if (monthPreviewed == 1 || (count < 14 && monthPreviewed === 0)){
+        var box = $(this).find(".date").text(count);
+        if (monthPreviewed == 1){
+            $(this).removeClass("other-month");
             if(shiftArray[count] != null){
                 shiftDesc = "Avdeling " +  shiftArray[count].departmentId;
                 shiftTime = moment(new Date(shiftArray[count].startTime)).format('hh:mm') + " - " + moment(new Date(shiftArray[count].endTime)).format('hh:mm');
                 var eventdiv = $("<div/>").addClass("event").attr("id","day-"+count-1);
-                $(this).append(eventdiv);
                 eventdiv.append($("<span/>").addClass("event-desc").text(shiftDesc));
                 eventdiv.append($("<span/>").addClass("event-time").text(shiftTime));
             }
+        } else if((monthPreviewed == 0 || monthPreviewed == 2) && (Number(box.find("date").text()) < 14 ||Number(box.find("date").text())>21)){
+            //alert("Other");
+            $(this).addClass("other-month");
         }
         if (count < lastDateOfPrevMonth) {
+            if(noPrev){
+                monthPreviewed = 1;
+                $(this).removeClass("other-month");
+                lastDateOfPrevMonth = lastDateOfMonth;
+                noPrev = false;
+            }
             count++;
         } else {
             count = 1;
