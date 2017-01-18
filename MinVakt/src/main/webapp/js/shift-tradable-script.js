@@ -145,6 +145,7 @@ function getAvailableShifts(startTime, endTime) {
     $.ajax({
         type: "GET",
         url: "/MinVakt/rest/shifts/tradeable/" + startTime + "/" + endTime,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data) {
             addRow(data);
         }
