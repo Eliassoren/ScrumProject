@@ -1,25 +1,30 @@
 body{
-    font-family: 'Georgia', 'serif';
+    font-family: 'Georgia', 'sans-serif';
+}
+.fa{
+    text-align: center;
 }
 #header{
+    position: relative;
     top:0;
     left:0;
     width:100%;
     height: 100px;
-    background-color: #016cc2;
+    background-color: #6D7993;
     padding: 0;
 }
 
 #h1-title{
     color: white;
     font-size: 56px;
-    display:inline;
-    padding-top: 20px;
+    width:80%;
+    float: left;
+    padding: 20px;
     text-align: center;
     margin: 0 auto 0 auto;
     height: 100%;
-    overflow:hidden;
 }
+
 #h1-title a {
     color: white;
 }
@@ -28,10 +33,12 @@ body{
     color: white;
     text-decoration: none;
 }
+
 .icon-bar{
     float:left;
     display: inline;
     position: relative;
+    width: 10%;
     height: 100%;
 }
 
@@ -45,9 +52,16 @@ body{
     height: 100%;
     margin: 0;
 }
+
 #search{
     float:right;
 }
+
+.hamburger-toggle-open {
+    background-color: #3d5176 !important;
+    color: #4d7196 !important;
+}
+
 .icon-bar > a:hover {
     background-color: #6d81a6;
     color: #1d3156;
@@ -80,7 +94,7 @@ h2{
     display: block;
     position: relative;
     flex-wrap: wrap;
-    font-size: 2.5rem !important;
+    font-size: 20px;
     margin-top: 200px;
     width: 100%;
     text-align: center;
@@ -88,9 +102,9 @@ h2{
 
 .fa-search-right:after {
     content:"\f002";
-    float: right;
     text-decoration: none;
 }
+
 #hamburger-toggle {
     width: 100%;
     height: 100%;
@@ -99,22 +113,20 @@ h2{
 
 .hamburger-toggle-open {
     background-color: #3d5176 !important;
-    color: #4d7196 !important;
 }
 
 footer{
-    padding: 1rem;
+    padding-top: 5rem;
     margin-top: auto;
     text-align: center;
     bottom: 0;
 }
 
 #hamburger-menu {
-    max-height: 0;
     list-style-type: none;
     display: none;
     position: absolute;
-    left: 0;
+    left: 0; top: 100%;
     width: 100%;
     -webkit-padding-start: 0;
 }
@@ -147,8 +159,8 @@ footer{
     text-align:center;
     width: 75%;
     max-height: 60px;
-    transition: 0.5s ease-in-out;
-    margin-bottom: 10px;
+    transition: 0.7s ease-in-out;
+    margin-bottom: 3rem;
     margin-right: auto;
     margin-left: auto;
 }
@@ -200,7 +212,24 @@ button:focus {outline:0;}
 
 }
 
+.temp{
 
+    position: relative;
+    text-align: center;
+    width: 75%;
+    max-height: 60px;
+    transition: 0.7s ease-in-out;
+    margin-bottom: 3rem;
+    margin-top: 8rem;
+    margin-right: auto;
+    margin-left: auto;
+
+}
+
+.picker-div{
+    display: inline;
+    width: 50%;
+}
 
 /*
 COLOR PALETTE
@@ -209,3 +238,43 @@ COLOR PALETTE
 #9099A2
 #D5D5D5
  */
+
+.date-picker{
+
+    width: 49.5%;
+    height: 60px;
+    position: relative;
+
+    background-color: #3d5176;
+    font-family: 'Georgia', 'sans-serif';
+    font-weight: 300;
+    color: white;
+    font-size: 2.5rem;
+
+    border: 2px solid #3d5176;
+    text-decoration: none;
+    margin-bottom: -1px;
+}
+
+.section-picker{
+
+    width: 49.5%;
+    height: 60px;
+    position: relative;
+
+    background-color: #3d5176;
+    font-family: 'Georgia', 'sans-serif';
+    font-weight: 300;
+    color: white;
+    font-size: 2.5rem;
+
+    border: 2px solid #3d5176;
+    text-decoration: none;
+    margin-bottom: -1px;
+
+
+}
+
+.picker{
+    text-indent: 3rem;
+}
