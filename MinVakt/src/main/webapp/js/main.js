@@ -15,8 +15,7 @@ function getShiftById(id){
         type: "GET",
         url: "/MinVakt/rest/shifts/" + id,
         success: function(data){
-            console.log(data);
-            return data;
+            console.log("Shift: " + data);
         }
     })
 }
@@ -25,7 +24,7 @@ function getShiftsForUser(year, month, userId) {
         $.ajax({
         type: "GET",
         url: "/MinVakt/rest/shifts/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + (new Date(year, month + 1, 0)).getTime() + "/" + userId,
-            async: false,
+            //async: false,
         success: function(data){
             console.log(data.length);
             for (i = 0; i < data.length; i++){
@@ -34,7 +33,7 @@ function getShiftsForUser(year, month, userId) {
                 console.log(" Split :" + String(new Date(data[i].startTime)).split(" ")[2]);
                 shiftArray[Number(shiftBefore)] = data[i];
             }
-            generateCalendar(year, month)
+            generateCalendar(year, month);
         }
     });
 }

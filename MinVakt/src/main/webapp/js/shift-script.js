@@ -70,7 +70,7 @@ window.onload = function addRow() {
             textnode3 = document.createTextNode(obj.User[i].to);
             textnode4 = document.createTextNode(obj.User[i].userCategoryString);
             cell1.appendChild(textnode1);
-            cell2.appendChild(textnode2)
+            cell2.appendChild(textnode2);
             cell3.appendChild(textnode3);
             cell4.appendChild(textnode4);
             row.appendChild(cell1);
@@ -81,26 +81,41 @@ window.onload = function addRow() {
         }
         table = "evening-table";
     }
+};
+
+function getShiftAndTrade(id, bool){
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/" + id,
+        success: function(data){
+            console.log(data);
+            setShiftTradeablePut(data, bool)
+        }
+    })
 }
 
-function setShiftTradeable(id) {
-    var shift = getShiftById(id);
+function setShiftTradeablePut(shift, bool) {
     $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
         type: "PUT",
         url: "/MinVakt/rest/shifts/",
+        dataType: 'json',
         data: JSON.stringify({
-            shiftId: shift.shiftId
+            shiftId: shift.shiftId,
             startTime: shift.startTime,
             endTime: shift.endTime,
             userId: shift.userId,
             userName: shift.userName,
             departmentId: shift.departmentId,
             role: shift.role,
-            tradeable: "true",
-            responsibleUser: shift.responsibleUser,
+            tradeable: bool,
+            responsibleUser: shift.responsibleUser
         }),
         success: function (data) {
-            console.log(data);
+            console.log("Result: " + data);
             returnValue = JSON.parse(data);
             return returnValue;
         }
