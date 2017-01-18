@@ -155,7 +155,7 @@ function generateCalendar(shiftArray,year, month){
             if(shiftArray[count] != null){
                // alert("hei");
                 shiftDesc = "Avdeling " +  shiftArray[count].departmentId;
-                shiftTime = formatTime(new Date(shiftArray[count].startTime))) + " - " + formatTime(new Date(shiftArray[count].endTime)));
+                shiftTime = formatTime(new Date(shiftArray[count].startTime)) + " - " + formatTime(new Date(shiftArray[count].endTime));
                 var eventdiv = $("<div/>").addClass("event").attr("id","day-"+count-1);
                 $(this).append(eventdiv);
                 eventdiv.append($("<span/>").addClass("event-desc").text(shiftDesc));
