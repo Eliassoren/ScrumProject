@@ -17,11 +17,17 @@ public class ShiftService {
         this.shiftDb = shiftDb;
     }
 
+    /**
+     * Empty constructor
+     *
+     * @throws Exception
+     */
     public ShiftService() throws Exception {}
 
     /**
+     * Returns the shift related to id
      *
-     * @param shiftId
+     * @param shiftId the id that identifies the shift
      * @return the chosen shift object
      */
     @GET
@@ -36,6 +42,7 @@ public class ShiftService {
 
     /**
      * Returns a list of shifts for a user in  a given period
+     *
      * @param startTime start time
      * @param userId the id that identifies the user
      * @return ArrayList of found shifts
@@ -54,10 +61,10 @@ public class ShiftService {
     }
 
     /**
-     *
      * Returns a list of shifts for in a given period
      *
-     * @param shift the end date for the shifts
+     * @param startTime the start date for the shifts
+     * @param endTime the end date for the shifts
      * @return ArrayList of found shifts
      */
     @GET
@@ -69,6 +76,28 @@ public class ShiftService {
         Map<Shift, Shift> map = new HashMap<>();
         for (Shift shiftElement : shifts){
             map.put(shiftElement, shiftElement);
+        }
+        return map.values();
+    }
+
+    /**
+     * Returns a list of all tradeable shifts
+     *
+     * @param startTime the start date for the shifts
+     * @param endTime the end date for the shiftsdTime
+     * @return  a collection with all tradeable shifts in a given period
+     */
+    @GET
+    @Path("/tradeable/{startTime}/{endTime}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Shift> getTradeable(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
+        if (startTime > endTime) throw  new BadRequestException();
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
+        Map<Shift, Shift> map = new HashMap<>();
+        for(Shift shiftElement: shifts){
+            if(shiftElement.isTradeable()){
+                map.put(shiftElement,shiftElement);
+            }
         }
         return map.values();
     }
@@ -89,6 +118,7 @@ public class ShiftService {
     }
 
     /**
+     * Createng new shift
      *
      * @param shift-object to be created
      * @return  a negative number if the shift was not created. shiftId if it was created
@@ -102,21 +132,6 @@ public class ShiftService {
         int responseId = shiftDb.createShift(shift);
         if(responseId < 0) throw new BadRequestException();
         else return responseId;
-    }
-
-    @GET
-    @Path("/tradeable/{startTime}/{endTime}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Shift> getTradeable(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
-        if (startTime > endTime) throw  new BadRequestException();
-        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
-        Map<Shift, Shift> map = new HashMap<>();
-        for(Shift shiftElement: shifts){
-            if(shiftElement.isTradeable()){
-                map.put(shiftElement,shiftElement);
-            }
-        }
-        return map.values();
     }
 
     private boolean validateShift(Shift shift){
