@@ -35,19 +35,27 @@ body{
 }
 
 .h2-div {
-    margin: auto;
     text-align: center;
     position: relative;
-    padding-bottom: 0;
+    margin-top: 4rem;
+    margin-bottom: 5rem;
     height: 10%;
 }
 
 #h2-title {
     height: 100%;
     margin: auto;
-    width: 50%;
+    width: 80%;
+}
 
-
+h2{
+    padding: 20px;
+    display: block;
+    position: relative;
+    flex-wrap: wrap;
+    font-size: 2.5rem;
+    width: 100%;
+    text-align: center;
 }
 
 .icon-bar{
@@ -105,15 +113,6 @@ body{
     display: block;
     margin: auto;
     top: 200px;
-}
-h2{
-    padding: 20px;
-    display: block;
-    position: relative;
-    flex-wrap: wrap;
-    font-size: 20px;
-    width: 100%;
-    text-align: center;
 }
 
 .fa-search-right:after {
