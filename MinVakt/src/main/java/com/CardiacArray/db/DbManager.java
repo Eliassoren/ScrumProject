@@ -26,6 +26,7 @@ public class DbManager {
                 dataSource.setPassword(result[1]);
                 dataSource.setServerName("mysql.stud.iie.ntnu.no");
                 connection = dataSource.getConnection();
+                connection.setAutoCommit(true);
             }catch (Exception e){
                 e.printStackTrace(System.err);
             }
