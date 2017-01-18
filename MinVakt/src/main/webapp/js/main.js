@@ -25,13 +25,16 @@ function getShiftsForUser(year, month, userId) {
         $.ajax({
         type: "GET",
         url: "/MinVakt/rest/shifts/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + (new Date(year, month + 1, 0)).getTime() + "/" + userId,
-        success: function(year, month, data){
+            async: false,
+        success: function(data){
             console.log(data.length);
             for (i = 0; i < data.length; i++){
-                console.log(data[i]);
-                var shiftBefore = String(data[i].startTime).split(" ")[2];
-                shiftArray[Number(shiftBefore)] = (data[i]);
+                console.log(" Lagt til " + data[i].shiftId);
+                var shiftBefore = String(new Date(data[i].startTime)).split(" ")[2];
+                console.log(" Split :" + String(new Date(data[i].startTime)).split(" ")[2]);
+                shiftArray[Number(shiftBefore)] = data[i];
             }
+            generateCalendar(year, month)
         }
     });
 }
@@ -111,6 +114,12 @@ for(var i = 0; i< tab.length;i++){
 }
 var title = monthNames[month] + " " + year;
 var shifts = new Array(31);
+
+function clearCalendar() {
+    $(".event").remove();
+}
+
+
 function generateCalendar(year, month){
     console.log(getFirstDateOfEachMonth(year)[month]);
     var firstDate = getFirstDateOfEachMonth(year)[month];
@@ -126,10 +135,10 @@ function generateCalendar(year, month){
     $(".day").each(function () {
         $(this).find(".date").text(count);
         if (monthPreviewed == 1 || (count < 14 && monthPreviewed === 0)){
-            if(shiftArray[count-1] != null){
+            if(shiftArray[count] != null){
 
-                shiftDesc = shiftArray[count-1].split(",")[0];
-                shiftTime = shiftArray[count-1].split(",")[1];
+                shiftDesc = "Avd: " +  shiftArray[count].departmentId;
+                shiftTime = new Date(shiftArray[count].startTime).getHours() + ":" + new Date(shiftArray[count].startTime).getMinutes() + " - " + new Date(shiftArray[count].endTime).getHours() + ":" + new Date(shiftArray[count].endTime).getMinutes();
 
                 var eventdiv = $("<div/>").addClass("event").attr("id","day-"+count-1);
                 $(this).append(eventdiv);
@@ -179,6 +188,7 @@ $(document).ready(function() {
         }
         title = monthNames[month] + " " + year;
         $("#month-title").text(title);
+        clearCalendar();
         generateCalendar(year,month);
     });
 
@@ -195,6 +205,7 @@ $(document).ready(function() {
         }
         title = monthNames[month] + " " + year;
         $("#month-title").text(title);
+        clearCalendar();
         generateCalendar(year,month);
     });
 
