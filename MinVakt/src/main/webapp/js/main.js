@@ -196,6 +196,17 @@ $(document).ready(function() {
         $("#hamburger-menu").toggleClass("hamburger-menu-open");
         $("#hamburger-toggle").toggleClass("hamburger-toggle-open");
     });
+    $("#hamburger-calendar").click(function() {
+        window.location.href = "/MinVakt/html/calendar.html";
+    });
+    $("#hamburger-shift").click(function() {
+       window.location.href = "/MinVakt/html/shift.html";
+    });
+    $("#hamburger-logout").click(function() {
+        localStorage.removeItem("token");
+        window.location.replace("/MinVakt/");
+    });
+
 //alert(out);
     //alert(getMonday(new Date(2017, 0, 1)));
     $("#month-title").text(title);
