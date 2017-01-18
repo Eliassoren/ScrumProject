@@ -139,16 +139,17 @@ function generateCalendar(shiftArray,year, month){
     $(".day").each(function () {
         var box = $(this).find(".date").text(count);
         if (monthPreviewed == 1){
-            $(this).removeClass("other-month");
             if(shiftArray[count] != null){
+               // alert("hei");
                 shiftDesc = "Avdeling " +  shiftArray[count].departmentId;
                 shiftTime = moment(new Date(shiftArray[count].startTime)).format('hh:mm') + " - " + moment(new Date(shiftArray[count].endTime)).format('hh:mm');
                 var eventdiv = $("<div/>").addClass("event").attr("id","day-"+count-1);
+                $(this).append(eventdiv);
                 eventdiv.append($("<span/>").addClass("event-desc").text(shiftDesc));
                 eventdiv.append($("<span/>").addClass("event-time").text(shiftTime));
-            }
-        } else if((monthPreviewed == 0 || monthPreviewed == 2) && (Number(box.find("date").text()) < 14 ||Number(box.find("date").text())>21)){
-            //alert("Other");
+                }
+            $(this).removeClass("other-month");
+        }else if((monthPreviewed == 0 || monthPreviewed == 2) && (Number(box.find("date").text()) < 14 ||Number(box.find("date").text())>21)){
             $(this).addClass("other-month");
         }
         if (count < lastDateOfPrevMonth) {
