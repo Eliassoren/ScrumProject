@@ -55,7 +55,6 @@ $(document).ready(function() {
                 },
                 success: function(loginObj) {
                     localStorage.setItem("token", loginObj.token);
-                    alert(loginObj.token);
                     localStorage.setItem("userid", loginObj.id);
                     window.location.replace("/MinVakt/html/calendar.html");
                 }

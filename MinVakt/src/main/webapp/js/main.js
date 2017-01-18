@@ -215,6 +215,9 @@ $(document).ready(function() {
     $("#hamburger-shift").click(function() {
        window.location.href = "/MinVakt/html/shift.html";
     });
+    $("#hamburger-shifttrade").click(function() {
+        window.location.href = "/MinVakt/html/shift-tradable.html";
+    });
     $("#hamburger-logout").click(function() {
         localStorage.removeItem("token");
         window.location.replace("/MinVakt/");
