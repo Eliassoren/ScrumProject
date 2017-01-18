@@ -29,6 +29,7 @@ import javax.ws.rs.core.*;
 public class SessionService {
 
     private UserDb userDb = new UserDb();
+    private PasswordUtil passwordUtil = new PasswordUtil();
 
     public SessionService() {
     }
@@ -42,7 +43,7 @@ public class SessionService {
     public Response login(@FormParam("login_email") String email, @FormParam("login_password") String password) {
         User user = userDb.getUserByEmail(email);
         if(user != null) {
-            if(user.getPassword().equals(password)) {
+            if(passwordUtil.verifyPassword(password,email,user.getPassword())) {
                 SecureRandom random = new SecureRandom();
                 String token = new BigInteger(130, random).toString(32);
                 LocalDateTime expiredTime = LocalDateTime.now().plusWeeks(1);
