@@ -31,6 +31,7 @@ public class ShiftService {
         if(shiftId < 0){
             throw new BadRequestException();
         }
+        System.out.println("Getting shift " + shiftId + ": " + shiftDb.getShift(shiftId));
         return shiftDb.getShift(shiftId);
     }
 
@@ -48,7 +49,6 @@ public class ShiftService {
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime),userId);
         Map<Shift, Shift> map = new HashMap<>();
         for (Shift shiftElement : shifts) {
-            System.out.println("Hallo " + shiftElement);
             map.put(shiftElement, shiftElement);
         }
         return map.values();
