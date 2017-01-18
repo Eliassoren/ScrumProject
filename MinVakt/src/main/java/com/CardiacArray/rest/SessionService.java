@@ -43,7 +43,7 @@ public class SessionService {
     public Response login(@FormParam("login_email") String email, @FormParam("login_password") String password) {
         User user = userDb.getUserByEmail(email);
         if(user != null) {
-            if(passwordUtil.verifyPassword(password,email,user.getPassword())) {
+            if(passwordUtil.verifyPassword(password, user.getFirstName(), user.getPassword())) {
                 SecureRandom random = new SecureRandom();
                 String token = new BigInteger(130, random).toString(32);
                 LocalDateTime expiredTime = LocalDateTime.now().plusWeeks(1);
