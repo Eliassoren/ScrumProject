@@ -6,9 +6,19 @@ $(document).ready(function() {
     $("#hamburger-toggle").click(function(){
         $("#hamburger-menu").toggleClass("hamburger-menu-open");
         $("#hamburger-toggle").toggleClass("hamburger-toggle-open");
+
     });
 });
 
+$(document).on("input", function() {
+    refreshTable()
+});
+
+function refreshTable() {
+    var currentDate = $( ".date-picker" ).datepicker( "getDate" );
+    var dateTime = currentDate.getTime();
+    getAvailableShifts(dateTime, dateTime + 86400000);
+}
 
 $(document).ready(function() {
     $("#dropdown-toggle-day").click(function(){
@@ -36,6 +46,8 @@ function formatTime(string) {
 }
 
 function addRow(data) {
+
+    console.log(data);
 
     //DUMMY DATA
     //var text= '[{"shiftId":1,"startTime":1483254000000,"endTime":1483282800000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":true,"responsibleUser":false},{"shiftId":6,"startTime":1483542000000,"endTime":1483570740000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":false,"responsibleUser":false}]'
@@ -66,6 +78,7 @@ function addRow(data) {
 
         tabBody = document.getElementById(table);
         row = document.createElement("tr");
+        row.className = "tr" + i;
         cell1 = document.createElement("td");
         cell2 = document.createElement("td");
         cell3 = document.createElement("td");
@@ -80,8 +93,10 @@ function addRow(data) {
         row.appendChild(cell3);
         tabBody.appendChild(row);
         //table = "evening-table";
-        if (isFree) {
-            $('tr').css('background-color', '#4DFA90');
+        if (obj[i].userName == ""){
+            $('.tr' + i).css('background-color', '#FF5468');
+        } else if (isFree) {
+            $('.tr' + i).css('background-color', '#4DFA90');
         }
     }
 };
@@ -126,6 +141,7 @@ function setShiftTradeablePut(shift, bool) {
 }
 
 function getAvailableShifts(startTime, endTime) {
+
     $.ajax({
         type: "GET",
         url: "/MinVakt/rest/shifts/tradeable/" + startTime + "/" + endTime,
