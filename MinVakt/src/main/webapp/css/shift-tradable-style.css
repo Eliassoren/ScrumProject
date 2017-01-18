@@ -34,6 +34,22 @@ body{
     text-decoration: none;
 }
 
+.h2-div {
+    margin: auto;
+    text-align: center;
+    position: relative;
+    padding-bottom: 0;
+    height: 10%;
+}
+
+#h2-title {
+    height: 100%;
+    margin: auto;
+    width: 50%;
+
+
+}
+
 .icon-bar{
     float:left;
     display: inline;
@@ -242,7 +258,7 @@ COLOR PALETTE
 
 .date-picker{
 
-    width: 49.5%;
+    width: 49%;
     height: 60px;
     position: relative;
 
@@ -252,14 +268,14 @@ COLOR PALETTE
     color: white;
     font-size: 2.5rem;
 
-    border: 2px solid #3d5176;
+    border: 5px solid #3d5176;
     text-decoration: none;
     margin-bottom: -1px;
 }
 
 .section-picker{
 
-    width: 49.5%;
+    width: 49%;
     height: 60px;
     position: relative;
 
