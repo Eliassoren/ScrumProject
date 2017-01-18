@@ -1,5 +1,6 @@
 package com.CardiacArray.rest;
 
+import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.data.User;
 import com.CardiacArray.db.UserDb;
 import com.CardiacArray.db.DbManager;
@@ -12,6 +13,7 @@ import javax.ws.rs.core.MediaType;
  * @author Team 1 
  */
 
+@Secured
 @Path("/users")
 public class UserService {
     private UserDb userDb = new UserDb();

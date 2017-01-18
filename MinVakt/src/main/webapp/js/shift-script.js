@@ -91,9 +91,16 @@ function getShiftAndTrade(id, bool){
     $.ajax({
         type: "GET",
         url: "/MinVakt/rest/shifts/" + id,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
             console.log(data);
             setShiftTradeablePut(data, bool)
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                window.location.replace("/MinVakt/");
+            }
         }
     })
 }
@@ -102,7 +109,8 @@ function setShiftTradeablePut(shift, bool) {
     $.ajax({
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer " + localStorage.getItem("token")
         },
         type: "PUT",
         url: "/MinVakt/rest/shifts/",
@@ -122,6 +130,12 @@ function setShiftTradeablePut(shift, bool) {
             console.log("Result: " + data);
             returnValue = JSON.parse(data);
             return returnValue;
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                window.location.replace("/MinVakt/");
+            }
         }
     })
 }
@@ -130,8 +144,15 @@ function getAvailableShifts(startTime, endTime) {
     $.ajax({
         type: "GET",
         url: "/MinVakt/rest/shifts/tradeable/" + startTime + "/" + endTime,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data) {
             return data;
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                window.location.replace("/MinVakt/");
+            }
         }
     })
 }

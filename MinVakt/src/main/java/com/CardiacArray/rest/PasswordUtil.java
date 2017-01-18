@@ -25,7 +25,6 @@ public class PasswordUtil {
             for(byte b : hashedPassword) {
                 sb.append(String.format("%02x", b & 0xff));
             }
-            System.out.println(sb.toString());
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {
         }
