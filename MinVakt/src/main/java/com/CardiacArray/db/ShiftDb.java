@@ -230,8 +230,8 @@ public class ShiftDb extends DbManager{
                 System.out.println("Date from query: " + dateFromQuery);
                 Time startTimeFromQuery = res.getTime("start");
                 Time endTimeFromQuery = res.getTime("end");
-                Date startDateFormatted = new Date(dateFromQuery.getTime() + startTimeFromQuery.getTime() + 3600000L);
-                Date endDateFormatted = new Date(dateFromQuery.getTime() + endTimeFromQuery.getTime() + 3600000L);
+                Date startDateFormatted = new Date(dateFromQuery.getTime() + startTimeFromQuery.getTime());
+                Date endDateFormatted = new Date(dateFromQuery.getTime() + endTimeFromQuery.getTime());
 
                 shiftArray.add(new Shift(
                         res.getInt("shift_id"),
