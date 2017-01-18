@@ -46,22 +46,21 @@ public class UserService {
         if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || !user.isValidEmail(user.getEmail())) {
             throw new BadRequestException();
         }
-
         boolean updateResponse = userDb.updateUser(user);
         if(!updateResponse) {
             throw new BadRequestException();
         }
-
         return updateResponse;
     }
 
+    /*
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     public void deleteUser(User user) {
         User userFound = userDb.getUserByEmail(user.getEmail());
         if(userFound.getFirstName() == null && userFound.getLastName() == null) throw new NotFoundException();
         else userDb.deleteUser(user);
-    }
+    }*/
 
     /**
      *
