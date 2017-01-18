@@ -121,6 +121,19 @@ function clearCalendar() {
     $(".event").remove();
 }
 
+function formatTime(string) {
+    var time = "";
+    var hour = string.split(":")[0];
+    var min = string.split(":")[1];
+    if (Number(hour) < 10) {
+        time += "0" + hour + ":";
+    } else time += hour + ":";
+    if (Number(min) < 10) {
+        time += "0" + min;
+    } else time += min;
+    return time;
+}
+
 
 function generateCalendar(shiftArray,year, month){
     console.log(getFirstDateOfEachMonth(year)[month]);
@@ -139,7 +152,7 @@ function generateCalendar(shiftArray,year, month){
         if (monthPreviewed == 1 || (count < 14 && monthPreviewed === 0)){
             if(shiftArray[count] != null){
                 shiftDesc = "Avdeling " +  shiftArray[count].departmentId;
-                shiftTime = moment(new Date(shiftArray[count].startTime)).format('hh:mm') + " - " + moment(new Date(shiftArray[count].endTime)).format('hh:mm');
+                shiftTime = formatTime(new Date(shiftArray[count].startTime))) + " - " + formatTime(new Date(shiftArray[count].endTime)));
                 var eventdiv = $("<div/>").addClass("event").attr("id","day-"+count-1);
                 $(this).append(eventdiv);
                 eventdiv.append($("<span/>").addClass("event-desc").text(shiftDesc));
