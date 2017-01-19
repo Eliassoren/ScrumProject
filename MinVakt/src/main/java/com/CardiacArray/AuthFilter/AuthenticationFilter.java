@@ -20,7 +20,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext containerRequest) throws WebApplicationException {
-        System.out.println("Authentication filter");
         String authHeader = containerRequest.getHeaderString(HttpHeaders.AUTHORIZATION);
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new NotAuthorizedException("Error");

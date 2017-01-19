@@ -18,6 +18,7 @@ $(document).ready(function() {
             }
         })
     }
+    createDialog("#login-lost-password", "Glemt passord", "/MinVakt/html/dialogs/login-password.html");
     $("#login-form").validate({
         rules: {
             login_email: {
@@ -62,3 +63,29 @@ $(document).ready(function() {
         }
     });
 });
+
+function createDialog(selector, title, url) {
+    $(selector).each(function() {
+        var $dialog = $("<div/>");
+        var $link = $(this).one("click", function() {
+            $dialog.dialog({
+                title: title,
+                modal: true,
+                closeOnEscape: true,
+                width: 400,
+                resizable: false,
+                autoOpen: false,
+                show: "fade",
+                hide: "fade"
+            }).load(url, function() {
+                $(this).dialog("option", "position", "center");
+                $(this).dialog("open");
+            });
+            $link.click(function() {
+                $dialog.dialog("open");
+                return false;
+            });
+            return false;
+        });
+    });
+}
