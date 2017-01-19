@@ -121,9 +121,8 @@ function generateCalendar(shiftArray,year, month){
     var shiftTime = "";
     moment().year(year);
 
-    $(".dateNow").each(function () {
+    $(".day").each(function () {
         var box = $(this).find(".date").text(day);
-
         if (monthStatus == MONTH_CURR){
             if(shiftArray[day] != null){
                 shiftDesc = "Avdeling " +  shiftArray[day].departmentId;
