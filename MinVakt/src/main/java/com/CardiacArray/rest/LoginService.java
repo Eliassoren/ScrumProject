@@ -5,6 +5,7 @@
  */
 package com.CardiacArray.rest;
 
+import com.CardiacArray.AuthFilter.Role;
 import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.data.*;
 import com.CardiacArray.db.DbManager;
@@ -26,15 +27,15 @@ import javax.ws.rs.core.*;
  * @author Team 1
  */
 @Path("/session")
-public class SessionService {
+public class LoginService {
 
     private UserDb userDb = new UserDb();
     private PasswordUtil passwordUtil = new PasswordUtil();
 
-    public SessionService() {
+    public LoginService() {
     }
 
-    public SessionService(UserDb userDb) throws Exception {
+    public LoginService(UserDb userDb) throws Exception {
         this.userDb = userDb;
     }
 
@@ -58,7 +59,7 @@ public class SessionService {
         } else throw new NotAuthorizedException("Error");
     }
 
-    @Secured
+    @Secured({Role.ADMIN, Role.USER})
     @GET
     @Path("/checktoken")
     public Response checkToken() {

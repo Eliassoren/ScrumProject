@@ -17,7 +17,7 @@
     </init-param>
     <init-param>
       <param-name>javax.ws.rs.container.ContainerRequestFilter</param-name>
-      <param-value>org.glassfish.jersey.filter.LoggingFilter;com.CardiacArray.AuthFilter.AuthFilter</param-value>
+      <param-value>org.glassfish.jersey.filter.LoggingFilter;com.CardiacArray.AuthFilter.AuthenticationFilter;com.CardiacArray.AuthFilter.AuthorizationFilter</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
