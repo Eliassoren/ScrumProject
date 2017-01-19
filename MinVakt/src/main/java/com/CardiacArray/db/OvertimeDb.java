@@ -39,7 +39,17 @@ public class OvertimeDb extends DbManager {
                 Calendar calendar = GregorianCalendar.getInstance();
                 calendar.setTime(originalShift.getStartTime());
                 int startDay = calendar.get(Calendar.DATE);
-                
+                calendar.setTime(originalShift.getEndTime());
+                int endDay = calendar.get(Calendar.DATE);
+                if (startDay == endDay) {
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH);
+                    //originalShift.setStartTime(Integer.parseInt(year) + Integer.parseInt(month) + Integer.parseInt(endDay));
+                    System.out.println(Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(endDay));
+                    //TODO Få originalShift.setStartTime på riktig format. Det skal være en Long. Husk å legge til de timene med overtid.
+                }else {
+    System.out.print("nope");
+                }
             }
         }catch (SQLException e){
                 e.printStackTrace();
