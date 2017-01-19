@@ -1,10 +1,15 @@
 package com.CardiacArray.rest;
 
 import com.CardiacArray.AuthFilter.Secured;
+import com.CardiacArray.data.Shift;
 import com.CardiacArray.data.User;
+import com.CardiacArray.db.ShiftDb;
 import com.CardiacArray.db.UserDb;
 import com.CardiacArray.db.DbManager;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -17,6 +22,8 @@ import javax.ws.rs.core.MediaType;
 @Path("/users")
 public class UserService {
     private UserDb userDb = new UserDb();
+    private ShiftDb shiftDb = new ShiftDb();
+    private OvertimeDB overtimeDB = new OvertimeDB();
     private PasswordUtil passwordUtil = new PasswordUtil();
 
     public UserService(UserDb userDb) throws Exception {
@@ -84,4 +91,33 @@ public class UserService {
         else throw new BadRequestException();
 
     }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public long findHoursForPeriod(long startTime, long endTime, int userId){
+        long hoursWorked = 0;
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime), userId);
+
+        for(Shift eachShift : shifts){
+            long diff = eachShift.getEndTime().getTime() - eachShift.getStartTime().getTime();
+            long diffHours = diff / (60 * 60 * 1000);
+            hoursWorked += diffHours;
+        }
+        return hoursWorked;
+    }
+
+    public long checkOvertimeforPeriod(Shift shift, long startTime, long endTime){
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime),shift.getUserId());
+        long totOvertimeHours = 0;
+
+        for(Shift eachShift : shifts) {
+            Shift overtimeShift = overtimeDB.getOvertime(eachShift);
+            long diffOvertime = overtimeShift.getEndTime().getTime()-overtimeShift.getStartTime().getTime();
+            totOvertimeHours += diffOvertime / (60 * 60 * 1000);
+        }
+
+        return totOvertimeHours;
+        //reture antall timer overtid
+    }
+
+    //returner antall timer vanlig og overtid
 }

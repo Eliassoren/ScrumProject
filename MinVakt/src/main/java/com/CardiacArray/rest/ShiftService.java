@@ -136,6 +136,11 @@ public class ShiftService {
         else return responseId;
     }
 
+    public void filterShift(int userId, int user_category_id){
+        //TODO Ferdigstille filtrering av skift, kunne printe ut liste med akutelle skift
+        shiftDb.getShiftByCategory(userId,user_category_id);
+    }
+
     private boolean validateShift(Shift shift){
         Date start = shift.getStartTime();
         Date end = shift.getEndTime();
