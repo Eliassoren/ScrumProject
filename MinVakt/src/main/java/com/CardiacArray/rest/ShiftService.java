@@ -120,6 +120,22 @@ public class ShiftService {
     }
 
     /**
+     * Assigns a shift to a user
+     * @param shiftId id of the shift
+     * @param userId id of the user
+     * @return boolean value true if successful
+     */
+    @PUT
+    @Path("/assign/{shiftId}/{userId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public boolean assignShift(@PathParam("shiftId") int shiftId, @PathParam("userId") int userId) {
+        if(validateShift(getShift(shiftId))) {
+            return shiftDb.assignShift(shiftId, userId);
+        }
+        throw new BadRequestException();
+    }
+
+    /**
      * Createng new shift
      *
      * @param shift-object to be created
@@ -147,5 +163,10 @@ public class ShiftService {
             return true;
         }
         return false;
+    }
+
+    public static void main(String args[]) throws Exception {
+        ShiftDb s = new ShiftDb();
+        s.assignShift(3,16);
     }
 }

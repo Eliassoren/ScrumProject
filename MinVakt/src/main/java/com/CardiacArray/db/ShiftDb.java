@@ -314,6 +314,33 @@ public class ShiftDb extends DbManager{
         return success;
     }
 
+    public boolean assignShift(int shiftId, int userId) {
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        boolean success = false;
+
+        String sql = "INSERT INTO user_shift (user_id, shift_id) VALUES (?,?)";
+
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            statement.setInt(2, shiftId);
+            statement.execute();
+            connection.commit();
+            statement.close();
+            success = true;
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            DbManager.rollback();
+            return success;
+        }
+        return success;
+    }
+
     /**
      * Methode used to create new shifts which are not saved in the database.
      * @author Erik Kjosavik
