@@ -82,21 +82,28 @@ function addRow(data) {
         cell1 = document.createElement("td");
         cell2 = document.createElement("td");
         cell3 = document.createElement("td");
+        cell4 = document.createElement("Button");
+        cell4.className = "listButton " + "id" + obj[i].shiftId;
         textnode1 = document.createTextNode(obj[i].userName);
         textnode2 = document.createTextNode(formatTime(startTime + ":" + new Date(obj[i].startTime).getMinutes()));
         textnode3 = document.createTextNode(formatTime(new Date(obj[i].endTime).getHours() + ":" + new Date(obj[i].endTime).getMinutes()));
+        textnode4 = document.createTextNode("Ta vakt");
         cell1.appendChild(textnode1);
         cell2.appendChild(textnode2);
         cell3.appendChild(textnode3);
+        cell4.appendChild(textnode4)
         row.appendChild(cell1);
         row.appendChild(cell2);
         row.appendChild(cell3);
+        row.appendChild(cell4);
         tabBody.appendChild(row);
         //table = "evening-table";
         if (obj[i].userName == ""){
             $('.tr' + i).css('background-color', '#FF5468');
+            //$('.id' + obj[i].shiftId).css('background-color', '#BA3E4C');
         } else if (isFree) {
             $('.tr' + i).css('background-color', '#4DFA90');
+            //$('.id' + obj[i].shiftId).css('background-color', '#40CD76');
         }
     }
 };
