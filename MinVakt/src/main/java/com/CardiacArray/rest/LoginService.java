@@ -10,6 +10,8 @@ import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.data.*;
 import com.CardiacArray.db.DbManager;
 import com.CardiacArray.db.UserDb;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
+
 import java.security.SecureRandom;
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -59,12 +61,27 @@ public class LoginService {
         } else throw new NotAuthorizedException("Error");
     }
 
+    @POST
+    @Path("/lostpassword")
+    public Response lostPassword(@FormParam("login_lost_email") String email) {
+        User user = userDb.getUserByEmail(email);
+        if(user != null) {
+            String newPassword = passwordUtil.newPassword();
+            System.out.println("New password: " + newPassword);
+            String hashedPassword = passwordUtil.hashPassword(newPassword, user.getFirstName());
+            user.setPassword(hashedPassword);
+            userDb.updateUser(user);
+            return Response.ok().build();
+        } else throw new NotFoundException("Error");
+    }
+
     @Secured({Role.ADMIN, Role.USER})
     @GET
     @Path("/checktoken")
     public Response checkToken() {
         return Response.ok().build();
     }
+
 
      public static void main(String[] args) throws Exception {
          DbManager dbManager = new DbManager();

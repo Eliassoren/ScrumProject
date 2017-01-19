@@ -2,6 +2,7 @@ package com.CardiacArray.rest;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 /**
  * Utility class for generating and verifying passwords.
@@ -42,5 +43,16 @@ public class PasswordUtil {
     public boolean verifyPassword(String givenPassword, String firstName, String userPassword) {
         String inputHashed = hashPassword(givenPassword,firstName);
         return inputHashed.equals(userPassword);
+    }
+
+    public String newPassword() {
+        String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder(8);
+        for( int i = 0; i < 8; i++ ) {
+            sb.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        String newPassword = sb.toString();
+        return newPassword;
     }
 }
