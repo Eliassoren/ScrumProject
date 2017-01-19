@@ -98,9 +98,8 @@ h2{
     border-style: none;
 }
 
-.date-picker:focus{
-
-
+.date-picker:visited{
+    refreshTable();
 }
 
 .icon-bar > a:focus {
@@ -298,4 +297,9 @@ COLOR PALETTE
 
 .picker{
     text-indent: 3rem;
+}
+
+.listButton{
+    background-color: transparent;
+    border: none;
 }
