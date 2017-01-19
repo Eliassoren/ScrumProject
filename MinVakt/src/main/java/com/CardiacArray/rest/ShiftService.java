@@ -1,6 +1,7 @@
 
 package com.CardiacArray.rest;
 
+import com.CardiacArray.AuthFilter.Role;
 import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.data.Shift;
 import com.CardiacArray.db.ShiftDb;
@@ -8,7 +9,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.*;
 
-@Secured
+@Secured({Role.ADMIN, Role.USER})
 @Path("/shifts")
 public class ShiftService {
 

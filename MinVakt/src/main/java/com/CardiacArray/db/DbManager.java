@@ -43,10 +43,6 @@ public class DbManager {
 
     public static void main(String[] args)throws Exception{
         DbManager db = new DbManager();
-        SessionDb sessionTest = new SessionDb();
-        System.out.println(sessionTest.login("epost@internett.no", "123"));
-        System.out.println(sessionTest.login("eposten@internett.no", "123"));
-        System.out.println(sessionTest.login("oddErik@gmail.com", "123"));
         db.connection.close();
     }
 

@@ -5,6 +5,8 @@
  */
 package com.CardiacArray.data;
 
+import com.CardiacArray.AuthFilter.Role;
+
 import java.sql.Timestamp;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,23 +17,24 @@ import java.util.regex.Pattern;
  */
 public class User {
 
-    private int Id;
+    private int id;
     private String firstName;
     private String lastName;
     private int mobile;
     private String email;
     private String password;
-    private int admin;
+    private boolean admin;
     private String address;
     private int userCategoryInt;
     private String userCategoryString;
     private String token;
     private Timestamp expired;
     private boolean active; //false if user does not work at the facility anymore.
+    private Role role;
 
 
-    public User(int Id, String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired, boolean active) {
-        this.Id = Id;
+    public User(int id, String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired, boolean active) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.mobile = mobile;
@@ -44,12 +47,17 @@ public class User {
         this.token = token;
         this.expired = expired;
         this.active = active;
+        if(admin) {
+            role = Role.ADMIN;
+        } else {
+            role = Role.USER;
+        }
     }
 
     /*
      *Constructor used to create new users that needs to be added to the database.
      */
-    public User(String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, boolean active) {
+    public User(String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, boolean active) {
         //if (firstName == null || lastName == null || email == null || password == null) throw new IllegalArgumentException("Name, password or email cannot be null");
 
         this.firstName = firstName;
@@ -61,9 +69,37 @@ public class User {
         this.address = address;
         this.userCategoryInt = userCategoryInt;
         this.active = active;
+        if(admin) {
+            role = Role.ADMIN;
+        } else {
+            role = Role.USER;
+        }
     }
 
-    
+    /*
+ *Constructor used to create new users that needs to be added to the database.
+ */
+    public User(int id, String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, boolean active) {
+        //if (firstName == null || lastName == null || email == null || password == null) throw new IllegalArgumentException("Name, password or email cannot be null");
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mobile = mobile;
+        this.email = email;
+        this.password = password;
+        this.admin = admin;
+        this.address = address;
+        this.userCategoryInt = userCategoryInt;
+        this.active = active;
+        if(admin) {
+            role = Role.ADMIN;
+        } else {
+            role = Role.USER;
+        }
+    }
+
+
+
     public User() {
         
     }
@@ -82,15 +118,15 @@ public class User {
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     /**
      * Sets the id of the user
-     * @param Id The id of the user
+     * @param id The id of the user
      */
-    public void setId(int Id) {
-        this.Id = Id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
@@ -175,18 +211,18 @@ public class User {
 
     /**
      *
-     * @return 1 if the user is admin and 0 if the user is not
+     * @return true if the user is admin and false if the user is not
      */
-    public int getAdmin() {
+    public boolean isAdmin() {
         return admin;
     }
 
     /**
      * Sets admin privileges
-     * @param newStatus 1 is the user is admin and 0 if the user is not
+     * @param admin true if the user is admin and false if the user is not
      */
-    public void setAdmin(int newStatus) {
-        this.admin = newStatus;
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
     /**
@@ -284,5 +320,9 @@ public class User {
         }
 
         return false;
+    }
+
+    public Role getRole() {
+        return role;
     }
 }

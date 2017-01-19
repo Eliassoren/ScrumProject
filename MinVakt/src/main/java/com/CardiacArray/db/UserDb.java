@@ -30,7 +30,7 @@ public class UserDb extends DbManager {
                 String firstName= res.getString("first_name");
                 String lastName = res.getString("last_name");
                 String password = res.getString("password");
-                int adminRights = res.getInt("admin_rights");
+                boolean adminRights = res.getBoolean("admin_rights");
                 int mobile = res.getInt("mobile");
                 String address = res.getString("address");
                 int userCategoryInt = res.getInt("user.user_category_id");
@@ -68,7 +68,7 @@ public class UserDb extends DbManager {
                 String firstName= res.getString("first_name");
                 String lastName = res.getString("last_name");
                 String password = res.getString("password");
-                int adminRights = res.getInt("admin_rights");
+                boolean adminRights = res.getBoolean("admin_rights");
                 int mobile = res.getInt("mobile");
                 String address = res.getString("address");
                 int userCategoryInt = res.getInt("user.user_category_id");
@@ -109,7 +109,7 @@ public class UserDb extends DbManager {
                 String lastName = res.getString("last_name");
                 String email = res.getString("email");
                 String password = res.getString("password");
-                int adminRights = res.getInt("admin_rights");
+                boolean adminRights = res.getBoolean("admin_rights");
                 int mobile = res.getInt("mobile");
                 String address = res.getString("address");
                 int userCategoryInt = res.getInt("user.user_category_id");
@@ -144,7 +144,7 @@ public class UserDb extends DbManager {
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
             statement.setString(3, user.getPassword());
-            statement.setInt(4, user.getAdmin());
+            statement.setBoolean(4, user.isAdmin());
             statement.setInt(5, user.getMobile());
             statement.setString(6, user.getAddress());
             statement.setInt(7, user.getUserCategoryInt());
@@ -208,7 +208,7 @@ public class UserDb extends DbManager {
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
             statement.setString(3, user.getPassword());
-            statement.setInt(4, user.getAdmin());
+            statement.setBoolean(4, user.isAdmin());
             statement.setInt(6, user.getMobile());
             statement.setString(7, user.getAddress());
             statement.setInt(5, user.getUserCategoryInt());
@@ -238,7 +238,7 @@ public class UserDb extends DbManager {
      * and finally deletes user from database
     */
     public static void main(String[] args)throws Exception{
-        User testUser1 = new User("Dirck", "Delete", 90269026, "dirk@delete.com", "passs", 0, "trondheim", 0,true);
+        User testUser1 = new User("Dirck", "Delete", 90269026, "dirk@delete.com", "passs", false, "trondheim", 0,true);
         UserDb udb = new UserDb();
         udb.createUser(testUser1);
         User testUser2 = udb.getUserByEmail(testUser1.getEmail());
