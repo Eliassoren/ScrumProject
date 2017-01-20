@@ -56,6 +56,8 @@ public class OvertimeDb extends DbManager {
 
                 originalShift.setStartTime(Long.toString(startDate.getTime() + startTimeOvertime.getTime()));
                 originalShift.setEndTime(Long.toString(endDate.getTime() + endTimeOvertime.getTime()));
+                res.close();
+                statement.close();
             }
         }catch (SQLException e){
                 e.printStackTrace();
@@ -65,7 +67,7 @@ public class OvertimeDb extends DbManager {
         return originalShift;
     }
 
-    public boolean deleteOvertime(Shift shift){
+    public boolean deleteOvertime(Shift shift) {
         int returnvalue = 0;
         String toSql = "DELETE FROM overtime WHERE shift_id = ? ";
         try {
@@ -80,6 +82,29 @@ public class OvertimeDb extends DbManager {
         return returnvalue != 0;
     }
 
+    public boolean setOvertime(Shift shift, Time fromTime, Time toTime){
+        boolean returnValue = false;
+        String toSql = "INSERT INTO overtime " +
+                "(overtime_id, shift_id, start, overtime.end, approved) " +
+                "VALUES (DEFAULT, ?, ?, ?, 0)";
+
+        try{
+            statement = connection.prepareStatement(toSql);
+            statement.setInt(1, shift.getShiftId());
+            statement.setTime(2, fromTime);
+            statement.setTime(3, toTime);
+            statement.execute();
+            ResultSet res = statement.getGeneratedKeys();
+            if(res.next()){
+                returnValue = true;
+            }
+            res.close();
+            statement.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return returnValue;
+    }
 
 
     public static void main(String[] args) throws Exception{
