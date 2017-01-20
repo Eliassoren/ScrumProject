@@ -92,8 +92,9 @@ public class UserService {
 
     }
     @GET
+    @Path("/hours/{startTime}/{endTime}/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public long findHoursForPeriod(long startTime, long endTime, int userId){
+    public long getHoursForPeriod(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime,@PathParam("userId") int userId){
         long hoursWorked = 0;
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime), userId);
 
@@ -122,16 +123,20 @@ public class UserService {
     }
 
     @GET
+    @Path("/overtime/{userId}/{startTime}/{endTime}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String [][] findOvertimeForPeriod(Shift shift, long startTime, long endTime){
-        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime),shift.getUserId());
+    public String [][] getOvertimeForPeriod(@PathParam("userId") int userId, @PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
+
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime),userId);
+
         String[][]overtimeArray = new String[shifts.size()][2];
+
         for(int i = 0; i < shifts.size(); i++){
-            Shift temp =  overtimeDB.getOvertime(shifts.get(i));
-            if(!temp.equals(shifts.get(i))){
-                long overtimeInHours = temp.getEndTime().getTime()-temp.getStartTime().getTime();
-                String start = temp.getStartTime().toString();
-                String end = temp.getEndTime().toString();
+            Shift overtimeShift =  overtimeDB.getOvertime(shifts.get(i));
+            if(!overtimeShift.equals(shifts.get(i))){
+                long overtimeInHours = overtimeShift.getEndTime().getTime()-overtimeShift.getStartTime().getTime();
+                String start = overtimeShift.getStartTime().toString();
+                String end = overtimeShift.getEndTime().toString();
                 overtimeArray[i][0] = start+end;
                 overtimeArray[i][1] = Long.toString(overtimeInHours);
             }
@@ -139,7 +144,11 @@ public class UserService {
        return overtimeArray;
     }
 
-    public void setOvertime(){
+
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public void setOvertime(Shift shift){
 
     }
 }
