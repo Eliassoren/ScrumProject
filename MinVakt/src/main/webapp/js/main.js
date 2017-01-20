@@ -11,6 +11,7 @@ const MONTH_NEXT = 2;
 //var date = new Date(new Date().getFullYear(), 0, 1);
 var week = 0;
 var shiftArray = new Array(Number(new Date(year, month + 1, 0).getDate()));
+var tradeableShifts = new Array(Number(new Date(year, month + 1, 0).getDate()));
 
 function getShiftById(id){
     $.ajax({
@@ -35,14 +36,18 @@ function getShiftById(id){
 // distributed without restrictions. Attribution not necessary but appreciated.
 // Source: https://weeknumber.net/how-to/javascript
 
-
-
+/**
+ *
+ * @param date
+ * @returns a date converted to the monday in given date's week
+ */
 function convertToMonday( date ) {
     var day = date.getDay() || 7;
     if( day !== 1 )
         date.setHours(-24 * (day - 1));
     return date;
 }
+
 function getMonday( date ) {
     var day = date.getDay() || 7;
     if( day !== 1 )
@@ -108,8 +113,8 @@ function formatTime(date) {
     return time;
 }
 
-
-function generateCalendar(shiftArray,year, month){
+// TODO: adjust for available shifts
+function generateCalendar(tradeableShifts,shiftArray,year, month){
     var firstDate = getFirstDateOfEachMonth(year)[month];
     var lastDateOfMonth = new Date(year, month + 1, 0).getDate();
     var day = getMonday(firstDate);
@@ -119,23 +124,37 @@ function generateCalendar(shiftArray,year, month){
     var lastDateOfPrevMonth = new Date(monday.getFullYear(), monday.getMonth() + 1, 0).getDate();
     var shiftDesc = "";
     var shiftTime = "";
+
     moment().year(year);
 
     $(".day").each(function () {
         var box = $(this).find(".date").text(day);
         if (monthStatus == MONTH_CURR){
-            if(shiftArray[day] != null){
-                shiftDesc = "Avdeling " +  shiftArray[day].departmentId;
-                shiftTime = formatTime(new Date(shiftArray[day].startTime)) + " - " + formatTime(new Date(shiftArray[day].endTime));
-                var eventdiv = $("<div/>").addClass("event").attr("shiftId", shiftArray[day].shiftId);
-                $(this).append(eventdiv);
-                eventdiv.append($("<span/>").addClass("event-desc").text(shiftDesc));
-                eventdiv.append($("<span/>").addClass("event-time").text(shiftTime));
+            if(shiftArray != null) {
+                if (shiftArray[day] != null) {
+                    shiftDesc = "Avdeling " + shiftArray[day].departmentId;
+                    shiftTime = formatTime(new Date(shiftArray[day].startTime)) + " - " + formatTime(new Date(shiftArray[day].endTime));
+                    var eventDiv = $("<div/>").addClass("event").attr("shiftId", shiftArray[day].shiftId);
+                    $(this).append(eventDiv);
+                    eventDiv.append($("<span/>").addClass("event-desc").text(shiftDesc));
+                    eventDiv.append($("<span/>").addClass("event-time").text(shiftTime));
                 }
+            }
             $(this).removeClass("other-month");
+            if(tradeableShifts != null) {
+                if (tradeableShifts[day] != null) {
+                    shiftDesc = "Avdeling " + tradeableShifts[day].departmentId;
+                    shiftTime = formatTime(new Date(tradeableShifts[day].startTime)) + " - " + formatTime(new Date(tradeableShifts[day].endTime));
+                    var tradeableEvent = $("<div/>").addClass("event").attr("shiftId", tradeableShifts[day].shiftId);
+                    $(this).append(tradeableEvent);
+                    tradeableEvent.append($("<span/>").addClass("event-desc").text(shiftDesc));
+                    tradeableEvent.append($("<span/>").addClass("event-time").text(shiftTime));
+                }
+            }
         }else if((monthStatus == MONTH_PREV || monthStatus == MONTH_NEXT) && (Number(box.find("date").text()) < 14 || Number(box.find("date").text())>21)){
             $(this).addClass("other-month");
         }
+
         if (day < lastDateOfPrevMonth) {
             if(noPrevMonth){
                 monthStatus = MONTH_CURR;
@@ -217,6 +236,7 @@ $(document).ready(function() {
         $("#month-title").text(title);
         clearCalendar();
         getShiftsForUser(year,month,16);
+        getAvailableShifts(year,month,16);
         //clearCalendar();
     });
 
@@ -298,7 +318,7 @@ function getShiftsForUser(year, month, userId) {
                 console.log(" Split :" + String(new Date(data[i].startTime)).split(" ")[2]);
                 shiftArray[Number(shiftBefore)] = data[i];
             }
-            generateCalendar(shiftArray, year, month);
+            generateCalendar(null,shiftArray, year, month);
         },
         statusCode: {
             401: function () {
@@ -308,13 +328,19 @@ function getShiftsForUser(year, month, userId) {
         }
     });
 }
+// TODO: verify
 function getAvailableShifts(year,month,userId){
     $.ajax({
         type: "GET",
-        url: "/MinVakt/rest/shifts/" + id,
+        url: "/MinVakt/rest/shifts/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + (new Date(year, month + 1, 0)).getTime() + "/" + userId,
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
-          // TODO : Make function for extracting available shifts
+            tradeableShifts = new Array(Number(new Date(year, month + 1, 0).getDate()));
+            for(var i = 0; i < data.length;i++){
+                var shiftBefore = String(new Date(data[i].startTime)).split(" ")[2];
+                tradeableShifts[Number(shiftBefore)] = data[i];
+            }
+            generateCalendar(tradeableShifts,null,year,month);
         },
         statusCode: {
             401: function () {
