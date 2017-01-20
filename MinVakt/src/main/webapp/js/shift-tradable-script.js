@@ -152,10 +152,10 @@ function getAvailableShifts(startTime, endTime) {
     })
 }
 
-function assignAvailableShift(id) {
+function assignAvailableShift(shiftId) {
     $.ajax({
         type: "GET",
-        url: "/MinVakt/rest/shifts/" + id,
+        url: "/MinVakt/rest/shifts/" + shiftId,
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (shift) {
             console.log(shift);
@@ -167,14 +167,14 @@ function assignAvailableShift(id) {
                     "Authorization": "Bearer " + localStorage.getItem("token")
                 },
                 type: "PUT",
-                url: "/MinVakt/rest/shifts/assign/" + id + "/" + userId,
+                url: "/MinVakt/rest/shifts/assign/" + shiftId + "/" + userId,
                 dataType: 'text',
                 data: JSON.stringify({
                     shiftId: shift.shiftId,
                     userId: userId,
                 }),
                 success: function () {
-                    console.log("Result: " + data);
+                    console.log("Result: Skift tatt");
                     setShiftTradeablePut(shift, false);
                 },
                 statusCode: {
