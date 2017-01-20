@@ -110,10 +110,17 @@ public class OvertimeDb extends DbManager {
 
     public static void main(String[] args) throws Exception{
         ShiftDb shiftDb = new ShiftDb();
-        Shift shift = shiftDb.getShift(10);
+        Shift shift = shiftDb.getShift(17);
         OvertimeDb test = new OvertimeDb();
-        Shift newShift = test.getOvertime(shift);
-        System.out.println(newShift.getStartTime());
-        System.out.println(newShift.getEndTime());
+        Time start = new Time(shift.getEndTime().getTime());
+        Time end = new Time(shift.getEndTime().getTime() + (2 * 3600000));
+
+        System.out.println( test.setOvertime(shift, start, end));
+        System.out.println("milistart = " + start);
+        System.out.println("miliend = " + end);
+
+        System.out.println(shift.equals(test.getOvertime(shift)));
+
+        System.out.println(test.deleteOvertime(shift));
     }
 }
