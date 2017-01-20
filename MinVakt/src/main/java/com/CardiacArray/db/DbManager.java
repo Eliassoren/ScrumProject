@@ -49,6 +49,7 @@ public class DbManager {
         System.out.println(sessionTest.login("epost@internett.no", "123"));
         System.out.println(sessionTest.login("eposten@internett.no", "123"));
         System.out.println(sessionTest.login("oddErik@gmail.com", "123"));
+
         db.connection.close();
     }
 
