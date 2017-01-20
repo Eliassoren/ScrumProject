@@ -179,7 +179,7 @@ public class ShiftService {
     }
 
     @GET
-    @Path("/{userId}/{userCategoryId}")
+    @Path("/filter/{userId}/{userCategoryId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Shift> filterShift(@PathParam("userId") int userId,@PathParam("userCategoryId") int userCategoryId){
         Map<Shift, Shift> map = new HashMap<>();

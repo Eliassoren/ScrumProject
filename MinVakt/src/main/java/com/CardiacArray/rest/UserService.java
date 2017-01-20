@@ -147,9 +147,10 @@ public class UserService {
     }
 
     @POST
+    @Path("/overtime/{from}/{to}")
     @Produces(MediaType.APPLICATION_JSON)
-    public boolean setOvertime(Shift shift, Time from, Time to){
+    public boolean setOvertime(Shift shift,@PathParam("from") long from,@PathParam("to") long to){
         if(shift == null) throw new BadRequestException();
-        return overtimeDB.setOvertime(shift,from, to);
+        return overtimeDB.setOvertime(shift,new Time(from), new Time(to));
     }
 }
