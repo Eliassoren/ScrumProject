@@ -15,7 +15,7 @@ public class UserDb extends DbManager {
     private PreparedStatement statement;
 
     /**
-    @param id
+    @param id Id of user
     @return User specified by id
      */
     public User getUserByEmail(int id){
@@ -140,7 +140,7 @@ public class UserDb extends DbManager {
     public boolean updateUser(User user){
         try {
             String toSQL = "UPDATE user " +
-                    "SET first_name=?, last_name=?, password=?, admin_rights=?, mobile=?, address=?, user_category_id=?, email=?, active=?" +
+                    "SET first_name = ?, last_name = ?, password = ?, admin_rights = ?, mobile = ?, address = ?, user_category_id = ?, email = ?, active = ? " +
                     "WHERE user_id = ?";
             statement = connection.prepareStatement(toSQL);
             statement.setString(1, user.getFirstName());

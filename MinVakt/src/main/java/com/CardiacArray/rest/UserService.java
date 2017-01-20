@@ -2,10 +2,17 @@ package com.CardiacArray.rest;
 
 import com.CardiacArray.AuthFilter.Role;
 import com.CardiacArray.AuthFilter.Secured;
+import com.CardiacArray.data.Shift;
 import com.CardiacArray.data.User;
+import com.CardiacArray.db.OvertimeDb;
+import com.CardiacArray.db.ShiftDb;
 import com.CardiacArray.db.UserDb;
 import com.CardiacArray.db.DbManager;
 import java.sql.Connection;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -20,6 +27,8 @@ import java.util.*;
 @Path("/users")
 public class UserService {
     private UserDb userDb = new UserDb();
+    private ShiftDb shiftDb = new ShiftDb();
+    private OvertimeDb overtimeDB = new OvertimeDb();
     private PasswordUtil passwordUtil = new PasswordUtil();
 
     public UserService(UserDb userDb) throws Exception {
@@ -100,10 +109,70 @@ public class UserService {
         Date dateAvail = new Date(date);
         Date startAvail = new Date(start);
         Date endAvail = new Date(end);
-        if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || !user.isValidEmail(user.getEmail())) {
+        if (user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || !user.isValidEmail(user.getEmail())) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         userDb.setUserAvailable(userId, dateAvail, startAvail, endAvail);
         return Response.ok().build();
+    }
+
+    @GET
+    @Path("/hours/{startTime}/{endTime}/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public long getHoursForPeriod(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime,@PathParam("userId") int userId){
+        long hoursWorked = 0;
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime), userId);
+
+        for(Shift eachShift : shifts){
+            long diff = eachShift.getEndTime().getTime() - eachShift.getStartTime().getTime();
+            long diffHours = diff / (60 * 60 * 1000);
+            hoursWorked += diffHours;
+        }
+        return hoursWorked;
+    }
+
+    public long checkOvertimeforPeriod(Shift shift, long startTime, long endTime){
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime),shift.getUserId());
+        long totOvertimeHours = 0;
+
+        for(Shift eachShift : shifts) {
+
+            Shift overtimeShift = overtimeDB.getOvertime(eachShift);
+            if (!eachShift.equals(overtimeShift)){
+                long diffOvertime = overtimeShift.getEndTime().getTime()-overtimeShift.getStartTime().getTime();
+                totOvertimeHours += diffOvertime / (60 * 60 * 1000);
+            }
+        }
+        return totOvertimeHours;
+    }
+
+    @GET
+    @Path("/overtime/{userId}/{startTime}/{endTime}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String [][] getOvertimeForPeriod(@PathParam("userId") int userId, @PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
+
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime),userId);
+
+        String[][]overtimeArray = new String[shifts.size()][2];
+
+        for(int i = 0; i < shifts.size(); i++){
+            Shift overtimeShift = overtimeDB.getOvertime(shifts.get(i));
+            if(!overtimeShift.equals(shifts.get(i))){
+                long overtimeInHours = overtimeShift.getEndTime().getTime()-overtimeShift.getStartTime().getTime();
+                String start = overtimeShift.getStartTime().toString();
+                String end = overtimeShift.getEndTime().toString();
+                overtimeArray[i][0] = start+end;
+                overtimeArray[i][1] = Long.toString(overtimeInHours);
+            }
+        }
+       return overtimeArray;
+    }
+
+    @POST
+    @Path("/overtime/{from}/{to}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public boolean setOvertime(Shift shift,@PathParam("from") long from,@PathParam("to") long to){
+        if(shift == null) throw new BadRequestException();
+        return overtimeDB.setOvertime(shift,new Time(from), new Time(to));
     }
 }
