@@ -21,8 +21,8 @@ function refreshTable() {
 }
 
 $(document).ready(function() {
-    $("#dropdown-toggle-day").click(function(){
-        $("#day").toggleClass("dropdown-active");
+    $("#dropdown-toggle-dateNow").click(function(){
+        $("#dateNow").toggleClass("dropdown-active");
     });
     $("#dropdown-toggle-evening").click(function(){
         $("#evening").toggleClass("dropdown-active");
@@ -54,7 +54,7 @@ function addRow(data) {
     var obj = data;
 
     //TODO this needs to be removed after the table slector below works
-    var table = "day-table";
+    var table = "dateNow-table";
 
 
     if (!document.getElementsByTagName) return;
@@ -67,7 +67,7 @@ function addRow(data) {
         var isFree = obj[i].tradeable;
 
         if (startTime >= 8 && startTime < 16) {
-            table = "day-table";
+            table = "dateNow-table";
         } else if (startTime >= 16 && startTime < 25) {
             table = "evening-table";
         } else if (startTime >= 0 && startTime < 8) {
@@ -155,6 +155,45 @@ function getAvailableShifts(startTime, endTime) {
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data) {
             addRow(data);
+        }
+    })
+}
+
+function assignAvailableShift(shiftId) {
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/" + shiftId,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function (shift) {
+            console.log(shift);
+            userId = parseInt(window.localStorage.getItem("userid"));
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                type: "PUT",
+                url: "/MinVakt/rest/shifts/assign/" + shiftId + "/" + userId,
+                dataType: 'text',
+                data: JSON.stringify({
+                    shiftId: shift.shiftId,
+                    userId: userId,
+                }),
+                success: function () {
+                    console.log("Result: Skift tatt");
+                    setShiftTradeablePut(shift, false);
+                },
+                statusCode: {
+                    401: function () {
+                        localStorage.removeItem("token");
+                        window.location.replace("/MinVakt/");
+                    },
+                    400: function () {
+                        console.log(data);
+                    }
+                }
+            })
         }
     })
 }
