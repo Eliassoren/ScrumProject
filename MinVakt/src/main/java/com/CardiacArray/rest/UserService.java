@@ -4,10 +4,12 @@ import com.CardiacArray.AuthFilter.Role;
 import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.data.Shift;
 import com.CardiacArray.data.User;
+import com.CardiacArray.db.OvertimeDb;
 import com.CardiacArray.db.ShiftDb;
 import com.CardiacArray.db.UserDb;
 import com.CardiacArray.db.DbManager;
 import java.sql.Connection;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -24,7 +26,7 @@ import javax.ws.rs.core.MediaType;
 public class UserService {
     private UserDb userDb = new UserDb();
     private ShiftDb shiftDb = new ShiftDb();
-    private OvertimeDB overtimeDB = new OvertimeDB();
+    private OvertimeDb overtimeDB = new OvertimeDb();
     private PasswordUtil passwordUtil = new PasswordUtil();
 
     public UserService(UserDb userDb) throws Exception {
@@ -120,7 +122,6 @@ public class UserService {
             }
         }
         return totOvertimeHours;
-
     }
 
     @GET
@@ -133,7 +134,7 @@ public class UserService {
         String[][]overtimeArray = new String[shifts.size()][2];
 
         for(int i = 0; i < shifts.size(); i++){
-            Shift overtimeShift =  overtimeDB.getOvertime(shifts.get(i));
+            Shift overtimeShift = overtimeDB.getOvertime(shifts.get(i));
             if(!overtimeShift.equals(shifts.get(i))){
                 long overtimeInHours = overtimeShift.getEndTime().getTime()-overtimeShift.getStartTime().getTime();
                 String start = overtimeShift.getStartTime().toString();
@@ -145,11 +146,10 @@ public class UserService {
        return overtimeArray;
     }
 
-
-
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public void setOvertime(Shift shift){
-
+    public boolean setOvertime(Shift shift, Time from, Time to){
+        if(shift == null) throw new BadRequestException();
+        return overtimeDB.setOvertime(shift,from, to);
     }
 }

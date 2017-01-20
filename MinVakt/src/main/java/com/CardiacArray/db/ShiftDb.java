@@ -6,6 +6,7 @@ import com.CardiacArray.data.User;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 
 /**
@@ -144,7 +145,7 @@ public class ShiftDb extends DbManager{
             res = statement.executeQuery();
 
             while (res.next()) {
-                Date dateFromQuery = res.getDate("date");
+                java.sql.Date dateFromQuery = res.getDate("date");
                 Time startTimeFromQuery = res.getTime("start");
                 Time endTimeFromQuery = res.getTime("end");
                 Date startDateFormatted = new Date(dateFromQuery.getTime() + startTimeFromQuery.getTime() + 3600000L);
