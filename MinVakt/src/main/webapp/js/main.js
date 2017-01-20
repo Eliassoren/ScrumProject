@@ -48,11 +48,8 @@ function convertToMonday( date ) {
     return date;
 }
 
-function getMonday( date ) {
-    var day = date.getDay() || 7;
-    if( day !== 1 )
-        date.setHours(-24 * (day - 1));
-    return date.getDate();
+function getMonday( date , getDateNumber) {
+    return getDateNumber(date);
 }
 
 monthNames[0] = "Januar";
@@ -117,7 +114,13 @@ function formatTime(date) {
 function generateCalendar(tradeableShifts,shiftArray,year, month){
     var firstDate = getFirstDateOfEachMonth(year)[month];
     var lastDateOfMonth = new Date(year, month + 1, 0).getDate();
-    var day = getMonday(firstDate);
+    var foo = function(date){
+        var day1 = Number(date.getDay()) || 7;
+        if( day1 !== 1 )
+            date.setHours(-24 * (day1 - 1));
+        return date.getDate();
+    }
+    var day = getMonday(firstDate, foo);
     var noPrevMonth = day == 1; // Special case when month starts on a monday..
     var monday = convertToMonday(firstDate); // first monday of calendar view (of previous month)
     var monthStatus = 0; // 0 when previous, 1 when current, 2 when next
@@ -142,13 +145,19 @@ function generateCalendar(tradeableShifts,shiftArray,year, month){
             }
             $(this).removeClass("other-month");
             if(tradeableShifts != null) {
-                if (tradeableShifts[day] != null) {
-                    shiftDesc = "Avdeling " + tradeableShifts[day].departmentId;
-                    shiftTime = formatTime(new Date(tradeableShifts[day].startTime)) + " - " + formatTime(new Date(tradeableShifts[day].endTime));
-                    var tradeableEvent = $("<div/>").addClass("event").attr("shiftId", tradeableShifts[day].shiftId);
+                shiftsInOneDay = tradeableShifts[day];
+                if (shiftsInOneDay != null) {
+                    var amountShifts = 0;
+                    for(var i = 0; i < shiftsInOneDay.length;i++){
+                        if(shiftsInOneDay[i]!= null){
+                            amountShifts++;
+                        }
+                    }
+                    shiftDesc = amountShifts + " ledige vakter";
+                    //shiftTime = formatTime(new Date(tradeableShifts[day].startTime)) + " - " + formatTime(new Date(tradeableShifts[day].endTime));
+                    var tradeableEvent = $("<div/>").addClass("free-event").attr("shiftId", tradeableShifts[day].shiftId);
                     $(this).append(tradeableEvent);
-                    tradeableEvent.append($("<span/>").addClass("event-desc").text(shiftDesc));
-                    tradeableEvent.append($("<span/>").addClass("event-time").text(shiftTime));
+                    tradeableEvent.append($("<span/>").addClass("free-event-text").text(shiftDesc));
                 }
             }
         }else if((monthStatus == MONTH_PREV || monthStatus == MONTH_NEXT) && (Number(box.find("date").text()) < 14 || Number(box.find("date").text())>21)){
@@ -236,7 +245,7 @@ $(document).ready(function() {
         $("#month-title").text(title);
         clearCalendar();
         getShiftsForUser(year,month,16);
-        getAvailableShifts(year,month,16);
+        getTradeableShifts(year,month,16);
         //clearCalendar();
     });
 
@@ -284,6 +293,7 @@ $(document).ready(function() {
     });
 
     $.when(getShiftsForUser(2017, month, 16)).then(generateCalendar(2017, 0));
+    $.when(getShiftsForUser(2017, month, 16)).then(generateCalendar(2017, 0));
 });
 
 function getShiftAndTrade(id, bool){
@@ -328,17 +338,27 @@ function getShiftsForUser(year, month, userId) {
         }
     });
 }
-// TODO: verify
-function getAvailableShifts(year,month,userId){
+function getTradeableShifts(year, month, userId){
     $.ajax({
         type: "GET",
-        url: "/MinVakt/rest/shifts/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + (new Date(year, month + 1, 0)).getTime() + "/" + userId,
+        url: "/MinVakt/rest/shifts/tradeable/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + (new Date(year, month + 1, 0)).getTime() + "/" +userId,
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
-            tradeableShifts = new Array(Number(new Date(year, month + 1, 0).getDate()));
-            for(var i = 0; i < data.length;i++){
-                var shiftBefore = String(new Date(data[i].startTime)).split(" ")[2];
-                tradeableShifts[Number(shiftBefore)] = data[i];
+            var monthLen = Number(new Date(year, month + 1, 0).getDate());
+            tradeableShifts = new Array(monthLen);
+
+            for(var i = 0; i < monthLen;i++){
+                //var shiftBefore = String(new Date(data[i].startTime)).split(" ")[2];
+                var dayArr = new Array();
+                for(var j = 0; j < data.length;j++) {
+                    var shiftDate = Number(new Date(data[j].startTime).getDate())
+                    if (shiftDate === i) {
+                        dayArr.push(data[j]);
+                    }
+                }
+                if(dayArr != null){
+                    tradeableShifts[i] = dayArr;
+                }
             }
             generateCalendar(tradeableShifts,null,year,month);
         },
