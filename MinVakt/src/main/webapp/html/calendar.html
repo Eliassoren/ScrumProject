@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../css/main.css">
     <link rel= "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -44,14 +45,14 @@
     </div>
     <div id="calendar">
         <ul class="weekdays">
-            <li class="uke">Uke</li>
-            <li>Mandag</li>
-            <li>Tirsdag</li>
-            <li>Onsdag</li>
-            <li>Torsdag</li>
-            <li>Fredag</li>
-            <li>Lørdag</li>
-            <li>Søndag</li>
+            <li id="uke">Uke</li>
+            <li>Man</li>
+            <li>Tir</li>
+            <li>Ons</li>
+            <li>Tor</li>
+            <li>Fre</li>
+            <li>Lør</li>
+            <li>Søn</li>
         </ul>
 
         <!-- Days from previous month -->
@@ -67,8 +68,18 @@
             </li>
             <li class="day">
                 <div class="date">26</div>
+                <div class="event">
+                    <span class="event-desc">Avdeling 1</span>
+                    <span class="event-time">12:00-20:00</span>
+                </div>
+                <div class="free-event">
+                    <span class="free-event-text">x   ledige vakter</span>
+                </div>
             </li>
             <li class="day">
+                <div class="free-event">
+                    <span class="free-event-text">x   ledige vakter</span>
+                </div>
                 <div class="date">27</div>
             </li>
             <li class="day">
