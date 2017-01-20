@@ -4,7 +4,10 @@ package com.CardiacArray.rest;
 import com.CardiacArray.AuthFilter.Role;
 import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.data.Shift;
+import com.CardiacArray.data.User;
 import com.CardiacArray.db.ShiftDb;
+import com.CardiacArray.db.UserDb;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -15,6 +18,7 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 public class ShiftService {
 
     private ShiftDb shiftDb = new ShiftDb();
+    private UserDb userDb = new UserDb();
 
     public ShiftService(ShiftDb shiftDb) throws Exception {
         this.shiftDb = shiftDb;
@@ -155,9 +159,36 @@ public class ShiftService {
         else return responseId;
     }
 
-    public void filterShift(int userId, int user_category_id){
-        //TODO Ferdigstille filtrering av skift, kunne printe ut liste med akutelle skift
-        shiftDb.getShiftByCategory(userId,user_category_id);
+
+    //TODO getTradeable med userCategoryId
+
+    @GET
+    @Path("/tradeable/{startTime}/{endTime}/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Shift> getTradeable(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime, @PathParam("userId") int userId){
+        if (startTime > endTime) throw  new BadRequestException();
+        User user = userDb.getUserByEmail(userId);
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime),userId);
+        Map<Shift, Shift> map = new HashMap<>();
+        for(Shift shiftElement: shifts){
+            if(shiftElement.isTradeable() && shiftElement.getRole() == user.getUserCategoryInt()){
+                map.put(shiftElement,shiftElement);
+            }
+        }
+        return map.values();
+    }
+
+    @GET
+    @Path("/{userId}/{userCategoryId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Shift> filterShift(@PathParam("userId") int userId,@PathParam("userCategoryId") int userCategoryId){
+        Map<Shift, Shift> map = new HashMap<>();
+        if (userCategoryId < 0 || userId < 0) throw  new BadRequestException();
+        ArrayList<Shift> shifts = shiftDb.getShiftByCategory(userId,userCategoryId);
+        for(Shift shift : shifts){
+            map.put(shift,shift);
+        }
+        return map.values();
     }
 
     private boolean validateShift(Shift shift){
