@@ -152,43 +152,41 @@ function getAvailableShifts(startTime, endTime) {
     })
 }
 
-function getShiftById(id) {
+function assignAvailableShift(id) {
     $.ajax({
         type: "GET",
         url: "/MinVakt/rest/shifts/" + id,
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
-        success: function (data) {
-            console.log(data);
-            takeAvailableShift(id)
-        }
-    })
-}
-
-function takeAvailableShift(shift, userId) {
-    userId = parseInt(window.localStorage.getItem("userid"));
-    $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            "Authorization": "Bearer " + localStorage.getItem("token")
-        },
-        type: "PUT",
-        url: "/MinVakt/rest/shifts/assign/" + shift + "/" + userId,
-        dataType: 'json',
-        data: JSON.stringify({
-            shiftId: shift.shiftId,
-            userId: userId,
-        }),
-        success: function (data) {
-            console.log("Result: " + data);
-            returnValue = JSON.parse(data);
-            return returnValue;
-        },
-        statusCode: {
-            401: function () {
-                localStorage.removeItem("token");
-                window.location.replace("/MinVakt/");
-            }
+        success: function (shift) {
+            console.log(shift);
+            userId = parseInt(window.localStorage.getItem("userid"));
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                type: "PUT",
+                url: "/MinVakt/rest/shifts/assign/" + id + "/" + userId,
+                dataType: 'text',
+                data: JSON.stringify({
+                    shiftId: shift.shiftId,
+                    userId: userId,
+                }),
+                success: function () {
+                    console.log("Result: " + data);
+                    setShiftTradeablePut(shift, false);
+                },
+                statusCode: {
+                    401: function () {
+                        localStorage.removeItem("token");
+                        window.location.replace("/MinVakt/");
+                    },
+                    400: function () {
+                        console.log(data);
+                    }
+                }
+            })
         }
     })
 }
