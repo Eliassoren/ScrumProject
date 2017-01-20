@@ -130,8 +130,8 @@ public class ShiftDb extends DbManager{
         return shift;
     }
 
-    public Shift getShiftByCategory(int user_id, int user_category_id){
-        Shift shift = null;
+    public ArrayList<Shift> getShiftByCategory(int user_id, int user_category_id){
+        ArrayList<Shift> shiftArray = new ArrayList<>();
         String sql = "SELECT shift.shift_id, shift.date, shift.start,\n" +
                 "  shift.end, shift.department_id, shift.user_category_id,\n" +
                 "  shift.responsible_user, shift.tradeable, user.user_id,\n" +
@@ -144,16 +144,14 @@ public class ShiftDb extends DbManager{
             statement.setInt(1, user_category_id);
             res = statement.executeQuery();
 
-            if (!res.next()) {
-                return null;
-            } else {
+            while (res.next()) {
                 Date dateFromQuery = res.getDate("date");
                 Time startTimeFromQuery = res.getTime("start");
                 Time endTimeFromQuery = res.getTime("end");
                 Date startDateFormatted = new Date(dateFromQuery.getTime() + startTimeFromQuery.getTime() + 3600000L);
                 Date endDateFormatted = new Date(dateFromQuery.getTime() + endTimeFromQuery.getTime() + 3600000L);
 
-                shift = new Shift(
+                shiftArray.add(new Shift(
                         res.getInt("shift_id"),
                         startDateFormatted,
                         endDateFormatted,
@@ -162,15 +160,18 @@ public class ShiftDb extends DbManager{
                         res.getInt("department_id"),
                         res.getInt("user_category_id"),
                         res.getBoolean("tradeable"),
-                        res.getBoolean("responsible_user"));
-                statement.close();
+                        res.getBoolean("responsible_user")
+                ));
             }
+            res.close();
+            statement.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
             DbManager.rollback();
         }
 
-        return shift;
+        return shiftArray;
     }
 
     /**

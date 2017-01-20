@@ -110,14 +110,36 @@ public class UserService {
         long totOvertimeHours = 0;
 
         for(Shift eachShift : shifts) {
-            Shift overtimeShift = overtimeDB.getOvertime(eachShift);
-            long diffOvertime = overtimeShift.getEndTime().getTime()-overtimeShift.getStartTime().getTime();
-            totOvertimeHours += diffOvertime / (60 * 60 * 1000);
-        }
 
+            Shift overtimeShift = overtimeDB.getOvertime(eachShift);
+            if (!eachShift.equals(overtimeShift)){
+                long diffOvertime = overtimeShift.getEndTime().getTime()-overtimeShift.getStartTime().getTime();
+                totOvertimeHours += diffOvertime / (60 * 60 * 1000);
+            }
+        }
         return totOvertimeHours;
-        //reture antall timer overtid
+
     }
 
-    //returner antall timer vanlig og overtid
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String [][] findOvertimeForPeriod(Shift shift, long startTime, long endTime){
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime),shift.getUserId());
+        String[][]overtimeArray = new String[shifts.size()][2];
+        for(int i = 0; i < shifts.size(); i++){
+            Shift temp =  overtimeDB.getOvertime(shifts.get(i));
+            if(!temp.equals(shifts.get(i))){
+                long overtimeInHours = temp.getEndTime().getTime()-temp.getStartTime().getTime();
+                String start = temp.getStartTime().toString();
+                String end = temp.getEndTime().toString();
+                overtimeArray[i][0] = start+end;
+                overtimeArray[i][1] = Long.toString(overtimeInHours);
+            }
+        }
+       return overtimeArray;
+    }
+
+    public void setOvertime(){
+
+    }
 }
