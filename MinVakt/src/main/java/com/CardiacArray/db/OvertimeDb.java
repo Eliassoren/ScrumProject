@@ -67,6 +67,21 @@ public class OvertimeDb extends DbManager {
         return originalShift;
     }
 
+    public boolean deleteOvertime(Shift shift) {
+        int returnvalue = 0;
+        String toSql = "DELETE FROM overtime WHERE shift_id = ? ";
+        try {
+            statement = connection.prepareStatement(toSql);
+            statement.setInt(1, shift.getShiftId());
+            returnvalue = statement.executeUpdate();
+            statement.close();
+            res.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return returnvalue != 0;
+    }
+
     public boolean setOvertime(Shift shift, Time fromTime, Time toTime){
         boolean returnValue = false;
         String toSql = "INSERT INTO overtime " +
