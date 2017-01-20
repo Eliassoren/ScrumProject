@@ -72,7 +72,7 @@ public class LoginService {
             user.setPassword(hashedPassword);
             userDb.updateUser(user);
             return Response.ok().build();
-        } else throw new NotFoundException("Error");
+        } else return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @Secured({Role.ADMIN, Role.USER})
