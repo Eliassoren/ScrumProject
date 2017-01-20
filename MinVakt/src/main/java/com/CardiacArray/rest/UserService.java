@@ -35,7 +35,7 @@ public class UserService {
         this.userDb = userDb;
     }
 
-    public UserService() {
+    public UserService() throws Exception {
     }
 
     /**
