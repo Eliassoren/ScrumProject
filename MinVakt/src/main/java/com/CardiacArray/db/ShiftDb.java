@@ -5,10 +5,8 @@ import com.CardiacArray.data.User;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
+
 
 /**
  * Created by Vegard on 12/01/2017.
@@ -31,11 +29,12 @@ public class ShiftDb extends DbManager{
     * @see com.CardiacArray.data.Shift
     * @return Returns single shift object
     * */
-    public Shift getShift(Date date, int userId){
+    public Shift getShift(java.util.Date date, int userId){
         Shift shift = null;
 
         // Formats date to form yyyy-MM-dd
         SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+        simpleDate.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
         String onlyDate = simpleDate.format(date);
 
         String sql = "SELECT shift.shift_id, shift.date, shift.start, shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable,\n" +
@@ -54,11 +53,11 @@ public class ShiftDb extends DbManager{
             if (!res.next()) {
                 return null;
             } else {
-                Date dateFromQuery = res.getDate("date");
+                java.sql.Date dateFromQuery = res.getDate("date");
                 Time startTimeFromQuery = res.getTime("start");
                 Time endTimeFromQuery = res.getTime("end");
-                Date startDateFormatted = new Date(dateFromQuery.getTime() + startTimeFromQuery.getTime() + 3600000L);
-                Date endDateFormatted = new Date(dateFromQuery.getTime() + endTimeFromQuery.getTime() + 3600000L);
+                java.util.Date startDateFormatted = new java.util.Date(dateFromQuery.getTime() + startTimeFromQuery.getTime());
+                java.util.Date endDateFormatted = new java.util.Date(dateFromQuery.getTime() + endTimeFromQuery.getTime());
 
                 shift = new Shift(
                         res.getInt("shift_id"),
@@ -104,11 +103,11 @@ public class ShiftDb extends DbManager{
             if (!res.next()) {
                 return null;
             } else {
-                Date dateFromQuery = res.getDate("date");
+                java.sql.Date dateFromQuery = res.getDate("date");
                 Time startTimeFromQuery = res.getTime("start");
                 Time endTimeFromQuery = res.getTime("end");
-                Date startDateFormatted = new Date(dateFromQuery.getTime() + startTimeFromQuery.getTime() + 3600000L);
-                Date endDateFormatted = new Date(dateFromQuery.getTime() + endTimeFromQuery.getTime() + 3600000L);
+                java.util.Date startDateFormatted = new java.util.Date(dateFromQuery.getTime() + startTimeFromQuery.getTime() + 3600000L);
+                java.util.Date endDateFormatted = new java.util.Date(dateFromQuery.getTime() + endTimeFromQuery.getTime() + 3600000L);
 
                 shift = new Shift(
                         res.getInt("shift_id"),
@@ -140,7 +139,7 @@ public class ShiftDb extends DbManager{
      * @see com.CardiacArray.data.Shift
      * @return list of shifts for a user in  a given period
      * */
-    public ArrayList<Shift> getShiftsForPeriod(Date dateStart, Date dateEnd, int userId){
+    public ArrayList<Shift> getShiftsForPeriod(java.util.Date dateStart, java.util.Date dateEnd, int userId){
         ArrayList<Shift> shiftArray = new ArrayList<>();
 
         // Formats date to form yyyy-MM-dd
@@ -163,11 +162,11 @@ public class ShiftDb extends DbManager{
             res = statement.executeQuery();
 
             while (res.next()) {
-                Date dateFromQuery = res.getDate("date");
+                java.sql.Date dateFromQuery = res.getDate("date");
                 Time startTimeFromQuery = res.getTime("start");
                 Time endTimeFromQuery = res.getTime("end");
-                Date startDateFormatted = new Date(dateFromQuery.getTime() + startTimeFromQuery.getTime() + 3600000L);
-                Date endDateFormatted = new Date(dateFromQuery.getTime() + endTimeFromQuery.getTime() + 3600000L);
+                java.util.Date startDateFormatted = new java.util.Date(dateFromQuery.getTime() + startTimeFromQuery.getTime() + 3600000L);
+                java.util.Date endDateFormatted = new java.util.Date(dateFromQuery.getTime() + endTimeFromQuery.getTime() + 3600000L);
 
                 shiftArray.add(new Shift(
                         res.getInt("shift_id"),
@@ -202,7 +201,7 @@ public class ShiftDb extends DbManager{
      * @see com.CardiacArray.data.Shift
      * @return list of shifts for in a given period
      * */
-    public ArrayList<Shift> getShiftsForPeriod(Date dateStart, Date dateEnd){
+    public ArrayList<Shift> getShiftsForPeriod(java.util.Date dateStart, java.util.Date dateEnd){
         ArrayList<Shift> shiftArray = new ArrayList<>();
 
         // Formats date to form yyyy-MM-dd
@@ -226,12 +225,12 @@ public class ShiftDb extends DbManager{
             res = statement.executeQuery();
 
             while (res.next()) {
-                Date dateFromQuery = res.getDate("date");
+                java.sql.Date dateFromQuery = res.getDate("date");
                 System.out.println("Date from query: " + dateFromQuery);
                 Time startTimeFromQuery = res.getTime("start");
                 Time endTimeFromQuery = res.getTime("end");
-                Date startDateFormatted = new Date(dateFromQuery.getTime() + startTimeFromQuery.getTime());
-                Date endDateFormatted = new Date(dateFromQuery.getTime() + endTimeFromQuery.getTime());
+                java.util.Date startDateFormatted = new java.util.Date(dateFromQuery.getTime() + startTimeFromQuery.getTime());
+                java.util.Date endDateFormatted = new java.util.Date(dateFromQuery.getTime() + endTimeFromQuery.getTime());
 
                 shiftArray.add(new Shift(
                         res.getInt("shift_id"),
@@ -262,7 +261,7 @@ public class ShiftDb extends DbManager{
     * @author Vegard Stenvik
     * @param date The date to convert to time formatted HH:mm
     * */
-    private String DateToSQLTimeString(Date date){
+    private String DateToSQLTimeString(java.util.Date date){
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(date);
         return calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);

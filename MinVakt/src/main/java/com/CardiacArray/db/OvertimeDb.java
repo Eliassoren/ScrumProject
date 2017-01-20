@@ -6,8 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by kjosavik on 19-Jan-17.
@@ -19,6 +20,7 @@ public class OvertimeDb extends DbManager {
 
     public OvertimeDb() throws Exception{
         super();
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
     }
 
     public Shift getOvertime(Shift originalShift){
@@ -31,36 +33,46 @@ public class OvertimeDb extends DbManager {
             res = statement.executeQuery();
 
             if(!res.next()) {
-                System.out.println("null");
-                return null;
+                return originalShift;
             }else {
                 Time startTimeOvertime = res.getTime("start");
                 Time endTimeOvertime = res.getTime("end");
                 Calendar calendar = GregorianCalendar.getInstance();
+
                 calendar.setTime(originalShift.getStartTime());
                 int startDay = calendar.get(Calendar.DATE);
+                int startYear = calendar.get(Calendar.YEAR);
+                int startMonth = calendar.get(Calendar.MONTH);
+
                 calendar.setTime(originalShift.getEndTime());
                 int endDay = calendar.get(Calendar.DATE);
-                if (startDay == endDay) {
-                    int year = calendar.get(Calendar.YEAR);
-                    int month = calendar.get(Calendar.MONTH);
-                    //originalShift.setStartTime(Integer.parseInt(year) + Integer.parseInt(month) + Integer.parseInt(endDay));
-                    System.out.println(Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(endDay));
-                    //TODO Få originalShift.setStartTime på riktig format. Det skal være en Long. Husk å legge til de timene med overtid.
-                }else {
-    System.out.print("nope");
-                }
+                int endYear = calendar.get(Calendar.YEAR);
+                int endMonth = calendar.get(Calendar.MONTH);
+
+                SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+                simpleDate.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
+                Date startDate = simpleDate.parse(Integer.toString(startYear) + "-" + Integer.toString(startMonth) + "-" + Integer.toString(startDay));
+                Date endDate = simpleDate.parse(Integer.toString(endYear) + "-" + Integer.toString(endMonth) + "-" + Integer.toString(endDay));
+
+                originalShift.setStartTime(Long.toString(startDate.getTime() + startTimeOvertime.getTime()));
+                originalShift.setEndTime(Long.toString(endDate.getTime() + endTimeOvertime.getTime()));
             }
         }catch (SQLException e){
                 e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return originalShift;
     }
+
+
 
     public static void main(String[] args) throws Exception{
         ShiftDb shiftDb = new ShiftDb();
         Shift shift = shiftDb.getShift(10);
         OvertimeDb test = new OvertimeDb();
         Shift newShift = test.getOvertime(shift);
+        System.out.println(newShift.getStartTime());
+        System.out.println(newShift.getEndTime());
     }
 }

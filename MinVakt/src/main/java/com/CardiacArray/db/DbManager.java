@@ -6,6 +6,7 @@ import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.TimeZone;
 
 
 /**
@@ -16,6 +17,7 @@ public class DbManager {
     public static Connection connection;
 
     public DbManager() {
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         if(connection == null){
             try {
                 ReadConfig readConfig = new ReadConfig();
