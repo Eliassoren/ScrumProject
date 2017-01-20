@@ -203,7 +203,9 @@ h2{
     text-decoration: none;
     overflow: hidden;
 }
+#calendar .available-event{
 
+}
 #calendar .event-desc {
     color: #666;
     margin: 3px 0 7px 0;
@@ -332,7 +334,9 @@ footer{
 .hamburger-menu-open {
     display: block !important;
 }
+.available-event{
 
+}
 .event-open {
     top:50%;
     left:50%;

@@ -11,8 +11,8 @@ $(document).ready(function() {
 
 
 $(document).ready(function() {
-    $("#dropdown-toggle-day").click(function(){
-        $("#day").toggleClass("dropdown-active");
+    $("#dropdown-toggle-dateNow").click(function(){
+        $("#dateNow").toggleClass("dropdown-active");
     });
     $("#dropdown-toggle-evening").click(function(){
         $("#evening").toggleClass("dropdown-active");
@@ -43,7 +43,7 @@ window.onload = function addRow() {
     console.log(obj);
 
     //TODO this needs to be removed after the table slector below works
-    table = "day-table";
+    table = "dateNow-table";
 
 
     if (!document.getElementsByTagName) return;
@@ -55,7 +55,7 @@ window.onload = function addRow() {
         var startTime = new Date(obj[i].startTime).getHours();
 
          if (startTime >= 8 && startTime < 16) {
-         table = "day-table";
+         table = "dateNow-table";
          } else if (startTime >= 16 && startTime < 25) {
          table = "evening-table";
          } else if (startTime >= 0 && startTime < 8) {
