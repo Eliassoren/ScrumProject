@@ -145,8 +145,8 @@ h2{
     height: 100px;
     width: 50px;
     background-color: #979797;
-    clip-path: polygon(0% 60%, 90% 0%, 0% 0%);
-    font-size: 2rem;
+    clip-path: polygon(0% 50%, 80% 0%, 0% 0%);
+    font-size: 1.5rem;
     top: 2rem;
     left: 2rem;
 
@@ -188,23 +188,21 @@ h2{
     background-color: grey;
 }
 #calendar ul.weekdays {
-    height: 40px;
+    height: 25px;
     color: transparent; !important;
     width: 100%;
 }
 
 #calendar ul.weekdays li {
+    height: 25px;
     font-family: 'Source Code Pro', monospace; !important;
     background: #2D5684;
     text-align: center;
-    line-height: 20px;
     border: none !important;
-    padding: 10px 6px;
-    color: #fff;
+    color: white;
     width: 12.5%;
-    font-size: 13px;
+    font-size: 16px;
 }
-
 
 #calendar .days li {
     height: 180px;
@@ -268,7 +266,6 @@ h2{
 @media(max-width: 768px) {
 
     #calendar .weekdays{
-
         display: none;
     }
 
@@ -417,7 +414,7 @@ footer{
 .free-event{
     position: absolute;
     left: 10%;
-    bottom: 0;
+    bottom: 10px;
     color: red;
     text-decoration: underline;
 
