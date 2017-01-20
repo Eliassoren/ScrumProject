@@ -127,7 +127,7 @@ public class ShiftService {
      * @param userId id of the user
      * @return boolean value true if successful
      */
-    @PUT
+    @POST
     @Path("/assign/{shiftId}/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response assignShift(@PathParam("shiftId") int shiftId, @PathParam("userId") int userId) {
