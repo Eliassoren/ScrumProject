@@ -1,20 +1,36 @@
-html,body{
-    width: 100%;
-    min-height: 100%;
-}
+/*
+COLORS
+
+RØD: #FC4A1A
+Mørk blå: #2D5684
+Mørk grå: #979797
+Lys blå: #90BAED
+Lysest grå: #F3F3F3
+
+ */
+
+
+
+
+
 body{
-    font-family: 'Georgia', 'serif';
     position: relative;
 }
+
+.fa{
+    text-align: center;
+}
+
 #header{
     position: relative;
     top:0;
     left:0;
     width:100%;
     height: 100px;
-    background-color: #6D7993;
+    background-color: #2D5684;
     padding: 0;
 }
+
 #h1-title{
     color: white;
     font-size: 56px;
@@ -25,6 +41,7 @@ body{
     margin: 0 auto 0 auto;
     height: 100%;
 }
+
 #h1-title a {
     color: white;
 }
@@ -52,9 +69,12 @@ body{
     height: 100%;
     margin: 0;
 }
-#search{
-    float:right;
+
+.hamburger-toggle-open {
+    background-color: #3d5176 !important;
+    color: #4d7196 !important;
 }
+
 .icon-bar > a:hover {
     background-color: #6d81a6;
     color: #1d3156;
@@ -72,15 +92,7 @@ body{
     color: black;
     border-style: none;
 }
-[class^="fa"]:before {
-    display: inline-block;
-    text-decoration: none;
-}
-.container{
-    display: block;
-    margin: auto;
-    top: 200px;
-}
+
 h2{
     padding: 1.25rem;
     display: inline-block;
@@ -128,14 +140,27 @@ h2{
     margin: 0;
     width: 100%;
 }
+
 #calendar .week{
-    font-size: 2rem;
-    float: right;
+    height: 100px;
+    width: 50px;
+    background-color: #979797;
+    clip-path: polygon(0% 50%, 80% 0%, 0% 0%);
+    font-size: 1.5rem;
+    top: 2rem;
+    left: 2rem;
+
 }
 #calendar .week-name {
     display: none;
     visibility: hidden;
 }
+
+#calendar #uke {
+    width: 7.5%; !important;
+    margin-left: 5%;
+}
+
 #calendar li {
     display: block;
     float: left;
@@ -144,29 +169,40 @@ h2{
     box-sizing:border-box;
     border: 1px solid #ccc;
 }
+
+/*TODO*/
 #calendar .week-number{
-    background-color: grey;
+    color: white;
+    background-color: white;
+    text-indent: 4px;
+    width: 7.5%;
+    margin-left: 5%;
 }
+
+#calendar .uke{
+    width: 7.5%;
+    margin-left: 5%;
+}
+
 #calendar .week-number:hover{
     background-color: grey;
 }
 #calendar ul.weekdays {
-    height: 40px;
-    background: #6d81a6;
+    height: 25px;
+    color: transparent; !important;
     width: 100%;
 }
 
 #calendar ul.weekdays li {
+    height: 25px;
+    font-family: 'Source Code Pro', monospace; !important;
+    background: #2D5684;
     text-align: center;
-    text-transform: uppercase;
-    line-height: 20px;
     border: none !important;
-    padding: 10px 6px;
-    color: #fff;
+    color: white;
     width: 12.5%;
-    font-size: 13px;
+    font-size: 16px;
 }
-
 
 #calendar .days li {
     height: 180px;
@@ -181,8 +217,7 @@ h2{
     text-align: center;
     margin-bottom: 5px;
     padding: 1px;
-    background: #333;
-    color: #fff;
+    color: #979797;
     width: 20px;
     border-radius: 0.2rem;
     float: right;
@@ -196,9 +231,8 @@ h2{
     padding: 5px;
     margin-top: 40px;
     margin-bottom: 5px;
-    background: #e4f2f2;
-    border: 1px solid #b5dbdc;
-    color: #009aaf;
+    background: linear-gradient(180deg, #90BAED 50%, white 50%);
+    border: 1px solid #90BAED;
     //height: 30%;
     text-decoration: none;
     overflow: hidden;
@@ -208,7 +242,7 @@ h2{
 
 }
 #calendar .event-desc {
-    color: #666;
+    color: white;
     margin: 3px 0 7px 0;
     text-decoration: none;
     width: 100%;
@@ -216,11 +250,13 @@ h2{
     display: block;
 }
 #calendar .event-time{
+    color: black;
     width: 100%;
     float: left;
     display: block;
 }
 #calendar .other-month {
+    position: relative;
     background: #f5f5f5;
     color: #666;
 }
@@ -279,16 +315,7 @@ h2{
 
 .fa-search-right:after {
     content:"\f002";
-    float: right;
     text-decoration: none;
-}
-
-#search-toggle {
-    float: right;
-}
-
-#icon-bar-right {
-    float: right;
 }
 
 #hamburger-toggle {
@@ -321,7 +348,6 @@ footer{
 #hamburger-menu li {
     background-color: #3d5176;
     display: block;
-    float: left;
     height: 50px;
     width: 100%;
     padding-left: 10px;
@@ -388,4 +414,13 @@ footer{
 
 .text-red {
     color: #9d100c;
+}
+
+.free-event{
+    position: absolute;
+    left: 10%;
+    bottom: 10px;
+    color: red;
+    text-decoration: underline;
+
 }
