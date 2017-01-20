@@ -159,6 +159,45 @@ function getAvailableShifts(startTime, endTime) {
     })
 }
 
+function assignAvailableShift(shiftId) {
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/" + shiftId,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function (shift) {
+            console.log(shift);
+            userId = parseInt(window.localStorage.getItem("userid"));
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                type: "PUT",
+                url: "/MinVakt/rest/shifts/assign/" + shiftId + "/" + userId,
+                dataType: 'text',
+                data: JSON.stringify({
+                    shiftId: shift.shiftId,
+                    userId: userId,
+                }),
+                success: function () {
+                    console.log("Result: Skift tatt");
+                    setShiftTradeablePut(shift, false);
+                },
+                statusCode: {
+                    401: function () {
+                        localStorage.removeItem("token");
+                        window.location.replace("/MinVakt/");
+                    },
+                    400: function () {
+                        console.log(data);
+                    }
+                }
+            })
+        }
+    })
+}
+
 $(document).ready(function() {
     getAvailableShifts(0,1589483849399);
 });

@@ -7,9 +7,10 @@ import com.CardiacArray.data.Shift;
 import com.CardiacArray.db.ShiftDb;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.*;
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-@Secured({Role.ADMIN, Role.USER})
 @Path("/shifts")
 public class ShiftService {
 
@@ -121,6 +122,23 @@ public class ShiftService {
     }
 
     /**
+     * Assigns a shift to the user
+     * @param shiftId id of the shift
+     * @param userId id of the user
+     * @return boolean value true if successful
+     */
+    @PUT
+    @Path("/assign/{shiftId}/{userId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response assignShift(@PathParam("shiftId") int shiftId, @PathParam("userId") int userId) {
+        if(validateShift(getShift(shiftId))) {
+            shiftDb.assignShift(shiftId, userId);
+            return Response.ok().build();
+        }
+        return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+
+    /**
      * Createng new shift
      *
      * @param shift-object to be created
@@ -148,5 +166,10 @@ public class ShiftService {
             return true;
         }
         return false;
+    }
+
+    public static void main(String args[]) throws Exception {
+        ShiftDb s = new ShiftDb();
+        s.assignShift(3,16);
     }
 }
