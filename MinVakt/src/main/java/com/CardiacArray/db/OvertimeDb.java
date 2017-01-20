@@ -65,14 +65,28 @@ public class OvertimeDb extends DbManager {
         return originalShift;
     }
 
+    public boolean deleteOvertime(Shift shift){
+        int returnvalue = 0;
+        String toSql = "DELETE FROM overtime WHERE shift_id = ? ";
+        try {
+            statement = connection.prepareStatement(toSql);
+            statement.setInt(1, shift.getShiftId());
+            returnvalue = statement.executeUpdate();
+            statement.close();
+            res.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return returnvalue != 0;
+    }
+
 
 
     public static void main(String[] args) throws Exception{
         ShiftDb shiftDb = new ShiftDb();
-        Shift shift = shiftDb.getShift(10);
+        Shift shift = shiftDb.getShift(9);
         OvertimeDb test = new OvertimeDb();
         Shift newShift = test.getOvertime(shift);
-        System.out.println(newShift.getStartTime());
-        System.out.println(newShift.getEndTime());
+        System.out.println(test.deleteOvertime(shift));
     }
 }
