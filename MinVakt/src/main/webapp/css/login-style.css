@@ -1,0 +1,103 @@
+#header{
+    position: relative;
+    top:0;
+    left:0;
+    width:100%;
+    height: 100px;
+    background-color: #016cc2;
+    padding: 0;
+}
+#h1-title{
+    color: white;
+    font-size: 56px;
+    width:100%;
+    float: left;
+    padding: 20px;
+    text-align: center;
+    margin: 0 auto 0 auto;
+    height: 100%;
+}
+#h2-title{
+    text-align: center;
+    width: 60%;
+    font-size: 4rem;
+    display: block;
+    margin: 2rem auto 2rem auto;
+}
+html, body{
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background: url(http://www.imageif.com/images/medical-physician-doctor-hands-healthcare-background-banner-cmipa.jpg);
+    background-size: cover;
+}
+
+#login-form{
+    padding: 1rem;
+    margin: 5rem auto 0 auto;
+    height: 35rem;
+    justify-content: center;
+    align-content: center;
+    width: 50rem;
+    border: 0.3rem solid black;
+}
+
+#button:active {
+    text-decoration: none;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    color: black;
+}
+
+.button:active {
+    transform: translate(0px,3px);
+    background-color: #a5a5a5;
+}
+.elem{
+    text-align: center;
+    margin: 0.5rem auto 0.5rem auto;
+    width: 60%;
+    font-size: 2rem;
+    display: block;
+}
+.input{
+    margin: 0.5rem auto 0.5rem auto;
+    width: 80%;
+    font-size: 2rem;
+    display: block;
+}
+#error-message{
+    margin: auto;
+    width: 50%;
+    height: 2rem;
+    font-size: 2rem;
+    color: red;
+    text-align: center;
+}
+
+.login-error {
+    width: 80%;
+    margin: 0.1rem auto 0.1rem auto;
+    color: red;
+    font-size: 1.2rem;
+    height: 1.3rem;
+}
+
+@media (max-width: 768px) {
+
+}
+footer{
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 1rem;
+    width: 100%;
+    text-align: center;
+    bottom: 0;
+    position: fixed;
+}
+
+
+
