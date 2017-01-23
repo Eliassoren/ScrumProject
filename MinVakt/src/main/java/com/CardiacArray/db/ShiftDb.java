@@ -398,8 +398,8 @@ public class ShiftDb extends DbManager{
         int returnValue = -1;
 
         String sql = "insert into shift " +
-                "(shift_id, date, start, end, department_id, user_category_id, tradeable, responsible_user)\n" +
-                "VALUES (DEFAULT , ?,?,?,?,?,?,?)";
+                "(shift_id, date, start, shift_id.end, department_id, user_category_id, tradeable, responsible_user)\n" +
+                "VALUES (DEFAULT , ?,?,?,?,?,?)";
 
         try {
             statement = connection.prepareStatement(sql);
@@ -408,8 +408,7 @@ public class ShiftDb extends DbManager{
             statement.setString(3, DateToSQLTimeString(shift.getEndTime()));
             statement.setInt(4, shift.getDepartmentId());
             statement.setInt(5, shift.getRole());
-            statement.setBoolean(6, shift.isTradeable());
-            statement.setBoolean(7, shift.isResponsibleUser());
+            statement.setBoolean(6, shift.isResponsibleUser());
             statement.execute();
             connection.commit();
             ResultSet res = statement.getGeneratedKeys();
