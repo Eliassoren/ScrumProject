@@ -19,6 +19,7 @@ $("#new-user-form").validate({
         },
         mobile: {
             required : true,
+            digits: true,
             minlength: 8
         },
         userCategory: {
@@ -33,6 +34,11 @@ $("#new-user-form").validate({
         },
         address: {
             required: true
+        },
+        workPercent: {
+            required: true,
+            digits: true,
+            range: [0,100]
         }
     },
     messages: {
