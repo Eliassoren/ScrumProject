@@ -81,5 +81,26 @@ $("#new-user-form").validate({
 }
 });
 
+$(#new-shift-form).validate({
+    rules: {
+        startTime: {
+            required: true
+        },
+        endTime: {
+            required: true
+        },
+        department: {
+            required: true
+        },
+        userCategory: {
+            required: true
+        },
+        responsible: {
+            required :false
+        }
+
+    }
+})
+
 
 

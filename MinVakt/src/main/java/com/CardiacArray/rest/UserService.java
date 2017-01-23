@@ -43,7 +43,6 @@ public class UserService {
      * @param email email of the user
      * @return user object
      */
-    @GET
     @Path("/{email}")
     @Produces(MediaType.APPLICATION_JSON)
     public User getUser(@PathParam("email") String email) {
