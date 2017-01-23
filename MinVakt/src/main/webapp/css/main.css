@@ -491,7 +491,7 @@ font-family: 'Source Sans Pro', sans-serif; !important;
 
 .section-picker{
     font-family: 'Source Sans Pro', sans-serif; !important;
-    font-size: 2.5rem;
+    font-size: 2rem;
     text-indent: 30%;
     text-decoration: none;
     position: absolute;
@@ -505,7 +505,7 @@ font-family: 'Source Sans Pro', sans-serif; !important;
 
 #date-picker{
     font-family: 'Source Sans Pro', sans-serif; !important;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 200;
     text-indent: 35%;
     text-decoration: none;
@@ -553,7 +553,7 @@ font-family: 'Source Sans Pro', sans-serif; !important;
 }
 
 .dropdown-active{
-    max-height: 445px;
+    max-height: 4045px;
 }
 
 button:focus {outline:0;}
@@ -569,11 +569,11 @@ th {color: #2D5684; text-align: center}
 
 .fa-calendar{
     z-index: 10000;
-    text-indent: 35%;
     text-decoration: none;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 45%;
+    right: 50%;
+    transform: translate(-50%,-50%);
     height: 15%;
     width: 30%;
     border: none;

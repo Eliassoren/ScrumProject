@@ -463,7 +463,7 @@ Date.prototype.getWeekYear = function() {
 };
 
 $( function() {
-    $("#date-picker" ).datepicker();
+    $("#date-picker").datepicker();
 });
 
 function getAvailableShifts(startTime, endTime) {
@@ -533,9 +533,9 @@ function addRow(data) {
         cell3 = document.createElement("td");
         cell4 = document.createElement("Button");
         cell4.className = "listButton " + "id" + obj[i].shiftId;
-        textnode1 = document.createTextNode(obj[i].userName);
-        textnode2 = document.createTextNode(formatTime(new Date(obj[i].startTime)));
-        textnode3 = document.createTextNode(formatTime(new Date(obj[i].endTime)));
+        textnode1 = document.createTextNode("Needs data");
+        textnode2 = document.createTextNode(formatTime(new Date(obj[i].startTime)) + " - " + formatTime(new Date(obj[i].endTime)));
+        textnode3 = document.createTextNode("stilling her");
         textnode4 = document.createTextNode("Ta vakt");
         cell1.appendChild(textnode1);
         cell2.appendChild(textnode2);
@@ -549,6 +549,25 @@ function addRow(data) {
         //table = "evening-table";
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*function getShiftArray(month, year) {
     var firstDate = getFirstDateOfEachMonth(year)[month];
