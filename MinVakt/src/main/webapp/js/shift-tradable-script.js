@@ -106,7 +106,7 @@ function addRow(data) {
             //$('.id' + obj[i].shiftId).css('background-color', '#40CD76');
         }
     }
-};
+}
 
 function getShiftAndTrade(id, bool){
     $.ajax({
