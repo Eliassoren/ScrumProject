@@ -179,6 +179,8 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
             }
             $(this).removeClass("other-month");
         }else if(monthStatus !== MONTH_CURR){
+
+        }else if((monthStatus === MONTH_PREV || monthStatus === MONTH_NEXT)){
             $(this).addClass("other-month");
         }
 
@@ -283,6 +285,10 @@ $(document).ready(function() {
                 url: "/MinVakt/rest/shifts/" + shiftId,
                 headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
                 success: function(data){
+<<<<<<< HEAD
+=======
+
+>>>>>>> Fixed shiftlist
                     $('.event-open').append('<h5>Shift ID: ' +data.shiftId + '</h5>');
                     $('.event-open').append("<p><b>Tid:</b> " + formatTime(new Date(data.startTime)) + " - " + formatTime(new Date(data.endTime)) + "</p>");
                     $('.event-open').append('<p> <b>Ansatt: </b> ' +data.userName + '</p>');
@@ -380,6 +386,7 @@ function getTradeableShifts(year, month){
             for (var k = 0; k < tradeableShifts.length; k++){
                 console.log("Dag " + k + ": " + tradeableShifts[k]);
                 appendFreeEvent(k, tradeableShifts[k]);
+
             }
 
 
@@ -415,6 +422,7 @@ function setShiftTradeablePut(shift, bool) {
             responsibleUser: shift.responsibleUser
         }),
         success: function (data) {
+
             returnValue = JSON.parse(data);
             if(returnValue) {
                 $("body").prepend("<div class='event-open'></div>");
@@ -488,7 +496,7 @@ $(document).ready(function() {
 
 function addRow(data) {
 
-    console.log(data);
+
 
     //DUMMY DATA
     //var text= '[{"shiftId":1,"startTime":1483254000000,"endTime":1483282800000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":true,"responsibleUser":false},{"shiftId":6,"startTime":1483542000000,"endTime":1483570740000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":false,"responsibleUser":false}]'
@@ -526,8 +534,8 @@ function addRow(data) {
         cell4 = document.createElement("Button");
         cell4.className = "listButton " + "id" + obj[i].shiftId;
         textnode1 = document.createTextNode(obj[i].userName);
-        textnode2 = document.createTextNode(formatTime(startTime + ":" + new Date(obj[i].startTime).getMinutes()));
-        textnode3 = document.createTextNode(formatTime(new Date(obj[i].endTime).getHours() + ":" + new Date(obj[i].endTime).getMinutes()));
+        textnode2 = document.createTextNode(formatTime(new Date(obj[i].startTime)));
+        textnode3 = document.createTextNode(formatTime(new Date(obj[i].endTime)));
         textnode4 = document.createTextNode("Ta vakt");
         cell1.appendChild(textnode1);
         cell2.appendChild(textnode2);
@@ -539,13 +547,6 @@ function addRow(data) {
         row.appendChild(cell4);
         tabBody.append(row);
         //table = "evening-table";
-        if (obj[i].userName == ""){
-            $('.tr' + i).css('background-color', '#FF5468');
-            //$('.id' + obj[i].shiftId).css('background-color', '#BA3E4C');
-        } else if (isFree) {
-            $('.tr' + i).css('background-color', '#4DFA90');
-            //$('.id' + obj[i].shiftId).css('background-color', '#40CD76');
-        }
     }
 }
 
@@ -570,7 +571,7 @@ function addRow(data) {
         }),
         success: function (data){
             var jsonshit = JSON.parse(data);
-            console.log(jsonshit);
+
         }
     })
 }*/
