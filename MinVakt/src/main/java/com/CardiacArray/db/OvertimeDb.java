@@ -1,6 +1,7 @@
 package com.CardiacArray.db;
 
 import com.CardiacArray.data.Shift;
+import com.CardiacArray.data.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -105,6 +106,7 @@ public class OvertimeDb extends DbManager {
         }
         return returnValue;
     }
+
 
 
 

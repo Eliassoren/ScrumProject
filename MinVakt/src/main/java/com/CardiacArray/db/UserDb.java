@@ -6,6 +6,10 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+>>>>>>> admin.js
 
 /**
  * Created by kjosavik on 11-Jan-17.
@@ -254,6 +258,14 @@ public class UserDb extends DbManager {
 
             return false;
         }
+    public ArrayList<User> getAvailableUsers(long startTime, long endTime){
+        Instant ins
+        String toSql = "SELECT * from user join availability on user.user_id = availability.user_id where start_time BETWEEN ?" +
+        " and ? or end_time between ?" +
+        " and ?";
+        ArrayList<User> list = ArrayList<User>;
+
+
     }
     /**
      * Main methode that does the following:
