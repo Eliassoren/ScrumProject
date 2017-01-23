@@ -129,7 +129,28 @@ function formatTime(date) {
     } else time += min;
     return time;
 }
-
+function appendEvent(day,shiftArray,box){
+    if (shiftArray[day] != null) {
+        shiftDesc = "Avdeling " + shiftArray[day].departmentId;
+        shiftTime = formatTime(new Date(shiftArray[day].startTime)) + " - " + formatTime(new Date(shiftArray[day].endTime));
+        var eventDiv = $("<div/>").addClass("event").attr("shiftId", shiftArray[day].shiftId);
+        box.append(eventDiv);
+        eventDiv.append($("<span/>").addClass("event-desc").text(shiftDesc));
+        eventDiv.append($("<span/>").addClass("event-time").text(shiftTime));
+    }
+}
+function appendFreeEvent(day,shiftsInOneDay,box){
+    if (shiftsInOneDay != null) {
+        console.log("tradeable");
+        var amountShifts = shiftsInOneDay.length;
+        console.log(amountShifts);
+        shiftDesc = amountShifts + " ledige vakter";
+        //shiftTime = formatTime(new Date(tradeableShifts[day].startTime)) + " - " + formatTime(new Date(tradeableShifts[day].endTime));
+        var tradeableEvent = $("<div/>").addClass("free-event").attr("shiftId", tradeableShifts[day].shiftId);
+        box.append(tradeableEvent);
+        tradeableEvent.append($("<span/>").addClass("free-event-text").text(shiftDesc));
+    }
+}
 function generateCalendar(tradeableShifts,shiftArray,year,month){
     var firstDate = getFirstDateOfEachMonth(year)[month];
     var lastDateOfMonth = new Date(year, month + 1, 0).getDate();
@@ -156,30 +177,14 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
         var box = $(this).find(".date").text(day);
         if (monthStatus == MONTH_CURR){
             if(shiftArray != null) {
-                if (shiftArray[day] != null) {
-                    shiftDesc = "Avdeling " + shiftArray[day].departmentId;
-                    shiftTime = formatTime(new Date(shiftArray[day].startTime)) + " - " + formatTime(new Date(shiftArray[day].endTime));
-                    var eventDiv = $("<div/>").addClass("event").attr("shiftId", shiftArray[day].shiftId);
-                    $(this).append(eventDiv);
-                    eventDiv.append($("<span/>").addClass("event-desc").text(shiftDesc));
-                    eventDiv.append($("<span/>").addClass("event-time").text(shiftTime));
-                }
+                appendEvent(day,shiftArray,$(this));
             }
             $(this).removeClass("other-month");
             if(tradeableShifts != null) {
                 shiftsInOneDay = tradeableShifts[day];
-                if (shiftsInOneDay != null) {
-                    console.log("tradeable");
-                    var amountShifts = shiftsInOneDay.length;
-                    console.log(amountShifts);
-                    shiftDesc = amountShifts + " ledige vakter";
-                    //shiftTime = formatTime(new Date(tradeableShifts[day].startTime)) + " - " + formatTime(new Date(tradeableShifts[day].endTime));
-                    var tradeableEvent = $("<div/>").addClass("free-event").attr("shiftId", tradeableShifts[day].shiftId);
-                    $(this).append(tradeableEvent);
-                    tradeableEvent.append($("<span/>").addClass("free-event-text").text(shiftDesc));
-                }
+                appendFreeEvent(day,shiftsInOneDay,$(this));
             }
-        }else if((monthStatus === MONTH_PREV || monthStatus === MONTH_NEXT)){
+        }else if(monthStatus !== MONTH_CURR){
             $(this).addClass("other-month");
         }
 
