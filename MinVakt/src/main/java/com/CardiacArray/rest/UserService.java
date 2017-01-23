@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.*;
 
 /**
  *
@@ -31,6 +33,9 @@ public class UserService {
 
     public UserService(UserDb userDb) throws Exception {
         this.userDb = userDb;
+    }
+
+    public UserService() throws Exception {
     }
 
     /**
@@ -94,6 +99,23 @@ public class UserService {
         else throw new BadRequestException();
 
     }
+
+    @POST
+    @Path("/available/{userId}/{date}/{start}/{end}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response setUserAvailable(@PathParam("userId") int userId, @PathParam("date") long date,
+                                     @PathParam("start") long start, @PathParam("end") long end) {
+        User user = userDb.getUserByEmail(userId);
+        Date dateAvail = new Date(date);
+        Date startAvail = new Date(start);
+        Date endAvail = new Date(end);
+        if (user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || !user.isValidEmail(user.getEmail())) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        userDb.setUserAvailable(userId, dateAvail, startAvail, endAvail);
+        return Response.ok().build();
+    }
+
     @GET
     @Path("/hours/{startTime}/{endTime}/{userId}")
     @Produces(MediaType.APPLICATION_JSON)

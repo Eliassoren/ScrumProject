@@ -173,7 +173,7 @@ function assignAvailableShift(shiftId) {
                     'Content-Type': 'application/json',
                     "Authorization": "Bearer " + localStorage.getItem("token")
                 },
-                type: "PUT",
+                type: "POST",
                 url: "/MinVakt/rest/shifts/assign/" + shiftId + "/" + userId,
                 dataType: 'text',
                 data: JSON.stringify({
@@ -196,6 +196,39 @@ function assignAvailableShift(shiftId) {
             })
         }
     })
+}
+
+function setUserAvailable(date, start, end) {
+    userId = parseInt(window.localStorage.getItem("userid"));
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        type: "POST",
+        url: "/MinVakt/rest/users/available/" + userId + "/" + date + "/" + start + "/" + end,
+        dataType: 'text',
+        data: JSON.stringify({
+            date: date,
+            userId: userId,
+            start: start,
+            end: end
+        }),
+        success: function () {
+            console.log("Result: Satt ledig");
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                window.location.replace("/MinVakt/");
+            },
+            400: function () {
+                console.log(data);
+            }
+        }
+    })
+
 }
 
 $(document).ready(function() {

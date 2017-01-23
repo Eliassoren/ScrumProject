@@ -3,7 +3,9 @@ package com.CardiacArray.db;
 import com.CardiacArray.data.User;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Created by kjosavik on 11-Jan-17.
@@ -227,6 +229,31 @@ public class UserDb extends DbManager {
             DbManager.rollback();
         }
         return returnValue;
+    }
+
+    public boolean setUserAvailable(int userId, Date date, Date start, Date end) {
+        SimpleDateFormat simpleDateAndTime = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleTime = new SimpleDateFormat("HH:mm");
+        String dateFormat = simpleDateAndTime.format(date);
+        String startFormat = simpleTime.format(start.getTime());
+        String endFormat = simpleTime.format(end.getTime());
+        try {
+            String toSQL = "INSERT INTO availability (user_id, availability.date, availability.start, availability.end) VALUES (?,?,?,?)";
+            statement = connection.prepareStatement(toSQL);
+            statement.setInt(1, userId);
+            statement.setString(2, dateFormat);
+            statement.setString(3, startFormat);
+            statement.setString(4, endFormat);
+            statement.execute();
+            statement.close();
+
+            return true;
+        }catch (SQLException e){
+            e.printStackTrace(System.err);
+            DbManager.rollback();
+
+            return false;
+        }
     }
     /**
      * Main methode that does the following:
