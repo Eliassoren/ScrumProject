@@ -141,7 +141,7 @@ public class ShiftService {
     }
 
     /**
-     * Createng new shift
+     * Createing new shift
      *
      * @param shift-object to be created
      * @return  a negative number if the shift was not created. shiftId if it was created
