@@ -2,7 +2,6 @@
  * Created by kjosavik on 20-Jan-17.
  */
 
-createDialog("#admin-create-new-user", "Glemt passord", "/MinVakt/html/admin.html");
 $("#new-user-form").validate({
     rules: {
         firstName: {

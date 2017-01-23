@@ -3,7 +3,9 @@ package com.CardiacArray.db;
 import com.CardiacArray.data.User;
 
 import java.sql.*;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  * Created by kjosavik on 11-Jan-17.
@@ -227,6 +229,16 @@ public class UserDb extends DbManager {
             DbManager.rollback();
         }
         return returnValue;
+    }
+
+    public ArrayList<User> getAvailableUsers(long startTime, long endTime){
+        Instant ins
+        String toSql = "SELECT * from user join availability on user.user_id = availability.user_id where start_time BETWEEN ?" +
+        " and ? or end_time between ?" +
+        " and ?";
+        ArrayList<User> list = ArrayList<User>;
+
+
     }
     /**
      * Main methode that does the following:
