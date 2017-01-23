@@ -15,7 +15,7 @@ public class ReadConfig {
 
     public String[] getConfigValues() throws IOException {
         try {
-            output = new String[2];
+            output = new String[4];
             Properties properties = new Properties();
             String configFile = "config.properties";
             inputStream = getClass().getClassLoader().getResourceAsStream(configFile);
@@ -28,7 +28,8 @@ public class ReadConfig {
 
            output[0] = properties.getProperty("username");
            output[1] = properties.getProperty("password");
-
+           output[2] = properties.getProperty("emailuser");
+           output[3] = properties.getProperty("emailpassword");
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         } finally {
