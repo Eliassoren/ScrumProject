@@ -7,7 +7,6 @@ import com.CardiacArray.rest.LoginService;
 import org.junit.Test;
 
 import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.core.Response;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
@@ -20,7 +19,7 @@ import static org.mockito.Mockito.*;
  */
 public class LoginServiceTest {
     User validUser = new User(1, "Ola", "Nordmann", 12345678, "test@test.no",
-            "wrong", false, "Testveien 2", 1, true);
+            "wrong", false, "Testveien 2", 1, true, workPercent);
 
     @Test(expected = NotAuthorizedException.class)
     public void loginFails() throws Exception {

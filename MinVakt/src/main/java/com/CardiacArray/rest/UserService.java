@@ -42,8 +42,7 @@ public class UserService {
      *
      * @param email email of the user
      * @return user object
-     */
-    @Path("/{email}")
+     @Path("/{email}")
     @Produces(MediaType.APPLICATION_JSON)
     public User getUser(@PathParam("email") String email) {
         User userFound = userDb.getUserByEmail(email);

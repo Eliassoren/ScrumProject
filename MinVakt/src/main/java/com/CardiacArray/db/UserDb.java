@@ -4,12 +4,10 @@ import com.CardiacArray.data.User;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
->>>>>>> admin.js
+
 
 /**
  * Created by kjosavik on 11-Jan-17.
@@ -44,7 +42,8 @@ public class UserDb extends DbManager {
                 String token = res.getString("token");
                 Timestamp expired = res.getTimestamp("expired");
                 boolean active = res.getBoolean("active");
-                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active);
+                int workPercent = res.getInt("work_percent");
+                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent);
                 res.close();
                 statement.close();
             } else{ return null; }
@@ -82,7 +81,8 @@ public class UserDb extends DbManager {
                 String token = res.getString("token");
                 Timestamp expired = res.getTimestamp("expired");
                 boolean active = res.getBoolean("active");
-                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active);
+                int workPercent = res.getInt("work_percent");
+                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent);
                 res.close();
                 statement.close();
             } else {
@@ -122,7 +122,8 @@ public class UserDb extends DbManager {
                 String userCategoryString = res.getString("type");
                 Timestamp expired = res.getTimestamp("expired");
                 boolean active = res.getBoolean("active");
-                User user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active);
+                int workPercent = res.getInt("work_percent");
+                User user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent);
                 res.close();
                 statement.close();
                 return user;
@@ -144,7 +145,7 @@ public class UserDb extends DbManager {
     public boolean updateUser(User user){
         try {
             String toSQL = "UPDATE user " +
-                    "SET first_name = ?, last_name = ?, password = ?, admin_rights = ?, mobile = ?, address = ?, user_category_id = ?, email = ?, active = ? " +
+                    "SET first_name = ?, last_name = ?, password = ?, admin_rights = ?, mobile = ?, address = ?, user_category_id = ?, email = ?, active = ?, work_percent " +
                     "WHERE user_id = ?";
             statement = connection.prepareStatement(toSQL);
             statement.setString(1, user.getFirstName());
@@ -156,7 +157,8 @@ public class UserDb extends DbManager {
             statement.setInt(7, user.getUserCategoryInt());
             statement.setString(8, user.getEmail());
             statement.setBoolean(9, user.isActive());
-            statement.setInt(10,user.getId());
+            statement.setInt(10,user.getWorkPercent());
+            statement.setInt(11,user.getId());
             statement.execute();
             statement.close();
             return true;
@@ -208,8 +210,8 @@ public class UserDb extends DbManager {
     public int createUser(User user){
         int returnValue = -1;
         try {
-            String toSQL = "INSERT into user (user_id, first_name, last_name, password, admin_rights, user_category_id, mobile, address, email, active)\n" +
-                    "  VALUES (DEFAULT ,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String toSQL = "INSERT into user (user_id, first_name, last_name, password, admin_rights, user_category_id, mobile, address, email, active, workPercent)\n" +
+                    "  VALUES (DEFAULT ,?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
             statement = connection.prepareStatement(toSQL);
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
@@ -220,6 +222,7 @@ public class UserDb extends DbManager {
             statement.setInt(5, user.getUserCategoryInt());
             statement.setString(8, user.getEmail());
             statement.setBoolean(9, user.isActive());
+            statement.setInt(10, user.getWorkPercent());
             statement.execute();
             ResultSet res = statement.getGeneratedKeys();
             if(res.next()){
@@ -277,7 +280,7 @@ public class UserDb extends DbManager {
      * and finally deletes user from database
     */
     public static void main(String[] args)throws Exception{
-        User testUser1 = new User("Dirck", "Delete", 90269026, "dirk@delete.com", "passs", false, "trondheim", 0,true);
+        User testUser1 = new User("Dirck", "Delete", 90269026, "dirk@delete.com", "passs", false, "trondheim", 0,true, 60);
         UserDb udb = new UserDb();
         udb.createUser(testUser1);
         User testUser2 = udb.getUserByEmail(testUser1.getEmail());
