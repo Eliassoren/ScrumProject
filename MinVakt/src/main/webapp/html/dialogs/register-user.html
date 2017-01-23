@@ -1,0 +1,38 @@
+<!--h4 class = "subform-title">Kontaktinfo</h4-->
+<form class="user-form" id = "new-user-form" action = "#" method="post">
+    <h2 class = "form-title">OPPRETT BRUKER</h2>
+    <fieldset class = "fieldset">
+        <legend>Kontaktinfo</legend>
+        <div class = "inline-container">
+            <input class = "input" id = "first-name" type = "text" placeholder = "Fornavn">
+            <input class = "input" id = "last-name" type = "text" placeholder = "Etternavn">
+        </div>
+        <div class = "inline-container">
+
+            <input class = "input" id = "address" type = "text" placeholder = "Adresse">
+            <input class = "input" id = "postal-code" type = "text" placeholder = "Postnr.">
+        </div>
+        <input class = "input" id = "phone" type = "text" placeholder = "Telefon">
+        <input class = "input" id = "email" type = "text" placeholder = "Epost">
+    </fieldset>
+    <fieldset class = "fieldset">
+        <legend>Ansattinfo</legend>
+        <div class = "inline-container">
+            <select required class = "select section-picker picker" id = "dept-cb">
+                <option value = "" disabled selected>Velg Avdeling..</option>
+            </select>
+            <select required class = "select section-picker picker" id = "position-cb">
+                <option value = "" disabled selected>Velg Stillingstype..</option>
+            </select>
+            <label for = "spinner">Stillingsprosent</label>
+            <input class ="select" id= "spinner" type="number" min="0" max = "100" step="1" value="0" size = "6">
+        </div>                                           <div class = "inline-container">
+        <label class = "label" for = "active-checkbox"> <input class = "input" id = "active-checkbox" type = "checkbox">Aktiv</label>
+        <label class="label" for = "admin-checkbox">                                      <input class = "input" id = "admin-checkbox" type = "checkbox">Administrator</label>
+    </div>
+        <div class = "button-group">
+            <input class = "button" id = "button-ok" type = "submit" value = "Lagre"/>
+            <button class = "button" id = "button-cancel">Avbryt</button></div>
+    </fieldset>
+</form>
+
