@@ -496,17 +496,13 @@ $(document).ready(function() {
 
 function addRow(data) {
 
-
-
     //DUMMY DATA
     //var text= '[{"shiftId":1,"startTime":1483254000000,"endTime":1483282800000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":true,"responsibleUser":false},{"shiftId":6,"startTime":1483542000000,"endTime":1483570740000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":false,"responsibleUser":false}]'
     var obj = data;
 
     //TODO this needs to be removed after the table slector below works
     var table = "dateNow-table";
-
-
-    if (!document.getElementsByTagName) return;
+    //if (!document.getElementsByTagName) return;
 
     for (var i = 0; i < obj.length; i++) {
 
@@ -525,6 +521,7 @@ function addRow(data) {
             alert("ERROR CHECK THE ADD ROW FUNCTION IN SHIFT-SCRIPT.JS!")
         }
 
+        console.log(obj[i]);
         tabBody = $(".table");
         row = document.createElement("tr");
         row.className = "tr" + i;
@@ -533,7 +530,7 @@ function addRow(data) {
         cell3 = document.createElement("td");
         cell4 = document.createElement("Button");
         cell4.className = "listButton " + "id" + obj[i].shiftId;
-        textnode1 = document.createTextNode("Needs data");
+        textnode1 = document.createTextNode(obj[i].userName);
         textnode2 = document.createTextNode(formatTime(new Date(obj[i].startTime)) + " - " + formatTime(new Date(obj[i].endTime)));
         textnode3 = document.createTextNode("stilling her");
         textnode4 = document.createTextNode("Ta vakt");
