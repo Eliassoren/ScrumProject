@@ -1,14 +1,17 @@
 /**
  * Created by EliasBrattli on 12/01/2017.
  */
-var day = new Date();
-var month = day.getMonth();
+var dateNow = new Date();
+var month = dateNow.getMonth();
+var year = dateNow.getFullYear();
 var monthNames = new Array(12)
-
-var year = day.getFullYear();
-var date = new Date(new Date().getFullYear(), 0, 1);
+const MONTH_PREV = 0;
+const MONTH_CURR = 1;
+const MONTH_NEXT = 2;
+//var date = new Date(new Date().getFullYear(), 0, 1);
 var week = 0;
 var shiftArray = new Array(Number(new Date(year, month + 1, 0).getDate()));
+var tradeableShifts = new Array(Number(new Date(year, month + 1, 0).getDate()));
 
 function getShiftById(id){
     $.ajax({
@@ -27,68 +30,46 @@ function getShiftById(id){
     })
 }
 
-function getShiftsForUser(year, month, userId) {
-        $.ajax({
-        type: "GET",
-        url: "/MinVakt/rest/shifts/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + (new Date(year, month + 1, 0)).getTime() + "/" + userId,
-        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
-        success: function(data){
-            console.log(data.length);
-            shiftArray = new Array(Number(new Date(year, month + 1, 0).getDate()));
-            for (i = 0; i < data.length; i++){
-                console.log(" Lagt til " + data[i].shiftId);
-                var shiftBefore = String(new Date(data[i].startTime)).split(" ")[2];
-                console.log(" Split :" + String(new Date(data[i].startTime)).split(" ")[2]);
-                shiftArray[Number(shiftBefore)] = data[i];
-            }
-            generateCalendar(shiftArray, year, month);
-        },
-        statusCode: {
-            401: function () {
-                localStorage.removeItem("token");
-                window.location.replace("/MinVakt/");
-            }
-        }
-    });
-}
+
 
 // This script is released to the public domain and may be used, modified and
 // distributed without restrictions. Attribution not necessary but appreciated.
 // Source: https://weeknumber.net/how-to/javascript
 
-// Returns the ISO week of the date.
-Date.prototype.getWeek = function() {
-    var date = new Date(this.getTime());
-    date.setHours(0, 0, 0, 0);
-    // Thursday in current week decides the year.
-    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
-    // January 4 is always in week 1.
-    var week1 = new Date(date.getFullYear(), 0, 4);
-    // Adjust to Thursday in week 1 and count number of weeks from date to week1.
-    return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
-            - 3 + (week1.getDay() + 6) % 7) / 7);
-}
-
-// Returns the four-digit year corresponding to the ISO week of the date.
-Date.prototype.getWeekYear = function() {
-    var date = new Date(this.getTime());
-    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
-    return date.getFullYear();
-}
-
+/**
+ *
+ * @param date
+ * @returns a date converted to the monday in given date's week
+ */
 function convertToMonday( date ) {
     var day = date.getDay() || 7;
     if( day !== 1 )
         date.setHours(-24 * (day - 1));
     return date;
 }
-function getMonday( date ) {
-    var day = date.getDay() || 7;
-    if( day !== 1 )
-        date.setHours(-24 * (day - 1));
-    return date.getDate();
+function setHrs(callBack, day1){
+    callBack(day1);
 }
-
+function getMonday( dateFunc ) {
+    var day1 = function (dateFunc) {
+        return Number(dateFunc().getDay()) || 7;
+    };
+    if (day1(dateFunc) !== 1) {
+    setHrs(function (day1) {
+        dateFunc().setHours(-24 * (day1(dateFunc) - 1));
+    }, day1);
+    }
+    var date = function(dateFunc){
+        return dateFunc().getDate();
+    };
+    return date(dateFunc);
+}
+function getMonday2(firstDate){
+    var day1 = Number(firstDate.getDay()) || 7;
+    if(day1 !== 1)
+        firstDate.setHours(-24 * (day1-1));
+    return firstDate.getDate();
+}
 monthNames[0] = "Januar";
 monthNames[1] = "Februar";
 monthNames[2] = "Mars";
@@ -131,6 +112,8 @@ var shifts = new Array(31);
 function clearCalendar() {
     //alert("clear");
     $(".event").remove();
+    $(".free-event").remove();
+    $(".free-event-text").remove();
 }
 
 function formatTime(date) {
@@ -146,50 +129,79 @@ function formatTime(date) {
     } else time += min;
     return time;
 }
-
-
-function generateCalendar(shiftArray,year, month){
-    console.log(getFirstDateOfEachMonth(year)[month]);
+function appendEvent(day,shiftArray,box){
+    if (shiftArray[day] != null) {
+        shiftDesc = "Avdeling " + shiftArray[day].departmentId;
+        shiftTime = formatTime(new Date(shiftArray[day].startTime)) + " - " + formatTime(new Date(shiftArray[day].endTime));
+        var eventDiv = $("<div/>").addClass("event").attr("shiftId", shiftArray[day].shiftId);
+        box.append(eventDiv);
+        eventDiv.append($("<span/>").addClass("event-desc").text(shiftDesc));
+        eventDiv.append($("<span/>").addClass("event-time").text(shiftTime));
+    }
+}
+function appendFreeEvent(day,shiftsInOneDay,box){
+    if (shiftsInOneDay != null) {
+        console.log("tradeable");
+        var amountShifts = shiftsInOneDay.length;
+        console.log(amountShifts);
+        shiftDesc = amountShifts + " ledige vakter";
+        //shiftTime = formatTime(new Date(tradeableShifts[day].startTime)) + " - " + formatTime(new Date(tradeableShifts[day].endTime));
+        var tradeableEvent = $("<div/>").addClass("free-event").attr("shiftId", tradeableShifts[day].shiftId);
+        box.append(tradeableEvent);
+        tradeableEvent.append($("<span/>").addClass("free-event-text").text(shiftDesc));
+    }
+}
+function generateCalendar(tradeableShifts,shiftArray,year,month){
     var firstDate = getFirstDateOfEachMonth(year)[month];
     var lastDateOfMonth = new Date(year, month + 1, 0).getDate();
-    var count = getMonday(firstDate);
-    var noPrev = count == 1;
+    /*var day = getMonday(function(){
+        firstDate = getFirstDateOfEachMonth(year)[month];
+        return firstDate;
+    });*/
+    var day = getMonday2(firstDate);
+
+    console.log("first "+ firstDate);
+    console.log("monday "+day);
+    //console.log("monday2 "+day2);
+    //var day = moment().startOf(moment(firstDate).isoWeek()).getDate();
+    var noPrevMonth = day == 1; // Special case when month starts on a monday..
     var monday = convertToMonday(firstDate); // first monday of calendar view (of previous month)
-    var monthPreviewed = 0; // 0 when previous, 1 when current, 2 when next
-    var lastDateOfPrevMonth = new Date(monday.getFullYear(), monday.getMonth() + 1, 0).getDate();
+    var monthStatus = 0; // 0 when previous, 1 when current, 2 when next
+    var lastDateOfPrevMonth = new Date(year, month, 0).getDate();
     var shiftDesc = "";
     var shiftTime = "";
+
     moment().year(year);
-    //$(".event").remove();
 
     $(".day").each(function () {
-        var box = $(this).find(".date").text(count);
-        if (monthPreviewed == 1){
-            if(shiftArray[count] != null){
-               // alert("hei");
-                shiftDesc = "Avdeling " +  shiftArray[count].departmentId;
-                shiftTime = formatTime(new Date(shiftArray[count].startTime)) + " - " + formatTime(new Date(shiftArray[count].endTime));
-                var eventdiv = $("<div/>").addClass("event").attr("shiftId", shiftArray[count].shiftId);
-                $(this).append(eventdiv);
-                eventdiv.append($("<span/>").addClass("event-desc").text(shiftDesc));
-                eventdiv.append($("<span/>").addClass("event-time").text(shiftTime));
-                }
+        var box = $(this).find(".date").text(day);
+        if (monthStatus == MONTH_CURR){
+            if(shiftArray != null) {
+                appendEvent(day,shiftArray,$(this));
+            }
             $(this).removeClass("other-month");
-        }else if((monthPreviewed == 0 || monthPreviewed == 2) && (Number(box.find("date").text()) < 14 ||Number(box.find("date").text())>21)){
+            if(tradeableShifts != null) {
+                shiftsInOneDay = tradeableShifts[day];
+                appendFreeEvent(day,shiftsInOneDay,$(this));
+            }
+        }else if(monthStatus !== MONTH_CURR){
             $(this).addClass("other-month");
         }
-        if (count < lastDateOfPrevMonth) {
-            if(noPrev){
-                monthPreviewed = 1;
+
+        if (day < lastDateOfPrevMonth) {
+            console.log("lastprev "+lastDateOfPrevMonth+ " m "+month);
+            if(noPrevMonth){
+                monthStatus = MONTH_CURR;
                 $(this).removeClass("other-month");
                 lastDateOfPrevMonth = lastDateOfMonth;
-                noPrev = false;
+                noPrevMonth = false;
             }
-            count++;
+            day++;
         } else {
-            count = 1;
+            // Reset daycount
+            day = 1;
             lastDateOfPrevMonth = lastDateOfMonth;
-            monthPreviewed++;
+            monthStatus++;
         }
     });
     var week = firstDate.getWeek();
@@ -201,10 +213,10 @@ function generateCalendar(shiftArray,year, month){
         }else{
             week = 1;
         }
-
     })
 }
 $(document).ready(function() {
+    //var localStorage = localStorage.getItem();
     $("#hamburger-toggle").click(function () {
         $("#hamburger-menu").toggleClass("hamburger-menu-open");
         $("#hamburger-toggle").toggleClass("hamburger-toggle-open");
@@ -241,7 +253,9 @@ $(document).ready(function() {
         $("#month-title").text(title);
         //clearCalendar();
         clearCalendar();
-        getShiftsForUser(year,month,16);
+        // TODO: add localstorage instead of hardcode
+        getShiftsForUser(year,month,8);
+        getTradeableShifts(year,month,8);
     });
 
     /**
@@ -258,11 +272,14 @@ $(document).ready(function() {
         title = monthNames[month] + " " + year;
         $("#month-title").text(title);
         clearCalendar();
-        getShiftsForUser(year,month,16);
+        // Localstorage
+        // todo: add localstorage instead of hardcoded
+        getShiftsForUser(year,month,8);
+        getTradeableShifts(year,month,8);
         //clearCalendar();
     });
 
-    $(".day").click(function(){
+    $(".dateNow").click(function(){
         var shiftId = $(this).children('.event').attr('shiftId');
         if($(".event-open").length == 0){
             $("body").prepend("<div class='event-open'></div>");
@@ -305,7 +322,8 @@ $(document).ready(function() {
 
     });
 
-    $.when(getShiftsForUser(2017, month, 16)).then(generateCalendar(2017, 0));
+    $.when(getShiftsForUser(year, month, 8)).then(generateCalendar(null,shiftArray,year, month));
+    $.when(getTradeableShifts(year, month, 8)).then(generateCalendar(tradeableShifts,null,year, month));
 });
 
 function getShiftAndTrade(id, bool){
@@ -326,7 +344,62 @@ function getShiftAndTrade(id, bool){
         }
     })
 }
-
+function getShiftsForUser(year, month, userId) {
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + (new Date(year, month + 1, 0)).getTime() + "/" + userId,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function(data){
+            console.log(data.length);
+            shiftArray = new Array(Number(new Date(year, month + 1, 0).getDate()));
+            for (i = 0; i < data.length; i++){
+                console.log(" Lagt til " + data[i].shiftId);
+                var shiftBefore = String(new Date(data[i].startTime)).split(" ")[2];
+                console.log(" Split :" + String(new Date(data[i].startTime)).split(" ")[2]);
+                shiftArray[Number(shiftBefore)] = data[i];
+            }
+            generateCalendar(null,shiftArray, year, month);
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                window.location.replace("/MinVakt/");
+            }
+        }
+    });
+}
+function getTradeableShifts(year, month, userId){
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/tradeable/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + (new Date(year, month + 1, 0)).getTime() + "/" +userId,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function(data){
+            var monthLen = Number(new Date(year, month + 1, 0).getDate());
+            tradeableShifts = new Array(monthLen);
+            for(var i = 0; i < monthLen;i++){
+                //var shiftBefore = String(new Date(data[i].startTime)).split(" ")[2];
+                var dayArr = new Array();
+                for(var j = 0; j < data.length;j++) {
+                    console.log("Data["+i+"]= "+data[i]);
+                    var shiftDate = String(new Date(data[j].startTime)).split(" ")[2];
+                    if (Number(shiftDate === i)){
+                        dayArr.push(data[j]);
+                    }
+                }
+                if(dayArr != null){
+                    tradeableShifts[i] = dayArr;
+                }
+            }
+            generateCalendar(tradeableShifts,null,year,month);
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                window.location.replace("/MinVakt/");
+            }
+        }
+    });
+}
 function setShiftTradeablePut(shift, bool) {
     alert(localStorage.getItem("token"));
     $.ajax({
@@ -370,7 +443,25 @@ function setShiftTradeablePut(shift, bool) {
     })
 }
 
+// Returns the ISO week of the date.
+Date.prototype.getWeek = function() {
+    var date = new Date(this.getTime());
+    date.setHours(0, 0, 0, 0);
+    // Thursday in current week decides the year.
+    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+    // January 4 is always in week 1.
+    var week1 = new Date(date.getFullYear(), 0, 4);
+    // Adjust to Thursday in week 1 and count number of weeks from date to week1.
+    return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
+            - 3 + (week1.getDay() + 6) % 7) / 7);
+}
 
+// Returns the four-digit year corresponding to the ISO week of the date.
+Date.prototype.getWeekYear = function() {
+    var date = new Date(this.getTime());
+    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+    return date.getFullYear();
+}
 
 /*function getShiftArray(month, year) {
     var firstDate = getFirstDateOfEachMonth(year)[month];

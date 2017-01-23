@@ -1,3 +1,5 @@
+var $lostPasswordDialog;
+
 $(document).ready(function() {
     var onLoginPage = true;
     if(localStorage.getItem("token") != null) {
@@ -13,6 +15,7 @@ $(document).ready(function() {
             statusCode: {
                 401: function() {
                     localStorage.removeItem("token");
+                    localStorage.removeItem("userid");
                     window.location.replace("/MinVakt/");
                 }
             }
@@ -66,9 +69,9 @@ $(document).ready(function() {
 
 function createDialog(selector, title, url) {
     $(selector).each(function() {
-        var $dialog = $("<div/>");
+        $lostPasswordDialog = $("<div/>");
         var $link = $(this).one("click", function() {
-            $dialog.dialog({
+            $lostPasswordDialog.dialog({
                 title: title,
                 modal: true,
                 closeOnEscape: true,
@@ -76,13 +79,13 @@ function createDialog(selector, title, url) {
                 resizable: false,
                 autoOpen: false,
                 show: "fade",
-                hide: "fade"
+                hide: "fade",
+                position: {my: "center", at: "center", of: window}
             }).load(url, function() {
-                $(this).dialog("option", "position", "center");
                 $(this).dialog("open");
             });
             $link.click(function() {
-                $dialog.dialog("open");
+                $lostPasswordDialog.dialog("open");
                 return false;
             });
             return false;

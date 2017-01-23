@@ -7,6 +7,7 @@ package com.CardiacArray.rest;
 
 import com.CardiacArray.AuthFilter.Role;
 import com.CardiacArray.AuthFilter.Secured;
+import com.CardiacArray.Mail.Mail;
 import com.CardiacArray.data.*;
 import com.CardiacArray.db.DbManager;
 import com.CardiacArray.db.UserDb;
@@ -67,12 +68,13 @@ public class LoginService {
         User user = userDb.getUserByEmail(email);
         if(user != null) {
             String newPassword = passwordUtil.newPassword();
-            System.out.println("New password: " + newPassword);
             String hashedPassword = passwordUtil.hashPassword(newPassword, user.getFirstName());
             user.setPassword(hashedPassword);
             userDb.updateUser(user);
+            Mail.sendMail(user.getEmail(), "Nytt passord til Minvakt.", "Nytt passord til MinVakt:\n\nDitt nye passsord: " + newPassword + ".\n\n-MinVakt.");
+            System.out.println("New password: " + newPassword); // Logging
             return Response.ok().build();
-        } else throw new NotFoundException("Error");
+        } else return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @Secured({Role.ADMIN, Role.USER})

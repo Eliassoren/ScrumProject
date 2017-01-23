@@ -3,7 +3,13 @@ package com.CardiacArray.db;
 import com.CardiacArray.data.User;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+>>>>>>> admin.js
 
 /**
  * Created by kjosavik on 11-Jan-17.
@@ -13,7 +19,7 @@ public class UserDb extends DbManager {
     private PreparedStatement statement;
 
     /**
-    @param id
+    @param id Id of user
     @return User specified by id
      */
     public User getUserByEmail(int id){
@@ -138,7 +144,7 @@ public class UserDb extends DbManager {
     public boolean updateUser(User user){
         try {
             String toSQL = "UPDATE user " +
-                    "SET first_name=?, last_name=?, password=?, admin_rights=?, mobile=?, address=?, user_category_id=?, email=?, active=?" +
+                    "SET first_name = ?, last_name = ?, password = ?, admin_rights = ?, mobile = ?, address = ?, user_category_id = ?, email = ?, active = ? " +
                     "WHERE user_id = ?";
             statement = connection.prepareStatement(toSQL);
             statement.setString(1, user.getFirstName());
@@ -227,6 +233,39 @@ public class UserDb extends DbManager {
             DbManager.rollback();
         }
         return returnValue;
+    }
+
+    public boolean setUserAvailable(int userId, Date date, Date start, Date end) {
+        SimpleDateFormat simpleDateAndTime = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleTime = new SimpleDateFormat("HH:mm");
+        String dateFormat = simpleDateAndTime.format(date);
+        String startFormat = simpleTime.format(start.getTime());
+        String endFormat = simpleTime.format(end.getTime());
+        try {
+            String toSQL = "INSERT INTO availability (user_id, availability.date, availability.start, availability.end) VALUES (?,?,?,?)";
+            statement = connection.prepareStatement(toSQL);
+            statement.setInt(1, userId);
+            statement.setString(2, dateFormat);
+            statement.setString(3, startFormat);
+            statement.setString(4, endFormat);
+            statement.execute();
+            statement.close();
+
+            return true;
+        }catch (SQLException e){
+            e.printStackTrace(System.err);
+            DbManager.rollback();
+
+            return false;
+        }
+    public ArrayList<User> getAvailableUsers(long startTime, long endTime){
+        Instant ins
+        String toSql = "SELECT * from user join availability on user.user_id = availability.user_id where start_time BETWEEN ?" +
+        " and ? or end_time between ?" +
+        " and ?";
+        ArrayList<User> list = ArrayList<User>;
+
+
     }
     /**
      * Main methode that does the following:

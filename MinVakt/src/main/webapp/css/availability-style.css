@@ -1,0 +1,118 @@
+/*
+COLORS
+
+RØD: #FC4A1A
+Mørk blå: #2D5684
+Mørk grå: #979797
+Lys blå: #90BAED
+Lysest grå: #F3F3F3
+
+ */
+
+
+.header-menu{
+    position: relative;
+    height: 4.5rem;
+    width: 100%;
+    background-color: #2D5684;
+}
+
+.fa-search-right:after {
+    content:"\f002";
+    text-decoration: none;
+}
+
+.fa{
+    text-align: center;
+    color: white;
+}
+
+.hamburger-area {
+    position: absolute;
+    top: 50%;
+    left: 55px;
+    transform: translate(-50%,-50%);
+    font-family: 'Source Code Pro', monospace; !important;
+    color: white;
+    font-weight: 300;
+    font-size: 2rem;
+}
+
+.h2{
+    font-family: 'Source Code Pro', monospace; !important;
+    font-weight: 900;
+    color: #2D5684;
+    text-indent: 100px;
+}
+
+.h2-container{
+    margin-top: 10rem;
+    width: 100%;
+    height: 5rem;
+}
+
+.container{
+    width: 100%;
+    height: 100%;
+}
+
+#calendar ul.weekdays {
+    height: 25px;
+    color: transparent; !important;
+    width: 100%;
+}
+
+#calendar ul.weekdays li {
+    height: 25px;
+    font-family: 'Source Code Pro', monospace; !important;
+    background: #2D5684;
+    text-align: center;
+    border: none !important;
+    color: white;
+    width: 12.5%;
+    font-size: 16px;
+}
+
+#calendar li {
+    display: block;
+    float: left;
+    width:12.5%;
+    padding: 5px;
+    box-sizing:border-box;
+    border: 1px solid #ccc;
+}
+
+#left-arrow{
+//user-select: none;
+    -webkit-user-select: none;
+}
+#right-arrow{
+//user-select: none;
+    -webkit-user-select: none;
+}
+.fa-chevron-left{
+    display: inline;
+    color: black;
+}
+.fa-chevron-right{
+    display: inline;
+    color: black;
+}
+
+.calendar-head{
+    text-align: center;
+    position: relative;
+    margin: 2rem auto 2rem auto;
+}
+
+.container{
+}
+
+h3{
+    font-family: 'Source Code Pro', monospace; !important;
+    display: inline;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    font-size: 5rem !important;
+    text-align: center;
+}

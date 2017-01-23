@@ -4,16 +4,21 @@ package com.CardiacArray.rest;
 import com.CardiacArray.AuthFilter.Role;
 import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.data.Shift;
+import com.CardiacArray.data.User;
 import com.CardiacArray.db.ShiftDb;
+import com.CardiacArray.db.UserDb;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.*;
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-@Secured({Role.ADMIN, Role.USER})
 @Path("/shifts")
 public class ShiftService {
 
     private ShiftDb shiftDb = new ShiftDb();
+    private UserDb userDb = new UserDb();
 
     public ShiftService(ShiftDb shiftDb) throws Exception {
         this.shiftDb = shiftDb;
@@ -121,6 +126,23 @@ public class ShiftService {
     }
 
     /**
+     * Assigns a shift to the user
+     * @param shiftId id of the shift
+     * @param userId id of the user
+     * @return boolean value true if successful
+     */
+    @POST
+    @Path("/assign/{shiftId}/{userId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response assignShift(@PathParam("shiftId") int shiftId, @PathParam("userId") int userId) {
+        if(validateShift(getShift(shiftId))) {
+            shiftDb.assignShift(shiftId, userId);
+            return Response.ok().build();
+        }
+        return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+
+    /**
      * Createng new shift
      *
      * @param shift-object to be created
@@ -137,6 +159,38 @@ public class ShiftService {
         else return responseId;
     }
 
+
+    //TODO getTradeable med userCategoryId
+
+    @GET
+    @Path("/tradeable/{startTime}/{endTime}/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Shift> getTradeable(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime, @PathParam("userId") int userId){
+        if (startTime > endTime) throw  new BadRequestException();
+        User user = userDb.getUserByEmail(userId);
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime),userId);
+        Map<Shift, Shift> map = new HashMap<>();
+        for(Shift shiftElement: shifts){
+            if(shiftElement.isTradeable() && shiftElement.getRole() == user.getUserCategoryInt()){
+                map.put(shiftElement,shiftElement);
+            }
+        }
+        return map.values();
+    }
+
+    @GET
+    @Path("/filter/{userId}/{userCategoryId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Shift> filterShift(@PathParam("userId") int userId,@PathParam("userCategoryId") int userCategoryId){
+        Map<Shift, Shift> map = new HashMap<>();
+        if (userCategoryId < 0 || userId < 0) throw  new BadRequestException();
+        ArrayList<Shift> shifts = shiftDb.getShiftByCategory(userId,userCategoryId);
+        for(Shift shift : shifts){
+            map.put(shift,shift);
+        }
+        return map.values();
+    }
+
     private boolean validateShift(Shift shift){
         Date start = shift.getStartTime();
         Date end = shift.getEndTime();
@@ -148,5 +202,10 @@ public class ShiftService {
             return true;
         }
         return false;
+    }
+
+    public static void main(String args[]) throws Exception {
+        ShiftDb s = new ShiftDb();
+        s.assignShift(3,16);
     }
 }
