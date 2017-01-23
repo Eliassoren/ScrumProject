@@ -69,14 +69,23 @@ public class UserService {
         return updateResponse;
     }
 
-    /*
-    @DELETE
+
+    /**
+     *
+     * @param user
+     * @return
+     */
+    @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public void deleteUser(User user) {
+    public boolean deleteUser(User user) {
         User userFound = userDb.getUserByEmail(user.getEmail());
         if(userFound.getFirstName() == null && userFound.getLastName() == null) throw new NotFoundException();
-        else userDb.deleteUser(user);
-    }*/
+        else {
+            userFound.setActive(false);
+            userDb.setUserActive(userFound);
+            return true;
+        }
+    }
 
     /**
      *
@@ -166,11 +175,37 @@ public class UserService {
        return overtimeArray;
     }
 
+    /**
+     *
+     * @param shift
+     * @param from
+     * @param to
+     * @return
+     */
     @POST
     @Path("/overtime/{from}/{to}")
     @Produces(MediaType.APPLICATION_JSON)
     public boolean setOvertime(Shift shift,@PathParam("from") long from,@PathParam("to") long to){
         if(shift == null) throw new BadRequestException();
         return overtimeDB.setOvertime(shift,new Time(from), new Time(to));
+    }
+
+    /**
+     *
+     * @param startTime starttime for available user
+     * @param endTime endtime for the available user
+     * @return list of all users avaiable in the given timespan
+     */
+    @GET
+    @Path("/availability/{startTime}/{endTime}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<User> getAvailableUsers(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
+        if(new Date(startTime).after(new Date(endTime))) throw new BadRequestException();
+        ArrayList<User> avaiableUsers =  userDb.getAvaiableUsers(startTime, endTime);
+        Map<User, User> map = new HashMap<>();
+        for(User user : avaiableUsers){
+            map.put(user,user);
+        }
+        return map.values();
     }
 }

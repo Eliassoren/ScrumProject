@@ -157,9 +157,6 @@ public class ShiftService {
         else return Response.ok().build();
     }
 
-
-    //TODO getTradeable med userCategoryId
-
     @GET
     @Path("/tradeable/{startTime}/{endTime}/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
