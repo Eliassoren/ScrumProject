@@ -113,6 +113,7 @@ function clearCalendar() {
     //alert("clear");
     $(".event").remove();
     $(".free-event").remove();
+    $(".free-event-text").remove();
 }
 
 function formatTime(date) {
