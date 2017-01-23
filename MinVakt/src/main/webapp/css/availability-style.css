@@ -60,9 +60,11 @@ Lysest grå: #F3F3F3
     height: 25px;
     color: transparent; !important;
     width: 100%;
+    margin-bottom: 0;
 }
 
 #calendar ul.weekdays li {
+    position: relative;
     height: 25px;
     font-family: 'Source Code Pro', monospace; !important;
     background: #2D5684;
@@ -77,9 +79,19 @@ Lysest grå: #F3F3F3
     display: block;
     float: left;
     width:12.5%;
+    height: 100px;
     padding: 5px;
     box-sizing:border-box;
     border: 1px solid #ccc;
+    transition: 0.7s ease-in-out;
+}
+
+#calendar .day{
+    background: white;
+}
+
+#calendar .day-activated{
+    background-color: #90BAED;
 }
 
 #left-arrow{
@@ -115,4 +127,12 @@ h3{
     margin-right: 2rem;
     font-size: 5rem !important;
     text-align: center;
+}
+
+.fa-check{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 40px;
 }
