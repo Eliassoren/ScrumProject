@@ -9,7 +9,7 @@ import java.util.Date;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
->>>>>>> admin.js
+import java.util.List;
 
 /**
  * Created by kjosavik on 11-Jan-17.
@@ -252,21 +252,56 @@ public class UserDb extends DbManager {
             statement.close();
 
             return true;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace(System.err);
             DbManager.rollback();
 
             return false;
         }
-    public ArrayList<User> getAvailableUsers(long startTime, long endTime){
-        Instant ins
-        String toSql = "SELECT * from user join availability on user.user_id = availability.user_id where start_time BETWEEN ?" +
-        " and ? or end_time between ?" +
-        " and ?";
-        ArrayList<User> list = ArrayList<User>;
-
-
     }
+
+    public ArrayList<User> getAvailableUsers(long startLong, long endLong){
+        ArrayList<User> users = new ArrayList<User>();
+        try {
+            String toSQL = "SELECT * FROM user JOIN availability ON user.user_id = availability.user_id JOIN user_category ON user.user_category_id = user_category.user_category_id" +
+                    " WHERE start_time BETWEEN ?" +
+                    " AND ? OR end_time BETWEEN ?" +
+                    " AND ?";
+            Timestamp startStamp = Timestamp.from(Instant.ofEpochMilli(startLong));
+            Timestamp endStamp = Timestamp.from(Instant.ofEpochMilli(endLong));
+            statement = connection.prepareStatement(toSQL);
+            statement.setTimestamp(1, startStamp);
+            statement.setTimestamp(2, endStamp);
+            statement.setTimestamp(3, startStamp);
+            statement.setTimestamp(4, endStamp);
+            res = statement.executeQuery();
+            while(res.next()) {
+                int id = res.getInt("id");
+                String email = res.getString("email");
+                String firstName= res.getString("first_name");
+                String lastName = res.getString("last_name");
+                String password = res.getString("password");
+                boolean adminRights = res.getBoolean("admin_rights");
+                int mobile = res.getInt("mobile");
+                String address = res.getString("address");
+                int userCategoryInt = res.getInt("user.user_category_id");
+                String userCategoryString = res.getString("type");
+                String token = res.getString("token");
+                Timestamp expired = res.getTimestamp("expired");
+                boolean active = res.getBoolean("active");
+                Timestamp startTime = res.getTimestamp("start_time");
+                Timestamp endTime = res.getTimestamp("end_time");
+                User user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active);
+                users.add(user);
+            }
+            res.close();
+            statement.close();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
     /**
      * Main methode that does the following:
      * creates a connection with DbManager
