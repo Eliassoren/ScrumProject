@@ -11,7 +11,7 @@ const MONTH_NEXT = 2;
 //var date = new Date(new Date().getFullYear(), 0, 1);
 var week = 0;
 var shiftArray = new Array(Number(new Date(year, month + 1, 0).getDate()));
-var tradeableShifts = new Array(Number(new Date(year, month + 1, 0).getDate()));
+var tradeableShifts;
 
 function getShiftById(id){
     $.ajax({
@@ -19,7 +19,7 @@ function getShiftById(id){
         url: "/MinVakt/rest/shifts/" + id,
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
-            console.log("Shift: " + data);
+
         },
         statusCode: {
             401: function () {
@@ -139,16 +139,16 @@ function appendEvent(day,shiftArray,box){
         eventDiv.append($("<span/>").addClass("event-time").text(shiftTime));
     }
 }
-function appendFreeEvent(day,shiftsInOneDay,box){
-    if (shiftsInOneDay != null) {
-        console.log("tradeable");
-        var amountShifts = shiftsInOneDay.length;
-        console.log(amountShifts);
-        shiftDesc = amountShifts + " ledige vakter";
-        //shiftTime = formatTime(new Date(tradeableShifts[day].startTime)) + " - " + formatTime(new Date(tradeableShifts[day].endTime));
-        var tradeableEvent = $("<div/>").addClass("free-event").attr("shiftId", tradeableShifts[day].shiftId);
-        box.append(tradeableEvent);
-        tradeableEvent.append($("<span/>").addClass("free-event-text").text(shiftDesc));
+function appendFreeEvent(day,shiftsInOneDay){
+
+    if (shiftsInOneDay != 0) {
+        shiftDesc = shiftsInOneDay + " ledige vakter";
+        var tradeableEvent = $("<div/>").addClass("free-event");
+        var dayOfThisMonth = $(".day:contains('"+ day +"')");
+        if (!dayOfThisMonth.hasClass('other-month') && dayOfThisMonth.find(".event").length == 0){
+            dayOfThisMonth.append(tradeableEvent);
+            tradeableEvent.append($("<span/>").addClass("free-event-text").text(shiftDesc));
+        }
     }
 }
 function generateCalendar(tradeableShifts,shiftArray,year,month){
@@ -160,9 +160,6 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
     });*/
     var day = getMonday2(firstDate);
 
-    console.log("first "+ firstDate);
-    console.log("monday "+day);
-    //console.log("monday2 "+day2);
     //var day = moment().startOf(moment(firstDate).isoWeek()).getDate();
     var noPrevMonth = day == 1; // Special case when month starts on a monday..
     var monday = convertToMonday(firstDate); // first monday of calendar view (of previous month)
@@ -180,16 +177,11 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
                 appendEvent(day,shiftArray,$(this));
             }
             $(this).removeClass("other-month");
-            if(tradeableShifts != null) {
-                shiftsInOneDay = tradeableShifts[day];
-                appendFreeEvent(day,shiftsInOneDay,$(this));
-            }
         }else if(monthStatus !== MONTH_CURR){
             $(this).addClass("other-month");
         }
 
         if (day < lastDateOfPrevMonth) {
-            console.log("lastprev "+lastDateOfPrevMonth+ " m "+month);
             if(noPrevMonth){
                 monthStatus = MONTH_CURR;
                 $(this).removeClass("other-month");
@@ -214,6 +206,8 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
             week = 1;
         }
     })
+
+    getTradeableShifts(year, month);
 }
 $(document).ready(function() {
     //var localStorage = localStorage.getItem();
@@ -255,7 +249,7 @@ $(document).ready(function() {
         clearCalendar();
         // TODO: add localstorage instead of hardcode
         getShiftsForUser(year,month,8);
-        getTradeableShifts(year,month,8);
+        //getTradeableShifts(year,month,8);
     });
 
     /**
@@ -275,7 +269,7 @@ $(document).ready(function() {
         // Localstorage
         // todo: add localstorage instead of hardcoded
         getShiftsForUser(year,month,8);
-        getTradeableShifts(year,month,8);
+        //getTradeableShifts(year,month,8);
         //clearCalendar();
     });
 
@@ -288,7 +282,6 @@ $(document).ready(function() {
                 url: "/MinVakt/rest/shifts/" + shiftId,
                 headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
                 success: function(data){
-                    console.log(data);
                     $('.event-open').append('<h5>Shift ID: ' +data.shiftId + '</h5>');
                     $('.event-open').append("<p><b>Tid:</b> " + formatTime(new Date(data.startTime)) + " - " + formatTime(new Date(data.endTime)) + "</p>");
                     $('.event-open').append('<p> <b>Ansatt: </b> ' +data.userName + '</p>');
@@ -322,8 +315,7 @@ $(document).ready(function() {
 
     });
 
-    $.when(getShiftsForUser(year, month, 8)).then(generateCalendar(null,shiftArray,year, month));
-    $.when(getTradeableShifts(year, month, 8)).then(generateCalendar(tradeableShifts,null,year, month));
+    getShiftsForUser(year, month, 8)
 });
 
 function getShiftAndTrade(id, bool){
@@ -333,7 +325,6 @@ function getShiftAndTrade(id, bool){
         url: "/MinVakt/rest/shifts/" + id,
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
-            console.log(data);
             setShiftTradeablePut(data, bool)
         },
         statusCode: {
@@ -350,12 +341,9 @@ function getShiftsForUser(year, month, userId) {
         url: "/MinVakt/rest/shifts/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + (new Date(year, month + 1, 0)).getTime() + "/" + userId,
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
-            console.log(data.length);
             shiftArray = new Array(Number(new Date(year, month + 1, 0).getDate()));
             for (i = 0; i < data.length; i++){
-                console.log(" Lagt til " + data[i].shiftId);
                 var shiftBefore = String(new Date(data[i].startTime)).split(" ")[2];
-                console.log(" Split :" + String(new Date(data[i].startTime)).split(" ")[2]);
                 shiftArray[Number(shiftBefore)] = data[i];
             }
             generateCalendar(null,shiftArray, year, month);
@@ -368,29 +356,29 @@ function getShiftsForUser(year, month, userId) {
         }
     });
 }
-function getTradeableShifts(year, month, userId){
+function getTradeableShifts(year, month){
     $.ajax({
         type: "GET",
-        url: "/MinVakt/rest/shifts/tradeable/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + (new Date(year, month + 1, 0)).getTime() + "/" +userId,
+        url: "/MinVakt/rest/shifts/tradeable/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + (new Date(year, month + 1, 0)).getTime() + "/" + localStorage.getItem("userid"),
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
             var monthLen = Number(new Date(year, month + 1, 0).getDate());
             tradeableShifts = new Array(monthLen);
-            for(var i = 0; i < monthLen;i++){
-                //var shiftBefore = String(new Date(data[i].startTime)).split(" ")[2];
-                var dayArr = new Array();
-                for(var j = 0; j < data.length;j++) {
-                    console.log("Data["+i+"]= "+data[i]);
-                    var shiftDate = String(new Date(data[j].startTime)).split(" ")[2];
-                    if (Number(shiftDate === i)){
-                        dayArr.push(data[j]);
-                    }
-                }
-                if(dayArr != null){
-                    tradeableShifts[i] = dayArr;
-                }
+            for (var q = 0; q < tradeableShifts.length; q++){
+                tradeableShifts[q] = 0;
             }
-            generateCalendar(tradeableShifts,null,year,month);
+
+            for(var i = 0; i < data.length; i++){
+                var shiftDate = new Date(data[i].startTime).getDate();
+                ++tradeableShifts[shiftDate];
+            }
+
+            for (var k = 0; k < tradeableShifts.length; k++){
+                console.log("Dag " + k + ": " + tradeableShifts[k]);
+                appendFreeEvent(k, tradeableShifts[k]);
+            }
+
+
         },
         statusCode: {
             401: function () {
@@ -423,7 +411,6 @@ function setShiftTradeablePut(shift, bool) {
             responsibleUser: shift.responsibleUser
         }),
         success: function (data) {
-            console.log("Result: " + data);
             returnValue = JSON.parse(data);
             if(returnValue) {
                 $("body").prepend("<div class='event-open'></div>");
