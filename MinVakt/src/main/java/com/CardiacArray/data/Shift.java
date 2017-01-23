@@ -11,6 +11,7 @@ public class Shift {
     private String userName;
     private int departmentId;
     private int role;
+    private String roleDescription;
     private boolean tradeable;
     private boolean responsibleUser;
 
@@ -114,7 +115,13 @@ public class Shift {
         this.responsibleUser = responsibleUser;
     }
 
+    public String getRoleDescription() {
+        return roleDescription;
+    }
 
+    public void setRoleDescription(String roleDescription) {
+        this.roleDescription = roleDescription;
+    }
 
     @Override
     public String toString() {
@@ -126,11 +133,9 @@ public class Shift {
                 ", userName='" + userName + '\'' +
                 ", departmentId=" + departmentId +
                 ", role=" + role +
+                ", roleDescription='" + roleDescription + '\'' +
                 ", tradeable=" + tradeable +
                 ", responsibleUser=" + responsibleUser +
                 '}';
     }
-
-
-    
 }
