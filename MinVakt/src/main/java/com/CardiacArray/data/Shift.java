@@ -28,14 +28,13 @@ public class Shift {
         this.responsibleUser = responsibleUser;
     }
 
-    public Shift(Date startTime, Date endTime, int departmentId, int role, boolean tradeable) {
+    public Shift(Date startTime, Date endTime, int departmentId, int role, boolean responsibleUser) {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         if (startTime.getTime() >= endTime.getTime()) throw new IllegalArgumentException("Shift duration is less than 1 min");
         this.startTime = startTime;
         this.endTime = endTime;
         this.departmentId = departmentId;
         this.role = role;
-        this.tradeable = tradeable;
         this.responsibleUser = responsibleUser;
     }
 

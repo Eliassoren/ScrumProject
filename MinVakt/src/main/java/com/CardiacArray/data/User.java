@@ -31,9 +31,10 @@ public class User {
     private Timestamp expired;
     private boolean active; //false if user does not work at the facility anymore.
     private Role role;
+    private int workPercent;
 
 
-    public User(int id, String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired, boolean active) {
+    public User(int id, String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired, boolean active, int workPercent) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -47,6 +48,7 @@ public class User {
         this.token = token;
         this.expired = expired;
         this.active = active;
+        this.workPercent = workPercent;
         if(admin) {
             role = Role.ADMIN;
         } else {
@@ -57,7 +59,7 @@ public class User {
     /*
      *Constructor used to create new users that needs to be added to the database.
      */
-    public User(String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, boolean active) {
+    public User(String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, boolean active, int workPercent) {
         //if (firstName == null || lastName == null || email == null || password == null) throw new IllegalArgumentException("Name, password or email cannot be null");
 
         this.firstName = firstName;
@@ -69,6 +71,7 @@ public class User {
         this.address = address;
         this.userCategoryInt = userCategoryInt;
         this.active = active;
+        this.workPercent = workPercent;
         if(admin) {
             role = Role.ADMIN;
         } else {
@@ -76,10 +79,18 @@ public class User {
         }
     }
 
+    public int getWorkPercent() {
+        return workPercent;
+    }
+
+    public void setWorkPercent(int workPercent) {
+        this.workPercent = workPercent;
+    }
+
     /*
- *Constructor used to create new users that needs to be added to the database.
- */
-    public User(int id, String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, boolean active) {
+     *Constructor used to create new users that needs to be added to the database.
+     */
+    public User(int id, String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, boolean active, int workPercent) {
         //if (firstName == null || lastName == null || email == null || password == null) throw new IllegalArgumentException("Name, password or email cannot be null");
         this.id = id;
         this.firstName = firstName;
@@ -91,6 +102,8 @@ public class User {
         this.address = address;
         this.userCategoryInt = userCategoryInt;
         this.active = active;
+        this.workPercent = workPercent;
+
         if(admin) {
             role = Role.ADMIN;
         } else {

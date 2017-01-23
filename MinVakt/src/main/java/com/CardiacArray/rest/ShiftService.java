@@ -127,16 +127,14 @@ public class ShiftService {
 
     /**
      * Assigns a shift to the user
-     * @param shiftId id of the shift
-     * @param userId id of the user
      * @return boolean value true if successful
      */
     @POST
-    @Path("/assign/{shiftId}/{userId}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response assignShift(@PathParam("shiftId") int shiftId, @PathParam("userId") int userId) {
-        if(validateShift(getShift(shiftId))) {
-            shiftDb.assignShift(shiftId, userId);
+    @Path("/assign")
+    @Consumes (MediaType.APPLICATION_JSON)
+    public Response assignShift(Shift shift) {
+        if(validateShift(getShift(shift.getShiftId()))) {
+            shiftDb.assignShift(shift.getShiftId(), shift.getUserId());
             return Response.ok().build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
@@ -150,13 +148,13 @@ public class ShiftService {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public int createShift(Shift shift) {
+    public Response createShift(Shift shift) {
         if(!validateShift(shift)){
             throw new BadRequestException();
         }
         int responseId = shiftDb.createShift(shift);
         if(responseId < 0) throw new BadRequestException();
-        else return responseId;
+        else return Response.ok().build();
     }
 
 
