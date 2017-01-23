@@ -194,9 +194,9 @@ public class UserService {
 
     /**
      *
-     * @param startTime
-     * @param endTime
-     * @return
+     * @param startTime starttime for available user
+     * @param endTime endtime for the available user
+     * @return list of all users avaiable in the given timespan
      */
     @GET
     @Path("/availability/{startTime}/{endTime}")

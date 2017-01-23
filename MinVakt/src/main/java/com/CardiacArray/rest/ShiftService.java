@@ -165,7 +165,7 @@ public class ShiftService {
     public Collection<Shift> getTradeable(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime, @PathParam("userId") int userId){
         if (startTime > endTime) throw  new BadRequestException();
         User user = userDb.getUserByEmail(userId);
-        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime),userId);
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
         Map<Shift, Shift> map = new HashMap<>();
         for(Shift shiftElement: shifts){
             if(shiftElement.isTradeable() && shiftElement.getRole() == user.getUserCategoryInt()){
