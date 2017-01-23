@@ -39,10 +39,11 @@ public class ShiftDb extends DbManager{
         String onlyDate = simpleDate.format(date);
 
         String sql = "SELECT shift.shift_id, shift.date, shift.start, shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable,\n" +
-                "    user.user_id, concat_ws(' ', user.first_name, user.last_name) AS user_name\n" +
+                "    user.user_id, concat_ws(' ', user.first_name, user.last_name) AS user_name,  user_category.type\n" +
                 "FROM shift\n" +
                 "    JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
                 "    JOIN user ON user_shift.user_id = user.user_id\n" +
+                "JOIN user_category on shift.user_category_id = user_category.user_category_id" +
                 "WHERE shift.date = ? AND user_shift.user_id = ?";
 
         try {
@@ -69,7 +70,8 @@ public class ShiftDb extends DbManager{
                         res.getInt("department_id"),
                         res.getInt("user_category_id"),
                         res.getBoolean("tradeable"),
-                        res.getBoolean("responsible_user"));
+                        res.getBoolean("responsible_user"),
+                        res.getString("type"));
                 res.close();
                 statement.close();
             }
@@ -162,8 +164,8 @@ public class ShiftDb extends DbManager{
                         res.getInt("department_id"),
                         res.getInt("user_category_id"),
                         res.getBoolean("tradeable"),
-                        res.getBoolean("responsible_user")
-                        res.getString("type");
+                        res.getBoolean("responsible_user"),
+                        res.getString("type")
                 ));
             }
             res.close();

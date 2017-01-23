@@ -42,6 +42,7 @@ public class UserService {
      *
      * @param email email of the user
      * @return user object
+     */
      @Path("/{email}")
     @Produces(MediaType.APPLICATION_JSON)
     public User getUser(@PathParam("email") String email) {
@@ -201,7 +202,7 @@ public class UserService {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<User> getAvailableUsers(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
         if(new Date(startTime).after(new Date(endTime))) throw new BadRequestException();
-        ArrayList<User> avaiableUsers =  userDb.getAvaiableUsers(startTime, endTime);
+        ArrayList<User> avaiableUsers =  userDb.getAvailableUsers(startTime, endTime);
         Map<User, User> map = new HashMap<>();
         for(User user : avaiableUsers){
             map.put(user,user);
