@@ -19,7 +19,7 @@ function getShiftById(id){
         url: "/MinVakt/rest/shifts/" + id,
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
-            console.log("Shift: " + data);
+
         },
         statusCode: {
             401: function () {
@@ -140,9 +140,9 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
     });*/
     var day = getMonday2(firstDate);
 
-    console.log("first "+ firstDate);
-    console.log("monday "+day);
-    //console.log("monday2 "+day2);
+
+
+    //
     //var day = moment().startOf(moment(firstDate).isoWeek()).getDate();
     var noPrevMonth = day == 1; // Special case when month starts on a monday..
     var monday = convertToMonday(firstDate); // first monday of calendar view (of previous month)
@@ -170,9 +170,9 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
             if(tradeableShifts != null) {
                 shiftsInOneDay = tradeableShifts[day];
                 if (shiftsInOneDay != null) {
-                    console.log("tradeable");
+
                     var amountShifts = shiftsInOneDay.length;
-                    console.log(amountShifts);
+
                     shiftDesc = amountShifts + " ledige vakter";
                     //shiftTime = formatTime(new Date(tradeableShifts[day].startTime)) + " - " + formatTime(new Date(tradeableShifts[day].endTime));
                     var tradeableEvent = $("<div/>").addClass("free-event").attr("shiftId", tradeableShifts[day].shiftId);
@@ -185,7 +185,7 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
         }
 
         if (day < lastDateOfPrevMonth) {
-            console.log("lastprev "+lastDateOfPrevMonth+ " m "+month);
+
             if(noPrevMonth){
                 monthStatus = MONTH_CURR;
                 $(this).removeClass("other-month");
@@ -284,7 +284,7 @@ $(document).ready(function() {
                 url: "/MinVakt/rest/shifts/" + shiftId,
                 headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
                 success: function(data){
-                    console.log(data);
+
                     $('.event-open').append('<h5>Shift ID: ' +data.shiftId + '</h5>');
                     $('.event-open').append("<p><b>Tid:</b> " + formatTime(new Date(data.startTime)) + " - " + formatTime(new Date(data.endTime)) + "</p>");
                     $('.event-open').append('<p> <b>Ansatt: </b> ' +data.userName + '</p>');
@@ -332,7 +332,7 @@ function getShiftAndTrade(id, bool){
         url: "/MinVakt/rest/shifts/" + id,
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
-            console.log(data);
+
             setShiftTradeablePut(data, bool)
         },
         statusCode: {
@@ -349,12 +349,12 @@ function getShiftsForUser(year, month, userId) {
         url: "/MinVakt/rest/shifts/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + (new Date(year, month + 1, 0)).getTime() + "/" + userId,
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
-            console.log(data.length);
+
             shiftArray = new Array(Number(new Date(year, month + 1, 0).getDate()));
             for (i = 0; i < data.length; i++){
-                console.log(" Lagt til " + data[i].shiftId);
+
                 var shiftBefore = String(new Date(data[i].startTime)).split(" ")[2];
-                console.log(" Split :" + String(new Date(data[i].startTime)).split(" ")[2]);
+
                 shiftArray[Number(shiftBefore)] = data[i];
             }
             generateCalendar(null,shiftArray, year, month);
@@ -379,7 +379,7 @@ function getTradeableShifts(year, month, userId){
                 //var shiftBefore = String(new Date(data[i].startTime)).split(" ")[2];
                 var dayArr = new Array();
                 for(var j = 0; j < data.length;j++) {
-                    console.log("Data["+i+"]= "+data[i]);
+
                     var shiftDate = String(new Date(data[j].startTime)).split(" ")[2];
                     if (Number(shiftDate === i)){
                         dayArr.push(data[j]);
@@ -422,7 +422,7 @@ function setShiftTradeablePut(shift, bool) {
             responsibleUser: shift.responsibleUser
         }),
         success: function (data) {
-            console.log("Result: " + data);
+
             returnValue = JSON.parse(data);
             if(returnValue) {
                 $("body").prepend("<div class='event-open'></div>");
@@ -496,7 +496,7 @@ $(document).ready(function() {
 
 function addRow(data) {
 
-    console.log(data);
+
 
     //DUMMY DATA
     //var text= '[{"shiftId":1,"startTime":1483254000000,"endTime":1483282800000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":true,"responsibleUser":false},{"shiftId":6,"startTime":1483542000000,"endTime":1483570740000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":false,"responsibleUser":false}]'
@@ -534,8 +534,8 @@ function addRow(data) {
         cell4 = document.createElement("Button");
         cell4.className = "listButton " + "id" + obj[i].shiftId;
         textnode1 = document.createTextNode(obj[i].userName);
-        textnode2 = document.createTextNode(formatTime(startTime + ":" + new Date(obj[i].startTime).getMinutes()));
-        textnode3 = document.createTextNode(formatTime(new Date(obj[i].endTime).getHours() + ":" + new Date(obj[i].endTime).getMinutes()));
+        textnode2 = document.createTextNode(formatTime(new Date(obj[i].startTime)));
+        textnode3 = document.createTextNode(formatTime(new Date(obj[i].endTime)));
         textnode4 = document.createTextNode("Ta vakt");
         cell1.appendChild(textnode1);
         cell2.appendChild(textnode2);
@@ -547,13 +547,6 @@ function addRow(data) {
         row.appendChild(cell4);
         tabBody.append(row);
         //table = "evening-table";
-        if (obj[i].userName == ""){
-            $('.tr' + i).css('background-color', '#FF5468');
-            //$('.id' + obj[i].shiftId).css('background-color', '#BA3E4C');
-        } else if (isFree) {
-            $('.tr' + i).css('background-color', '#4DFA90');
-            //$('.id' + obj[i].shiftId).css('background-color', '#40CD76');
-        }
     }
 }
 
@@ -578,7 +571,7 @@ function addRow(data) {
         }),
         success: function (data){
             var jsonshit = JSON.parse(data);
-            console.log(jsonshit);
+
         }
     })
 }*/
