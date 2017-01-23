@@ -52,6 +52,8 @@ public class UserDb extends DbManager {
         return user;
     }
 
+
+
     /**
     @param email
     @return User specified by email
@@ -178,6 +180,23 @@ public class UserDb extends DbManager {
             e.printStackTrace(System.err);
             return false;
         }
+    }
+
+    public boolean setUserActive(User user){
+        try {
+            String toSQL = "UPDATE user SET active = ? where user_id = ?";
+            PreparedStatement statement = connection.prepareStatement(toSQL);
+            statement.setBoolean(1, user.isActive());
+            statement.setInt(2,user.getId());
+            statement.execute();
+            statement.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace(System.err);
+            return false;
+        }
+
+
     }
 
     /**
