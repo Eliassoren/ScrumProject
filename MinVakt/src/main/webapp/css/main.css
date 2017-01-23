@@ -122,11 +122,16 @@ h2{
     display: inline;
     color: black;
 }
+.fa-chevron-left:hover{
+    text-decoration: none;
+}
 .fa-chevron-right{
     display: inline;
     color: black;
 }
-
+.fa-chevron-right:hover{
+    text-decoration: none;
+}
 #calendar {
     width: 100%;
 }
@@ -155,7 +160,9 @@ h2{
     display: none;
     visibility: hidden;
 }
-
+#calendar .week-number:hover{
+    background: white;
+}
 #calendar #uke {
     width: 7.5%; !important;
     margin-left: 5%;
@@ -184,9 +191,7 @@ h2{
     margin-left: 5%;
 }
 
-#calendar .week-number:hover{
-    background-color: grey;
-}
+
 #calendar ul.weekdays {
     height: 25px;
     color: transparent; !important;
@@ -238,9 +243,7 @@ h2{
     overflow: hidden;
 }
 
-#calendar .available-event{
 
-}
 #calendar .event-desc {
     color: white;
     margin: 3px 0 7px 0;
@@ -361,9 +364,7 @@ footer{
 .hamburger-menu-open {
     display: block !important;
 }
-.available-event{
 
-}
 .event-open {
     top:50%;
     left:50%;
@@ -417,10 +418,10 @@ footer{
 }
 
 .free-event{
-    position: absolute;
+    position: relative;
     left: 10%;
-    bottom: 10px;
+    top: 80%;
     color: red;
     text-decoration: underline;
-
+    margin-bottom: 2px;
 }
