@@ -416,7 +416,15 @@ footer{
 .text-red {
     color: #9d100c;
 }
-
+select:required:invalid {
+    color: gray;
+}
+option[value=""][disabled]{
+    display: none;
+}
+option{
+    color: white;
+}
 .free-event{
     position: relative;
     left: 10%;

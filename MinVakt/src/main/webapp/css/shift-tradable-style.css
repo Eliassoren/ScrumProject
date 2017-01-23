@@ -294,7 +294,15 @@ COLOR PALETTE
 
 
 }
-
+select:required:invalid {
+    color: gray;
+}
+option[value=""][disabled]{
+    display: none;
+}
+option{
+    color: white;
+}
 .picker{
     text-indent: 3rem;
 }
