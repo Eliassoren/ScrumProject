@@ -149,6 +149,7 @@ function appendFreeEvent(day,shiftsInOneDay){
         if (!dayOfThisMonth.hasClass('other-month') && dayOfThisMonth.find(".event").length == 0){
             dayOfThisMonth.append(tradeableEvent);
             tradeableEvent.append($("<span/>").addClass("free-event-text").text(shiftDesc));
+
         }
     }
 }
@@ -160,6 +161,7 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
         return firstDate;
     });*/
     var day = getMonday2(firstDate);
+
 
     //var day = moment().startOf(moment(firstDate).isoWeek()).getDate();
     var noPrevMonth = day == 1; // Special case when month starts on a monday..
@@ -179,7 +181,7 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
             }
             $(this).removeClass("other-month");
         }else if(monthStatus !== MONTH_CURR){
-
+            $(this).addClass("other-month");
         }else if((monthStatus === MONTH_PREV || monthStatus === MONTH_NEXT)){
             $(this).addClass("other-month");
         }
@@ -276,7 +278,7 @@ $(document).ready(function() {
         //clearCalendar();
     });
 
-    $(".day").click(function(){
+    $(".day:contains('event')").click(function(){
         var shiftId = $(this).children('.event').attr('shiftId');
         if($(".event-open").length == 0){
             $("body").prepend("<div class='event-open'></div>");
@@ -285,10 +287,6 @@ $(document).ready(function() {
                 url: "/MinVakt/rest/shifts/" + shiftId,
                 headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
                 success: function(data){
-<<<<<<< HEAD
-=======
-
->>>>>>> Fixed shiftlist
                     $('.event-open').append('<h5>Shift ID: ' +data.shiftId + '</h5>');
                     $('.event-open').append("<p><b>Tid:</b> " + formatTime(new Date(data.startTime)) + " - " + formatTime(new Date(data.endTime)) + "</p>");
                     $('.event-open').append('<p> <b>Ansatt: </b> ' +data.userName + '</p>');
@@ -319,10 +317,6 @@ $(document).ready(function() {
                 }
             })
         }
-    });
-
-    $(".free-event-text").click(function(){
-
     });
 
     getShiftsForUser(year, month, 8)
@@ -384,10 +378,23 @@ function getTradeableShifts(year, month){
             }
 
             for (var k = 0; k < tradeableShifts.length; k++){
-                console.log("Dag " + k + ": " + tradeableShifts[k]);
                 appendFreeEvent(k, tradeableShifts[k]);
 
             }
+            $(".free-event-text").click(function(){
+                $("#overlay-placer").load("template/free-shift.html", function(){
+                    $(".absolute-dropdown").click(function(){
+                        $(this).toggleClass("dropdown-active");
+                    });
+                });
+                $("body").prepend($("<div/>").addClass("overlay").click( function(){
+                    $("#absolute-div").remove();
+                    $(".container").toggleClass("blur");
+                    $(".overlay").remove();
+                }));
+                $(".container").toggleClass("blur");
+                getAvailableShifts(new Date(year,MONTH_CURR-1, 1).getTime(), new Date(year, MONTH_NEXT-1, 0).getTime());
+            });
 
 
         },
@@ -467,34 +474,30 @@ $( function() {
 });
 
 function getAvailableShifts(startTime, endTime) {
-
     $.ajax({
         type: "GET",
         url: "/MinVakt/rest/shifts/tradeable/" + startTime + "/" + endTime,
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data) {
+            console.log(data);
             addRow(data);
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                window.location.replace("/MinVakt/");
+            },
+            404: function () {
+                console.log("ERROR: No shifts found");
+            }
         }
     })
 }
-$(document).ready(function() {
 
-    $("#dropdown-toggle-day").click(function(){
-        $("#day").toggleClass("dropdown-active");
-    });
-    $("#dropdown-toggle-evening").click(function(){
-        $("#evening").toggleClass("dropdown-active");
-    });
-    $("#dropdown-toggle-night").click(function(){
-        $("#night").toggleClass("dropdown-active");
-    });
-});
 
-$(document).ready(function() {
-        getAvailableShifts(0,1589483849399);
-});
 
 function addRow(data) {
+
 
     //DUMMY DATA
     //var text= '[{"shiftId":1,"startTime":1483254000000,"endTime":1483282800000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":true,"responsibleUser":false},{"shiftId":6,"startTime":1483542000000,"endTime":1483570740000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":false,"responsibleUser":false}]'
@@ -521,7 +524,7 @@ function addRow(data) {
             alert("ERROR CHECK THE ADD ROW FUNCTION IN SHIFT-SCRIPT.JS!")
         }
 
-        console.log(obj[i]);
+
         tabBody = $(".table");
         row = document.createElement("tr");
         row.className = "tr" + i;
@@ -546,8 +549,6 @@ function addRow(data) {
         //table = "evening-table";
     }
 }
-
-
 
 
 

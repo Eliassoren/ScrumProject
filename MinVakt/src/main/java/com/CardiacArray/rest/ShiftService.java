@@ -101,6 +101,7 @@ public class ShiftService {
     public Collection<Shift> getTradeable(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
         if (startTime > endTime) throw  new BadRequestException();
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
+        System.out.println(new Date(startTime) + " " + new Date(endTime));
         Map<Shift, Shift> map = new HashMap<>();
         for(Shift shiftElement: shifts){
             if(shiftElement.isTradeable()){

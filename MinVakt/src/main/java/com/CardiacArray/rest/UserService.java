@@ -77,6 +77,7 @@ public class UserService {
      * @return
      */
     @PUT
+    @Path("/delete")
     @Consumes(MediaType.APPLICATION_JSON)
     public boolean deleteUser(User user) {
         User userFound = userDb.getUserByEmail(user.getEmail());
