@@ -477,14 +477,43 @@ public class ShiftDb extends DbManager{
         }
         return returnValue;
     }
-    
+
+    public ArrayList<Shift> getChangeRequest(){
+        String toSQL = "SELECT * FROM changeover WHERE approved = 0";
+        ArrayList<Shift> al = new ArrayList<>();
+        try {
+            statement = connection.prepareStatement(toSQL);
+            res = statement.executeQuery();
+            while(res.next()){
+                int shiftId = res.getInt("shift_id");
+                int newUserId = res.getInt(("new_user_id"));
+                Shift shift = new Shift();
+                shift.setShiftId(shiftId);
+                shift.setUserId(newUserId);
+                al.add(shift);
+            }
+            res.close();
+            statement.close();
+        } catch (SQLException e ){
+            e.printStackTrace();
+        }
+        return al;
+    }
+
+
 
     public static void main(String args[]) throws Exception {
         ShiftDb db = new ShiftDb();
         Shift shift = db.getShift(11);
         int newUserId = 6;
         System.out.println(db.sendChangeRequest(shift.getShiftId(), 6));
+        ArrayList<Shift> al = db.getChangeRequest();
+        for (Shift shift1 : al){
+            System.out.println(shift1.getShiftId() + " " + shift1.getUserId());
+        }
 
+    }
 
 
 }
+
