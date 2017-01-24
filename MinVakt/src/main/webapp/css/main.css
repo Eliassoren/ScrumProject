@@ -633,6 +633,13 @@ th {color: #2D5684; text-align: center}
 .adm-home-box:hover{
     cursor: pointer;
 }
+.adm-span{
+    top: 6.6rem;
+    display: block;
+    float: right;
+    position: relative;
+    color: white;
+}
 .left-box{
     background-color: #FC4A1A !important;
 }
