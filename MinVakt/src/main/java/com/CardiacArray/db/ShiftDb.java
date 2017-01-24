@@ -261,6 +261,7 @@ public class ShiftDb extends DbManager{
         SimpleDateFormat simpleTime = new SimpleDateFormat("HH:mm");
         String onlyDateStart= simpleDate.format(dateStart);
         String onlyDateEnd = simpleDate.format(dateEnd);
+        System.out.println("DB" + onlyDateStart + " " + onlyDateEnd);
 
         String sql = "SELECT shift.shift_id, shift.date, shift.start," +
                 "                shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable, user.user_id, user_category.type," +

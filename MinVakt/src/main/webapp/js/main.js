@@ -211,7 +211,10 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
             week = 1;
         }
     })
+
     getTradeableShifts(year, month);
+
+
 }
 $(document).ready(function() {
     //var localStorage = localStorage.getItem();
@@ -277,41 +280,69 @@ $(document).ready(function() {
         //clearCalendar();
     });
 
-    $(".day:contains('event')").click(function(){
+    function formatDate(date) {
+        var dayFormat = (date.getDate() < 10) ? "0" + date.getDate() : date.getDate();
+        var monthFormat = (date.getMonth() < 10) ? "0"+ (date.getMonth() +1) : (date.getMonth() +1);
+        var yearFormat = date.getFullYear();
+        return dayFormat + "." + monthFormat + "." + yearFormat;
+    }
+
+    $(".day").click( function(){
         var shiftId = $(this).children('.event').attr('shiftId');
-        if($(".event-open").length == 0){
-            $("body").prepend("<div class='event-open'></div>");
+        if($(this).find(".event").length > 0 && $(".blur").length == 0){
+                $("body").prepend("<div id='banner-div'></div>");
+                $("#banner-div").load("template/banner-shift.html", function () {
+
+                    $(".container").click(function () {
+                        $("#banner-div").remove();
+                        if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+                        $(".container").unbind();
+                    });
+                    $(".container").addClass("blur");
+                });
+
+
             $.ajax({
                 type: "GET",
                 url: "/MinVakt/rest/shifts/" + shiftId,
                 headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
                 success: function(data){
-                    $('.event-open').append('<h5>Shift ID: ' +data.shiftId + '</h5>');
-                    $('.event-open').append("<p><b>Tid:</b> " + formatTime(new Date(data.startTime)) + " - " + formatTime(new Date(data.endTime)) + "</p>");
-                    $('.event-open').append('<p> <b>Ansatt: </b> ' +data.userName + '</p>');
+                    $("#banner-shift-date").text(formatDate(new Date(data.startTime)));
+                    $("#banner-shift-time span:nth-child(2)").text(formatTime(new Date(data.startTime)) + " - " + formatTime(new Date(data.startTime)));
+                    $("#banner-shift-dep span:nth-child(2)").text(data.departmentId);
                     if(data.tradeable){
-                        $('.event-open').append("<p class='text-red'>Vakt satt som tilgjengelig for bytte</p>");
+                        $("#banner-shift").css("background", "#8cad2b");
+                        $("#banner-shift-date").append(" (Til bytte)");
+                        $(".approve").text("Ikke bytt vakt");
                     }
-                    $('.event-open').append($("<div/>").addClass("button").text("Lukk").click(function(){
-                        $('.event-open').remove();
-                    }));
-                    $('.event-open').append($("<div/>").addClass("button-tradeable").text("Sett ledig").click(function(){
-                        $('.event-open').remove();
+
+                    $(".closer").click(function () {
+                        $("#banner-shift").remove();
+                        if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+                        $(".container").unbind();
+                    });
+
+                    $(".approve").click(function(){
+                        $("#banner-shift").remove();
+                        if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+                        $(".container").unbind();
                         if(data.tradeable){
-                            $("body").prepend("<div class='event-open'></div>");
-                            $('.event-open').append('<h3> Din vakt er allerede tilgjengelig for bytte </h3>');
-                            $('.event-open').append($("<div/>").addClass("button").text("Lukk").click(function(){
-                                $('.event-open').remove();
-                            }));
+                            getShiftAndTrade(shiftId, false);
+                            bannerAlert("Vakt fjernet fra bytte");
                         } else {
-                            getShiftAndTrade(data.shiftId, true);
+                            getShiftAndTrade(shiftId, true);
+                            bannerAlert("Vakt satt til bytte");
                         }
-                    }));
+                    });
+
                 },
                 statusCode: {
                     401: function () {
                         localStorage.removeItem("token");
                         window.location.replace("/MinVakt/");
+                    },
+                    404: function() {
+                        console.log("ERROR: could not load shift");
                     }
                 }
             })
@@ -322,7 +353,6 @@ $(document).ready(function() {
 });
 
 function getShiftAndTrade(id, bool){
-    alert(localStorage.getItem("token"));
     $.ajax({
         type: "GET",
         url: "/MinVakt/rest/shifts/" + id,
@@ -381,18 +411,25 @@ function getTradeableShifts(year, month){
 
             }
             $(".free-event-text").click(function(){
+                console.log($("this").parent());
+                $(".container").addClass("blur");
                 $("#overlay-placer").load("template/free-shift.html", function(){
                     $(".absolute-dropdown").click(function(){
                         $(this).toggleClass("dropdown-active");
                     });
                 });
-                $("body").prepend($("<div/>").addClass("overlay").click( function(){
+                $("body").prepend($("<div/>").addClass("overlay"));
+
+                $(".overlay").click( function(){
                     $("#absolute-div").remove();
-                    $(".container").toggleClass("blur");
+                    if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
                     $(".overlay").remove();
-                }));
-                $(".container").toggleClass("blur");
-                getAvailableShifts(new Date(year,MONTH_CURR-1, 1).getTime(), new Date(year, MONTH_NEXT-1, 0).getTime());
+                });
+                console.log($(this).parent().parent().find(".date").text());
+                console.log(new Date(year,MONTH_CURR, Number($(this).parent().parent().find(".date").text())));
+                console.log(new Date(year,MONTH_CURR, Number($(this).parent().parent().find(".date").text())+1 ));
+                getAvailableShifts(new Date(year,MONTH_CURR-1, Number($(this).parent().parent().find(".date").text())).getTime(), new Date(year,MONTH_CURR-1, Number($(this).parent().parent().find(".date").text())+1 ).getTime());
+
             });
 
 
@@ -406,7 +443,6 @@ function getTradeableShifts(year, month){
     });
 }
 function setShiftTradeablePut(shift, bool) {
-    alert(localStorage.getItem("token"));
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -429,15 +465,6 @@ function setShiftTradeablePut(shift, bool) {
         }),
         success: function (data) {
 
-            returnValue = JSON.parse(data);
-            if(returnValue) {
-                $("body").prepend("<div class='event-open'></div>");
-                $('.event-open').append('<h3> Din vakt er nå tilgjengelig for bytte </h3>');
-                $('.event-open').append($("<div/>").addClass("button").text("Lukk").click(function(){
-                    $('.event-open').remove();
-                }));
-            }
-            return returnValue;
         },
         statusCode: {
             401: function () {
@@ -475,7 +502,7 @@ $( function() {
 function getAvailableShifts(startTime, endTime) {
     $.ajax({
         type: "GET",
-        url: "/MinVakt/rest/shifts/tradeable/" + startTime + "/" + endTime,
+        url: "/MinVakt/rest/shifts/tradeable/" + startTime + "/" + endTime + "/" + localStorage.getItem("userid"),
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data) {
             console.log(data);
@@ -496,8 +523,6 @@ function getAvailableShifts(startTime, endTime) {
 
 
 function addRow(data) {
-
-
     //DUMMY DATA
     //var text= '[{"shiftId":1,"startTime":1483254000000,"endTime":1483282800000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":true,"responsibleUser":false},{"shiftId":6,"startTime":1483542000000,"endTime":1483570740000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":false,"responsibleUser":false}]'
     var obj = data;
@@ -514,23 +539,24 @@ function addRow(data) {
         var isFree = obj[i].tradeable;
 
         if (startTime >= 8 && startTime < 16) {
-            table = "dateNow-table";
+            table = $("#dateNow-table");
         } else if (startTime >= 16 && startTime < 25) {
-            table = "evening-table";
+            table = $("#evening-table");
         } else if (startTime >= 0 && startTime < 8) {
-            table = "night-table";
+            table = $("#night-table");
+
         } else {
             alert("ERROR CHECK THE ADD ROW FUNCTION IN SHIFT-SCRIPT.JS!")
         }
 
 
-        tabBody = $(".table");
+        tabBody = table;
         row = document.createElement("tr");
         row.className = "tr" + i;
         cell1 = document.createElement("td");
         cell2 = document.createElement("td");
         cell3 = document.createElement("td");
-        cell4 = document.createElement("Button");
+        cell4 = document.createElement("td");
         cell4.className = "listButton " + "id" + obj[i].shiftId;
         textnode1 = document.createTextNode(obj[i].userName);
         textnode2 = document.createTextNode(formatTime(new Date(obj[i].startTime)) + " - " + formatTime(new Date(obj[i].endTime)));
@@ -539,7 +565,7 @@ function addRow(data) {
         cell1.appendChild(textnode1);
         cell2.appendChild(textnode2);
         cell3.appendChild(textnode3);
-        cell4.appendChild(textnode4)
+        cell4.appendChild(textnode4);
         row.appendChild(cell1);
         row.appendChild(cell2);
         row.appendChild(cell3);
@@ -547,10 +573,100 @@ function addRow(data) {
         tabBody.append(row);
         //table = "evening-table";
     }
+    $(".listButton").click(function(){
+        $("#absolute-div").remove();
+        if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+        $(".overlay").remove();
+        var shiftIdFromTradeList = Number($(this).attr("class").split(" ")[1].substring(2,6));
+        bannerConfirm("Bekreft at du tar vakt?", function () {
+            assignAvailableShift(shiftIdFromTradeList);
+        });
+    })
+}
+
+function assignAvailableShift(shiftId) {
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/" + shiftId,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function (shift) {
+            console.log(shift);
+            userId = parseInt(window.localStorage.getItem("userid"));
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                type: "POST",
+                url: "/MinVakt/rest/shifts/assign/" + shiftId + "/" + localStorage.getItem("userid"),
+                dataType: 'text',
+                data: JSON.stringify({
+                    shiftId: shift.shiftId,
+                    userId: userId,
+                }),
+                success: function () {
+                    console.log("Result: Skift tatt");
+                    setShiftTradeablePut(shift, false);
+                    window.location.replace("/MinVakt/html/calendar.html");
+                },
+                statusCode: {
+                    401: function () {
+                        localStorage.removeItem("token");
+                        window.location.replace("/MinVakt/");
+                    },
+                    400: function () {
+                        console.log(data);
+                    }
+                }
+            })
+        }
+    })
 }
 
 
+function bannerAlert(message) {
+    $("body").prepend("<div id='banner-div'></div>");
+    $("#banner-div").load("template/banner-alert.html", function () {
+        $("#alert").text(message);
+        $(".container").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+        });
+        $(".container").addClass("blur");
+        $(".closer").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+        });
+    });
+}
 
+function bannerConfirm(message, callBack) {
+    $("body").prepend("<div id='banner-div'></div>");
+    $("#banner-div").load("template/banner-alertConfirm.html", function () {
+        $("#alert").text(message);
+        $(".container").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+        });
+        $(".container").addClass("blur");
+        $(".closer").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+        });
+
+        $(".confirmer").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+            callBack();
+        });
+    });
+}
 
 
 

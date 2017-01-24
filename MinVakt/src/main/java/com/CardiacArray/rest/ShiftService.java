@@ -106,6 +106,9 @@ public class ShiftService {
         for(Shift shiftElement: shifts){
             if(shiftElement.isTradeable()){
                 map.put(shiftElement,shiftElement);
+                System.out.println(shiftElement);
+            } else {
+                System.out.println("Shift not tradeable");
             }
         }
         return map.values();
@@ -131,11 +134,12 @@ public class ShiftService {
      * @return boolean value true if successful
      */
     @POST
-    @Path("/assign")
+    @Path("/assign/{shiftId}/{userId}")
     @Consumes (MediaType.APPLICATION_JSON)
-    public Response assignShift(Shift shift) {
-        if(validateShift(getShift(shift.getShiftId()))) {
-            shiftDb.assignShift(shift.getShiftId(), shift.getUserId());
+    public Response assignShift(@PathParam("shiftId") int shiftId, @PathParam("userId") int userId) {
+        if(validateShift(getShift(shiftId))) {
+            Shift shift = getShift(shiftId);
+            shiftDb.assignShift(shift.getShiftId(), userId);
             return Response.ok().build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
@@ -165,10 +169,14 @@ public class ShiftService {
         if (startTime > endTime) throw  new BadRequestException();
         User user = userDb.getUserByEmail(userId);
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
+        System.out.println("Datoer " + new Date(startTime) + " " + new Date(endTime));
         Map<Shift, Shift> map = new HashMap<>();
         for(Shift shiftElement: shifts){
             if(shiftElement.isTradeable() && shiftElement.getRole() == user.getUserCategoryInt()){
                 map.put(shiftElement,shiftElement);
+                System.out.println(shiftElement);
+            } else {
+                System.out.println("H");
             }
         }
         return map.values();
@@ -202,6 +210,7 @@ public class ShiftService {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/approveChange")
     public boolean approveChangeover(Changeover changeoverShift){
 
         //Setter shift til approved og blir borte fra "til godkjenning"
