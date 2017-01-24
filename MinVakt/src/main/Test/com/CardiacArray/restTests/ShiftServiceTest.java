@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
  * Created by Vegard on 17/01/2017.
  */
 public class ShiftServiceTest {
-    private Shift shift = new Shift(new Date(1484562750734L), new Date(1484562750734L + 3600000L), 0,0, false);
+    private Shift shift = new Shift(new Date(1484562750734L), new Date(1484562750734L + 3600000L), 0,0, false, "Sykepleier");
 
 
 

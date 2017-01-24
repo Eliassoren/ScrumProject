@@ -81,6 +81,7 @@ monthNames[7] = "August";
 monthNames[8] = "September";
 monthNames[9] = "Oktober";
 monthNames[10] = "November";
+monthNames[10] = "November";
 monthNames[11] = "Desember";
 
 function getFirstDaysOfEachMonth(year){
@@ -148,6 +149,7 @@ function appendFreeEvent(day,shiftsInOneDay){
         if (!dayOfThisMonth.hasClass('other-month') && dayOfThisMonth.find(".event").length == 0){
             dayOfThisMonth.append(tradeableEvent);
             tradeableEvent.append($("<span/>").addClass("free-event-text").text(shiftDesc));
+
         }
     }
 }
@@ -159,6 +161,7 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
         return firstDate;
     });*/
     var day = getMonday2(firstDate);
+
 
     //var day = moment().startOf(moment(firstDate).isoWeek()).getDate();
     var noPrevMonth = day == 1; // Special case when month starts on a monday..
@@ -178,6 +181,8 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
             }
             $(this).removeClass("other-month");
         }else if(monthStatus !== MONTH_CURR){
+            $(this).addClass("other-month");
+        }else if((monthStatus === MONTH_PREV || monthStatus === MONTH_NEXT)){
             $(this).addClass("other-month");
         }
 
@@ -272,7 +277,7 @@ $(document).ready(function() {
         //clearCalendar();
     });
 
-    $(".dateNow").click(function(){
+    $(".day:contains('event')").click(function(){
         var shiftId = $(this).children('.event').attr('shiftId');
         if($(".event-open").length == 0){
             $("body").prepend("<div class='event-open'></div>");
@@ -311,7 +316,6 @@ $(document).ready(function() {
                 }
             })
         }
-
     });
 
     getShiftsForUser(year, month, 8)
@@ -373,9 +377,23 @@ function getTradeableShifts(year, month){
             }
 
             for (var k = 0; k < tradeableShifts.length; k++){
-                console.log("Dag " + k + ": " + tradeableShifts[k]);
                 appendFreeEvent(k, tradeableShifts[k]);
+
             }
+            $(".free-event-text").click(function(){
+                $("#overlay-placer").load("template/free-shift.html", function(){
+                    $(".absolute-dropdown").click(function(){
+                        $(this).toggleClass("dropdown-active");
+                    });
+                });
+                $("body").prepend($("<div/>").addClass("overlay").click( function(){
+                    $("#absolute-div").remove();
+                    $(".container").toggleClass("blur");
+                    $(".overlay").remove();
+                }));
+                $(".container").toggleClass("blur");
+                getAvailableShifts(new Date(year,MONTH_CURR-1, 1).getTime(), new Date(year, MONTH_NEXT-1, 0).getTime());
+            });
 
 
         },
@@ -410,6 +428,7 @@ function setShiftTradeablePut(shift, bool) {
             responsibleUser: shift.responsibleUser
         }),
         success: function (data) {
+
             returnValue = JSON.parse(data);
             if(returnValue) {
                 $("body").prepend("<div class='event-open'></div>");
@@ -440,14 +459,112 @@ Date.prototype.getWeek = function() {
     // Adjust to Thursday in week 1 and count number of weeks from date to week1.
     return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
             - 3 + (week1.getDay() + 6) % 7) / 7);
-}
+};
 
 // Returns the four-digit year corresponding to the ISO week of the date.
 Date.prototype.getWeekYear = function() {
     var date = new Date(this.getTime());
     date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
     return date.getFullYear();
+};
+
+$( function() {
+    $("#date-picker").datepicker();
+});
+
+function getAvailableShifts(startTime, endTime) {
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/tradeable/" + startTime + "/" + endTime,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function (data) {
+            console.log(data);
+            addRow(data);
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                window.location.replace("/MinVakt/");
+            },
+            404: function () {
+                console.log("ERROR: No shifts found");
+            }
+        }
+    })
 }
+
+
+
+function addRow(data) {
+
+
+    //DUMMY DATA
+    //var text= '[{"shiftId":1,"startTime":1483254000000,"endTime":1483282800000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":true,"responsibleUser":false},{"shiftId":6,"startTime":1483542000000,"endTime":1483570740000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":false,"responsibleUser":false}]'
+    var obj = data;
+
+    //TODO this needs to be removed after the table slector below works
+    var table = "dateNow-table";
+    //if (!document.getElementsByTagName) return;
+
+    for (var i = 0; i < obj.length; i++) {
+
+        //TODO: This part needs to add to the correct table given a working time.
+
+        var startTime = new Date(obj[i].startTime).getHours();
+        var isFree = obj[i].tradeable;
+
+        if (startTime >= 8 && startTime < 16) {
+            table = "dateNow-table";
+        } else if (startTime >= 16 && startTime < 25) {
+            table = "evening-table";
+        } else if (startTime >= 0 && startTime < 8) {
+            table = "night-table";
+        } else {
+            alert("ERROR CHECK THE ADD ROW FUNCTION IN SHIFT-SCRIPT.JS!")
+        }
+
+
+        tabBody = $(".table");
+        row = document.createElement("tr");
+        row.className = "tr" + i;
+        cell1 = document.createElement("td");
+        cell2 = document.createElement("td");
+        cell3 = document.createElement("td");
+        cell4 = document.createElement("Button");
+        cell4.className = "listButton " + "id" + obj[i].shiftId;
+        textnode1 = document.createTextNode(obj[i].userName);
+        textnode2 = document.createTextNode(formatTime(new Date(obj[i].startTime)) + " - " + formatTime(new Date(obj[i].endTime)));
+        textnode3 = document.createTextNode("stilling her");
+        textnode4 = document.createTextNode("Ta vakt");
+        cell1.appendChild(textnode1);
+        cell2.appendChild(textnode2);
+        cell3.appendChild(textnode3);
+        cell4.appendChild(textnode4)
+        row.appendChild(cell1);
+        row.appendChild(cell2);
+        row.appendChild(cell3);
+        row.appendChild(cell4);
+        tabBody.append(row);
+        //table = "evening-table";
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*function getShiftArray(month, year) {
     var firstDate = getFirstDateOfEachMonth(year)[month];
@@ -470,7 +587,9 @@ Date.prototype.getWeekYear = function() {
         }),
         success: function (data){
             var jsonshit = JSON.parse(data);
-            console.log(jsonshit);
+
         }
     })
 }*/
+
+

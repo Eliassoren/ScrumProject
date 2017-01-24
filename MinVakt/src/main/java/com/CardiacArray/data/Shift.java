@@ -15,7 +15,7 @@ public class Shift {
     private boolean tradeable;
     private boolean responsibleUser;
 
-    public Shift(int shiftId, Date startTime, Date endTime, int userId, String userName, int departmentId, int role, boolean tradeable, boolean responsibleUser) {
+    public Shift(int shiftId, Date startTime, Date endTime, int userId, String userName, int departmentId, int role, boolean tradeable, boolean responsibleUser, String roleDescription) {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         if (startTime.getTime() >= endTime.getTime()) throw new IllegalArgumentException("Shift duration is less than 1 min");
         this.shiftId = shiftId;
@@ -27,9 +27,10 @@ public class Shift {
         this.role = role;
         this.tradeable = tradeable;
         this.responsibleUser = responsibleUser;
+        this.roleDescription = roleDescription;
     }
 
-    public Shift(Date startTime, Date endTime, int departmentId, int role, boolean responsibleUser) {
+    public Shift(Date startTime, Date endTime, int departmentId, int role, boolean responsibleUser, String roleDescription) {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         if (startTime.getTime() >= endTime.getTime()) throw new IllegalArgumentException("Shift duration is less than 1 min");
         this.startTime = startTime;
@@ -37,6 +38,7 @@ public class Shift {
         this.departmentId = departmentId;
         this.role = role;
         this.responsibleUser = responsibleUser;
+        this.roleDescription = roleDescription;
     }
 
     public Shift(){

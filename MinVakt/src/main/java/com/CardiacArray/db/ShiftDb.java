@@ -39,10 +39,11 @@ public class ShiftDb extends DbManager{
         String onlyDate = simpleDate.format(date);
 
         String sql = "SELECT shift.shift_id, shift.date, shift.start, shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable,\n" +
-                "    user.user_id, concat_ws(' ', user.first_name, user.last_name) AS user_name\n" +
+                "    user.user_id, concat_ws(' ', user.first_name, user.last_name) AS user_name,  user_category.type\n" +
                 "FROM shift\n" +
                 "    JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
                 "    JOIN user ON user_shift.user_id = user.user_id\n" +
+                "JOIN user_category on shift.user_category_id = user_category.user_category_id" +
                 "WHERE shift.date = ? AND user_shift.user_id = ?";
 
         try {
@@ -69,7 +70,8 @@ public class ShiftDb extends DbManager{
                         res.getInt("department_id"),
                         res.getInt("user_category_id"),
                         res.getBoolean("tradeable"),
-                        res.getBoolean("responsible_user"));
+                        res.getBoolean("responsible_user"),
+                        res.getString("type"));
                 res.close();
                 statement.close();
             }
@@ -89,13 +91,13 @@ public class ShiftDb extends DbManager{
      */
     public Shift getShift(int shiftId){
         Shift shift = null;
-        String sql = "SELECT shift.shift_id, shift.date, shift.start,\n" +
-                "  shift.end, shift.department_id, shift.user_category_id,\n" +
-                "  shift.responsible_user, shift.tradeable, user.user_id,\n" +
-                "  concat_ws(' ', user.first_name, user.last_name) AS user_name FROM shift\n" +
-                "  LEFT JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
-                "  LEFT JOIN user ON user_shift.user_id = user.user_id\n" +
-                "WHERE shift.shift_id = ?";
+        String sql = "SELECT shift.shift_id, shift.date, shift.start," +
+                "                shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable, user.user_id, user_category.type," +
+                "                concat_ws(' ', user.first_name, user.last_name) AS user_name FROM shift" +
+                "        LEFT JOIN user_shift ON shift.shift_id = user_shift.shift_id" +
+                "        LEFT JOIN user ON user_shift.user_id = user.user_id" +
+                "        JOIN user_category on shift.user_category_id = user_category.user_category_id" +
+                " WHERE shift.shift_id = ?";
         try {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, shiftId);
@@ -119,7 +121,8 @@ public class ShiftDb extends DbManager{
                         res.getInt("department_id"),
                         res.getInt("user_category_id"),
                         res.getBoolean("tradeable"),
-                        res.getBoolean("responsible_user"));
+                        res.getBoolean("responsible_user"),
+                        res.getString("type"));
                 statement.close();
             }
         } catch (SQLException e) {
@@ -141,7 +144,8 @@ public class ShiftDb extends DbManager{
                 "WHERE  user.user_id = ? AND shift.user_category_id = ? ";
         try {
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, user_category_id);
+            statement.setInt(1,user_id);
+            statement.setInt(2, user_category_id);
             res = statement.executeQuery();
 
             while (res.next()) {
@@ -160,7 +164,8 @@ public class ShiftDb extends DbManager{
                         res.getInt("department_id"),
                         res.getInt("user_category_id"),
                         res.getBoolean("tradeable"),
-                        res.getBoolean("responsible_user")
+                        res.getBoolean("responsible_user"),
+                        res.getString("type")
                 ));
             }
             res.close();
@@ -192,12 +197,13 @@ public class ShiftDb extends DbManager{
         String onlyDateStart= simpleDate.format(dateStart);
         String onlyDateEnd = simpleDate.format(dateEnd);
 
-        String sql = "SELECT shift.shift_id, shift.date, shift.start, shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable,\n" +
-                "    user.user_id, concat_ws(' ', user.first_name, user.last_name) AS user_name\n" +
-                "FROM shift\n" +
-                "    JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
-                "    JOIN user ON user_shift.user_id = user.user_id\n" +
-                "WHERE shift.date >= ? AND shift.date <= ? AND user_shift.user_id = ?";
+        String sql = "SELECT shift.shift_id, shift.date, shift.start,\n" +
+                "shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable, user.user_id, user_category.type,\n" +
+                "concat_ws(' ', user.first_name, user.last_name) AS user_name FROM shift\n" +
+                "LEFT JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
+                "LEFT JOIN user ON user_shift.user_id = user.user_id\n" +
+                "LEFT JOIN user_category ON shift.user_category_id = user_category.user_category_id\n" +
+                "WHERE shift.date >= ? AND shift.date <= ? AND user.user_id = ?";
 
         try {
             statement = connection.prepareStatement(sql);
@@ -222,7 +228,8 @@ public class ShiftDb extends DbManager{
                         res.getInt("department_id"),
                         res.getInt("user_category_id"),
                         res.getBoolean("tradeable"),
-                        res.getBoolean("responsible_user")
+                        res.getBoolean("responsible_user"),
+                        res.getString("type")
                 ));
             }
 
@@ -256,11 +263,11 @@ public class ShiftDb extends DbManager{
         String onlyDateEnd = simpleDate.format(dateEnd);
 
         String sql = "SELECT shift.shift_id, shift.date, shift.start," +
-                " shift.end, shift.department_id, shift.user_category_id," +
-                " shift.responsible_user, shift.tradeable, user.user_id," +
-                " concat_ws(' ', user.first_name, user.last_name) AS user_name FROM shift" +
-        " LEFT JOIN user_shift ON shift.shift_id = user_shift.shift_id" +
-        " LEFT JOIN user ON user_shift.user_id = user.user_id" +
+                "                shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable, user.user_id, user_category.type," +
+                "                concat_ws(' ', user.first_name, user.last_name) AS user_name FROM shift" +
+                "        LEFT JOIN user_shift ON shift.shift_id = user_shift.shift_id" +
+                "        LEFT JOIN user ON user_shift.user_id = user.user_id" +
+                "        JOIN user_category on shift.user_category_id = user_category.user_category_id" +
         "  WHERE shift.date >= ? AND shift.date <= ? ";
 
         try {
@@ -271,7 +278,6 @@ public class ShiftDb extends DbManager{
 
             while (res.next()) {
                 java.sql.Date dateFromQuery = res.getDate("date");
-                System.out.println("Date from query: " + dateFromQuery);
                 Time startTimeFromQuery = res.getTime("start");
                 Time endTimeFromQuery = res.getTime("end");
                 java.util.Date startDateFormatted = new java.util.Date(dateFromQuery.getTime() + startTimeFromQuery.getTime());
@@ -286,7 +292,8 @@ public class ShiftDb extends DbManager{
                         res.getInt("department_id"),
                         res.getInt("user_category_id"),
                         res.getBoolean("tradeable"),
-                        res.getBoolean("responsible_user")
+                        res.getBoolean("responsible_user"),
+                        res.getString("type")
                 ));
             }
 
