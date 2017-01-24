@@ -193,7 +193,7 @@ public class ShiftService {
     public boolean approveOvertime(Shift shift){
         boolean approvedResponse = false;
         if(validateShift(shift)){
-            approvedResponse = overtimeDb.approvedOvertime(shift.getShiftId());
+            approvedResponse = overtimeDb.aprove(shift);
         }else{
             throw new BadRequestException();
         }
