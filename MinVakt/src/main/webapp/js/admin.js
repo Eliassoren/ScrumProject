@@ -4,51 +4,54 @@
 
 $("#new-user-form").validate({
     rules: {
-        firstName: {
+        first_name: {
             required: true
         },
-        lastName: {
+        last_name: {
             required : true
         },
         password: {
             required: true,
             minlength: 8
         },
-        admin: {
+        admin_checkbox: {
             required: false
         },
-        mobile: {
+        phone: {
             required : true,
             digits: true,
             minlength: 8
         },
-        userCategory: {
+        position_cb: {
             required: true
         },
         email: {
             required: true,
             email: true
         },
-        active: {
+        active_checkbox: {
             required: false
         },
         address: {
             required: true
         },
-        workPercent: {
+        spinner: {
             required: true,
             digits: true,
             range: [0,100]
+        },
+        dept_cb: {
+            required: true
         }
     },
     messages: {
-        firstName: {
+        first_name: {
           required: "Fornavn er obligatorisk"
         },
-        lastName: {
+        last_name: {
           required: "Etternavn er obligatorisk"
         },
-        mobile: {
+        phone: {
             required: "Telefonnummer må registreres",
             minlength: "Telefonnummer må være minst 8 tegn"
         },
@@ -59,6 +62,9 @@ $("#new-user-form").validate({
         password: {
             required: "Passord er obligatorisk.",
             minlength: "Passordet må bestå av minimum 8 tegn."
+        },
+        position_cb: {
+            required "Please choose one."
         }
     },
     errorPlacement: function(error, element) {

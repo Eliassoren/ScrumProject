@@ -32,6 +32,7 @@ public class User {
     private boolean active; //false if user does not work at the facility anymore.
     private Role role;
     private int workPercent;
+    private int departementId;
 
 
     public User(int id, String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired, boolean active, int workPercent) {
