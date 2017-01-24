@@ -246,13 +246,13 @@ h3{
     clear: both;
     display: block;
     font-size: 1rem;
-//border-radius: 4px;
+    /*border-radius: 4px;*/
     padding: 5px;
     margin-top: 40px;
     margin-bottom: 5px;
     background: linear-gradient(180deg, #90BAED 50%, white 50%);
     border: 1px solid #90BAED;
-//height: 30%;
+    /*height: 30%;*/
     text-decoration: none;
     overflow: hidden;
     cursor: pointer;
@@ -720,7 +720,7 @@ th {color: #2D5684; text-align: center}
 }
 
 .banner-button .approve {
-right: 5rem;
+    right: 5rem;
 }
 
 .banner-button .closer {
@@ -746,7 +746,34 @@ right: 5rem;
     margin-left: 50%;
     transform: translate(-50%, 0%);
 }
-
 #banner-alert-button {
     margin-top: 10%;
+}
+#user-list{
+    height: 90%;
+    width: 100%;
+    position: relative;
+    margin: auto;
+    margin-top: 5%;
+}
+#user-list .users{
+ /*TODO*/
+}
+#user-list ul{
+    list-style: none;
+
+}
+#user-list li{
+    height: 3rem;
+    border: 2px solid #2D5684;
+    text-align: center;
+    color: #2D5684;
+}
+#users-h2{
+    color: #2D5684;
+    font-size: 4rem !important;
+    text-align: center;
+    width: 100% !important;
+    position: relative;
+    margin: 3% auto 3% auto;
 }
