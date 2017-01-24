@@ -32,17 +32,18 @@ Lysest grå: #F3F3F3
     top: 50%;
     left: 55px;
     transform: translate(-50%,-50%);
-    font-family: 'Source Code Pro', monospace; !important;
+    font-family: 'Source Sans Pro', sans-serif;
     color: white;
     font-weight: 300;
     font-size: 2rem;
 }
 
 .h2{
-    font-family: 'Source Code Pro', monospace; !important;
-    font-weight: 900;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: bolder;
+    font-size: 3rem;
     color: #2D5684;
-    text-indent: 100px;
+    text-indent: 50px;
 }
 
 .h2-container{
@@ -60,26 +61,44 @@ Lysest grå: #F3F3F3
     height: 25px;
     color: transparent; !important;
     width: 100%;
+    margin-bottom: 0;
+    padding: 0;
 }
 
 #calendar ul.weekdays li {
+    position: relative;
     height: 25px;
     font-family: 'Source Code Pro', monospace; !important;
     background: #2D5684;
     text-align: center;
     border: none !important;
     color: white;
-    width: 12.5%;
+    width: 14.28%;
     font-size: 16px;
+}
+
+#week1{
+    padding: 0;
+    margin: 0;
 }
 
 #calendar li {
     display: block;
     float: left;
-    width:12.5%;
-    padding: 5px;
+    width: 14.28%;
+    height: 90px;
+    padding: 0;
     box-sizing:border-box;
     border: 1px solid #ccc;
+    transition: 0.7s ease-in-out;
+}
+
+#calendar .day{
+    background: white;
+}
+
+#calendar .day-activated{
+    background-color: #90BAED;
 }
 
 #left-arrow{
@@ -92,27 +111,67 @@ Lysest grå: #F3F3F3
 }
 .fa-chevron-left{
     display: inline;
-    color: black;
+    color: #2D5684;
+    font-size: 3rem;
 }
 .fa-chevron-right{
     display: inline;
-    color: black;
+    color: #2D5684;
+    font-size: 3rem;
 }
 
 .calendar-head{
     text-align: center;
     position: relative;
-    margin: 2rem auto 2rem auto;
+    margin: 2rem auto 8rem auto;
 }
 
-.container{
+#calendar{
+    position: relative;
+    height: 200px;
+    width: 85%;
+    margin: auto;
 }
 
 h3{
     font-family: 'Source Code Pro', monospace; !important;
     display: inline;
-    margin-left: 2rem;
-    margin-right: 2rem;
-    font-size: 5rem !important;
+    margin-left: 4rem;
+    margin-right: 4rem;
+    font-size: 3rem !important;
     text-align: center;
+}
+
+.fa-check{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 40px;
+}
+
+#month-title{
+    color: #90BAED;
+}
+
+.input-time-container{
+    position: relative;
+    margin: 0 auto;
+    width: 50%;
+}
+
+label{
+    text-align: center;
+    width: 32%;
+}
+
+.accept-button{
+    border: solid #90BAED 1px;
+    background-color: white;
+    width: 100%;
+}
+
+.button-container{
+    width: 5%;
+    margin: 40px auto auto auto;
 }
