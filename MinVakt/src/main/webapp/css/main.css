@@ -12,9 +12,12 @@ Lysest grå: #F3F3F3
 
 
 
-
 body{
     position: relative;
+
+    /*Todo: make sure font-family is everywhere*/
+    font-family: 'Source Sans Pro', monospace; !important;
+
 }
 
 .fa{
@@ -618,6 +621,9 @@ th {color: #2D5684; text-align: center}
     padding: 1rem;
     position: relative;
 }
+.adm-home-box:hover{
+    cursor: pointer;
+}
 .left-box{
     background-color: #FC4A1A !important;
 }
@@ -640,7 +646,7 @@ th {color: #2D5684; text-align: center}
     margin: auto;
 }*/
 #admin-h2{
-    font-size: 5rem;
+    font-size: 4rem !important;
     width: 100% !important;
     margin: 5% auto 5% auto;
     float: left;
