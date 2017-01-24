@@ -1,10 +1,9 @@
 
 package com.CardiacArray.rest;
 
-import com.CardiacArray.AuthFilter.Role;
-import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.data.Shift;
 import com.CardiacArray.data.User;
+import com.CardiacArray.db.OvertimeDb;
 import com.CardiacArray.db.ShiftDb;
 import com.CardiacArray.db.UserDb;
 
@@ -12,13 +11,13 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.*;
-import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 @Path("/shifts")
 public class ShiftService {
 
     private ShiftDb shiftDb = new ShiftDb();
     private UserDb userDb = new UserDb();
+    private OvertimeDb overtimeDb = new OvertimeDb();
 
     public ShiftService(ShiftDb shiftDb) throws Exception {
         this.shiftDb = shiftDb;
@@ -185,6 +184,28 @@ public class ShiftService {
             map.put(shift,shift);
         }
         return map.values();
+    }
+
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public boolean approveOvertime(Shift shift){
+        boolean approvedResponse = false;
+        if(validateShift(shift)){
+            approvedResponse = overtimeDb.approvedOvertime(shift.getShiftId());
+        }else{
+            throw new BadRequestException();
+        }
+        return approvedResponse;
+    }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void approveChangeover(Shift shift){
+        if(validateShift(shift)){
+
+        }
+
     }
 
     private boolean validateShift(Shift shift){
