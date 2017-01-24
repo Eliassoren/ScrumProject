@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import java.util.*;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-@Path("/shifts")
+@Path("/rest/shifts")
 public class ShiftService {
 
     private ShiftDb shiftDb = new ShiftDb();

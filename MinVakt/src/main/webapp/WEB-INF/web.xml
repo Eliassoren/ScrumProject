@@ -19,11 +19,9 @@
       <param-name>javax.ws.rs.container.ContainerRequestFilter</param-name>
       <param-value>org.glassfish.jersey.filter.LoggingFilter;com.CardiacArray.AuthFilter.AuthenticationFilter;com.CardiacArray.AuthFilter.AuthorizationFilter</param-value>
     </init-param>
-    <load-on-startup>1</load-on-startup>
   </servlet>
-
   <servlet-mapping>
     <servlet-name>jersey-servlet</servlet-name>
-    <url-pattern>/rest/*</url-pattern>
+    <url-pattern>/*</url-pattern>
   </servlet-mapping>
 </web-app>

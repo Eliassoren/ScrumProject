@@ -51,7 +51,7 @@ $(document).ready(function() {
                 type: "POST",
                 url: "/MinVakt/rest/session/login",
                 data: $(form).serialize(),
-                response: "json",
+                datatype: "json",
                 statusCode: {
                     401: function() {
                         $("#error-message").text("Feil e-postadresse eller passord.");

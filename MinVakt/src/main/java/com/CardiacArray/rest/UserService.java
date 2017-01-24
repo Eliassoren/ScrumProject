@@ -18,13 +18,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.*;
 
+
 /**
  *
  * @author Team 1 
  */
 
 @Secured({Role.ADMIN, Role.USER})
-@Path("/users")
+@Path("/rest/users")
 public class UserService {
     private UserDb userDb = new UserDb();
     private ShiftDb shiftDb = new ShiftDb();
@@ -38,7 +39,8 @@ public class UserService {
     public UserService() throws Exception {
     }
 
-    /**
+    /**+
+     * 653+
      *
      * @param email email of the user
      * @return user object

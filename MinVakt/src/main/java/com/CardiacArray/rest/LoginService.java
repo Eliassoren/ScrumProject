@@ -11,14 +11,12 @@ import com.CardiacArray.Mail.Mail;
 import com.CardiacArray.data.*;
 import com.CardiacArray.db.DbManager;
 import com.CardiacArray.db.UserDb;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import java.security.SecureRandom;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import javax.ws.rs.*;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -29,7 +27,7 @@ import javax.ws.rs.core.*;
  *
  * @author Team 1
  */
-@Path("/session")
+@Path("/rest/session")
 public class LoginService {
 
     private UserDb userDb = new UserDb();

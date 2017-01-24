@@ -16,11 +16,11 @@ public class DbManager {
     public static Connection connection;
 
     public DbManager() {
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
-        if(connection == null){
-            try {
+        try {
+            if(connection == null || connection.isClosed()) {
+                TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
                 ReadConfig readConfig = new ReadConfig();
-                String [] result = readConfig.getConfigValues();
+                String[] result = readConfig.getConfigValues();
                 MysqlDataSource dataSource = new MysqlDataSource();
                 dataSource.setUser(result[0]);
                 dataSource.setDatabaseName(result[0]);
@@ -28,11 +28,11 @@ public class DbManager {
                 dataSource.setServerName("mysql.stud.iie.ntnu.no");
                 connection = dataSource.getConnection();
                 connection.setAutoCommit(true);
+            }
             }catch (Exception e){
                 e.printStackTrace(System.err);
             }
         }
-    }
 
     public static void rollback(){
         try{
