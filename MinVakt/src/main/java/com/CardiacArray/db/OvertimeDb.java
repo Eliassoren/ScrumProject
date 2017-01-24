@@ -115,9 +115,9 @@ public class OvertimeDb extends DbManager {
         try {
             statement = connection.prepareStatement(toSQL);
             statement.setInt(1, shift.getShiftId());
-            statement.execute();
-            ResultSet res = statement.getGeneratedKeys();
-            if (res.next()){
+            int status = statement.executeUpdate();
+            System.out.println(status);
+            if (status != 0){
                 returnValue = true;
             }
             res.close();
@@ -136,13 +136,13 @@ public class OvertimeDb extends DbManager {
         Time start = new Time(shift.getEndTime().getTime());
         Time end = new Time(shift.getEndTime().getTime() + (2 * 3600000));
 
-        System.out.println( test.setOvertime(shift, start, end));
+        System.out.println("Set = " + test.setOvertime(shift, start, end));
         System.out.println("milistart = " + start);
         System.out.println("miliend = " + end);
 
-        System.out.println(shift.equals(test.getOvertime(shift)));
-        System.out.println(test.aprove(shift));
+        System.out.println("Get = " + shift.equals(test.getOvertime(shift)));
+        System.out.println("Approve = " + test.aprove(shift));
 
-        //System.out.println(test.deleteOvertime(shift));
+        System.out.println(test.deleteOvertime(shift));
     }
 }
