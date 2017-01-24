@@ -458,32 +458,33 @@ public class ShiftDb extends DbManager{
         return success;
     }
 
-    public static void main(String args[]) throws Exception {
-        DbManager db = new DbManager();
-/*
-        Date d = new Date(1483225200000L);
-        Date e = new Date(1484438400000L);
-        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
-        String s = simpleDate.format(d);
-        String es = simpleDate.format(e);
-        System.out.println(s);
-        System.out.println(es);
-        ShiftDb shiftDb = new ShiftDb(db.connection);
-        ArrayList<Shift> a = shiftDb.getShiftsForPeriod(d, e);
-
-        for (Shift shifttet: a) {
-            System.out.println(shifttet);
+    public boolean sendChangeRequest(int shiftId, int userId){
+        boolean returnValue = false;
+        String toSQL = "INSERT INTO changeover values (?, ? , 0)";
+        try{
+            statement = connection.prepareStatement(toSQL);
+            statement.setInt(1, shiftId);
+            statement.setInt(2, userId);
+            int status = statement.executeUpdate();
+            res = statement.getGeneratedKeys();
+            if(status != 0){
+                returnValue = true;
+            }
+            res.close();
+            statement.close();
+        } catch (SQLException e ){
+            e.printStackTrace();
         }
-
-        ShiftDb shiftdb = new ShiftDb(db.connection);
-        //Shift shift = shiftdb.getShift(new Date(1483225200000L), 1);
-        User user = new User();
-        user.setId(1);
-        Shift shift = new Shift();
-        shift.setShiftId(5);
-        shiftdb.setUser(shift, user);
-        */
-
+        return returnValue;
     }
+    
+
+    public static void main(String args[]) throws Exception {
+        ShiftDb db = new ShiftDb();
+        Shift shift = db.getShift(11);
+        int newUserId = 6;
+        System.out.println(db.sendChangeRequest(shift.getShiftId(), 6));
+
+
 
 }
