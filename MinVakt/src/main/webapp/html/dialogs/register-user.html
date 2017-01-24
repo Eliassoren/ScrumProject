@@ -4,19 +4,38 @@
     <fieldset class = "fieldset">
         <legend>Kontaktinfo</legend>
         <div class = "inline-container">
+            <label  class = "text-label" for="first_name">Fornavn</label>
+            <label id= "last-name-label" class = "text-label" for="last_name">Etternavn</label>
+        </div>
+        <div class = "inline-container">
             <input class = "input" id = "first_name" type = "text" placeholder = "Fornavn" name="firstName">
             <input class = "input" id = "last_name" type = "text" placeholder = "Etternavn" name="lastName">
         </div>
         <div class = "inline-container">
+            <label class = "postal-label" for="address">Adresse</label>
+            <label id = "postal-code-label" class = "postal-label" for="postal_code">Postkode</label>
+        </div>
+
+        <div class = "inline-container">
 
             <input class = "input" id = "address" type = "text" placeholder = "Adresse" name="address">
-            <input class = "input" id = "postal-code" type = "text" placeholder = "Postnr.">
+            <input class = "input" id = "postal_code" type = "text" placeholder = "Postnr.">
+        </div>
+        <div class = "inline-container">
+            <label class = "text-label" for="phone">Telefon</label>
         </div>
         <input class = "input" id = "phone" type = "text" placeholder = "Telefon" name="mobile">
+        <div class = "inline-container">
+        <label class = "text-label" for="email">Epost</label></div>
         <input class = "input" id = "email" type = "text" placeholder = "Epost" name="email">
     </fieldset>
     <fieldset class = "fieldset">
         <legend>Ansattinfo</legend>
+        <div class = "inline-container">
+            <label class = "select-label" for="dept_cb">Avdeling</label>
+            <label class = "select-label" for="position_cb">Stillingstype</label>
+            <label class = "select-label" for = "spinner" id = "work-percent-label">Stillingsprosent</label>
+        </div>
         <div class = "inline-container">
             <select required class = "select section-picker picker" id = "dept_cb">
                 <option value = "" disabled selected>Velg Avdeling..</option>
@@ -30,8 +49,8 @@
         <label class="label" for = "admin_checkbox">  <input class = "input" id = "admin_checkbox" type = "checkbox" name="admin">Administrator</label>
     </div>
         <div class = "button-group">
-            <input class = "button" id = "button-ok" type = "submit" value = "Lagre"/>
-            <button class = "button" id = "button-cancel">Avbryt</button>
+            <input class = "button" id = "button_ok" type = "submit" value = "Lagre"/>
+            <button class = "button" id = "button_cancel">Avbryt</button>
         </div>
     </fieldset>
 </form>

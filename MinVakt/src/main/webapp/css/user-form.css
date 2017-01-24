@@ -34,10 +34,10 @@
     border: 2px solid #2D5684;
     color: #2D5684;
 }
-#button-ok{
+#button_ok{
     float: left;
 }
-#button-cancel{
+#button_cancel{
     float: right;
 }
 h2{
@@ -47,7 +47,7 @@ h4{
     border-bottom: 1px solid black;
 }
 .label{
-    margin: none;
+    margin: 0;
     font-size: 1rem;
     width: auto;
 }
@@ -57,7 +57,10 @@ label{
     margin-right: 10%;
 }
 .text-label{
-    margin: 0 42.7% 0 1.26%;
+    margin: 0 43% 0 1.25%;
+}
+#last-name-label{
+    margin: 0 40% 0 1.53%;
 }
 .postal-label{
     margin: 0 43% 0 1.25%;
@@ -73,12 +76,12 @@ label{
     margin-left: 28%;
     margin-right: -15%;
 }
-#last-name{
+#last_name{
     display: inline;
     width: 46%;
     margin: 0 1.25% 0.8rem 1.25%;
 }
-#first-name{
+#first_name{
     display: inline;
     width: 46%;
     margin: 0 1.25% 0.8rem 1.25%;
@@ -91,7 +94,7 @@ label{
     display: inline;
     width: 73%;
 }
-#postal-code{
+#postal_code{
     display: inline;
     width: 20%;
 }
@@ -102,13 +105,13 @@ label{
     position: relative;
     display: block;
 }
-#admin-checkbox{
+#admin_checkbox{
     display: inline;
     width: auto;
     background: white;
     height: auto;
 }
-#active-checkbox{
+#active_checkbox{
     display: inline;
     width: auto;
     background: white;
