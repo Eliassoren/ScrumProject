@@ -206,7 +206,6 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
             week = 1;
         }
     })
-
     getTradeableShifts(year, month);
 }
 $(document).ready(function() {
