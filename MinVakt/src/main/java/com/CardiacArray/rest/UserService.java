@@ -213,7 +213,7 @@ public class UserService {
     @Produces(MediaType.APPLICATION_JSON)
     public void getTimesheet(@PathParam("userId") int userId, @PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
         long hours = getHoursForPeriod(startTime,endTime,userId);
-
+        //Sende ut liste over alle vakter gitt periode
 
     }
 
