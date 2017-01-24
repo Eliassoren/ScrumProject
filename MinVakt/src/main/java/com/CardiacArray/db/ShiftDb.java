@@ -460,7 +460,7 @@ public class ShiftDb extends DbManager{
 
     public boolean sendChangeRequest(int shiftId, int userId){
         boolean returnValue = false;
-        String toSQL = "INSERT INTO changeover values (?, ? , 0)";
+        String toSQL = "INSERT INTO changeover (shift_id, new_user_id, approved) values (?, ? , 0)";
         try{
             statement = connection.prepareStatement(toSQL);
             statement.setInt(1, shiftId);
@@ -500,6 +500,24 @@ public class ShiftDb extends DbManager{
         return al;
     }
 
+    public boolean setApproved(int shiftId){
+        boolean returnValue = false;
+        String toSQL = "UPDATE changeover set approved = 1 WHERE shift_id  = ?";
+        try{
+            statement = connection.prepareStatement(toSQL);
+            statement.setInt(1, shiftId);
+            int status = statement.executeUpdate();
+            if (status != 0){
+                returnValue = true;
+            }
+            res.close();
+            statement.close();
+        } catch (SQLException e ){
+            e.printStackTrace();
+        }
+        return returnValue;
+    }
+
 
 
     public static void main(String args[]) throws Exception {
@@ -511,6 +529,7 @@ public class ShiftDb extends DbManager{
         for (Shift shift1 : al){
             System.out.println(shift1.getShiftId() + " " + shift1.getUserId());
         }
+        System.out.print(db.setApproved(11));
 
     }
 
