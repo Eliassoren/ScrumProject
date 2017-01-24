@@ -257,19 +257,15 @@ public class UserDb extends DbManager {
         return returnValue;
     }
 
-    public boolean setUserAvailable(int userId, Date date, Date start, Date end) {
-        SimpleDateFormat simpleDateAndTime = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat simpleTime = new SimpleDateFormat("HH:mm");
-        String dateFormat = simpleDateAndTime.format(date);
-        String startFormat = simpleTime.format(start.getTime());
-        String endFormat = simpleTime.format(end.getTime());
+    public boolean setUserAvailable(int userId, long start, long end) {
         try {
-            String toSQL = "INSERT INTO availability (user_id, availability.date, availability.start, availability.end) VALUES (?,?,?,?)";
+            String toSQL = "INSERT INTO availability (availability.user_id, availability.start_time, availability.end_time) VALUES (?,?,?)";
+            Timestamp startStamp = Timestamp.from(Instant.ofEpochMilli(start));
+            Timestamp endStamp = Timestamp.from(Instant.ofEpochMilli(end));
             statement = connection.prepareStatement(toSQL);
             statement.setInt(1, userId);
-            statement.setString(2, dateFormat);
-            statement.setString(3, startFormat);
-            statement.setString(4, endFormat);
+            statement.setTimestamp(2, startStamp);
+            statement.setTimestamp(3, endStamp);
             statement.execute();
             statement.close();
 
@@ -298,7 +294,7 @@ public class UserDb extends DbManager {
             statement.setTimestamp(4, endStamp);
             res = statement.executeQuery();
             while(res.next()) {
-                int id = res.getInt("id");
+                int id = res.getInt("user_id");
                 String email = res.getString("email");
                 String firstName= res.getString("first_name");
                 String lastName = res.getString("last_name");

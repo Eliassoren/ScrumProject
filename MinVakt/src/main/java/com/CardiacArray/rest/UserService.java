@@ -110,18 +110,15 @@ public class UserService {
     }
 
     @POST
-    @Path("/available/{userId}/{date}/{start}/{end}")
+    @Path("/available/{userId}/{start}/{end}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setUserAvailable(@PathParam("userId") int userId, @PathParam("date") long date,
                                      @PathParam("start") long start, @PathParam("end") long end) {
         User user = userDb.getUserByEmail(userId);
-        Date dateAvail = new Date(date);
-        Date startAvail = new Date(start);
-        Date endAvail = new Date(end);
         if (user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || !user.isValidEmail(user.getEmail())) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        userDb.setUserAvailable(userId, dateAvail, startAvail, endAvail);
+        userDb.setUserAvailable(userId, start, end);
         return Response.ok().build();
     }
 
@@ -194,18 +191,18 @@ public class UserService {
 
     /**
      *
-     * @param startTime starttime for available user
-     * @param endTime endtime for the available user
-     * @return list of all users avaiable in the given timespan
+     * @param startTime start time for available user
+     * @param endTime end time for the available user
+     * @return list of all users available in the given timespan
      */
     @GET
     @Path("/availability/{startTime}/{endTime}")
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<User> getAvailableUsers(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
         if(new Date(startTime).after(new Date(endTime))) throw new BadRequestException();
-        ArrayList<User> avaiableUsers =  userDb.getAvailableUsers(startTime, endTime);
+        ArrayList<User> availableUsers =  userDb.getAvailableUsers(startTime, endTime);
         Map<User, User> map = new HashMap<>();
-        for(User user : avaiableUsers){
+        for(User user : availableUsers){
             map.put(user,user);
         }
         return map.values();
