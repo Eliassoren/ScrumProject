@@ -33,7 +33,7 @@ body{
 
 #h1-title{
     color: white;
-    font-size: 56px;
+    font-size: 7rem;
     width:80%;
     float: left;
     padding: 20px;
@@ -105,17 +105,23 @@ h2{
     line-height: 0;
     text-align: center;
 }
+
+h3{
+    margin: 0;
+    position: absolute;
+    top: 0;
+}
 .calendar-head{
     text-align: center;
     position: relative;
     margin: 2rem auto 2rem auto;
 }
 #left-arrow{
-    //user-select: none;
+//user-select: none;
     -webkit-user-select: none;
 }
 #right-arrow{
-    //user-select: none;
+//user-select: none;
     -webkit-user-select: none;
 }
 .fa-chevron-left{
@@ -232,13 +238,13 @@ h2{
     clear: both;
     display: block;
     font-size: 1rem;
-    //border-radius: 4px;
+//border-radius: 4px;
     padding: 5px;
     margin-top: 40px;
     margin-bottom: 5px;
     background: linear-gradient(180deg, #90BAED 50%, white 50%);
     border: 1px solid #90BAED;
-    //height: 30%;
+//height: 30%;
     text-decoration: none;
     overflow: hidden;
 }
@@ -293,16 +299,17 @@ h2{
         visibility: visible;
         margin-right: 1rem;
     }
+    h2{
+        margin-left: 0.2rem;
+        margin-right: 0.2rem;
+        font-size: 1.6rem !important;
+        text-align: center;
+    }
     #calendar .week{
         display: inline;
         float: left;
     }
-    h2{
-        margin-left: 0.3rem;
-        margin-right: 0.3rem;
-        font-size: 1.8rem !important;
-        text-align: center;
-    }
+
 
     #h1-title{
 
@@ -600,4 +607,42 @@ th {color: #2D5684; text-align: center}
 
 .blur {
     filter: blur(5px);
+}
+
+.adm-home-box{
+    width: 40%;
+    margin: 1%;
+    height: 100px;
+    background-color: #2D5684;
+    display: inline-block;
+    padding: 1rem;
+    position: relative;
+}
+.left-box{
+    background-color: #FC4A1A !important;
+}
+.adm-h3{
+    color: white;
+    display: block;
+    margin-top: 5px;
+}
+.adm-boxes{
+    padding: 5rem;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    /*padding-left: 5rem;
+    padding-right: 5rem;*/
+}
+/*.adm-h2{
+    font-size: 5rem;
+    width: 100% !important;
+    margin: auto;
+}*/
+#admin-h2{
+    font-size: 5rem;
+    width: 100% !important;
+    margin: 5% auto 5% auto;
+    float: left;
+    color: #2D5684;
 }
