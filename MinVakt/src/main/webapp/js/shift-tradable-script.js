@@ -198,7 +198,7 @@ function assignAvailableShift(shiftId) {
     })
 }
 
-function setUserAvailable(date, start, end) {
+function setUserAvailable(start, end) {
     userId = parseInt(window.localStorage.getItem("userid"));
     $.ajax({
         headers: {
@@ -207,10 +207,9 @@ function setUserAvailable(date, start, end) {
             "Authorization": "Bearer " + localStorage.getItem("token")
         },
         type: "POST",
-        url: "/MinVakt/rest/users/available/" + userId + "/" + date + "/" + start + "/" + end,
+        url: "/MinVakt/rest/users/available/" + userId + "/" + start + "/" + end,
         dataType: 'text',
         data: JSON.stringify({
-            date: date,
             userId: userId,
             start: start,
             end: end
@@ -228,7 +227,18 @@ function setUserAvailable(date, start, end) {
             }
         }
     })
+}
 
+function getAvailableUsers(startTime, endTime) {
+
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/users/availability/" + startTime + "/" + endTime,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function (data) {
+            console.log(data);
+        }
+    })
 }
 
 $(document).ready(function() {
