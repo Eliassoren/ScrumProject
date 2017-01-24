@@ -204,6 +204,7 @@ public class UserService {
         Map<User, User> map = new HashMap<>();
         for(User user : availableUsers){
             map.put(user,user);
+            System.out.println(user);
         }
         return map.values();
     }

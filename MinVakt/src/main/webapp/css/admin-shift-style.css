@@ -60,15 +60,18 @@
     display: block;
     float: left;
     width: 14.28%;
-    height: 90px;
+    height: 600px;
     padding: 0;
     box-sizing:border-box;
     border: 1px solid #ccc;
     transition: 0.7s ease-in-out;
 }
 
+.blue {
+    background: #58ACFA;
+}
+
 #calendar .day{
-    background: white;
 }
 
 #calendar .day-activated{
@@ -128,7 +131,7 @@ h2{
 
 #person-list table.weekdays {
     height: 25px;
-    color: transparent; !important;
+    color: #000;
     width: 100%;
     margin-bottom: 0;
     padding: 0;
