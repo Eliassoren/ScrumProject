@@ -1,10 +1,10 @@
 
 package com.CardiacArray.rest;
 
-import com.CardiacArray.AuthFilter.Role;
-import com.CardiacArray.AuthFilter.Secured;
+import com.CardiacArray.data.Changeover;
 import com.CardiacArray.data.Shift;
 import com.CardiacArray.data.User;
+import com.CardiacArray.db.OvertimeDb;
 import com.CardiacArray.db.ShiftDb;
 import com.CardiacArray.db.UserDb;
 
@@ -12,13 +12,13 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.*;
-import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 @Path("/shifts")
 public class ShiftService {
 
     private ShiftDb shiftDb = new ShiftDb();
     private UserDb userDb = new UserDb();
+    private OvertimeDb overtimeDb = new OvertimeDb();
 
     public ShiftService(ShiftDb shiftDb) throws Exception {
         this.shiftDb = shiftDb;
@@ -186,6 +186,66 @@ public class ShiftService {
         }
         return map.values();
     }
+
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public boolean approveOvertime(Shift shift){
+        boolean approvedResponse = false;
+        if(validateShift(shift)){
+            approvedResponse = overtimeDb.aprove(shift);
+        }else{
+            throw new BadRequestException();
+        }
+        return approvedResponse;
+    }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public boolean approveChangeover(Changeover changeoverShift){
+
+        //Setter shift til approved og blir borte fra "til godkjenning"
+        shiftDb.setApproved(changeoverShift.getShiftId());
+
+        //finner det akutelle skiftet og endrer nødvendig data til nye bruker
+        Shift updatedShift = shiftDb.getShift(changeoverShift.getShiftId());
+        updatedShift.setUserId(changeoverShift.getNewUserId());
+        updatedShift.setUserName(changeoverShift.getNewUser());
+        updatedShift.setTradeable(false);
+
+        boolean response = shiftDb.updateShift(updatedShift);
+        return response;
+    }
+
+    @POST
+    @Path("/changeover/{shiftId}/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public boolean sendChangeShiftRequest(@PathParam("shiftId") int shiftId, @PathParam("userId") int userId){
+        if(shiftId < 0 || userId < 0){
+            throw new BadRequestException();
+        }
+        boolean changeoverResponse = shiftDb.sendChangeRequest(shiftId,userId);
+        return changeoverResponse;
+    }
+
+    @GET
+    @Path("/changeover")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Changeover> getChangeShiftRequest(){
+        Map<Changeover, Changeover> map = new HashMap<>();
+        ArrayList<Shift> foundChangeovers = shiftDb.getChangeRequest();
+
+        for(Shift shift : foundChangeovers){
+            User oldUser = userDb.getUserByEmail(shiftDb.getShift(shift.getShiftId()).getUserId());
+            User newUser = userDb.getUserByEmail(shift.getUserId());
+
+            Changeover tempChangeover = new Changeover(oldUser,newUser,shift.getShiftId());
+            map.put(tempChangeover,tempChangeover);
+        }
+        return map.values();
+    }
+
+
 
     private boolean validateShift(Shift shift){
         Date start = shift.getStartTime();

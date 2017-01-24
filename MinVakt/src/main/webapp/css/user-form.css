@@ -1,24 +1,43 @@
+.user-form{
+    padding: 1rem;
+    height: 80%;
+    width: 560px;
+    border: 2px solid #2D5684;
+    position: relative;
+    margin: auto;
+    top: 60%;
+    overflow: hidden;
+    color: #2D5684;
+    font-family: 'Source Sans Pro', monospace; !important;
+}
 .input{
     display : inline;
     width: 96.5%;
-    margin: 0.8rem 1%;
+    margin: 0 1% 0.8rem 1%;
+    height: 1.5rem;
+    border: 2px solid #2D5684;
+    padding-left: 0px;
 }
 .select{
-    width: 30%;
-    margin: 0.8rem 0.3rem;
+    width: 40%;
+    margin: 0 0.3rem 0.8rem 0.3rem;
+    height: 1.5rem;
+    border: 2px solid #2D5684;
     /* margin: 0.5rem 0.3rem;*/
 }
 .button{
     display: inline;
     width: 20%;
+    height: 2rem;
     margin: auto;
     background: white;
-    border: 1px solid black;
+    border: 2px solid #2D5684;
+    color: #2D5684;
 }
-#button-ok{
+#button_ok{
     float: left;
 }
-#button-cancel{
+#button_cancel{
     float: right;
 }
 h2{
@@ -28,26 +47,54 @@ h4{
     border-bottom: 1px solid black;
 }
 .label{
-    margin: none;
+    margin: 0;
+    font-size: 1rem;
+    width: auto;
 }
-#last-name{
+label{
+    font-size: 0.4rem;
+    display: inline;
+    margin-right: 10%;
+}
+.text-label{
+    margin: 0 43% 0 1.25%;
+}
+#last-name-label{
+    margin: 0 40% 0 1.53%;
+}
+.postal-label{
+    margin: 0 43% 0 1.25%;
+}
+.select-label{
+    margin: 0 35% 0 1.25%;
+}
+#work-percent-label{
+    margin-right: -15%;
+    margin-left: -1%;
+}
+#postal-code-label{
+    margin-left: 28%;
+    margin-right: -15%;
+}
+#last_name{
     display: inline;
     width: 46%;
-    margin: 0.8rem 1.25%;
+    margin: 0 1.25% 0.8rem 1.25%;
 }
-#first-name{
+#first_name{
     display: inline;
     width: 46%;
-    margin: 0.8rem 1.25%;
+    margin: 0 1.25% 0.8rem 1.25%;
 }
 #spinner{
     width: 10%;
+    color: #2D5684;
 }
 #address{
     display: inline;
     width: 73%;
 }
-#postal-code{
+#postal_code{
     display: inline;
     width: 20%;
 }
@@ -56,46 +103,37 @@ h4{
     margin-bottom: 0.8rem;
     margin: auto;
     position: relative;
-    display: inline;
+    display: block;
 }
-#admin-checkbox{
+#admin_checkbox{
     display: inline;
     width: auto;
     background: white;
+    height: auto;
 }
-#active-checkbox{
+#active_checkbox{
     display: inline;
     width: auto;
     background: white;
+    height: auto;
 }
 .button-group{
     width: 100%;
     margin-top: 0.8rem;
 }
-.user-form{
-    padding: 1rem;
-    height: 80%;
-    width: 550px;
-    border: 2px solid black;
-    position: relative;
-    margin: auto;
-    top: 80%;
-    overflow: hidden;
-}
+
 fieldset{
     padding: 0.5rem;
     margin: 1rem auto 1rem auto;
-    border-top: 1px solid black;
+    border-top: 1px solid #2D5684;
     border-left: none;
     border-right: none;
     border-bottom: none;
-
 }
 legend{
     position: absolute;
     margin-top: -1.8rem;
     margin-left: 1%;
-
 }
 select:required:invalid {
     color: gray;
