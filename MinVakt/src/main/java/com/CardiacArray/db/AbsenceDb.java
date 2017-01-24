@@ -1,12 +1,11 @@
 package com.CardiacArray.db;
 
+import com.CardiacArray.data.Absence;
 import com.CardiacArray.data.Shift;
 import com.CardiacArray.data.User;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * Created by andreasbergman on 24/01/17.
@@ -21,9 +20,9 @@ public class AbsenceDb extends DbManager {
     }
 
 
-    public Shift getAbsence(User user) {
+    public ArrayList<Absence> getAbsenceForUser(User user) {
         int userId = user.getId();
-        Shift shift = null;
+        ArrayList<Absence> absenceList = null;
 
         String toSql = "SELECT *  FROM absence WHERE user_id = ? ";
         try {
@@ -31,20 +30,46 @@ public class AbsenceDb extends DbManager {
             statement.setInt(1, userId);
             res = statement.executeQuery();
 
-            if(res.next()){
+            while(res.next()){
                 Timestamp startTime = res.getTimestamp("start_time");
                 Timestamp endTime = res.getTimestamp("end_time");
                 int shiftId = res.getInt("shift_id");
 
-                shift = new Shift(
-
-                );
-
+                absenceList.add(new Absence(
+                        startTime,
+                        endTime,
+                        userId
+                ));
             }
-
+            res.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            DbManager.rollback();
         }
-        return shift;
+        return absenceList;
+    }
+
+    public boolean setAbsence(int userId, Timestamp startTime, Timestamp endTime){
+        boolean returnValue = false;
+        String toSql = "INSERT INTO absence " +
+                "(user_id, start_time, end_time,) " +
+                "VALUES (?, ?, ?)";
+        try{
+            statement = connection.prepareStatement(toSql);
+            statement.setInt(1, userId);
+            statement.setTimestamp(2, startTime);
+            statement.setTimestamp(3, endTime);
+            statement.execute();
+            ResultSet res = statement.getGeneratedKeys();
+            if(res.next()){
+                returnValue = true;
+            }
+            res.close();
+            statement.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return returnValue;
     }
 }

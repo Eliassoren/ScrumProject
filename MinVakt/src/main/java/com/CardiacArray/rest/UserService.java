@@ -2,14 +2,14 @@ package com.CardiacArray.rest;
 
 import com.CardiacArray.AuthFilter.Role;
 import com.CardiacArray.AuthFilter.Secured;
+import com.CardiacArray.data.Absence;
 import com.CardiacArray.data.Shift;
 import com.CardiacArray.data.User;
-import com.CardiacArray.db.OvertimeDb;
-import com.CardiacArray.db.ShiftDb;
-import com.CardiacArray.db.UserDb;
-import com.CardiacArray.db.DbManager;
+import com.CardiacArray.db.*;
+
 import java.sql.Connection;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +29,7 @@ public class UserService {
     private UserDb userDb = new UserDb();
     private ShiftDb shiftDb = new ShiftDb();
     private OvertimeDb overtimeDB = new OvertimeDb();
+    private AbsenceDb absenceDb = new AbsenceDb();
     private PasswordUtil passwordUtil = new PasswordUtil();
 
     public UserService(UserDb userDb) throws Exception {
@@ -112,7 +113,7 @@ public class UserService {
     @POST
     @Path("/available/{userId}/{start}/{end}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setUserAvailable(@PathParam("userId") int userId, @PathParam("date") long date,
+    public Response setUserAvailable(@PathParam("userId") int userId,
                                      @PathParam("start") long start, @PathParam("end") long end) {
         User user = userDb.getUserByEmail(userId);
         if (user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || !user.isValidEmail(user.getEmail())) {
@@ -209,7 +210,26 @@ public class UserService {
     }
 
     @GET
-    @Path("/timesheet/{userId}/{startTime}/{endTime}")
+    @Path("/absence/")
+    public Collection<Absence> getAbsenceFromUser(User user){
+        ArrayList<Absence> absenceArrayList = absenceDb.getAbsenceForUser(user);
+        Map<Absence, Absence> map = new HashMap<>();
+        for(Absence absence : absenceArrayList){
+            map.put(absence,absence);
+        }
+        return map.values();
+    }
+
+    @POST
+    @Path("/absence/set/{userId}/{startTime}/{endTime}")
+    public boolean setAbsence(@PathParam("userId") int userId, @PathParam("startTime") Timestamp startTime,@PathParam("endTime") Timestamp endTime ){
+        if(userId < 0) throw new NotFoundException();
+        if(startTime.after(endTime))throw new BadRequestException();
+        return absenceDb.setAbsence(userId,startTime,endTime);
+    }
+
+    @GET
+    @Path("/{userId}/timesheet/{startTime}/{endTime}")
     @Produces(MediaType.APPLICATION_JSON)
     public void getTimesheet(@PathParam("userId") int userId, @PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
         long hours = getHoursForPeriod(startTime,endTime,userId);
