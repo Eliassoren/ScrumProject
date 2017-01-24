@@ -107,7 +107,26 @@ public class OvertimeDb extends DbManager {
         return returnValue;
     }
 
-
+    public boolean aprove(Shift shift){
+        boolean returnValue = false;
+        String toSQL = "UPDATE overtime " +
+                "SET approved = 1 " +
+                "where shift_id = ?";
+        try {
+            statement = connection.prepareStatement(toSQL);
+            statement.setInt(1, shift.getShiftId());
+            statement.execute();
+            ResultSet res = statement.getGeneratedKeys();
+            if (res.next()){
+                returnValue = true;
+            }
+            res.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return returnValue;
+    }
 
 
     public static void main(String[] args) throws Exception{
@@ -122,7 +141,8 @@ public class OvertimeDb extends DbManager {
         System.out.println("miliend = " + end);
 
         System.out.println(shift.equals(test.getOvertime(shift)));
+        System.out.println(test.aprove(shift));
 
-        System.out.println(test.deleteOvertime(shift));
+        //System.out.println(test.deleteOvertime(shift));
     }
 }
