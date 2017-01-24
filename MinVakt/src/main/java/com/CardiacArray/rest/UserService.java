@@ -207,4 +207,14 @@ public class UserService {
         }
         return map.values();
     }
+
+    @GET
+    @Path("/timesheet/{userId}/{startTime}/{endTime}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public void getTimesheet(@PathParam("userId") int userId, @PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
+        long hours = getHoursForPeriod(startTime,endTime,userId);
+
+
+    }
+
 }
