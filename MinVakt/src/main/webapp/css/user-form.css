@@ -143,4 +143,5 @@ option[value=""][disabled]{
 }
 option{
     color: white;
+    z-index: 2;
 }
