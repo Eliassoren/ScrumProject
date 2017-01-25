@@ -120,11 +120,10 @@ h3{
     margin: 2rem auto 2rem auto;
 }
 #left-arrow{
-//user-select: none;
+
     -webkit-user-select: none;
 }
 #right-arrow{
-//user-select: none;
     -webkit-user-select: none;
 }
 .fa-chevron-left{
@@ -169,7 +168,6 @@ h3{
     font-size: 1.5rem;
     top: 2rem;
     left: 2rem;
-
 }
 #calendar .week-name {
     display: none;
@@ -297,7 +295,31 @@ h3{
         padding: 10px;
         margin-bottom: -1px;
     }
-
+    #calendar .week-name {
+        font-size: 2rem;
+        display: inline;
+        float: left;
+        visibility: visible;
+        margin-right: 1rem;
+    }
+    #calendar .week-number{
+        background: #979797;
+        color: white;
+        width: 100%;
+        padding: 10px;
+        margin-left: 0;
+        margin-bottom: -1px;
+    }
+    #calendar .week{
+        display: inline;
+        float: left;
+        background: #979797;
+        width: auto;
+        height: auto;
+        color: white;
+        clip-path: none;
+        font-size: 2rem;
+    }
     #calendar .date {
         float: none;
     }
@@ -314,12 +336,10 @@ h3{
         font-size: 1.6rem !important;
         text-align: center;
     }
-    #calendar .week{
-        display: inline;
-        float: left;
+
+    #calendar .week-number:hover{
+        background: #979797;
     }
-
-
     #h1-title{
 
         font-size: 36px;
