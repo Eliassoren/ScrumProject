@@ -13,11 +13,13 @@ $(document).ready(function() {
     $("#left-arrow").click(function () {
         week--;
         $("#month-title").text("Uke " + week);
+        getShiftsForWeek();
     });
 
     $("#right-arrow").click(function () {
         week++;
         $("#month-title").text("Uke " + week);
+        getShiftsForWeek();
     });
     var theDay = getDateOfWeek(week, dateNow.getFullYear());
     var nextDay = getDateOfWeek(week, dateNow.getFullYear());
@@ -60,12 +62,35 @@ $(document).ready(function() {
     });
 
     $(".accept-button").click(function(){
-        createShifts(new Date(), new Date(), 1 ,1);
+        var shiftProfile = $(".input-time[name=time-of-day]:checked").attr("id");
+        var start = "";
+        var end = "";
+
+        switch(shiftProfile) {
+            case "day-id":
+                start = "8:00";
+                end = "16:00";
+                break;
+            case "evening-id":
+                start = "16:00";
+                end = "23:59";
+                break;
+            case "night-id":
+                start = "00:00";
+                end = "8:00";
+                break;
+            default:
+                start = "8:00";
+                end = "16:00";
+        }
+
+        bannerConfirm("Bekreft " + selectedDays().length * selectedUser().length + " vakter?", createShifts(start, end, 1 ,1));
     })
 });
 
 
 function getShiftsForWeek() {
+    $(".admin-shift-shiftItem").remove();
     var monday = getDateOfWeek(week, dateNow.getFullYear());
     var sunday = getDateOfWeek(week, dateNow.getFullYear());
     sunday.setDate(sunday.getDate() + 6);
