@@ -142,8 +142,8 @@ public class OvertimeDb extends DbManager {
                 Shift shift = new Shift();
                 shift.setShiftId(res.getInt("shift_id"));
                 shift.setUserName(res.getString("first_name") + " " + res.getString("last_name"));
-                shift.setStartTime(res.getString("start"));
-                shift.setEndTime(res.getString("end"));
+                shift.setStartTimeTime((res.getTime("start")));
+                shift.setEndTimeTime((res.getTime("end")));
                 al.add(shift);
             }
             res.close();

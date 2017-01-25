@@ -1,5 +1,6 @@
 package com.CardiacArray.data;
 
+import java.sql.Time;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -14,6 +15,10 @@ public class Shift {
     private String roleDescription;
     private boolean tradeable;
     private boolean responsibleUser;
+    private Time startTimeTime;
+    private Time endTimeTime;
+
+
 
     public Shift(int shiftId, Date startTime, Date endTime, int userId, String userName, int departmentId, int role, boolean tradeable, boolean responsibleUser, String roleDescription) {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
@@ -122,6 +127,22 @@ public class Shift {
 
     public void setRoleDescription(String roleDescription) {
         this.roleDescription = roleDescription;
+    }
+
+    public Time getStartTimeTime() {
+        return startTimeTime;
+    }
+
+    public void setStartTimeTime(Time startTimeTime) {
+        this.startTimeTime = startTimeTime;
+    }
+
+    public Time getEndTimeTime() {
+        return endTimeTime;
+    }
+
+    public void setEndTimeTime(Time endTimeTime) {
+        this.endTimeTime = endTimeTime;
     }
 
     @Override

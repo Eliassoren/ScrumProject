@@ -259,8 +259,7 @@ public class ShiftService {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Shift> getAllOvertimeRequests(){
         Map<Shift,Shift> map = new HashMap<>();
-        OvertimeDb overtimeDb = new OvertimeDb();
-        ArrayList al = overtimeDb.getAllOvertime();
+        ArrayList<Shift> al = overtimeDb.getAllOvertime();
         for (Shift shift : al){
             map.put(shift,shift);
         }
