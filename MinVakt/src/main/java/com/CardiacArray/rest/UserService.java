@@ -79,6 +79,7 @@ public class UserService {
         return map.values();
     }
 
+
     /**
      *
      * @param user user object
@@ -139,9 +140,14 @@ public class UserService {
     @POST
     @Path("/available/{userId}/{start}/{end}")
     @Consumes(MediaType.APPLICATION_JSON)
+<<<<<<< HEAD
     public Response setUserAvailable(@PathParam("userId") int userId,
                                      @PathParam("start") long start, @PathParam("end") long end) {
         User user = userDb.getUserById(userId);
+=======
+    public Response setUserAvailable(@PathParam("userId") int userId, @PathParam("start") long start, @PathParam("end") long end) {
+        User user = userDb.getUserByEmail(userId);
+>>>>>>> Added getAllUsers-method
         if (user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || !user.isValidEmail(user.getEmail())) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
