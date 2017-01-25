@@ -254,6 +254,19 @@ public class ShiftService {
         return map.values();
     }
 
+    @GET
+    @Path("/overtime")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Shift> getAllOvertimeRequests(){
+        Map<Shift,Shift> map = new HashMap<>();
+        OvertimeDb overtimeDb = new OvertimeDb();
+        ArrayList al = overtimeDb.getAllOvertime();
+        for (Shift shift : al){
+            map.put(shift,shift);
+        }
+        return map.values();
+    }
+
 
 
     private boolean validateShift(Shift shift){
