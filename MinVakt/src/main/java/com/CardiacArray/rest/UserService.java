@@ -197,20 +197,21 @@ public class UserService {
     @GET
     @Path("/availability/{startTime}/{endTime}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<User> getAvailableUsers(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
-        if(new Date(startTime).after(new Date(endTime))) throw new BadRequestException();
+    public Collection<Available> getAvailableUsers(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
+        if(startTime > endTime) throw new BadRequestException();
         ArrayList<Available> availableUsers =  userDb.getAvailableUsers(startTime, endTime);
-        Map<User, User> map = new HashMap<>();
-        for(User user : availableUsers){
+        Map<Available, Available> map = new HashMap<>();
+        for(Available user : availableUsers){
             map.put(user,user);
         }
         return map.values();
     }
 
     @GET
-    @Path("/absence/")
-    public Collection<Absence> getAbsenceFromUser(User user, Timestamp startTime,Timestamp endTime){
-        ArrayList<Absence> absenceArrayList = absenceDb.getAbsenceForUser(user.getId(),startTime,endTime);
+    @Path("/absence/get/{startTime}/{endTime}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Absence> getAbsenceFromUser(User user,@PathParam("startTime") long startTime,@PathParam("endTime") long endTime){
+        ArrayList<Absence> absenceArrayList = absenceDb.getAbsenceForUser(user.getId(),new Timestamp(startTime),new Timestamp(endTime));
         Map<Absence, Absence> map = new HashMap<>();
         for(Absence absence : absenceArrayList){
             map.put(absence,absence);
@@ -220,16 +221,17 @@ public class UserService {
 
     @POST
     @Path("/absence/set/{userId}/{startTime}/{endTime}")
-    public boolean setAbsence(@PathParam("userId") int userId, @PathParam("startTime") Timestamp startTime,@PathParam("endTime") Timestamp endTime ){
+    @Produces(MediaType.APPLICATION_JSON)
+    public boolean setAbsence(@PathParam("userId") int userId, @PathParam("startTime") long startTime,@PathParam("endTime") long endTime ){
         if(userId < 0) throw new NotFoundException();
-        if(startTime.after(endTime))throw new BadRequestException();
-        return absenceDb.setAbsence(userId,startTime,endTime);
+        if(startTime > endTime)throw new BadRequestException();
+        return absenceDb.setAbsence(userId,new Timestamp(startTime),new Timestamp(endTime));
     }
 
     @GET
     @Path("/{userId}/timesheet/{startTime}/{endTime}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void getTimesheet(@PathParam("userId") int userId, @PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
+    public Collection<String> getTimesheet(@PathParam("userId") int userId, @PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
         Map<String,String> map = new HashMap<>();
         long hours = getHoursForPeriod(startTime,endTime,userId);
 
@@ -249,7 +251,7 @@ public class UserService {
             }
         }
 
-
+        return map.values();
     }
 
 }
