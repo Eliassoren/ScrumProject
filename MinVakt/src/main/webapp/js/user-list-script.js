@@ -5,9 +5,13 @@
 
 $(document).ready(function() {
     $(".days").click(function(){
-        $(".opacity").toggleClass("blur-activate");
-        $(".employee-form-banner").toggleClass("show-banner");
+        $(".opacity").addClass("blur-activate");
+        $(".employee-form-banner").addClass("show-banner");
+    });
 
+    $(".fa-times").click(function(){
+        $(".opacity").removeClass("blur-activate");
+        $(".employee-form-banner").removeClass("show-banner");
     });
 
     $.ajax{(
