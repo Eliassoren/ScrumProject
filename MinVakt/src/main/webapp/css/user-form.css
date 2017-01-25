@@ -120,7 +120,9 @@ label{
     width: 100%;
     margin-top: 0.8rem;
 }
-
+.label-line{
+    margin-bottom: 0;
+}
 fieldset{
     padding: 0.5rem;
     margin: 1rem auto 1rem auto;

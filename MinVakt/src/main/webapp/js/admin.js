@@ -64,7 +64,10 @@ $("#new-user-form").validate({
             minlength: "Passordet må bestå av minimum 8 tegn."
         },
         position_cb: {
-            required "Please choose one."
+            required: "Velg en stilling"
+        },
+        dept_cb:{
+            required: "Velg en avdeling"
         }
     },
     errorPlacement: function(error, element) {
