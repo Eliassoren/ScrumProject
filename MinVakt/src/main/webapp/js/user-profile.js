@@ -16,7 +16,8 @@ $(document).ready(
             url: "MinVakt/rest/users/id/" + userId,
             dataType: user,
             success: function(){
-                console.log()
+                console.log(user);
+
             }
         })
     }
