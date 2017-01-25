@@ -67,34 +67,35 @@ $(document).ready(function() {
     })
 
     $('#accept-btn').click(function () {
-        var daysArray = [];
-        var dateArray = [];
-        $(".day-activated").each(function () {
-            daysArray.push($(this).attr("id").substring(3,10));
+        bannerConfirm("Lagre?", function () {
+            var daysArray = [];
+            var dateArray = [];
+            $(".day-activated").each(function () {
+                daysArray.push($(this).attr("id").substring(3,10));
+            });
+            var dateOf = getDateOfWeek(weekNumber, year);
+            for (var i = 0; i < daysArray.length; i++){
+                dateArray.push(new Date(dateOf.getFullYear(), dateOf.getMonth(), dateOf.getDate() + Number(daysArray[i]) -1));
+            }
+            console.log(daysArray);
+            console.log(dateArray);
+            dateArray.forEach(function (i) {
+                if (document.getElementById("day-id").checked) {
+                    start = i.getTime() + dayStart;
+                    end = i.getTime() + eveningStart;
+                }
+                if (document.getElementById("evening-id").checked) {
+                    start = i.getTime() + eveningStart;
+                    end = i.getTime() + nightStart;
+                }
+                if (document.getElementById("night-id").checked) {
+                    start = i.getTime() + nightStart;
+                    end = i.getTime() + nightEnd;
+                }
+                setUserAvailable(start, end);
+            });
         });
-        var dateOf = getDateOfWeek(weekNumber, year);
-        for (var i = 0; i < daysArray.length; i++){
-            dateArray.push(new Date(dateOf.getFullYear(), dateOf.getMonth(), dateOf.getDate() + Number(daysArray[i]) -1));
-        }
-        console.log(daysArray);
-        console.log(dateArray);
-        dateArray.forEach(function (i) {
-            if (document.getElementById("day-id").checked) {
-                start = i.getTime() + dayStart;
-                end = i.getTime() + eveningStart;
-            }
-            if (document.getElementById("evening-id").checked) {
-                start = i.getTime() + eveningStart;
-                end = i.getTime() + nightStart;
-            }
-            if (document.getElementById("night-id").checked) {
-                start = i.getTime() + nightStart;
-                end = i.getTime() + nightEnd;
-            }
-            setUserAvailable(start, end);
-            location.reload();
-        })
-    })
+    });
 });
 
 function setUserAvailable(start, end) {
@@ -115,6 +116,7 @@ function setUserAvailable(start, end) {
         }),
         success: function () {
             console.log("Result: Satt ledig");
+            location.reload();
         },
         statusCode: {
             401: function () {

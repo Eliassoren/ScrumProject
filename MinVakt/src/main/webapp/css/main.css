@@ -675,7 +675,7 @@ th {color: #2D5684; text-align: center}
     width: 100%;
     background: #2D5684;
     position: fixed;
-    margin-top: 50%;
+    top: 50%;
     transform: translate(0%,-50%);
     z-index: 1000;
 }
@@ -741,7 +741,7 @@ th {color: #2D5684; text-align: center}
     width: 100%;
     background: #2D5684;
     position: fixed;
-    margin-top: 50%;
+    top: 50%;
     transform: translate(0%,-50%);
     z-index: 1000;
 }
