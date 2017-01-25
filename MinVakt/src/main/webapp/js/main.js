@@ -210,7 +210,7 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
         }else{
             week = 1;
         }
-    })
+    });
 
     getTradeableShifts(year, month);
 
