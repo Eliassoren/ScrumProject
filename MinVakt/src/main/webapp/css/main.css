@@ -585,14 +585,14 @@ font-family: 'Source Sans Pro', sans-serif; !important;
 
 button:focus {outline:0;}
 
-#user-list table.table {
+#user-list table.employee-table {
     height: 25px;
     color: transparent; !important;
     width: 100%;
     margin-bottom: 0;
     padding: 0;
 }
-#user-list table.table th {
+#user-list table.employee-table th {
     position: relative;
     height: 25px;
     background: #2D5684;
@@ -613,7 +613,7 @@ td{border: solid black 1px;}
 
 tr:hover{background-color: #979797 !important; cursor: pointer;}
 
-#user-list table.table td {
+#user-list table.employee-table td {
     color: #2D5684;
     height: 20px;
     padding: 0;
