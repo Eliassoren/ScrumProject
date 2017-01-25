@@ -1,5 +1,6 @@
 package com.CardiacArray.db;
 
+import com.CardiacArray.data.Available;
 import com.CardiacArray.data.User;
 
 import java.sql.*;
@@ -278,8 +279,8 @@ public class UserDb extends DbManager {
         }
     }
 
-    public ArrayList<User> getAvailableUsers(long startLong, long endLong){
-        ArrayList<User> users = new ArrayList<User>();
+    public ArrayList<Available> getAvailableUsers(long startLong, long endLong){
+        ArrayList<Available> availables = new ArrayList<Available>();
         try {
             String toSQL = "SELECT * FROM user JOIN availability ON user.user_id = availability.user_id JOIN user_category ON user.user_category_id = user_category.user_category_id" +
                     " WHERE start_time BETWEEN ?" +
@@ -310,15 +311,15 @@ public class UserDb extends DbManager {
                 Timestamp startTime = res.getTimestamp("start_time");
                 Timestamp endTime = res.getTimestamp("end_time");
                 int workpercent = res.getInt("work_percent");
-                User user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workpercent);
-                users.add(user);
+                Available tempAvailable = new Available(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workpercent,new Date(startLong),new Date(endLong));
+                availables.add(tempAvailable);
             }
             res.close();
             statement.close();
         }catch(SQLException e) {
             e.printStackTrace();
         }
-        return users;
+        return availables;
     }
 
     /**

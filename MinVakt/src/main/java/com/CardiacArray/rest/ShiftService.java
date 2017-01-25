@@ -209,6 +209,7 @@ public class ShiftService {
     }
 
     @PUT
+    @Path("/changeover/approve")
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/approveChange")
     public boolean approveChangeover(Changeover changeoverShift){
