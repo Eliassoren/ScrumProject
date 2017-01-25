@@ -8,9 +8,7 @@
 
 $(document).ready(function() {
     $("#hamburger-toggle").click(function(){
-        $("#hamburger-menu").toggleClass("hamburger-menu-open");
-        $("#hamburger-toggle").toggleClass("hamburger-toggle-open");
-
+        $(".experimental-menu").toggleClass("experimental-menu-activated");
     });
 });
 
