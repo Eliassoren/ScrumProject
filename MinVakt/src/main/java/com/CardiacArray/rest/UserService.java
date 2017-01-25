@@ -40,10 +40,25 @@ public class UserService {
 
     /**
      *
+     * @param id users ID
+     * @return user object
+     */
+    @GET
+    @Path("/id/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUser(@PathParam("id") String id){
+        User userFound = userDb.getUserByEmail(Integer.parseInt(id));
+        if(userFound.getFirstName() == null || userFound.getLastName() == null) throw new NotFoundException();
+        else return userFound;
+    }
+
+    /**
+     *
      * @param email email of the user
      * @return user object
      */
-     @Path("/{email}")
+    @GET
+    @Path("/{email}")
     @Produces(MediaType.APPLICATION_JSON)
     public User getUser(@PathParam("email") String email) {
         User userFound = userDb.getUserByEmail(email);

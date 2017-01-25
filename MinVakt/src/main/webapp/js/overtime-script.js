@@ -259,7 +259,6 @@ function getAllOvertimeRequest(){
     $.ajax({
         type: "GET",
         url: "MinVakt/rest/shifts/overtime",
-        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data){
             console.log(data);
         },

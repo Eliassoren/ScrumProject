@@ -2,6 +2,9 @@
  * Created by kjosavik on 20-Jan-17.
  */
 
+
+
+
 $("#new-user-form").validate({
     rules: {
         first_name: {
@@ -97,6 +100,8 @@ $("#new-user-form").validate({
         })
     }
 });
+
+
 
 $("#new-shift-form").validate({
     rules: {
