@@ -128,6 +128,32 @@ public class OvertimeDb extends DbManager {
         return returnValue;
     }
 
+    public ArrayList<Shift> getAllOvertime(){
+        ArrayList<Shift> al = new ArrayList<>();
+        String toSQL = "Select overtime.shift_id, user.first_name, user.last_name, overtime.start, overtime.end\n" +
+                "  from overtime\n" +
+                "left join user_shift on user_shift.shift_id = overtime.shift_id\n" +
+                "LEFT join user on user.user_id = user_shift.user_id\n" +
+                "where overtime.approved = 0";
+        try{
+            statement = connection.prepareStatement(toSQL);
+            res = statement.executeQuery();
+            while (res.next()){
+                Shift shift = new Shift();
+                shift.setShiftId(res.getInt("shift_id"));
+                shift.setUserName(res.getString("first_name") + " " + res.getString("last_name"));
+                shift.setStartTime(res.getString("start"));
+                shift.setEndTime(res.getString("end"));
+                al.add(shift);
+            }
+            res.close();
+            statement.close();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return al;
+    }
+
 
     public static void main(String[] args) throws Exception{
         ShiftDb shiftDb = new ShiftDb();
