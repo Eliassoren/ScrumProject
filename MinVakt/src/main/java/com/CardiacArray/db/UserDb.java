@@ -257,6 +257,13 @@ public class UserDb extends DbManager {
         return returnValue;
     }
 
+    /** Sets a user as available for given dates
+     *
+     * @param userId id of the user
+     * @param start start date
+     * @param end end date
+     * @return true if user set available
+     */
     public boolean setUserAvailable(int userId, long start, long end) {
         try {
             String toSQL = "INSERT INTO availability (availability.user_id, availability.start_time, availability.end_time) VALUES (?,?,?)";
@@ -278,6 +285,12 @@ public class UserDb extends DbManager {
         }
     }
 
+    /**
+     *
+     * @param startLong start date
+     * @param endLong end date
+     * @return list of available users
+     */
     public ArrayList<User> getAvailableUsers(long startLong, long endLong){
         ArrayList<User> users = new ArrayList<User>();
         try {
@@ -321,6 +334,12 @@ public class UserDb extends DbManager {
         return users;
     }
 
+    /**
+     *
+     * @param id id of the user
+     * @param date date to check
+     * @return true if user has a shift that date
+     */
     public boolean userHasShift(int id, java.sql.Date date) {
         try {
             String toSQL = "select * from shift " +
