@@ -135,7 +135,6 @@ public class ShiftService {
      */
     @POST
     @Path("/assign/{shiftId}/{userId}")
-    @Consumes (MediaType.APPLICATION_JSON)
     public Response assignShift(@PathParam("shiftId") int shiftId, @PathParam("userId") int userId) {
         if(validateShift(getShift(shiftId))) {
             Shift shift = getShift(shiftId);
@@ -153,13 +152,16 @@ public class ShiftService {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createShift(Shift shift) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Shift createShift(Shift shift) {
         if(!validateShift(shift)){
+            System.out.println("Tried creating invalid shift");
             throw new BadRequestException();
         }
         int responseId = shiftDb.createShift(shift);
+        System.out.println("Create shift: " + responseId);
         if(responseId < 0) throw new BadRequestException();
-        else return Response.ok().build();
+        else return shiftDb.getShift(responseId);
     }
 
     @GET
@@ -261,10 +263,7 @@ public class ShiftService {
         Date end = shift.getEndTime();
 
         if(start != null && end != null){
-            if(!(end.after(start))){
-                return false;
-            }
-            return true;
+            return end.after(start);
         }
         return false;
     }

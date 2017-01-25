@@ -1,5 +1,5 @@
 /**
- * Created by Chris on 24.01.2017.
+ * Author Vegard
  */
 
 var dateNow;
@@ -21,33 +21,83 @@ $(document).ready(function() {
     });
     var theDay = getDateOfWeek(week, dateNow.getFullYear());
     var nextDay = getDateOfWeek(week, dateNow.getFullYear());
-    nextDay.setDate(nextDay.getDate()+1)
+    nextDay.setHours(23);
+    nextDay.setMinutes(59);
     for (var i = 0; i < 7; i++){
-        console.log(theDay + " " + nextDay);
+        //console.log(theDay + " " + nextDay);
         getAvailableUsers(theDay, nextDay, i);
         theDay.setDate(theDay.getDate()+1);
         nextDay.setDate(nextDay.getDate()+1);
     }
 
+    getShiftsForWeek();
+
+
 
     $(".day").click(function(){
         $(this).toggleClass("blue");
     });
+
+    $(".day").click(function () {
+        $(".user-row").remove();
+        var usersAdded = [];
+        var daysSelected = selectedDays();
+       for (var i = 0; i < daysSelected.length; i++){
+           var usersDay = availableUser[Number(daysSelected[i]) - 1];
+           if (usersDay !== undefined){
+               for (var j = 0; j < usersDay.length; j++){
+                       //console.log(usersDay[j]);
+                   if (usersAdded[usersDay[j].id] != 1){
+                       console.log(usersDay[j] != 1)
+                       usersAdded[usersDay[j].id] = 1;
+                       console.log(usersAdded);
+                       addRow(usersDay[j]);
+                   }
+
+               }
+           }
+       }
+    });
+
+    $(".accept-button").click(function(){
+        createShifts(new Date(), new Date(), 1 ,1);
+    })
 });
 
-function getFilteredUsers() {
 
-}
-
-function getAvailableUsers(start, end, place) {
+function getShiftsForWeek() {
+    var monday = getDateOfWeek(week, dateNow.getFullYear());
+    var sunday = getDateOfWeek(week, dateNow.getFullYear());
+    sunday.setDate(sunday.getDate() + 6);
+    sunday.setHours(23);
+    sunday.setMinutes(59);
     $.ajax({
         type: "GET",
-        url: "/MinVakt/rest/users/availability/" + start.getTime() + "/" + end.getTime(),
+        url: "/MinVakt/rest/shifts/" + monday.getTime() + "/" + sunday.getTime(),
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function(data){
+           for (var i = 0; i < data.length; i++){
+               console.log(data[i]);
+               addShifts(data[i]);
+           }
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                window.location.replace("/MinVakt/");
+            }
+        }
+    })
+}
+
+function getAvailableUsers(starter, ender, place) {
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/users/availability/" + starter.getTime() + "/" + ender.getTime(),
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
             if(data.length != 0){
                 availableUser[place] = data;
-                console.log("Dag " + place + ": "  + data.length);
             }
 
         },
@@ -60,39 +110,105 @@ function getAvailableUsers(start, end, place) {
     })
 }
 
-function addRow(userObj) {
-    var user = $("<tr/>").addClass("days");
-    user.append($("<td>").addClass("day").text(userObj.firstName + " " + userObj.lastName));
-    user.append($("<td>").addClass("day").text(userObj.userCategoryString));
-    $("tbody").append(user);
-
+function addShifts(shift) {
+    var date = new Date(shift.startTime).getDay();
+    var shiftItem = $("<div/>").addClass("admin-shift-shiftItem");
+    var assignedUser = (shift.userName != "" ? shift.userName : "Ingen ansatt");
+    shiftItem.append("<div>" + assignedUser + "</div>");
+    shiftItem.append("<div>" + formatTime(new Date(shift.startTime+3600000)) + " - " + formatTime(new Date(shift.endTime+3600000)) + "</div>");
+    $("#day" + date).append(shiftItem);
 }
 
-function weekNumberFromDate(date){
-    var weeknumber = 0;
-    var first = new Date(date.getFullYear(), 0, 1);
-    while (first < date) {
-        var nextDate = first.getDate();
-        var lastOfMonth = new Date(first.getFullYear(), first.getMonth() +1, 0).getDate();
-        if (nextDate + 7 > lastOfMonth){
-            first = new Date(first.getFullYear(), first.getMonth() + 1, (nextDate + 7)%lastOfMonth);
-            weeknumber++;
-        } else {
-            first = new Date(first.getFullYear(), first.getMonth(), nextDate + 7);
-            weeknumber++;
+function selectedUser(){
+    var usersSelected = [];
+    $(".user-selected").each(function(){
+        usersSelected.push(Number($(this).attr("id")));
+    });
+    return usersSelected;
+}
+
+function selectedDays(){
+    var daysSelected = [];
+    $(".blue").each(function(){
+        daysSelected.push($(this).attr("id").substring(3,5));
+    });
+    return daysSelected;
+}
+
+function createShifts(start, end, department, role) {
+    if (!$(".input-time").is(":checked")) {
+        bannerAlert("Ingen tid valgt");
+        return;
+    }
+    var users = selectedUser();
+    var days = selectedDays();
+    if (users == 0 || days == 0) {
+        bannerAlert("Vennligst velg bruker(e) og dag(er)");
+        return;
+    }
+
+    for (var i = 0; i < days.length; i++) {
+        var dateOfShift = getDateOfWeek(week, dateNow.getFullYear());
+        var endOfShift = getDateOfWeek(week, dateNow.getFullYear());
+        var startTime = start.split(":");
+        var endTime = end.split(":");
+        dateOfShift.setDate(Number(getDateOfWeek(week, dateNow.getFullYear()).getDate()) + (days[i] - 1));
+        endOfShift.setDate(Number(getDateOfWeek(week, dateNow.getFullYear()).getDate()) + (days[i] - 1));
+        dateOfShift.setHours(startTime[0]);
+        dateOfShift.setMinutes(startTime[1]);
+        endOfShift.setHours(endTime[0]);
+        endOfShift.setMinutes(endTime[1]);
+        console.log(dateOfShift + " " + endOfShift);
+
+        for (var j = 0; j < users.length; j++){
+            console.log(Number(users[j]));
+            if (typeof users[j] !== 'number'){
+                console.log("Something wrong in createShifts(): " + (typeof users[j]));
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                url: "/MinVakt/rest/shifts/",
+                headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    shiftId: 0,
+                    startTime: dateOfShift.getTime(),
+                    endTime: endOfShift.getTime(),
+                    userId: users[j],
+                    userName: "",
+                    departmentId: department,
+                    role: role,
+                    tradeable: false,
+                    responsibleUser: false,
+                    roleDescription: ""
+                }),
+                success: function(data){
+                    location.reload(true);
+                },
+                statusCode: {
+                    401: function () {
+                        localStorage.removeItem("token");
+                        window.location.replace("/MinVakt/");
+                    }
+                }
+            });
         }
+
+
     }
-    return weeknumber;
 }
 
-function getDateOfWeek(w, y) {
-    var date = new Date(y, 0, 1 + (w - 1) * 7);
-    var dateOfWeek = date.getDay();
-    var weekStart = date;
-    if (dateOfWeek <= 4) {
-        weekStart.setDate(date.getDate() - date.getDay() + 1);
-    } else {
-        weekStart.setDate(date.getDate() + 8 - date.getDay());
-    }
-    return weekStart;
+function addRow(userObj) {
+    var user = $("<tr/>").addClass("user-row");
+    user.append($("<td>").addClass("user-name").text(userObj.firstName + " " + userObj.lastName));
+    user.append($("<td>").addClass("user-cat").text(userObj.userCategoryString));
+    user.attr("id", userObj.id);
+    $("tbody").append(user);
+    $(".user-row").unbind();
+    $(".user-row").click(function () {
+        $(this).toggleClass("user-selected");
+    });
 }
+

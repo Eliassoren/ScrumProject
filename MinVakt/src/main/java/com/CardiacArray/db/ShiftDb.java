@@ -32,7 +32,7 @@ public class ShiftDb extends DbManager{
     * */
     public Shift getShift(java.util.Date date, int userId){
         Shift shift = null;
-
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         // Formats date to form yyyy-MM-dd
         SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
         simpleDate.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
@@ -90,6 +90,7 @@ public class ShiftDb extends DbManager{
      * @return shift
      */
     public Shift getShift(int shiftId){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         Shift shift = null;
         String sql = "SELECT shift.shift_id, shift.date, shift.start," +
                 "                shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable, user.user_id, user_category.type," +
@@ -401,24 +402,27 @@ public class ShiftDb extends DbManager{
      * @see Shift
      */
     public int createShift(Shift shift){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleTime = new SimpleDateFormat("HH:mm");
+        simpleDate.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
         String date = simpleDate.format(shift.getStartTime());
         int returnValue = -1;
 
         String sql = "insert into shift " +
-                "(shift_id, date, start, shift_id.end, department_id, user_category_id, tradeable, responsible_user)\n" +
-                "VALUES (DEFAULT , ?,?,?,?,?,?)";
+                "(shift_id, date, start, end, department_id, user_category_id, tradeable, responsible_user)\n" +
+                "VALUES (DEFAULT , ?,?,?,?,?,?,?)";
 
         try {
             statement = connection.prepareStatement(sql);
             statement.setDate(1, new java.sql.Date(shift.getStartTime().getTime()));
-            statement.setString(2, DateToSQLTimeString(shift.getStartTime()));
-            statement.setString(3, DateToSQLTimeString(shift.getEndTime()));
+            statement.setString(2, simpleTime.format(shift.getStartTime()));
+            statement.setString(3, simpleTime.format(shift.getEndTime()));
             statement.setInt(4, shift.getDepartmentId());
             statement.setInt(5, shift.getRole());
-            statement.setBoolean(6, shift.isResponsibleUser());
+            statement.setBoolean(6, false);
+            statement.setBoolean(7, shift.isResponsibleUser());
             statement.execute();
-            connection.commit();
             ResultSet res = statement.getGeneratedKeys();
             if(res.next()){
                 returnValue = res.getInt(1);
@@ -430,6 +434,11 @@ public class ShiftDb extends DbManager{
         catch (SQLException e) {
             e.printStackTrace();
             DbManager.rollback();
+        }
+
+        if (shift.getUserId() != 0){
+            setUser(returnValue, shift.getUserId());
+            System.out.println("Setting user " + shift.getUserId());
         }
         return returnValue;
     }
@@ -448,7 +457,30 @@ public class ShiftDb extends DbManager{
             statement.setInt(1, user.getId());
             statement.setInt(2, shift.getShiftId());
             statement.execute();
-            connection.commit();
+            statement.close();
+            success = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            DbManager.rollback();
+            return success;
+        }
+        return success;
+    }
+
+    /**
+     * Adds a user to a shift.
+     * @param shift
+     * @param userId
+     * @return Success
+     */
+    public boolean setUser(int shift, int userId) {
+        String sql = "INSERT INTO user_shift VALUES (?, ?)";
+        boolean success = false;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            statement.setInt(2, shift);
+            statement.executeUpdate();
             statement.close();
             success = true;
         } catch (SQLException e) {
