@@ -37,7 +37,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-@Path("/site")
+@Path("/site/")
 public class Templates {
 
     @Context
@@ -72,7 +72,7 @@ public class Templates {
             User user = userDb.getUserByToken(token);
             if(user != null) {
                 try {
-                    URI uri = new URI("/MinVakt/calendar");
+                    URI uri = new URI("/MinVakt/site/calendar");
                     throw new RedirectionException(Response.Status.SEE_OTHER, uri);
                 } catch(URISyntaxException e) {
                     e.printStackTrace();
