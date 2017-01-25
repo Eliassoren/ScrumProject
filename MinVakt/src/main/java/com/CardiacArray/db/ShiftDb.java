@@ -39,10 +39,11 @@ public class ShiftDb extends DbManager{
         String onlyDate = simpleDate.format(date);
 
         String sql = "SELECT shift.shift_id, shift.date, shift.start, shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable,\n" +
-                "    user.user_id, concat_ws(' ', user.first_name, user.last_name) AS user_name\n" +
+                "    user.user_id, concat_ws(' ', user.first_name, user.last_name) AS user_name,  user_category.type\n" +
                 "FROM shift\n" +
                 "    JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
                 "    JOIN user ON user_shift.user_id = user.user_id\n" +
+                "JOIN user_category on shift.user_category_id = user_category.user_category_id" +
                 "WHERE shift.date = ? AND user_shift.user_id = ?";
 
         try {
@@ -69,7 +70,8 @@ public class ShiftDb extends DbManager{
                         res.getInt("department_id"),
                         res.getInt("user_category_id"),
                         res.getBoolean("tradeable"),
-                        res.getBoolean("responsible_user"));
+                        res.getBoolean("responsible_user"),
+                        res.getString("type"));
                 res.close();
                 statement.close();
             }
@@ -89,13 +91,13 @@ public class ShiftDb extends DbManager{
      */
     public Shift getShift(int shiftId){
         Shift shift = null;
-        String sql = "SELECT shift.shift_id, shift.date, shift.start,\n" +
-                "  shift.end, shift.department_id, shift.user_category_id,\n" +
-                "  shift.responsible_user, shift.tradeable, user.user_id,\n" +
-                "  concat_ws(' ', user.first_name, user.last_name) AS user_name FROM shift\n" +
-                "  LEFT JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
-                "  LEFT JOIN user ON user_shift.user_id = user.user_id\n" +
-                "WHERE shift.shift_id = ?";
+        String sql = "SELECT shift.shift_id, shift.date, shift.start," +
+                "                shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable, user.user_id, user_category.type," +
+                "                concat_ws(' ', user.first_name, user.last_name) AS user_name FROM shift" +
+                "        LEFT JOIN user_shift ON shift.shift_id = user_shift.shift_id" +
+                "        LEFT JOIN user ON user_shift.user_id = user.user_id" +
+                "        JOIN user_category on shift.user_category_id = user_category.user_category_id" +
+                " WHERE shift.shift_id = ?";
         try {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, shiftId);
@@ -119,7 +121,8 @@ public class ShiftDb extends DbManager{
                         res.getInt("department_id"),
                         res.getInt("user_category_id"),
                         res.getBoolean("tradeable"),
-                        res.getBoolean("responsible_user"));
+                        res.getBoolean("responsible_user"),
+                        res.getString("type"));
                 statement.close();
             }
         } catch (SQLException e) {
@@ -141,7 +144,8 @@ public class ShiftDb extends DbManager{
                 "WHERE  user.user_id = ? AND shift.user_category_id = ? ";
         try {
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, user_category_id);
+            statement.setInt(1,user_id);
+            statement.setInt(2, user_category_id);
             res = statement.executeQuery();
 
             while (res.next()) {
@@ -160,7 +164,8 @@ public class ShiftDb extends DbManager{
                         res.getInt("department_id"),
                         res.getInt("user_category_id"),
                         res.getBoolean("tradeable"),
-                        res.getBoolean("responsible_user")
+                        res.getBoolean("responsible_user"),
+                        res.getString("type")
                 ));
             }
             res.close();
@@ -192,12 +197,13 @@ public class ShiftDb extends DbManager{
         String onlyDateStart= simpleDate.format(dateStart);
         String onlyDateEnd = simpleDate.format(dateEnd);
 
-        String sql = "SELECT shift.shift_id, shift.date, shift.start, shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable,\n" +
-                "    user.user_id, concat_ws(' ', user.first_name, user.last_name) AS user_name\n" +
-                "FROM shift\n" +
-                "    JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
-                "    JOIN user ON user_shift.user_id = user.user_id\n" +
-                "WHERE shift.date >= ? AND shift.date <= ? AND user_shift.user_id = ?";
+        String sql = "SELECT shift.shift_id, shift.date, shift.start,\n" +
+                "shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable, user.user_id, user_category.type,\n" +
+                "concat_ws(' ', user.first_name, user.last_name) AS user_name FROM shift\n" +
+                "LEFT JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
+                "LEFT JOIN user ON user_shift.user_id = user.user_id\n" +
+                "LEFT JOIN user_category ON shift.user_category_id = user_category.user_category_id\n" +
+                "WHERE shift.date >= ? AND shift.date <= ? AND user.user_id = ?";
 
         try {
             statement = connection.prepareStatement(sql);
@@ -222,7 +228,8 @@ public class ShiftDb extends DbManager{
                         res.getInt("department_id"),
                         res.getInt("user_category_id"),
                         res.getBoolean("tradeable"),
-                        res.getBoolean("responsible_user")
+                        res.getBoolean("responsible_user"),
+                        res.getString("type")
                 ));
             }
 
@@ -254,13 +261,14 @@ public class ShiftDb extends DbManager{
         SimpleDateFormat simpleTime = new SimpleDateFormat("HH:mm");
         String onlyDateStart= simpleDate.format(dateStart);
         String onlyDateEnd = simpleDate.format(dateEnd);
+        System.out.println("DB" + onlyDateStart + " " + onlyDateEnd);
 
         String sql = "SELECT shift.shift_id, shift.date, shift.start," +
-                " shift.end, shift.department_id, shift.user_category_id," +
-                " shift.responsible_user, shift.tradeable, user.user_id," +
-                " concat_ws(' ', user.first_name, user.last_name) AS user_name FROM shift" +
-        " LEFT JOIN user_shift ON shift.shift_id = user_shift.shift_id" +
-        " LEFT JOIN user ON user_shift.user_id = user.user_id" +
+                "                shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable, user.user_id, user_category.type," +
+                "                concat_ws(' ', user.first_name, user.last_name) AS user_name FROM shift" +
+                "        LEFT JOIN user_shift ON shift.shift_id = user_shift.shift_id" +
+                "        LEFT JOIN user ON user_shift.user_id = user.user_id" +
+                "        JOIN user_category on shift.user_category_id = user_category.user_category_id" +
         "  WHERE shift.date >= ? AND shift.date <= ? ";
 
         try {
@@ -271,7 +279,6 @@ public class ShiftDb extends DbManager{
 
             while (res.next()) {
                 java.sql.Date dateFromQuery = res.getDate("date");
-                System.out.println("Date from query: " + dateFromQuery);
                 Time startTimeFromQuery = res.getTime("start");
                 Time endTimeFromQuery = res.getTime("end");
                 java.util.Date startDateFormatted = new java.util.Date(dateFromQuery.getTime() + startTimeFromQuery.getTime());
@@ -286,7 +293,8 @@ public class ShiftDb extends DbManager{
                         res.getInt("department_id"),
                         res.getInt("user_category_id"),
                         res.getBoolean("tradeable"),
-                        res.getBoolean("responsible_user")
+                        res.getBoolean("responsible_user"),
+                        res.getString("type")
                 ));
             }
 
@@ -398,8 +406,8 @@ public class ShiftDb extends DbManager{
         int returnValue = -1;
 
         String sql = "insert into shift " +
-                "(shift_id, date, start, end, department_id, user_category_id, tradeable, responsible_user)\n" +
-                "VALUES (DEFAULT , ?,?,?,?,?,?,?)";
+                "(shift_id, date, start, shift_id.end, department_id, user_category_id, tradeable, responsible_user)\n" +
+                "VALUES (DEFAULT , ?,?,?,?,?,?)";
 
         try {
             statement = connection.prepareStatement(sql);
@@ -408,8 +416,7 @@ public class ShiftDb extends DbManager{
             statement.setString(3, DateToSQLTimeString(shift.getEndTime()));
             statement.setInt(4, shift.getDepartmentId());
             statement.setInt(5, shift.getRole());
-            statement.setBoolean(6, shift.isTradeable());
-            statement.setBoolean(7, shift.isResponsibleUser());
+            statement.setBoolean(6, shift.isResponsibleUser());
             statement.execute();
             connection.commit();
             ResultSet res = statement.getGeneratedKeys();
@@ -452,32 +459,81 @@ public class ShiftDb extends DbManager{
         return success;
     }
 
-    public static void main(String args[]) throws Exception {
-        DbManager db = new DbManager();
-/*
-        Date d = new Date(1483225200000L);
-        Date e = new Date(1484438400000L);
-        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
-        String s = simpleDate.format(d);
-        String es = simpleDate.format(e);
-        System.out.println(s);
-        System.out.println(es);
-        ShiftDb shiftDb = new ShiftDb(db.connection);
-        ArrayList<Shift> a = shiftDb.getShiftsForPeriod(d, e);
-
-        for (Shift shifttet: a) {
-            System.out.println(shifttet);
+    public boolean sendChangeRequest(int shiftId, int userId){
+        boolean returnValue = false;
+        String toSQL = "INSERT INTO changeover (shift_id, new_user_id, approved) values (?, ? , 0)";
+        try{
+            statement = connection.prepareStatement(toSQL);
+            statement.setInt(1, shiftId);
+            statement.setInt(2, userId);
+            int status = statement.executeUpdate();
+            res = statement.getGeneratedKeys();
+            if(status != 0){
+                returnValue = true;
+            }
+            res.close();
+            statement.close();
+        } catch (SQLException e ){
+            e.printStackTrace();
         }
+        return returnValue;
+    }
 
-        ShiftDb shiftdb = new ShiftDb(db.connection);
-        //Shift shift = shiftdb.getShift(new Date(1483225200000L), 1);
-        User user = new User();
-        user.setId(1);
-        Shift shift = new Shift();
-        shift.setShiftId(5);
-        shiftdb.setUser(shift, user);
-        */
+    public ArrayList<Shift> getChangeRequest(){
+        String toSQL = "SELECT * FROM changeover WHERE approved = 0";
+        ArrayList<Shift> al = new ArrayList<>();
+        try {
+            statement = connection.prepareStatement(toSQL);
+            res = statement.executeQuery();
+            while(res.next()){
+                int shiftId = res.getInt("shift_id");
+                int newUserId = res.getInt(("new_user_id"));
+                Shift shift = new Shift();
+                shift.setShiftId(shiftId);
+                shift.setUserId(newUserId);
+                al.add(shift);
+            }
+            res.close();
+            statement.close();
+        } catch (SQLException e ){
+            e.printStackTrace();
+        }
+        return al;
+    }
+
+    public boolean setApproved(int shiftId){
+        boolean returnValue = false;
+        String toSQL = "UPDATE changeover set approved = 1 WHERE shift_id  = ?";
+        try{
+            statement = connection.prepareStatement(toSQL);
+            statement.setInt(1, shiftId);
+            int status = statement.executeUpdate();
+            if (status != 0){
+                returnValue = true;
+            }
+            res.close();
+            statement.close();
+        } catch (SQLException e ){
+            e.printStackTrace();
+        }
+        return returnValue;
+    }
+
+
+
+    public static void main(String args[]) throws Exception {
+        ShiftDb db = new ShiftDb();
+        Shift shift = db.getShift(11);
+        int newUserId = 6;
+        System.out.println(db.sendChangeRequest(shift.getShiftId(), 6));
+        ArrayList<Shift> al = db.getChangeRequest();
+        for (Shift shift1 : al){
+            System.out.println(shift1.getShiftId() + " " + shift1.getUserId());
+        }
+        System.out.print(db.setApproved(11));
 
     }
 
+
 }
+

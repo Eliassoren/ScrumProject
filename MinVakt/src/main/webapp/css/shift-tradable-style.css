@@ -206,6 +206,7 @@ footer{
     border: 2px solid #6D7993;
     text-decoration: none;
     margin-bottom: -1px;
+    margin-bottom: -1px;
 
 }
 
@@ -294,7 +295,15 @@ COLOR PALETTE
 
 
 }
-
+select:required:invalid {
+    color: gray;
+}
+option[value=""][disabled]{
+    display: none;
+}
+option{
+    color: white;
+}
 .picker{
     text-indent: 3rem;
 }

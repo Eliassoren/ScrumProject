@@ -1,0 +1,77 @@
+
+<div class='absolute-div blue-part' id='absolute-div'>
+
+    <div class='absolute-main-box white-part'>
+
+        <div class='absolute-buttons-container'>
+
+            <div class='absolute-blue-button section-button'>
+
+                <select class='section-picker picker'>
+                    <option selected>Alle avdelinger</option>
+                    <option>Maurtua</option>
+                    <option>Bjørnestua</option>
+                    <option>Trollstua</option>
+                    <option>Majorstua</option>
+                </select>
+
+            </div>
+
+            <div class='absolute-white-button date-picker'>
+
+                <input type='text' id='date-picker' class='date-picker picker' value='Dato'>
+                <i class='fa fa-calendar' aria-hidden='true'></i>
+
+            </div>
+
+        </div>
+
+        <div class='absolute-dropdown-div' id='list-container'>
+
+            <div class='absolute-dropdown day-dropdown' id='day'>
+                <button class='dropdown-button day-button dropdown-active' id='dropdown-toggle-day'>Dagvakt</button>
+                <div class='table-div'>
+                    <table class='table' id='day-table'>
+                        <tr>
+                            <th>number</th>
+                            <th>Start og slutt</th>
+                            <th>stilling</th>
+                            <th>ta vakt</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class='absolute-dropdown evening-dropdown' id='evening'>
+                <button class='dropdown-button evening-button' id='dropdown-toggle-evening'>Kveldsvakt</button>
+                <div class='table-div'>
+                    <table class='table' id='evening-table'>
+                        <tr>
+                            <th>Navn</th>
+                            <th>Start</th>
+                            <th>Slutt</th>
+                            <th></th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class='absolute-dropdown night-dropdown' id='night'>
+                <button class='dropdown-button night-button' id='dropdown-toggle-night'>Nattvakt</button>
+                <div class='table-div'>
+                    <table class='table' id='night-table'>
+                        <tr>
+                            <th>Navn</th>
+                            <th>Start</th>
+                            <th>Slutt</th>
+                            <th></th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

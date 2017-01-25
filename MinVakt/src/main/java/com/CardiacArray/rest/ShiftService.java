@@ -1,10 +1,10 @@
 
 package com.CardiacArray.rest;
 
-import com.CardiacArray.AuthFilter.Role;
-import com.CardiacArray.AuthFilter.Secured;
+import com.CardiacArray.data.Changeover;
 import com.CardiacArray.data.Shift;
 import com.CardiacArray.data.User;
+import com.CardiacArray.db.OvertimeDb;
 import com.CardiacArray.db.ShiftDb;
 import com.CardiacArray.db.UserDb;
 
@@ -12,13 +12,13 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.*;
-import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 @Path("/rest/shifts")
 public class ShiftService {
 
     private ShiftDb shiftDb = new ShiftDb();
     private UserDb userDb = new UserDb();
+    private OvertimeDb overtimeDb = new OvertimeDb();
 
     public ShiftService(ShiftDb shiftDb) throws Exception {
         this.shiftDb = shiftDb;
@@ -101,10 +101,14 @@ public class ShiftService {
     public Collection<Shift> getTradeable(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
         if (startTime > endTime) throw  new BadRequestException();
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
+        System.out.println(new Date(startTime) + " " + new Date(endTime));
         Map<Shift, Shift> map = new HashMap<>();
         for(Shift shiftElement: shifts){
             if(shiftElement.isTradeable()){
                 map.put(shiftElement,shiftElement);
+                System.out.println(shiftElement);
+            } else {
+                System.out.println("Shift not tradeable");
             }
         }
         return map.values();
@@ -127,40 +131,36 @@ public class ShiftService {
 
     /**
      * Assigns a shift to the user
-     * @param shiftId id of the shift
-     * @param userId id of the user
      * @return boolean value true if successful
      */
     @POST
     @Path("/assign/{shiftId}/{userId}")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes (MediaType.APPLICATION_JSON)
     public Response assignShift(@PathParam("shiftId") int shiftId, @PathParam("userId") int userId) {
         if(validateShift(getShift(shiftId))) {
-            shiftDb.assignShift(shiftId, userId);
+            Shift shift = getShift(shiftId);
+            shiftDb.assignShift(shift.getShiftId(), userId);
             return Response.ok().build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     /**
-     * Createng new shift
+     * Createing new shift
      *
      * @param shift-object to be created
      * @return  a negative number if the shift was not created. shiftId if it was created
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public int createShift(Shift shift) {
+    public Response createShift(Shift shift) {
         if(!validateShift(shift)){
             throw new BadRequestException();
         }
         int responseId = shiftDb.createShift(shift);
         if(responseId < 0) throw new BadRequestException();
-        else return responseId;
+        else return Response.ok().build();
     }
-
-
-    //TODO getTradeable med userCategoryId
 
     @GET
     @Path("/tradeable/{startTime}/{endTime}/{userId}")
@@ -168,11 +168,15 @@ public class ShiftService {
     public Collection<Shift> getTradeable(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime, @PathParam("userId") int userId){
         if (startTime > endTime) throw  new BadRequestException();
         User user = userDb.getUserByEmail(userId);
-        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime),userId);
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
+        System.out.println("Datoer " + new Date(startTime) + " " + new Date(endTime));
         Map<Shift, Shift> map = new HashMap<>();
         for(Shift shiftElement: shifts){
             if(shiftElement.isTradeable() && shiftElement.getRole() == user.getUserCategoryInt()){
                 map.put(shiftElement,shiftElement);
+                System.out.println(shiftElement);
+            } else {
+                System.out.println("H");
             }
         }
         return map.values();
@@ -190,6 +194,67 @@ public class ShiftService {
         }
         return map.values();
     }
+
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public boolean approveOvertime(Shift shift){
+        boolean approvedResponse = false;
+        if(validateShift(shift)){
+            approvedResponse = overtimeDb.aprove(shift);
+        }else{
+            throw new BadRequestException();
+        }
+        return approvedResponse;
+    }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/approveChange")
+    public boolean approveChangeover(Changeover changeoverShift){
+
+        //Setter shift til approved og blir borte fra "til godkjenning"
+        shiftDb.setApproved(changeoverShift.getShiftId());
+
+        //finner det akutelle skiftet og endrer nødvendig data til nye bruker
+        Shift updatedShift = shiftDb.getShift(changeoverShift.getShiftId());
+        updatedShift.setUserId(changeoverShift.getNewUserId());
+        updatedShift.setUserName(changeoverShift.getNewUser());
+        updatedShift.setTradeable(false);
+
+        boolean response = shiftDb.updateShift(updatedShift);
+        return response;
+    }
+
+    @POST
+    @Path("/changeover/{shiftId}/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public boolean sendChangeShiftRequest(@PathParam("shiftId") int shiftId, @PathParam("userId") int userId){
+        if(shiftId < 0 || userId < 0){
+            throw new BadRequestException();
+        }
+        boolean changeoverResponse = shiftDb.sendChangeRequest(shiftId,userId);
+        return changeoverResponse;
+    }
+
+    @GET
+    @Path("/changeover")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Changeover> getChangeShiftRequest(){
+        Map<Changeover, Changeover> map = new HashMap<>();
+        ArrayList<Shift> foundChangeovers = shiftDb.getChangeRequest();
+
+        for(Shift shift : foundChangeovers){
+            User oldUser = userDb.getUserByEmail(shiftDb.getShift(shift.getShiftId()).getUserId());
+            User newUser = userDb.getUserByEmail(shift.getUserId());
+
+            Changeover tempChangeover = new Changeover(oldUser,newUser,shift.getShiftId());
+            map.put(tempChangeover,tempChangeover);
+        }
+        return map.values();
+    }
+
+
 
     private boolean validateShift(Shift shift){
         Date start = shift.getStartTime();

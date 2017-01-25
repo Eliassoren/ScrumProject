@@ -106,7 +106,7 @@ function addRow(data) {
             //$('.id' + obj[i].shiftId).css('background-color', '#40CD76');
         }
     }
-};
+}
 
 function getShiftAndTrade(id, bool){
     $.ajax({
@@ -198,37 +198,16 @@ function assignAvailableShift(shiftId) {
     })
 }
 
-function setUserAvailable(date, start, end) {
-    userId = parseInt(window.localStorage.getItem("userid"));
+function getAvailableUsers(startTime, endTime) {
+
     $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            "Authorization": "Bearer " + localStorage.getItem("token")
-        },
-        type: "POST",
-        url: "/MinVakt/rest/users/available/" + userId + "/" + date + "/" + start + "/" + end,
-        dataType: 'text',
-        data: JSON.stringify({
-            date: date,
-            userId: userId,
-            start: start,
-            end: end
-        }),
-        success: function () {
-            console.log("Result: Satt ledig");
-        },
-        statusCode: {
-            401: function () {
-                localStorage.removeItem("token");
-                window.location.replace("/MinVakt/");
-            },
-            400: function () {
-                console.log(data);
-            }
+        type: "GET",
+        url: "/MinVakt/rest/users/availability/" + startTime + "/" + endTime,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function (data) {
+            console.log(data);
         }
     })
-
 }
 
 $(document).ready(function() {

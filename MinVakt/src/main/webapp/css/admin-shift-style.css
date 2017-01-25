@@ -1,15 +1,3 @@
-/*
-COLORS
-
-RØD: #FC4A1A
-Mørk blå: #2D5684
-Mørk grå: #979797
-Lys blå: #90BAED
-Lysest grå: #F3F3F3
-
- */
-
-
 .header-menu{
     position: relative;
     height: 4.5rem;
@@ -36,20 +24,6 @@ Lysest grå: #F3F3F3
     color: white;
     font-weight: 300;
     font-size: 2rem;
-}
-
-.h2{
-    font-family: 'Source Sans Pro', sans-serif;
-    font-weight: bolder;
-    font-size: 3rem;
-    color: #2D5684;
-    text-indent: 50px;
-}
-
-.h2-container{
-    margin-top: 10rem;
-    width: 100%;
-    height: 5rem;
 }
 
 .container{
@@ -123,18 +97,19 @@ Lysest grå: #F3F3F3
 .calendar-head{
     text-align: center;
     position: relative;
-    margin: 2rem auto 8rem auto;
+    margin: 2rem auto 2rem auto;
 }
 
 #calendar{
     position: relative;
     height: 200px;
-    width: 85%;
+    width: 95%;
     margin: auto;
 }
 
 h3{
-    font-family: 'Source Code Pro', monospace; !important;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #90BAED;
     display: inline;
     margin-left: 4rem;
     margin-right: 4rem;
@@ -142,36 +117,78 @@ h3{
     text-align: center;
 }
 
-.fa-check{
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    font-size: 40px;
+h2{
+    width: 90%;
+    margin:30px auto 10px auto;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 900;
+    font-size: 3rem;
+    color: #2D5684;
 }
 
-#month-title{
-    color: #90BAED;
-}
-
-.input-time-container{
-    position: relative;
-    margin: 0 auto;
-    width: 50%;
-}
-
-label{
-    text-align: center;
-    width: 32%;
-}
-
-.accept-button{
-    border: solid #90BAED 1px;
-    background-color: white;
+#person-list table.weekdays {
+    height: 25px;
+    color: transparent; !important;
     width: 100%;
+    margin-bottom: 0;
+    padding: 0;
 }
 
-.button-container{
-    width: 5%;
-    margin: 40px auto auto auto;
+#person-list table.weekdays th {
+    position: relative;
+    height: 25px;
+    background: #2D5684;
+    text-align: center;
+    border: none !important;
+    color: white;
+    width: 50%;
+    font-size: 16px;
+}
+
+ul{
+    padding: 0;
+    margin: 0;
+}
+
+tr:nth-child(even) {background: #F3F3F3;}
+td{border: solid black 1px;}
+
+#person-list table.weekdays td {
+
+    height: 20px;
+    padding: 0;
+    box-sizing:border-box;
+    border: 1px solid #ccc;
+    transition: 0.7s ease-in-out;
+}
+
+#person-list .day-activated{
+    background-color: #90BAED;
+}
+
+
+.date-list-div{
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 70%;
+}
+
+.person-list-div{
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 30%;
+}
+
+.container-container{
+    margin: auto auto auto auto;
+    text-align: center;
+    position: relative;
+    width: 90%;
+    height: 300px;
+}
+
+#person-list{
+    margin-top: 73px;
 }

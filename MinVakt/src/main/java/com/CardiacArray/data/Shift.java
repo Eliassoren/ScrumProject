@@ -11,10 +11,11 @@ public class Shift {
     private String userName;
     private int departmentId;
     private int role;
+    private String roleDescription;
     private boolean tradeable;
     private boolean responsibleUser;
 
-    public Shift(int shiftId, Date startTime, Date endTime, int userId, String userName, int departmentId, int role, boolean tradeable, boolean responsibleUser) {
+    public Shift(int shiftId, Date startTime, Date endTime, int userId, String userName, int departmentId, int role, boolean tradeable, boolean responsibleUser, String roleDescription) {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         if (startTime.getTime() >= endTime.getTime()) throw new IllegalArgumentException("Shift duration is less than 1 min");
         this.shiftId = shiftId;
@@ -26,17 +27,18 @@ public class Shift {
         this.role = role;
         this.tradeable = tradeable;
         this.responsibleUser = responsibleUser;
+        this.roleDescription = roleDescription;
     }
 
-    public Shift(Date startTime, Date endTime, int departmentId, int role, boolean tradeable) {
+    public Shift(Date startTime, Date endTime, int departmentId, int role, boolean responsibleUser, String roleDescription) {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         if (startTime.getTime() >= endTime.getTime()) throw new IllegalArgumentException("Shift duration is less than 1 min");
         this.startTime = startTime;
         this.endTime = endTime;
         this.departmentId = departmentId;
         this.role = role;
-        this.tradeable = tradeable;
         this.responsibleUser = responsibleUser;
+        this.roleDescription = roleDescription;
     }
 
     public Shift(){
@@ -114,7 +116,13 @@ public class Shift {
         this.responsibleUser = responsibleUser;
     }
 
+    public String getRoleDescription() {
+        return roleDescription;
+    }
 
+    public void setRoleDescription(String roleDescription) {
+        this.roleDescription = roleDescription;
+    }
 
     @Override
     public String toString() {
@@ -126,11 +134,9 @@ public class Shift {
                 ", userName='" + userName + '\'' +
                 ", departmentId=" + departmentId +
                 ", role=" + role +
+                ", roleDescription='" + roleDescription + '\'' +
                 ", tradeable=" + tradeable +
                 ", responsibleUser=" + responsibleUser +
                 '}';
     }
-
-
-    
 }

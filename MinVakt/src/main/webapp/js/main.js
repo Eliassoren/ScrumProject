@@ -11,7 +11,7 @@ const MONTH_NEXT = 2;
 //var date = new Date(new Date().getFullYear(), 0, 1);
 var week = 0;
 var shiftArray = new Array(Number(new Date(year, month + 1, 0).getDate()));
-var tradeableShifts = new Array(Number(new Date(year, month + 1, 0).getDate()));
+var tradeableShifts;
 
 function getShiftById(id){
     $.ajax({
@@ -19,7 +19,7 @@ function getShiftById(id){
         url: "/MinVakt/rest/shifts/" + id,
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
-            console.log("Shift: " + data);
+
         },
         statusCode: {
             401: function () {
@@ -81,6 +81,7 @@ monthNames[7] = "August";
 monthNames[8] = "September";
 monthNames[9] = "Oktober";
 monthNames[10] = "November";
+monthNames[10] = "November";
 monthNames[11] = "Desember";
 
 function getFirstDaysOfEachMonth(year){
@@ -139,16 +140,17 @@ function appendEvent(day,shiftArray,box){
         eventDiv.append($("<span/>").addClass("event-time").text(shiftTime));
     }
 }
-function appendFreeEvent(day,shiftsInOneDay,box){
-    if (shiftsInOneDay != null) {
-        console.log("tradeable");
-        var amountShifts = shiftsInOneDay.length;
-        console.log(amountShifts);
-        shiftDesc = amountShifts + " ledige vakter";
-        //shiftTime = formatTime(new Date(tradeableShifts[day].startTime)) + " - " + formatTime(new Date(tradeableShifts[day].endTime));
-        var tradeableEvent = $("<div/>").addClass("free-event").attr("shiftId", tradeableShifts[day].shiftId);
-        box.append(tradeableEvent);
-        tradeableEvent.append($("<span/>").addClass("free-event-text").text(shiftDesc));
+function appendFreeEvent(day,shiftsInOneDay){
+
+    if (shiftsInOneDay != 0) {
+        shiftDesc = shiftsInOneDay + " ledige vakter";
+        var tradeableEvent = $("<div/>").addClass("free-event");
+        var dayOfThisMonth = $(".day:contains('"+ day +"')");
+        if (!dayOfThisMonth.hasClass('other-month') && dayOfThisMonth.find(".event").length == 0){
+            dayOfThisMonth.append(tradeableEvent);
+            tradeableEvent.append($("<span/>").addClass("free-event-text").text(shiftDesc));
+
+        }
     }
 }
 function generateCalendar(tradeableShifts,shiftArray,year,month){
@@ -160,9 +162,7 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
     });*/
     var day = getMonday2(firstDate);
 
-    console.log("first "+ firstDate);
-    console.log("monday "+day);
-    //console.log("monday2 "+day2);
+
     //var day = moment().startOf(moment(firstDate).isoWeek()).getDate();
     var noPrevMonth = day == 1; // Special case when month starts on a monday..
     var monday = convertToMonday(firstDate); // first monday of calendar view (of previous month)
@@ -180,16 +180,13 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
                 appendEvent(day,shiftArray,$(this));
             }
             $(this).removeClass("other-month");
-            if(tradeableShifts != null) {
-                shiftsInOneDay = tradeableShifts[day];
-                appendFreeEvent(day,shiftsInOneDay,$(this));
-            }
         }else if(monthStatus !== MONTH_CURR){
+            $(this).addClass("other-month");
+        }else if((monthStatus === MONTH_PREV || monthStatus === MONTH_NEXT)){
             $(this).addClass("other-month");
         }
 
         if (day < lastDateOfPrevMonth) {
-            console.log("lastprev "+lastDateOfPrevMonth+ " m "+month);
             if(noPrevMonth){
                 monthStatus = MONTH_CURR;
                 $(this).removeClass("other-month");
@@ -214,6 +211,10 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
             week = 1;
         }
     })
+
+    getTradeableShifts(year, month);
+
+
 }
 $(document).ready(function() {
     //var localStorage = localStorage.getItem();
@@ -255,7 +256,7 @@ $(document).ready(function() {
         clearCalendar();
         // TODO: add localstorage instead of hardcode
         getShiftsForUser(year,month,8);
-        getTradeableShifts(year,month,8);
+        //getTradeableShifts(year,month,8);
     });
 
     /**
@@ -275,65 +276,88 @@ $(document).ready(function() {
         // Localstorage
         // todo: add localstorage instead of hardcoded
         getShiftsForUser(year,month,8);
-        getTradeableShifts(year,month,8);
+        //getTradeableShifts(year,month,8);
         //clearCalendar();
     });
 
-    $(".dateNow").click(function(){
+    function formatDate(date) {
+        var dayFormat = (date.getDate() < 10) ? "0" + date.getDate() : date.getDate();
+        var monthFormat = (date.getMonth() < 10) ? "0"+ (date.getMonth() +1) : (date.getMonth() +1);
+        var yearFormat = date.getFullYear();
+        return dayFormat + "." + monthFormat + "." + yearFormat;
+    }
+
+    $(".day").click( function(){
         var shiftId = $(this).children('.event').attr('shiftId');
-        if($(".event-open").length == 0){
-            $("body").prepend("<div class='event-open'></div>");
+        if($(this).find(".event").length > 0 && $(".blur").length == 0){
+                $("body").prepend("<div id='banner-div'></div>");
+                $("#banner-div").load("template/banner-shift.html", function () {
+
+                    $(".container").click(function () {
+                        $("#banner-div").remove();
+                        if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+                        $(".container").unbind();
+                    });
+                    $(".container").addClass("blur");
+                });
+
+
             $.ajax({
                 type: "GET",
                 url: "/MinVakt/rest/shifts/" + shiftId,
                 headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
                 success: function(data){
-                    console.log(data);
-                    $('.event-open').append('<h5>Shift ID: ' +data.shiftId + '</h5>');
-                    $('.event-open').append("<p><b>Tid:</b> " + formatTime(new Date(data.startTime)) + " - " + formatTime(new Date(data.endTime)) + "</p>");
-                    $('.event-open').append('<p> <b>Ansatt: </b> ' +data.userName + '</p>');
+                    $("#banner-shift-date").text(formatDate(new Date(data.startTime)));
+                    $("#banner-shift-time span:nth-child(2)").text(formatTime(new Date(data.startTime)) + " - " + formatTime(new Date(data.startTime)));
+                    $("#banner-shift-dep span:nth-child(2)").text(data.departmentId);
                     if(data.tradeable){
-                        $('.event-open').append("<p class='text-red'>Vakt satt som tilgjengelig for bytte</p>");
+                        $("#banner-shift").css("background", "#8cad2b");
+                        $("#banner-shift-date").append(" (Til bytte)");
+                        $(".approve").text("Ikke bytt vakt");
                     }
-                    $('.event-open').append($("<div/>").addClass("button").text("Lukk").click(function(){
-                        $('.event-open').remove();
-                    }));
-                    $('.event-open').append($("<div/>").addClass("button-tradeable").text("Sett ledig").click(function(){
-                        $('.event-open').remove();
+
+                    $(".closer").click(function () {
+                        $("#banner-shift").remove();
+                        if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+                        $(".container").unbind();
+                    });
+
+                    $(".approve").click(function(){
+                        $("#banner-shift").remove();
+                        if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+                        $(".container").unbind();
                         if(data.tradeable){
-                            $("body").prepend("<div class='event-open'></div>");
-                            $('.event-open').append('<h3> Din vakt er allerede tilgjengelig for bytte </h3>');
-                            $('.event-open').append($("<div/>").addClass("button").text("Lukk").click(function(){
-                                $('.event-open').remove();
-                            }));
+                            getShiftAndTrade(shiftId, false);
+                            bannerAlert("Vakt fjernet fra bytte");
                         } else {
-                            getShiftAndTrade(data.shiftId, true);
+                            getShiftAndTrade(shiftId, true);
+                            bannerAlert("Vakt satt til bytte");
                         }
-                    }));
+                    });
+
                 },
                 statusCode: {
                     401: function () {
                         localStorage.removeItem("token");
                         window.location.replace("/MinVakt/");
+                    },
+                    404: function() {
+                        console.log("ERROR: could not load shift");
                     }
                 }
             })
         }
-
     });
 
-    $.when(getShiftsForUser(year, month, 8)).then(generateCalendar(null,shiftArray,year, month));
-    $.when(getTradeableShifts(year, month, 8)).then(generateCalendar(tradeableShifts,null,year, month));
+    getShiftsForUser(year, month, 8)
 });
 
 function getShiftAndTrade(id, bool){
-    alert(localStorage.getItem("token"));
     $.ajax({
         type: "GET",
         url: "/MinVakt/rest/shifts/" + id,
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
-            console.log(data);
             setShiftTradeablePut(data, bool)
         },
         statusCode: {
@@ -350,12 +374,9 @@ function getShiftsForUser(year, month, userId) {
         url: "/MinVakt/rest/shifts/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + (new Date(year, month + 1, 0)).getTime() + "/" + userId,
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
-            console.log(data.length);
             shiftArray = new Array(Number(new Date(year, month + 1, 0).getDate()));
             for (i = 0; i < data.length; i++){
-                console.log(" Lagt til " + data[i].shiftId);
                 var shiftBefore = String(new Date(data[i].startTime)).split(" ")[2];
-                console.log(" Split :" + String(new Date(data[i].startTime)).split(" ")[2]);
                 shiftArray[Number(shiftBefore)] = data[i];
             }
             generateCalendar(null,shiftArray, year, month);
@@ -368,29 +389,50 @@ function getShiftsForUser(year, month, userId) {
         }
     });
 }
-function getTradeableShifts(year, month, userId){
+function getTradeableShifts(year, month){
     $.ajax({
         type: "GET",
-        url: "/MinVakt/rest/shifts/tradeable/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + (new Date(year, month + 1, 0)).getTime() + "/" +userId,
+        url: "/MinVakt/rest/shifts/tradeable/" + getFirstDateOfEachMonth(year)[month].getTime() + "/" + (new Date(year, month + 1, 0)).getTime() + "/" + localStorage.getItem("userid"),
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
             var monthLen = Number(new Date(year, month + 1, 0).getDate());
             tradeableShifts = new Array(monthLen);
-            for(var i = 0; i < monthLen;i++){
-                //var shiftBefore = String(new Date(data[i].startTime)).split(" ")[2];
-                var dayArr = new Array();
-                for(var j = 0; j < data.length;j++) {
-                    console.log("Data["+i+"]= "+data[i]);
-                    var shiftDate = String(new Date(data[j].startTime)).split(" ")[2];
-                    if (Number(shiftDate === i)){
-                        dayArr.push(data[j]);
-                    }
-                }
-                if(dayArr != null){
-                    tradeableShifts[i] = dayArr;
-                }
+            for (var q = 0; q < tradeableShifts.length; q++){
+                tradeableShifts[q] = 0;
             }
-            generateCalendar(tradeableShifts,null,year,month);
+
+            for(var i = 0; i < data.length; i++){
+                var shiftDate = new Date(data[i].startTime).getDate();
+                ++tradeableShifts[shiftDate];
+            }
+
+            for (var k = 0; k < tradeableShifts.length; k++){
+                appendFreeEvent(k, tradeableShifts[k]);
+
+            }
+            $(".free-event-text").click(function(){
+                console.log($("this").parent());
+                $(".container").addClass("blur");
+                $("#overlay-placer").load("template/free-shift.html", function(){
+                    $(".absolute-dropdown").click(function(){
+                        $(this).toggleClass("dropdown-active");
+                    });
+                });
+                $("body").prepend($("<div/>").addClass("overlay"));
+
+                $(".overlay").click( function(){
+                    $("#absolute-div").remove();
+                    if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+                    $(".overlay").remove();
+                });
+                console.log($(this).parent().parent().find(".date").text());
+                console.log(new Date(year,MONTH_CURR, Number($(this).parent().parent().find(".date").text())));
+                console.log(new Date(year,MONTH_CURR, Number($(this).parent().parent().find(".date").text())+1 ));
+                getAvailableShifts(new Date(year,MONTH_CURR-1, Number($(this).parent().parent().find(".date").text())).getTime(), new Date(year,MONTH_CURR-1, Number($(this).parent().parent().find(".date").text())+1 ).getTime());
+
+            });
+
+
         },
         statusCode: {
             401: function () {
@@ -401,7 +443,6 @@ function getTradeableShifts(year, month, userId){
     });
 }
 function setShiftTradeablePut(shift, bool) {
-    alert(localStorage.getItem("token"));
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -423,16 +464,7 @@ function setShiftTradeablePut(shift, bool) {
             responsibleUser: shift.responsibleUser
         }),
         success: function (data) {
-            console.log("Result: " + data);
-            returnValue = JSON.parse(data);
-            if(returnValue) {
-                $("body").prepend("<div class='event-open'></div>");
-                $('.event-open').append('<h3> Din vakt er nå tilgjengelig for bytte </h3>');
-                $('.event-open').append($("<div/>").addClass("button").text("Lukk").click(function(){
-                    $('.event-open').remove();
-                }));
-            }
-            return returnValue;
+
         },
         statusCode: {
             401: function () {
@@ -454,14 +486,201 @@ Date.prototype.getWeek = function() {
     // Adjust to Thursday in week 1 and count number of weeks from date to week1.
     return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
             - 3 + (week1.getDay() + 6) % 7) / 7);
-}
+};
 
 // Returns the four-digit year corresponding to the ISO week of the date.
 Date.prototype.getWeekYear = function() {
     var date = new Date(this.getTime());
     date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
     return date.getFullYear();
+};
+
+$( function() {
+    $("#date-picker").datepicker();
+});
+
+function getAvailableShifts(startTime, endTime) {
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/tradeable/" + startTime + "/" + endTime + "/" + localStorage.getItem("userid"),
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function (data) {
+            console.log(data);
+            addRow(data);
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                window.location.replace("/MinVakt/");
+            },
+            404: function () {
+                console.log("ERROR: No shifts found");
+            }
+        }
+    })
 }
+
+
+
+function addRow(data) {
+    //DUMMY DATA
+    //var text= '[{"shiftId":1,"startTime":1483254000000,"endTime":1483282800000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":true,"responsibleUser":false},{"shiftId":6,"startTime":1483542000000,"endTime":1483570740000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":false,"responsibleUser":false}]'
+    var obj = data;
+
+    //TODO this needs to be removed after the table slector below works
+    var table = "dateNow-table";
+    //if (!document.getElementsByTagName) return;
+
+    for (var i = 0; i < obj.length; i++) {
+
+        //TODO: This part needs to add to the correct table given a working time.
+
+        var startTime = new Date(obj[i].startTime).getHours();
+        var isFree = obj[i].tradeable;
+
+        if (startTime >= 8 && startTime < 16) {
+            table = $("#dateNow-table");
+        } else if (startTime >= 16 && startTime < 25) {
+            table = $("#evening-table");
+        } else if (startTime >= 0 && startTime < 8) {
+            table = $("#night-table");
+
+        } else {
+            alert("ERROR CHECK THE ADD ROW FUNCTION IN SHIFT-SCRIPT.JS!")
+        }
+
+
+        tabBody = table;
+        row = document.createElement("tr");
+        row.className = "tr" + i;
+        cell1 = document.createElement("td");
+        cell2 = document.createElement("td");
+        cell3 = document.createElement("td");
+        cell4 = document.createElement("td");
+        cell4.className = "listButton " + "id" + obj[i].shiftId;
+        textnode1 = document.createTextNode(obj[i].userName);
+        textnode2 = document.createTextNode(formatTime(new Date(obj[i].startTime)) + " - " + formatTime(new Date(obj[i].endTime)));
+        textnode3 = document.createTextNode("stilling her");
+        textnode4 = document.createTextNode("Ta vakt");
+        cell1.appendChild(textnode1);
+        cell2.appendChild(textnode2);
+        cell3.appendChild(textnode3);
+        cell4.appendChild(textnode4);
+        row.appendChild(cell1);
+        row.appendChild(cell2);
+        row.appendChild(cell3);
+        row.appendChild(cell4);
+        tabBody.append(row);
+        //table = "evening-table";
+    }
+    $(".listButton").click(function(){
+        $("#absolute-div").remove();
+        if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+        $(".overlay").remove();
+        var shiftIdFromTradeList = Number($(this).attr("class").split(" ")[1].substring(2,6));
+        bannerConfirm("Bekreft at du tar vakt?", function () {
+            assignAvailableShift(shiftIdFromTradeList);
+        });
+    })
+}
+
+function assignAvailableShift(shiftId) {
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/" + shiftId,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function (shift) {
+            console.log(shift);
+            userId = parseInt(window.localStorage.getItem("userid"));
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                type: "POST",
+                url: "/MinVakt/rest/shifts/assign/" + shiftId + "/" + localStorage.getItem("userid"),
+                dataType: 'text',
+                data: JSON.stringify({
+                    shiftId: shift.shiftId,
+                    userId: userId,
+                }),
+                success: function () {
+                    console.log("Result: Skift tatt");
+                    setShiftTradeablePut(shift, false);
+                    window.location.replace("/MinVakt/html/calendar.html");
+                },
+                statusCode: {
+                    401: function () {
+                        localStorage.removeItem("token");
+                        window.location.replace("/MinVakt/");
+                    },
+                    400: function () {
+                        console.log(data);
+                    }
+                }
+            })
+        }
+    })
+}
+
+
+function bannerAlert(message) {
+    $("body").prepend("<div id='banner-div'></div>");
+    $("#banner-div").load("template/banner-alert.html", function () {
+        $("#alert").text(message);
+        $(".container").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+        });
+        $(".container").addClass("blur");
+        $(".closer").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+        });
+    });
+}
+
+function bannerConfirm(message, callBack) {
+    $("body").prepend("<div id='banner-div'></div>");
+    $("#banner-div").load("template/banner-alertConfirm.html", function () {
+        $("#alert").text(message);
+        $(".container").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+        });
+        $(".container").addClass("blur");
+        $(".closer").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+        });
+
+        $(".confirmer").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+            callBack();
+        });
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*function getShiftArray(month, year) {
     var firstDate = getFirstDateOfEachMonth(year)[month];
@@ -484,7 +703,9 @@ Date.prototype.getWeekYear = function() {
         }),
         success: function (data){
             var jsonshit = JSON.parse(data);
-            console.log(jsonshit);
+
         }
     })
 }*/
+
+
