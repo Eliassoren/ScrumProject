@@ -198,37 +198,6 @@ function assignAvailableShift(shiftId) {
     })
 }
 
-function setUserAvailable(start, end) {
-    userId = parseInt(window.localStorage.getItem("userid"));
-    $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            "Authorization": "Bearer " + localStorage.getItem("token")
-        },
-        type: "POST",
-        url: "/MinVakt/rest/users/available/" + userId + "/" + start + "/" + end,
-        dataType: 'text',
-        data: JSON.stringify({
-            userId: userId,
-            start: start,
-            end: end
-        }),
-        success: function () {
-            console.log("Result: Satt ledig");
-        },
-        statusCode: {
-            401: function () {
-                localStorage.removeItem("token");
-                window.location.replace("/MinVakt/");
-            },
-            400: function () {
-                console.log(data);
-            }
-        }
-    })
-}
-
 function getAvailableUsers(startTime, endTime) {
 
     $.ajax({
