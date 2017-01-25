@@ -8,11 +8,17 @@ $(document).ready(function() {
         $(".opacity").toggleClass("blur-activate");
         $(".employee-form-banner").toggleClass("show-banner");
 
-    });
-
-    $.ajax{(
-        type: "GET",
-        url: "MinVakt/rest/",
-
-    )}
+    })
 });
+
+function getAllUsers() {
+
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/users/all",
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function (data) {
+            console.log(data);
+        }
+    })
+}
