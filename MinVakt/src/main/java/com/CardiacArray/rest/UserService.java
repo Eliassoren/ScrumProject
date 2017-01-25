@@ -51,6 +51,18 @@ public class UserService {
         else return userFound;
     }
 
+    @GET
+    @Path("/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<User> getUsers() {
+        ArrayList<User> users = userDb.getAllUsers();
+        Map<User, User> map = new HashMap<>();
+        for (User userElement : users){
+            map.put(userElement, userElement);
+        }
+        return map.values();
+    }
+
 
     /**
      *
@@ -112,8 +124,7 @@ public class UserService {
     @POST
     @Path("/available/{userId}/{start}/{end}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setUserAvailable(@PathParam("userId") int userId, @PathParam("date") long date,
-                                     @PathParam("start") long start, @PathParam("end") long end) {
+    public Response setUserAvailable(@PathParam("userId") int userId, @PathParam("start") long start, @PathParam("end") long end) {
         User user = userDb.getUserByEmail(userId);
         if (user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || !user.isValidEmail(user.getEmail())) {
             return Response.status(Response.Status.BAD_REQUEST).build();
