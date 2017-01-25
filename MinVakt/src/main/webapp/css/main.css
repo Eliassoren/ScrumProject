@@ -587,7 +587,7 @@ button:focus {outline:0;}
 
 tr { line-height: 34px; text-align: center}
 tr:nth-child(even) {background: #D5D5D5}
-th {color: #2D5684; text-align: center}
+th {background-color: #2D5684; color: white; text-align: center}
 
 .absolute-dropdown-div{
     transition: 0.7s ease-in-out;
@@ -762,19 +762,36 @@ th {color: #2D5684; text-align: center}
     position: relative;
     margin: auto;
     margin-top: 5%;
+    text-align: center;
 }
 #user-list .users{
- /*TODO*/
+    display: inline-block;
 }
-#user-list ul{
-    list-style: none;
-
-}
-#user-list li{
-    height: 3rem;
-    border: 2px solid #2D5684;
+#user-list table .table th{
+    position: relative;
+    height: 25px;
+    background: #2D5684;
     text-align: center;
-    color: #2D5684;
+    border: none !important;
+    color: white;
+    width: 50%;
+    font-size: 16px;
+}
+
+#user-list table .table{
+    height: 25px;
+    color: transparent; !important;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 0;
+}
+#user-list table .table td{
+    width: 50%;
+    height: 20px;
+    padding: 0;
+    box-sizing:border-box;
+    border: 1px solid #ccc;
+    transition: 0.7s ease-in-out;
 }
 #users-h2{
     color: #2D5684;
