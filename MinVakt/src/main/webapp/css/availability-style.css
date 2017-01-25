@@ -32,14 +32,14 @@ Lysest grå: #F3F3F3
     top: 50%;
     left: 55px;
     transform: translate(-50%,-50%);
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Source Code Pro', monospace; !important;
     color: white;
     font-weight: 300;
     font-size: 2rem;
 }
 
 .h2{
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Source Code Pro', monospace; !important;
     font-weight: bolder;
     font-size: 3rem;
     color: #2D5684;
@@ -172,6 +172,7 @@ label{
 }
 
 .button-container{
-    width: 5%;
-    margin: 40px auto auto auto;
+    margin-top: 10px;
+    width: 10%;
+    margin: auto;
 }
