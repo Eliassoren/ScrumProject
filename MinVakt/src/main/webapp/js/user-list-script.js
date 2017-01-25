@@ -13,10 +13,16 @@ $(document).ready(function() {
         $(".opacity").removeClass("blur-activate");
         $(".employee-form-banner").removeClass("show-banner");
     });
-
-    $.ajax{(
-        type: "GET",
-        url: "MinVakt/rest/",
-
-    )}
 });
+
+function getAllUsers() {
+
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/users/all",
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function (data) {
+            console.log(data);
+        }
+    })
+}
