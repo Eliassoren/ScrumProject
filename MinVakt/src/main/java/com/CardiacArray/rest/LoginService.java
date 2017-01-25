@@ -43,7 +43,7 @@ public class LoginService {
     @Path("/login")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Login login(@FormParam("login_email") String email, @FormParam("login_password") String password) {
+    public Response login(@FormParam("login_email") String email, @FormParam("login_password") String password) {
         User user = userDb.getUserByEmail(email);
         if(user != null) {
             if(passwordUtil.verifyPassword(password, user.getFirstName(), user.getPassword())) {
@@ -55,7 +55,8 @@ public class LoginService {
                 user.setExpired(expired);
                 userDb.updateUserToken(user);
                 Login login = new Login(user.getId(), token);
-                return login;
+                NewCookie cookie = new NewCookie("token", token);
+                return Response.ok(login, MediaType.APPLICATION_JSON).cookie(cookie).build();
             } else throw new NotAuthorizedException("Error");
         } else throw new NotAuthorizedException("Error");
     }

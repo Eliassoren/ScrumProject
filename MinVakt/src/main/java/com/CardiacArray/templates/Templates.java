@@ -7,10 +7,14 @@ import com.CardiacArray.data.*;
 import com.CardiacArray.db.DbManager;
 import com.CardiacArray.db.UserDb;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.security.SecureRandom;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,34 +37,49 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-@Path("/")
+@Path("/site")
 public class Templates {
 
     @Context
     private HttpServletRequest request;
-
     @Context
     private HttpServletResponse response;
+    @Inject
+    private ServletContext servletContext;
+    private static final String HTMLPATH = "/WEB-INF/templates/";
+    private ServletContextTemplateResolver templateResolver;
+    private TemplateEngine templateEngine;
+    private WebContext context;
 
-    @Context
-    private ServletContext serverContext;
-
-    private static TemplateEngine templateEngine;
+    @PostConstruct
+    public void postConstruct() {
+        templateResolver = new ServletContextTemplateResolver(servletContext);
+        templateResolver.setPrefix("/WEB-INF/templates/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode("HTML5");
+        templateResolver.setCacheable(false);
+        templateEngine = new TemplateEngine();
+        context = new WebContext(request, response, servletContext);
+        templateEngine.setTemplateResolver(templateResolver);
+    }
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public String hello() {
-        ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(serverContext);
-        templateResolver.setTemplateMode("HTML5");
-
-        TemplateEngine templateEngine = new TemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver);
-
-        WebContext context = new WebContext(request, response, serverContext);
-
-        context.setVariable("test", "Lorem Ipsum");
-
-        return templateEngine.process("/test.html", context);
+    public String login(@CookieParam("token") Cookie cookie) {
+        if(cookie != null) {
+            String token = cookie.getValue();
+            UserDb userDb = new UserDb();
+            User user = userDb.getUserByToken(token);
+            if(user != null) {
+                try {
+                    URI uri = new URI("/MinVakt/calendar");
+                    throw new RedirectionException(Response.Status.SEE_OTHER, uri);
+                } catch(URISyntaxException e) {
+                    e.printStackTrace();
+                    throw new NotAuthorizedException("Error");
+                }
+            }
+        }
+        return templateEngine.process("login", context);
     }
-
 }
