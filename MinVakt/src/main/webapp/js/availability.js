@@ -74,7 +74,7 @@ $(document).ready(function() {
         });
         var dateOf = getDateOfWeek(weekNumber, year);
         for (var i = 0; i < daysArray.length; i++){
-         dateArray.push(new Date(dateOf.getFullYear(), dateOf.getMonth(), dateOf.getDate() + Number(daysArray[i]) -1));
+            dateArray.push(new Date(dateOf.getFullYear(), dateOf.getMonth(), dateOf.getDate() + Number(daysArray[i]) -1));
         }
         console.log(daysArray);
         console.log(dateArray);
@@ -92,6 +92,7 @@ $(document).ready(function() {
                 end = i.getTime() + nightEnd;
             }
             setUserAvailable(start, end);
+            location.reload();
         })
     })
 });
@@ -125,4 +126,29 @@ function setUserAvailable(start, end) {
             }
         }
     })
+}
+
+function bannerConfirm(message, callBack) {
+    $("body").prepend("<div id='banner-div'></div>");
+    $("#banner-div").load("template/banner-alertConfirm.html", function () {
+        $("#alert").text(message);
+        $(".container").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+        });
+        $(".container").addClass("blur");
+        $(".closer").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+        });
+
+        $(".confirmer").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+            callBack();
+        });
+    });
 }
