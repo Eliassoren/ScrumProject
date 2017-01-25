@@ -2,9 +2,7 @@ package com.CardiacArray.rest;
 
 import com.CardiacArray.AuthFilter.Role;
 import com.CardiacArray.AuthFilter.Secured;
-import com.CardiacArray.data.Absence;
-import com.CardiacArray.data.Shift;
-import com.CardiacArray.data.User;
+import com.CardiacArray.data.*;
 import com.CardiacArray.db.*;
 
 import java.sql.Connection;
@@ -201,7 +199,7 @@ public class UserService {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<User> getAvailableUsers(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
         if(new Date(startTime).after(new Date(endTime))) throw new BadRequestException();
-        ArrayList<User> availableUsers =  userDb.getAvailableUsers(startTime, endTime);
+        ArrayList<Available> availableUsers =  userDb.getAvailableUsers(startTime, endTime);
         Map<User, User> map = new HashMap<>();
         for(User user : availableUsers){
             map.put(user,user);
@@ -211,8 +209,8 @@ public class UserService {
 
     @GET
     @Path("/absence/")
-    public Collection<Absence> getAbsenceFromUser(User user){
-        ArrayList<Absence> absenceArrayList = absenceDb.getAbsenceForUser(user);
+    public Collection<Absence> getAbsenceFromUser(User user, Timestamp startTime,Timestamp endTime){
+        ArrayList<Absence> absenceArrayList = absenceDb.getAbsenceForUser(user.getId(),startTime,endTime);
         Map<Absence, Absence> map = new HashMap<>();
         for(Absence absence : absenceArrayList){
             map.put(absence,absence);
@@ -232,8 +230,25 @@ public class UserService {
     @Path("/{userId}/timesheet/{startTime}/{endTime}")
     @Produces(MediaType.APPLICATION_JSON)
     public void getTimesheet(@PathParam("userId") int userId, @PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
+        Map<String,String> map = new HashMap<>();
         long hours = getHoursForPeriod(startTime,endTime,userId);
+
+        map.put("Total tid: ", Long.toString(hours));
         //Sende ut liste over alle vakter gitt periode
+        ArrayList<Shift> totalOvertime = new ArrayList<Shift>();
+
+        ArrayList<Shift> totalShiftForPeriod = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime),userId);
+        ArrayList<Absence> totalAbsence = absenceDb.getAbsenceForUser(userId, new Timestamp(startTime), new Timestamp(endTime));//Periode
+
+        for(Shift shift : totalShiftForPeriod){
+            Shift tempOvertime = overtimeDB.getOvertime(shift);
+            map.put("Shift",shift.toString());
+            if(tempOvertime.getStartTime().after(shift.getStartTime())){
+                totalOvertime.add(tempOvertime);
+                map.put("Overtid",tempOvertime.toString());
+            }
+        }
+
 
     }
 

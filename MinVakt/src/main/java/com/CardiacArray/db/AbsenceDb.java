@@ -20,8 +20,7 @@ public class AbsenceDb extends DbManager {
     }
 
 
-    public ArrayList<Absence> getAbsenceForUser(User user) {
-        int userId = user.getId();
+    public ArrayList<Absence> getAbsenceForUser(int userId, Timestamp sTime, Timestamp eTime) {
         ArrayList<Absence> absenceList = null;
 
         String toSql = "SELECT *  FROM absence WHERE user_id = ? ";

@@ -39,4 +39,9 @@ public class Absence {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString(){
+        return "Fravær: Fra " + startTime + " Til " + endTime;
+    }
 }
