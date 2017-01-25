@@ -9,4 +9,10 @@ $(document).ready(function() {
         $(".employee-form-banner").toggleClass("show-banner");
 
     });
+
+    $.ajax{(
+        type: "GET",
+        url: "MinVakt/rest/",
+
+    )}
 });
