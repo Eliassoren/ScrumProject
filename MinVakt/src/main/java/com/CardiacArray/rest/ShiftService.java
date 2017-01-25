@@ -137,8 +137,11 @@ public class ShiftService {
     @Path("/assign/{shiftId}/{userId}")
     @Consumes (MediaType.APPLICATION_JSON)
     public Response assignShift(@PathParam("shiftId") int shiftId, @PathParam("userId") int userId) {
-        if(validateShift(getShift(shiftId))) {
-            Shift shift = getShift(shiftId);
+        Shift shift = getShift(shiftId);
+        if(userDb.userHasShift(userId, new java.sql.Date(shift.getStartTime().getTime()))) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        else if(validateShift(getShift(shiftId))) {
             shiftDb.assignShift(shift.getShiftId(), userId);
             return Response.ok().build();
         }
@@ -266,8 +269,6 @@ public class ShiftService {
         }
         return map.values();
     }
-
-
 
     private boolean validateShift(Shift shift){
         Date start = shift.getStartTime();

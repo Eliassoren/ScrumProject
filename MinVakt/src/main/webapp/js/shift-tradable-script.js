@@ -190,7 +190,7 @@ function assignAvailableShift(shiftId) {
                         window.location.replace("/MinVakt/");
                     },
                     400: function () {
-                        console.log(data);
+                        console.log("Noe gikk galt");
                     }
                 }
             })
@@ -203,6 +203,17 @@ function getAvailableUsers(startTime, endTime) {
     $.ajax({
         type: "GET",
         url: "/MinVakt/rest/users/availability/" + startTime + "/" + endTime,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function (data) {
+            console.log(data);
+        }
+    })
+}
+
+function userHasShift(userId, date) {
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/users/available/" + userId + "/" + date,
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data) {
             console.log(data);

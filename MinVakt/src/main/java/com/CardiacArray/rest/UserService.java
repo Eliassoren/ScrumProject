@@ -207,6 +207,13 @@ public class UserService {
         }
         return map.values();
     }
+
+    @GET
+    @Path("/available/{userId}/{date}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public boolean userHasShift(@PathParam("userId") int userId, @PathParam("date") long date) {
+        return userDb.userHasShift(userId, new java.sql.Date(date));
+    }
 /*
     @GET
     @Path("/timesheet/{userId}/{startTime}/{endTime}")
