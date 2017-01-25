@@ -12,6 +12,7 @@
     <script type="text/javascript" src="../js/checklogin.js"></script>
     <script type="text/javascript" src="../js/moment.js"></script>
     <script type="text/javascript" src="../js/main.js"></script>
+    <script type="text/javascript" src="../js/user-list-script.js"></script>
     <link rel= "stylesheet" href = "../css/main.css">
     <link rel = "stylesheet" href = "../css/admin-shift-style.css">
     <title>Ansatte</title>
@@ -20,7 +21,7 @@
 <div id="overlay-placer"></div>
 
 
-<div id="header">
+<div id="header" class="opacity">
     <div class="icon-bar">
         <a id="hamburger-toggle" class="fa fa-bars"></a>
         <ul id="hamburger-menu">
@@ -39,9 +40,38 @@
     </div>
 </div>
 
+<div class="employee-form-banner">
+
+    <div class="form-container">
+
+        <div class="employee-picture">
+
+
+        </div>
+
+        <div class="employee-information-container">
+
+            <form class="employee-information">
+
+                <div class="first-line line">
+                    <div class="name">Christian Echtermeyer</div>
+                </div>
+                <div class="second-line line">
+                    <div class="name">Christian Echtermeyer</div>
+                </div>
+
+            </form>
+
+        </div>
+
+
+    </div>
+
+</div>
+
 <!--TODO-->
-<h2 id = "users-h2">Ansatte</h2>
-<div class = "container">
+<h2 id = "users-h2" class="opacity">Ansatte</h2>
+<div class = "container opacity">
     <div id = "user-list">
         <table class="table">
             <th class = "table-header">Navn</th>
@@ -49,7 +79,7 @@
 
             <tr id="person1" class="days">
                 <td class="day">a</td>
-                <td class="day">a</td>
+                <td class="day">ayylmao ich bin elias</td>
             </tr>
 
             <tr id="person2" class="days">
@@ -63,6 +93,21 @@
             </tr>
         </table>
     </div>
+
+    <!--
+
+    <div class="button-container button-container-edit-delete">
+        <button class="button edit-button">Rediger</button>
+        <button class="button delete-button">Slett</button>
+    </div>
+
+    -->
+
+    <div class="button-container-new">
+        <button class="new-button">Registrer ny ansatt</button>
+    </div>
+
+
 </div>
 <footer>
     <p>&copy; 2017 Cardiac Array</p>

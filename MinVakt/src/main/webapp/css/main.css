@@ -585,9 +585,42 @@ font-family: 'Source Sans Pro', sans-serif; !important;
 
 button:focus {outline:0;}
 
-tr { line-height: 34px; text-align: center}
-tr:nth-child(even) {background: #D5D5D5}
-th {background-color: #2D5684; color: white; text-align: center}
+#user-list table.table {
+    height: 25px;
+    color: transparent; !important;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 0;
+}
+#user-list table.table th {
+    position: relative;
+    height: 25px;
+    background: #2D5684;
+    text-align: center;
+    border: none !important;
+    color: white;
+    width: 50%;
+    font-size: 16px;
+}
+
+ul{
+    padding: 0;
+    margin: 0;
+}
+
+tr:nth-child(even) {background: #F3F3F3;}
+td{border: solid black 1px;}
+
+tr:hover{background-color: #979797 !important; cursor: pointer;}
+
+#user-list table.table td {
+    color: #2D5684;
+    height: 20px;
+    padding: 0;
+    box-sizing:border-box;
+    border: 0px solid #ccc;
+    transition: 0.7s ease-in-out;
+}
 
 .absolute-dropdown-div{
     transition: 0.7s ease-in-out;
@@ -756,43 +789,16 @@ th {background-color: #2D5684; color: white; text-align: center}
 #banner-alert-button {
     margin-top: 10%;
 }
+
 #user-list{
-    height: 90%;
-    width: 100%;
+    height: auto;
+    width: 550px;
     position: relative;
     margin: auto;
     margin-top: 5%;
     text-align: center;
 }
-#user-list .users{
-    display: inline-block;
-}
-#user-list table .table th{
-    position: relative;
-    height: 25px;
-    background: #2D5684;
-    text-align: center;
-    border: none !important;
-    color: white;
-    width: 50%;
-    font-size: 16px;
-}
 
-#user-list table .table{
-    height: 25px;
-    color: transparent; !important;
-    width: 100%;
-    margin-bottom: 0;
-    padding: 0;
-}
-#user-list table .table td{
-    width: 50%;
-    height: 20px;
-    padding: 0;
-    box-sizing:border-box;
-    border: 1px solid #ccc;
-    transition: 0.7s ease-in-out;
-}
 #users-h2{
     color: #2D5684;
     font-size: 4rem !important;
@@ -801,3 +807,136 @@ th {background-color: #2D5684; color: white; text-align: center}
     position: relative;
     margin: 3% auto 3% auto;
 }
+
+.button-container{
+    overflow: hidden;
+    max-height: 0;
+    border-top: none;
+    height: 38px;
+    width: 550px;
+    background-color: #2D5684;
+    position: relative;
+    margin: auto;
+    text-align: center;
+    transition: 0.7s ease-in-out;
+}
+
+.button-container-new{
+    margin: 50px auto auto auto;
+    border-top: none;
+    height: 38px;
+    width: 550px;
+    position: relative;
+    text-align: center;
+}
+
+
+.button-container-active{
+    max-height: 38px;
+}
+
+.button{
+    background-color: #2D5684;
+    width: 70px;
+    height: 35px;
+    margin: auto;
+}
+
+.new-button{
+    border: solid #2D5684 3px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #2D5684;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+.employee-form-banner{
+    transition: 0.5s ease-in-out;
+
+    /* TODO this is important to set to hidden once the banner is completed!!  AND OPACITY TO 0*/
+    visibility: visible;
+    opacity: 1;
+
+
+    z-index: 3;
+    position: fixed;
+    top:50%;
+    transform: translate(0,-50%);
+    width: 100%;
+    height: 80%;
+    background-color: red;
+}
+
+.form-container{
+    position: relative;
+    background-color: green;
+    width: 50%;
+    height: 100%;
+    margin: auto;
+}
+
+.employee-picture{
+    z-index: 100;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,0);
+    background-image: url(http://www.pieglobal.com/wp-content/uploads/2015/10/placeholder-user.png);
+    background-size: 100%;
+    margin: 10px auto 0 auto;
+    width: 220px;
+    height: 220px;
+}
+
+.opacity{
+    transition: 0.5s ease-in-out;
+    opacity: 1;
+}
+
+.blur-activate{
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+.show-banner{
+    visibility: visible;
+    opacity: 1;
+}
+
+.employee-information-container{
+    position: absolute;
+    background-color: yellow;
+    height: 50%;
+    width: 80%;
+
+    left: 50%;
+    bottom: 10px;
+    transform: translate(-50%,0);
+}
+
+/*
+
+.delete-button{
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    left: 412.5px;
+    top:50%;
+    transform: translate(-50%,-50%);
+}
+
+.edit-button{
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    left: 137.5px;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+*/
