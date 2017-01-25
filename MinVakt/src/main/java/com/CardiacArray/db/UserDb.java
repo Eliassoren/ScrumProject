@@ -434,6 +434,42 @@ public class UserDb extends DbManager {
         return true;
     }
 
+    public ArrayList<User> getAllUsers(){
+        ArrayList<User> al = new ArrayList<>();
+        try {
+            String toSQL = "select * from user join user_category " +
+                    "on user.user_category_id = user_category.user_category_id ";
+            statement = connection.prepareStatement(toSQL);
+            res = statement.executeQuery();
+            while(res.next()) {
+                int id = res.getInt("user_id");
+                String email = res.getString("email");
+                String firstName = res.getString("first_name");
+                String lastName = res.getString("last_name");
+                String password = res.getString("password");
+                boolean adminRights = res.getBoolean("admin_rights");
+                int mobile = res.getInt("mobile");
+                String address = res.getString("address");
+                int userCategoryInt = res.getInt("user.user_category_id");
+                String userCategoryString = res.getString("type");
+                String token = res.getString("token");
+                Timestamp expired = res.getTimestamp("expired");
+                boolean active = res.getBoolean("active");
+                int workPercent = res.getInt("work_percent");
+                User user = new User(id, firstName, lastName, mobile, email, password, adminRights, address, userCategoryInt, userCategoryString, token, expired, active, workPercent);
+                al.add(user);
+            }
+                res.close();
+                statement.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace(System.err);
+            DbManager.rollback();
+        }
+        return al;
+    }
+
+
     /**
      * Main methode that does the following:
      * creates a connection with DbManager
