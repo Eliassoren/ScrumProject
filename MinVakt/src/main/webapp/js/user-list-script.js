@@ -4,15 +4,9 @@
 
 
 $(document).ready(function() {
-    $(".days").click(function(){
-        $(".opacity").addClass("blur-activate");
-        $(".employee-form-banner").addClass("show-banner");
-    });
 
-    $(".fa-times").click(function(){
-        $(".opacity").removeClass("blur-activate");
-        $(".employee-form-banner").removeClass("show-banner");
-    });
+    getAllUsers();
+
 });
 
 function getAllUsers() {
@@ -22,7 +16,49 @@ function getAllUsers() {
         url: "/MinVakt/rest/users/all",
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data) {
-            console.log(data);
+            addRowEmployee(data);
         }
     })
+}
+
+function addRowEmployee(data) {
+
+    console.log(data);
+
+    var obj = data;
+
+    if (!document.getElementsByTagName) return;
+
+    for (var i = 0; i < obj.length; i++) {
+
+        tabBody = document.getElementById("employee-table");
+        row = document.createElement("tr");
+        row.className = "days";
+        $(row).attr("user-id",obj[i].id);
+        cell1 = document.createElement("td");
+        cell2 = document.createElement("td");
+        textnode1 = document.createTextNode(obj[i].firstName + " " + obj[i].lastName);
+        textnode2 = document.createTextNode(obj[i].userCategoryString);
+        cell1.appendChild(textnode1);
+        cell2.appendChild(textnode2);
+        row.appendChild(cell1);
+        row.appendChild(cell2);
+        tabBody.appendChild(row);
+
+        $(".days").unbind();
+        $(".fa-times").unbind();
+
+        $(".days").click(function(){
+            $(".opacity").addClass("blur-activate");
+            $(".employee-form-banner").addClass("show-banner");
+            var userId = $(this).attr("userId");
+
+
+        });
+
+        $(".fa-times").click(function(){
+            $(".opacity").removeClass("blur-activate");
+            $(".employee-form-banner").removeClass("show-banner");
+        });
+    }
 }
