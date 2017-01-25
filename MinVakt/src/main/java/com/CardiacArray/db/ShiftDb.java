@@ -519,8 +519,6 @@ public class ShiftDb extends DbManager{
         return returnValue;
     }
 
-
-
     public static void main(String args[]) throws Exception {
         ShiftDb db = new ShiftDb();
         Shift shift = db.getShift(11);

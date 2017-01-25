@@ -321,6 +321,27 @@ public class UserDb extends DbManager {
         return users;
     }
 
+    public boolean userHasShift(int id, java.sql.Date date) {
+        try {
+            String toSQL = "select * from shift " +
+            " join user_shift on shift.shift_id = user_shift.shift_id" +
+            " join user on user_shift.user_id = user.user_id" +
+            " where shift.date = ? and user.user_id = ?";
+            statement = connection.prepareStatement(toSQL);
+            statement.setDate(1, date);
+            statement.setInt(2, id);
+            res = statement.executeQuery();
+            if (!res.next()) {
+                return false;
+            }
+            res.close();
+            statement.close();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     /**
      * Main methode that does the following:
      * creates a connection with DbManager
