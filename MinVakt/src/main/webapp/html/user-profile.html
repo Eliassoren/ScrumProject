@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset = "UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <!--link rel= "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet"-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/af.js"></script>
+    <script type="text/javascript" src="../js/checklogin.js"></script>
+    <script type="text/javascript" src="../js/moment.js"></script>
+    <script type="text/javascript" src="../js/main.js"></script>
+    <!--link rel="stylesheet" href="../css/main.css"-->
+    <link rel="stylesheet" href="../css/user-form.css">
+    <title>Profil</title>
+</head>
+<body>
+
+<div id="header">
+    <div class="icon-bar">
+        <a id="hamburger-toggle" class="fa fa-bars"></a>
+        <ul id="hamburger-menu">
+            <li id="hamburger-calendar">Kalender</li>
+            <li id="hamburger-shift">Vaktliste</li>
+            <li id="hamburger-shifttrade">Ledige vakter</li>
+            <li id="hamburger-logout">Logg ut</li>
+        </ul>
+    </div>
+    <h1 id="h1-title">
+        <a id="search-toggle" href="/MinVakt/">MinVakt</a>
+    </h1>
+    <div class="icon-bar">
+        <a id="search" href="#" class="fa fa-search-right"></a>
+    </div>
+</div>
+<div id=<"createUserDialog">
+<form class="user-form" id = "new-user-form" action = "#" method="post">
+    <h2 class = "form-title">Profil</h2>
+    <fieldset class = "fieldset">
+        <legend>Kontaktinfo</legend>
+        <div class = "label-line inline-container" >
+            <label  class = "text-label" for="first_name">Fornavn</label>
+            <label id= "last-name-label" class = "text-label" for="last_name">Etternavn</label>
+        </div>
+        <div class = "inline-container">
+            <input class = "input" id = "first_name" type = "text" placeholder = " Fornavn" name="firstName">
+            <input class = "input" id = "last_name" type = "text" placeholder = " Etternavn" name="lastName">
+        </div>
+        <div class = "label-line inline-container">
+            <label class = "postal-label" for="address">Adresse</label>
+            <label id = "postal-code-label" class = "postal-label" for="postal_code">Postkode</label>
+        </div>
+        <div class = "inline-container">
+
+            <input class = "input" id = "address" type = "text" placeholder = " Adresse" name="address">
+            <input class = "input" id = "postal_code" type = "text" placeholder = " Postnr.">
+        </div>
+        <div class = "label-line inline-container">
+            <label class = "text-label" for="phone">Telefon</label>
+        </div>
+        <input class = "input" id = "phone" type = "text" placeholder = " Telefon" name="mobile">
+        <div class = "label-line inline-container">
+            <label class = "text-label" for="email">Epost</label></div>
+        <input class = "input" id = "email" type = "text" placeholder = " Epost" name="email">
+    </fieldset>
+    <fieldset class = "fieldset">
+        <legend>Ansattinfo</legend>
+        <div class = "label-line inline-container">
+            <label class = "select-label" for="dept_cb">Avdeling</label>
+            <label class = "select-label" for="position_cb">Stillingstype</label>
+            <label class = "select-label" for = "spinner" id = "work-percent-label">Stillingsprosent</label>
+        </div>
+        <div class = "inline-container">
+            <select required class = "select section-picker picker" id = "dept_cb">
+                <option value = "" disabled selected>Velg Avdeling..</option>
+                <option value = "1" >Nord</option>
+                <option value = "2">Sør</option>
+                <option value = "3">Øst</option>
+                <option value = "4">Vest</option>
+            </select>
+            <select required class = "select section-picker picker" id = "position_cb" name="userCategoryInt">
+                <option value = "" disabled selected>Velg Stillingstype..</option>
+                <option value = "1">Assistent</option>
+                <option value = "2">Helsefagarbeider</option>
+                <option value = "3">Sykepleier</option>
+            </select>
+            <input class ="select" id= "spinner" type="number" min="0" max = "100" step="1" value="0" size = "6">
+        </div>
+        <div class = "inline-container">
+            <label class = "label" for = "active_checkbox"> <input checked class = "input" id = "active_checkbox" type = "checkbox"  name = active>Aktiv</label>
+            <label class="label" for = "admin_checkbox">  <input class = "input" id = "admin_checkbox" type = "checkbox"  name="admin">Administrator</label></div>
+
+    </fieldset>
+    <fieldset>
+        <legend>Endre passord</legend>
+        <div class = "label-line inline-container">
+            <label class = "text-label" for = "old-password">Gammel passord</label>
+        </div>
+
+        <input class="input" id = "old-password" type = "text" placeholder = " Gammelt passord" name="old-pw">
+        <div class = "label-line inline-container">
+            <label class = "text-label" for = "new-password">Nytt passord</label>
+        </div>
+        <input class= "input" id = "new-password" type = "text" placeholder = " Nytt passord" name="new-pw">
+        <div class="label-line inline-container">
+            <label class= "text-label" for= "confirm-new-password">Bekreft nytt passord</label>
+        </div>
+        <input class="input" id = "confirm-new-password" type = "text" placeholder = " Bekreft nytt passord" name="conf-new-pw">
+        <div class = "button-group">
+            <input class = "button" id = "button_ok" type = "submit" value = "Lagre"/>
+            <button class = "button" id = "button_cancel">Avbryt</button>
+        </div>
+    </fieldset>
+
+</form>
+</div>
+<footer>
+    <p>&copy; 2017 Cardiac Array</p>
+    <p>
+        <a href="#" class="footer-link">Brukervilkår</a> &bullet;
+        <a href="#" class="footer-link">Hjelp</a> &bullet;
+        <a href="#" class="footer-link">Kontakt</a>
+    </p>
+</footer>
+</body>
+</html>
