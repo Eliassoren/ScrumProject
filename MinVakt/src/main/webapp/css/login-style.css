@@ -13,7 +13,6 @@
     font-size: 56px;
     width:100%;
     text-align: center;
-    font-size: 3rem;
     font-weight: normal;
 }
 
@@ -76,7 +75,7 @@ body {
     align-content: center;
 }
 
-.input{
+.user-input {
     margin: 0.5rem auto 0.5rem auto;
     width: 80%;
     font-size: 1.3rem;
