@@ -102,14 +102,14 @@ function approveOvertime(shiftId, userId) {
         },
         type: "PUT",
         url: "/MinVakt/rest/shifts/approveOvertime",
-        dataType: 'json',
+        dataType: 'text',
+
         data: JSON.stringify({
             shiftId: shiftId,
             userId: userId
         }),
         success: function (data) {
-            console.log("Result: " + data);
-            $("tr[data-shiftid=" + shiftId + "]").remove();
+            getUnapprovedOvertime(0,1589483849399);
         },
         statusCode: {
             401: function () {
@@ -131,14 +131,13 @@ function rejectOvertime(shiftId, userId) {
         },
         type: "DELETE",
         url: "/MinVakt/rest/shifts/rejectOvertime",
-        dataType: 'json',
+        dataType: 'text',
         data: JSON.stringify({
             shiftId: shiftId,
             userId: userId
         }),
         success: function (data) {
-            console.log("Result: " + data);
-            $("tr[data-shiftid=" + shiftId + "]").remove();
+            getUnapprovedOvertime(0,1589483849399);
         },
         statusCode: {
             401: function () {
@@ -189,8 +188,8 @@ function setShiftTradeablePut(shift, bool) {
     })
 }
 
-function getAvailableShifts(startTime, endTime) {
-
+function getUnapprovedOvertime(startTime, endTime) {
+    $("#overtime-table").empty();
     $.ajax({
         type: "GET",
         url: "/MinVakt/rest/shifts/overtime/",
@@ -326,7 +325,7 @@ function getAllOvertimeRequest(){
 }
 
 $(document).ready(function() {
-    getAvailableShifts(0,1589483849399);
+    getUnapprovedOvertime(0,1589483849399);
     $("#evening").toggleClass("dropdown-active");
 });
 

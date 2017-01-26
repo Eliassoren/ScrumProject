@@ -243,7 +243,7 @@ public class ShiftService {
 
     /**
      *
-     * @param shift a Shift object containing only shiftId
+     * @param shift a Shift object containing only shiftId and userId
      * @return 200 if database update is successful, 400 if it's not
      */
     @PUT
@@ -271,7 +271,7 @@ public class ShiftService {
 
     /**
      *
-     * @param shift a Shift object containing only shiftId
+     * @param shift a Shift object containing only shiftId and userId
      * @return 200 if database update is successful, 400 if it's not
      */
     @DELETE
