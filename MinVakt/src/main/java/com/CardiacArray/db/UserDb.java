@@ -1,5 +1,6 @@
 package com.CardiacArray.db;
 
+import com.CardiacArray.data.Available;
 import com.CardiacArray.data.User;
 
 import java.sql.*;
@@ -14,6 +15,39 @@ public class UserDb extends DbManager {
     private ResultSet res;
     private PreparedStatement statement;
 
+
+    public ArrayList<User> getAllUsers(){
+        String toSQL = "SELECT * FROM users";
+        ArrayList<User> allUsers = new ArrayList<>();
+        try {
+            statement = connection.prepareStatement(toSQL);
+            res = statement.executeQuery();
+
+            while (res.next()){
+                int id = res.getInt("user_id");
+                String email = res.getString("email");
+                String firstName= res.getString("first_name");
+                String lastName = res.getString("last_name");
+                String password = res.getString("password");
+                boolean adminRights = res.getBoolean("admin_rights");
+                int mobile = res.getInt("mobile");
+                String address = res.getString("address");
+                int userCategoryInt = res.getInt("user.user_category_id");
+                String userCategoryString = res.getString("type");
+                String token = res.getString("token");
+                Timestamp expired = res.getTimestamp("expired");
+                boolean active = res.getBoolean("active");
+                int workpercent = res.getInt("work_percent");
+                int departmentId = res.getInt("department_id");
+                allUsers.add(new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workpercent,departmentId));
+                res.close();
+                statement.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+                return allUsers;
+    }
     /**
     @param id Id of user
     @return User specified by id
@@ -41,7 +75,8 @@ public class UserDb extends DbManager {
                 Timestamp expired = res.getTimestamp("expired");
                 boolean active = res.getBoolean("active");
                 int workPercent = res.getInt("work_percent");
-                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent);
+                int departmentId = res.getInt("department_id");
+                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent, departmentId);
                 res.close();
                 statement.close();
             } else{ return null; }
@@ -82,7 +117,8 @@ public class UserDb extends DbManager {
                 Timestamp expired = res.getTimestamp("expired");
                 boolean active = res.getBoolean("active");
                 int workPercent = res.getInt("work_percent");
-                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent);
+                int departmentId = res.getInt("department_id");
+                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent, departmentId);
                 res.close();
                 statement.close();
             } else {
@@ -123,7 +159,9 @@ public class UserDb extends DbManager {
                 Timestamp expired = res.getTimestamp("expired");
                 boolean active = res.getBoolean("active");
                 int workPercent = res.getInt("work_percent");
-                User user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent);
+                int departmentId = res.getInt("department_id");
+
+                User user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent, departmentId);
                 res.close();
                 statement.close();
                 return user;
@@ -138,6 +176,41 @@ public class UserDb extends DbManager {
         }
     }
 
+    public ArrayList<User> getUsersByDepartmentId(int departmentId) {
+        ArrayList<User> users = new ArrayList<>();
+        try {
+            String toSQL = "select * from user join user_category " +
+                    "on user.user_category_id = user_category.user_category_id " +
+                    "where department_id=?";
+            PreparedStatement statement = connection.prepareStatement(toSQL);
+            statement.setInt(1, departmentId);
+            ResultSet res = statement.executeQuery();
+            while(res.next()){
+                int id = res.getInt("user_id");
+                String firstName= res.getString("first_name");
+                String lastName = res.getString("last_name");
+                String email = res.getString("email");
+                String password = res.getString("password");
+                boolean adminRights = res.getBoolean("admin_rights");
+                int mobile = res.getInt("mobile");
+                String address = res.getString("address");
+                int userCategoryInt = res.getInt("user.user_category_id");
+                String userCategoryString = res.getString("type");
+                String token = res.getString("token");
+                Timestamp expired = res.getTimestamp("expired");
+                boolean active = res.getBoolean("active");
+                int workPercent = res.getInt("work_percent");
+                User user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent, departmentId);
+                users.add(user);
+            }
+            res.close();
+            statement.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
     /**
     @param user
     @return boolean
@@ -145,7 +218,7 @@ public class UserDb extends DbManager {
     public boolean updateUser(User user){
         try {
             String toSQL = "UPDATE user " +
-                    "SET first_name = ?, last_name = ?, password = ?, admin_rights = ?, mobile = ?, address = ?, user_category_id = ?, email = ?, active = ?, work_percent = ? " +
+                    "SET first_name = ?, last_name = ?, password = ?, admin_rights = ?, mobile = ?, address = ?, user_category_id = ?, email = ?, active = ?, work_percent = ?, department_id = ? " +
                     "WHERE user_id = ?";
             statement = connection.prepareStatement(toSQL);
             statement.setString(1, user.getFirstName());
@@ -158,7 +231,8 @@ public class UserDb extends DbManager {
             statement.setString(8, user.getEmail());
             statement.setBoolean(9, user.isActive());
             statement.setInt(10,user.getWorkPercent());
-            statement.setInt(11,user.getId());
+            statement.setInt(11, user.getDepartementId());
+            statement.setInt(12,user.getId());
             statement.execute();
             statement.close();
             return true;
@@ -227,8 +301,8 @@ public class UserDb extends DbManager {
     public int createUser(User user){
         int returnValue = -1;
         try {
-            String toSQL = "INSERT into user (user_id, first_name, last_name, password, admin_rights, user_category_id, mobile, address, email, active, workPercent)\n" +
-                    "  VALUES (DEFAULT ,?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String toSQL = "INSERT into user (first_name, last_name, password, admin_rights, user_category_id, mobile, address, email, active, workPercent, department_id)\n" +
+                    "  VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             statement = connection.prepareStatement(toSQL);
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
@@ -240,6 +314,7 @@ public class UserDb extends DbManager {
             statement.setString(8, user.getEmail());
             statement.setBoolean(9, user.isActive());
             statement.setInt(10, user.getWorkPercent());
+            statement.setInt(11, user.getDepartementId());
             statement.execute();
             ResultSet res = statement.getGeneratedKeys();
             if(res.next()){
@@ -282,15 +357,14 @@ public class UserDb extends DbManager {
             return false;
         }
     }
-
     /**
      *
      * @param startLong start date
      * @param endLong end date
      * @return list of available users
      */
-    public ArrayList<User> getAvailableUsers(long startLong, long endLong){
-        ArrayList<User> users = new ArrayList<User>();
+    public ArrayList<Available> getAvailableUsers(long startLong, long endLong){
+        ArrayList<Available> availables = new ArrayList<Available>();
         try {
             String toSQL = "SELECT * FROM user JOIN availability ON user.user_id = availability.user_id JOIN user_category ON user.user_category_id = user_category.user_category_id" +
                     " WHERE start_time BETWEEN ?" +
@@ -321,15 +395,16 @@ public class UserDb extends DbManager {
                 Timestamp startTime = res.getTimestamp("start_time");
                 Timestamp endTime = res.getTimestamp("end_time");
                 int workpercent = res.getInt("work_percent");
-                User user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workpercent);
-                users.add(user);
+                int departmentId = res.getInt("departmentId");
+                Available tempAvailable = new Available(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workpercent,departmentId,new Date(startLong),new Date(endLong));
+                availables.add(tempAvailable);
             }
             res.close();
             statement.close();
         }catch(SQLException e) {
             e.printStackTrace();
         }
-        return users;
+        return availables;
     }
 
     /**
