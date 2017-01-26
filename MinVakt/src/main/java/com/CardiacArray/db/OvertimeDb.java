@@ -24,6 +24,13 @@ public class OvertimeDb extends DbManager {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
     }
 
+    /**
+     *
+     * @param originalShift
+     * @return A shift object that is completely the same as originalShift except for the time,
+     * which is the time that has been worked extra.
+     */
+
     public Shift getOvertime(Shift originalShift){
         int shiftId = originalShift.getShiftId();
 
@@ -61,7 +68,7 @@ public class OvertimeDb extends DbManager {
                 statement.close();
             }
         }catch (SQLException e){
-            e.printStackTrace();
+                e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -141,7 +148,11 @@ public class OvertimeDb extends DbManager {
         }
         return null;
     }
-
+    /**
+     *
+     * @param shift The shift that has the overtime which you would like to delete.
+     * @return True if the deletion was successful. False if an error occurred.
+     */
     public boolean deleteOvertime(Shift shift) {
         int returnvalue = 0;
         String toSql = "DELETE FROM overtime WHERE shift_id = ? ";
@@ -157,6 +168,13 @@ public class OvertimeDb extends DbManager {
         return returnvalue != 0;
     }
 
+    /**
+     *
+     * @param shift Shift on which overtime has occurred.
+     * @param fromTime  Time where overtime has started. Typically the same as the shifts endTime.
+     * @param toTime Time where overtime stopped.
+     * @return True if overtime was added successfully.
+     */
     public boolean setOvertime(Shift shift, Time fromTime, Time toTime){
         boolean returnValue = false;
         String toSql = "INSERT INTO overtime " +
@@ -181,6 +199,11 @@ public class OvertimeDb extends DbManager {
         return returnValue;
     }
 
+    /**
+     *
+     * @param shift The shift where overtime must be approved.
+     * @return True if overtime was successfully added.
+     */
     public boolean approve(Shift shift){
         boolean returnValue = false;
         String toSQL = "UPDATE overtime " +
@@ -200,7 +223,10 @@ public class OvertimeDb extends DbManager {
         }
         return returnValue;
     }
-
+    /**
+     *
+     * @return A list with shifts that have overtime registered to it.
+     */
     public ArrayList<Overtime> getAllOvertime(){
         ArrayList<Overtime> overtimes = new ArrayList<>();
         String toSQL = "Select overtime.overtime_id, overtime.shift_id, user.user_id, user.first_name, user.last_name, shift.date, overtime.start, overtime.end\n" +
@@ -232,23 +258,5 @@ public class OvertimeDb extends DbManager {
             e.printStackTrace();
         }
         return overtimes;
-    }
-
-
-    public static void main(String[] args) throws Exception{
-        ShiftDb shiftDb = new ShiftDb();
-        Shift shift = shiftDb.getShift(17);
-        OvertimeDb test = new OvertimeDb();
-        Time start = new Time(shift.getEndTime().getTime());
-        Time end = new Time(shift.getEndTime().getTime() + (2 * 3600000));
-
-        System.out.println("Set = " + test.setOvertime(shift, start, end));
-        System.out.println("milistart = " + start);
-        System.out.println("miliend = " + end);
-
-        System.out.println("Get = " + shift.equals(test.getOvertime(shift)));
-        System.out.println("Approve = " + test.approve(shift));
-
-        System.out.println(test.deleteOvertime(shift));
     }
 }

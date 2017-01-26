@@ -135,6 +135,7 @@ function appendEvent(day,shiftArray,box){
         shiftDesc = "Avdeling " + shiftArray[day].departmentId;
         shiftTime = formatTime(new Date(shiftArray[day].startTime)) + " - " + formatTime(new Date(shiftArray[day].endTime));
         var eventDiv = $("<div/>").addClass("event").attr("shiftId", shiftArray[day].shiftId);
+        eventDiv.addClass(shiftArray[day].tradeable?"event-active":"");
         box.append(eventDiv);
         eventDiv.append($("<span/>").addClass("event-desc").text(shiftDesc));
         eventDiv.append($("<span/>").addClass("event-time").text(shiftTime));
@@ -308,7 +309,7 @@ $(document).ready(function() {
                     $("#banner-shift-time span:nth-child(2)").text(formatTime(new Date(data.startTime)) + " - " + formatTime(new Date(data.endTime)));
                     $("#banner-shift-dep span:nth-child(2)").text(data.departmentId);
                     if(data.tradeable){
-                        $("#banner-shift").css("background", "#8cad2b");
+                        $("#banner-shift").css("background", "#FC4A1A");
                         $("#banner-shift-date").append(" (Til bytte)");
                         $(".approve").text("Ikke bytt vakt");
                     }
@@ -330,6 +331,7 @@ $(document).ready(function() {
                             getShiftAndTrade(shiftId, true);
                             bannerAlert("Vakt satt til bytte");
                         }
+
                     });
 
                 },
@@ -422,10 +424,6 @@ function getTradeableShifts(year, month){
                     if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
                     $(".overlay").remove();
                 });
-                console.log($(this).parent().parent().find(".date").text());
-                console.log(new Date(year,MONTH_CURR, Number($(this).parent().parent().find(".date").text())));
-                console.log(new Date(year,MONTH_CURR, Number($(this).parent().parent().find(".date").text())+1 ));
-                console.log(new Date(year,month, Number($(this).parent().parent().find(".date").text())));
                 getAvailableShifts(new Date(year,month, Number($(this).parent().parent().find(".date").text())).getTime(), new Date(year,month, Number($(this).parent().parent().find(".date").text())+1 ).getTime());
 
             });

@@ -197,6 +197,7 @@ h3{
     text-indent: 4px;
     width: 7.5%;
     margin-left: 5%;
+
 }
 
 #calendar .uke{
@@ -227,6 +228,8 @@ h3{
 
 #calendar .day:hover {
     background: #d3d3d3;
+    cursor: pointer;
+
 }
 
 
@@ -255,7 +258,10 @@ h3{
     overflow: hidden;
     cursor: pointer;
 }
+.event-active{
+    background: linear-gradient(180deg, #FC4A1A 50%, white 50%) !important;
 
+}
 
 #calendar .event-desc {
     color: white;
@@ -539,7 +545,7 @@ option{
     position: relative;
     left: 10%;
     top: 80%;
-    color: red;
+    color: darkgreen;
     text-decoration: underline;
     margin-bottom: 2px;
     font-size: 12px;
@@ -678,9 +684,42 @@ font-family: 'Source Sans Pro', sans-serif; !important;
 
 button:focus {outline:0;}
 
-tr { line-height: 34px; text-align: center}
-tr:nth-child(even) {background: #D5D5D5}
-th {color: #2D5684; text-align: center}
+#user-list table.employee-table {
+    height: 25px;
+    color: transparent; !important;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 0;
+}
+#user-list table.employee-table th {
+    position: relative;
+    height: 25px;
+    background: #2D5684;
+    text-align: center;
+    border: none !important;
+    color: white;
+    width: 50%;
+    font-size: 16px;
+}
+
+ul{
+    padding: 0;
+    margin: 0;
+}
+
+tr:nth-child(even) {background: #F3F3F3;}
+td{border: solid black 1px;}
+
+tr:hover{background-color: #979797 !important; cursor: pointer;}
+
+#user-list table.employee-table td {
+    color: #2D5684;
+    height: 20px;
+    padding: 0;
+    box-sizing:border-box;
+    border: 0px solid #ccc;
+    transition: 0.7s ease-in-out;
+}
 
 .absolute-dropdown-div{
     transition: 0.7s ease-in-out;
@@ -850,26 +889,16 @@ th {color: #2D5684; text-align: center}
 #banner-alert-button {
     margin-top: 10%;
 }
+
 #user-list{
-    height: 90%;
-    width: 100%;
+    height: auto;
+    width: 550px;
     position: relative;
     margin: auto;
     margin-top: 5%;
-}
-#user-list .users{
- /*TODO*/
-}
-#user-list ul{
-    list-style: none;
-
-}
-#user-list li{
-    height: 3rem;
-    border: 2px solid #2D5684;
     text-align: center;
-    color: #2D5684;
 }
+
 #users-h2{
     color: #2D5684;
     font-size: 4rem !important;
@@ -879,91 +908,124 @@ th {color: #2D5684; text-align: center}
     margin: 3% auto 3% auto;
 }
 
-.fixed-main-container-outer{
-    overflow: hidden;
-    transition: 0.8s;
-    position: fixed;
-    background-color: #2D5684;
-    width: 100%;
-    height: 50%;
-    top:50%;
-    transform: translate(0,-50%);
+.button-container-new{
+    margin: 50px auto auto auto;
+    border-top: none;
+    height: 38px;
+    width: 550px;
+    position: relative;
+    text-align: center;
 }
 
-.fixed-main-container-inner{
+.employee-form-button{
+    text-align: center;
+    background-color: #2D5684;
+    cursor: pointer;
+    border: solid 2px;
+    width: 70px;
+    height: 35px;
+    margin: auto;
+}
+
+.new-button{
+    border: solid #2D5684 3px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #2D5684;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+.employee-form-banner{
+    transition: 0.5s ease-in-out;
+
+
+    z-index: 500;
+    position: fixed;
+    top:50%;
+    transform: translate(0,-50%);
+    width: 100%;
+    height: 80%;
+    background-color: #2D5684;
+}
+
+.form-container{
     position: relative;
-    background-color: transparent;
+    background-color: #2D5684;
     width: 50%;
     height: 100%;
     margin: auto;
 }
 
-.a-text-header, .a-fade-in-text{
-    font-size: 50px;
-    color: white;
-    font-family: 'Source Sans Pro', sans-serif; !important;
-    text-align: center;
-}
-
-.a-fade-in-text{
-    pointer-events: none;
+.employee-picture{
+    z-index: 100;
     position: absolute;
-    top:50%;
     left: 50%;
-    transform: translate(-50%,-50%);
-    transition: 5.0s;
-    opacity: 0;
+    transform: translate(-50%,0);
+    background-image: url(http://www.pieglobal.com/wp-content/uploads/2015/10/placeholder-user.png);
+    background-size: 100%;
+    margin: 10px auto 0 auto;
+    width: 220px;
+    height: 220px;
 }
 
-.absence{
-    width: 100%;
-    height: 50px;
+.opacity{
+    transition: 0.5s ease-in-out;
+    opacity: 1;
 }
 
-.time-input{
-    position: relative;
-    width: 80px;
-    height: 30px;
-    background-color: white;
-    font-family: 'Source Sans Pro', sans-serif; !important;
-    font-size: 2rem;
+.blur-activate{
+    pointer-events: none;
+    opacity: 0.3;
 }
 
-.a-label{
-    font-family: 'Source Sans Pro', sans-serif; !important;
-    font-size: 2rem;
-    color: white;
+.show-banner{
+    visibility: visible;
+    opacity: 1;
 }
 
-.fa-calendar-check-o{
+.employee-information-container{
     position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translate(0,-50%);
-    font-size: 2rem;
-    color: #2D5684;
+    background-color: #2D5684;
+    height: 50%;
+    width: 100%;
+
+    left: 50%;
+    bottom: 10px;
+    transform: translate(-50%,0);
 }
 
-.absence-calendar-container{
-    cursor: default;
+.text{
+    font-size: 25px;
+    color: white;
+    font-family: 'Source Sans Pro', monospace; !important;
     text-align: center;
-    font-family: 'Source Sans Pro', sans-serif; !important;
-    font-size: 2rem;
-    position: relative;
-    top:50%;
-    transform: translate(0,-50%);
-    height: 30px;
-    width: 250px;
-    margin: 10px auto auto auto;
-    background-color: white;
 }
 
-.a-item3{
-    text-align: center;
+.line{
+    height: 50px;
+    width: 100%;
+    margin: auto;
+}
+
+.first-half{
+    left: 0;
+}
+
+.second-half{
+    right: 0;
+}
+
+.half{
+    position: absolute;
+    width: 50%;
+    margin: 0;
 }
 
 .fa-times{
-    z-index: 100;
     color: white;
     position: absolute;
     font-size: 50px;
@@ -976,45 +1038,20 @@ th {color: #2D5684; text-align: center}
     cursor: pointer;
 }
 
-.a-item4{
-    margin: auto;
-    width: 250px;
-}
-
-.a-button{
+.employee-form-delete-button{
+    font-size: 16px;
+    font-weight: bold;
     color: white;
-    font-size: 2rem;
-    width: 49%;
-    background-color: #2D5684;
+    position: absolute;
+    right: 0;
+    width: 50%;
 }
 
-.a-item1{
-    height: 100px;
-    padding-top: 50px;
-}
-
-.cancel-activate{
-    background-color: #ee5c58;
-}
-
-.confirm-activate{
-    background-color: rgb(140, 173, 43);
-}
-
-.a-removeable{
-    transition: 0.3s;
-}
-
-.a-removeable-activate{
-    pointer-events: none;
-    opacity: 0;
-}
-
-.a-fade-in-text-activate{
-    opacity: 1;
-}
-
-.fa-times-activate{
-    pointer-events: none;
-    opacity: 0;
+.employee-form-edit-button{
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    left: 0;
+    width: 50%;
 }
