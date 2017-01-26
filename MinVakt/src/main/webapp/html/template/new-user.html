@@ -1,0 +1,83 @@
+<div id=<"createUserDialog">
+    <form class="user-form">
+        <h2 class = "form-title">Profil</h2>
+        <fieldset class = "fieldset">
+            <legend>Kontaktinfo</legend>
+            <div class = "label-line inline-container" >
+                <label  class = "text-label" for="first_name">Fornavn</label>
+                <label id= "last-name-label" class = "text-label" for="last_name">Etternavn</label>
+            </div>
+            <div class = "inline-container">
+                <input class = "input" id = "first_name" type = "text" placeholder = " Fornavn" name="firstName"  readonly>
+                <input class = "input" id = "last_name" type = "text" placeholder = " Etternavn" name="lastName"  readonly>
+            </div>
+            <div class = "label-line inline-container">
+                <label class = "postal-label" for="address"  readonly>Adresse</label>
+                <label id = "postal-code-label" class = "postal-label" for="postal_code"  readonly>Postkode</label>
+            </div>
+            <div class = "inline-container">
+
+                <input class = "input" id = "address" type = "text" placeholder = " Adresse" name="address"  readonly>
+                <input class = "input" id = "postal_code" type = "text" placeholder = " Postnr."  readonly>
+            </div>
+            <div class = "label-line inline-container">
+                <label class = "text-label" for="phone">Telefon</label>
+            </div>
+            <input class = "input" id = "phone" type = "text" placeholder = " Telefon" name="mobile"  readonly>
+            <div class = "label-line inline-container">
+                <label class = "text-label" for="email">Epost</label></div>
+            <input class = "input" id = "email" type = "text" placeholder = " Epost" name="email"  readonly>
+        </fieldset>
+        <fieldset class = "fieldset">
+            <legend>Ansattinfo</legend>
+            <div class = "label-line inline-container">
+                <label class = "select-label" for="dept_cb">Avdeling</label>
+                <label class = "select-label" for="position_cb">Stillingstype</label>
+                <label class = "select-label" for = "spinner" id = "work-percent-label">Stillingsprosent</label>
+            </div>
+            <div class = "inline-container">
+                <select required class = "select section-picker picker" id = "dept_cb" >
+                    <option value = "" disabled selected>Velg Avdeling..</option>
+                    <option value = "1" >Nord</option>
+                    <option value = "2">Sør</option>
+                    <option value = "3">Øst</option>
+                    <option value = "4">Vest</option>
+                </select>
+                <select required class = "select section-picker picker" id = "position_cb" name="userCategoryInt"  >
+                    <option value = "" disabled selected >Velg Stillingstype..</option>
+                    <option value = "1">Assistent</option>
+                    <option value = "2">Helsefagarbeider</option>
+                    <option value = "3">Sykepleier</option>
+                </select>
+                <input class ="select" id= "spinner" type="number" min="0" max = "100" step="1" value="0" size = "6"  readonly>
+            </div>
+            <!--div class = "inline-container">
+                <label class = "label" for = "active_checkbox"> <input checked class = "input" id = "active_checkbox" type = "checkbox"  name = active>Aktiv</label>
+                <label class="label" for = "admin_checkbox">  <input class = "input" id = "admin_checkbox" type = "checkbox"  name="admin">Administrator</label></div-->
+
+        </fieldset>
+    </form>
+    <form class= "user-form" id = "edit-password-form" action = "#" method="post">
+        <fieldset>
+            <legend>Endre passord</legend>
+            <div class = "label-line inline-container">
+                <label class = "text-label" for = "old_password">Gammelt passord</label>
+            </div>
+
+            <input class="input" id = "old_password" type = "password" placeholder = " Gammelt passord" name="old-pw">
+            <div class = "label-line inline-container">
+                <label class = "text-label" for = "new_password">Nytt passord</label>
+            </div>
+            <input class= "input" id = "new_password" type = "password" placeholder = " Nytt passord" name="new-pw">
+            <div class="label-line inline-container">
+                <label class= "text-label" for= "confirm_new_password">Bekreft nytt passord</label>
+            </div>
+            <input class="input" id = "confirm_new_password" type = "password" placeholder = " Bekreft nytt passord" name="conf-new-pw">
+            <div class = "button-group">
+                <input class = "button" id = "button_ok" type = "submit" value = "Lagre"/>
+                <button class = "button" id = "button_cancel">Avbryt</button>
+            </div>
+        </fieldset>
+    </form>
+
+</div>

@@ -130,7 +130,7 @@ public class OvertimeDb extends DbManager {
      * @param shift The shift where overtime must be approved.
      * @return True if overtime was successfully added.
      */
-    public boolean aprove(Shift shift){
+    public boolean approve(Shift shift){
         boolean returnValue = false;
         String toSQL = "UPDATE overtime " +
                 "SET approved = 1 " +
@@ -181,21 +181,4 @@ public class OvertimeDb extends DbManager {
         return al;
     }
 
-
-    public static void main(String[] args) throws Exception{
-        ShiftDb shiftDb = new ShiftDb();
-        Shift shift = shiftDb.getShift(17);
-        OvertimeDb test = new OvertimeDb();
-        Time start = new Time(shift.getEndTime().getTime());
-        Time end = new Time(shift.getEndTime().getTime() + (2 * 3600000));
-
-        System.out.println("Set = " + test.setOvertime(shift, start, end));
-        System.out.println("milistart = " + start);
-        System.out.println("miliend = " + end);
-
-        System.out.println("Get = " + shift.equals(test.getOvertime(shift)));
-        System.out.println("Approve = " + test.approve(shift));
-
-        System.out.println(test.deleteOvertime(shift));
-    }
 }

@@ -424,10 +424,6 @@ function getTradeableShifts(year, month){
                     if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
                     $(".overlay").remove();
                 });
-                console.log($(this).parent().parent().find(".date").text());
-                console.log(new Date(year,MONTH_CURR, Number($(this).parent().parent().find(".date").text())));
-                console.log(new Date(year,MONTH_CURR, Number($(this).parent().parent().find(".date").text())+1 ));
-                console.log(new Date(year,month, Number($(this).parent().parent().find(".date").text())));
                 getAvailableShifts(new Date(year,month, Number($(this).parent().parent().find(".date").text())).getTime(), new Date(year,month, Number($(this).parent().parent().find(".date").text())+1 ).getTime());
 
             });

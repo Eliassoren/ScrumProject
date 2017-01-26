@@ -68,6 +68,7 @@ public class UserService {
         else return userFound;
     }
 
+    @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<User> getAllUsers(){
@@ -78,6 +79,7 @@ public class UserService {
         }
         return map.values();
     }
+
 
     /**
      *
@@ -100,14 +102,13 @@ public class UserService {
 
     /**
      *
-     * @param user a User object
-     * @return true if user is set as inactive
+     * @param userId
+     * @return
      */
     @PUT
-    @Path("/delete")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public boolean deleteUser(User user) {
-        User userFound = userDb.getUserByEmail(user.getEmail());
+    @Path("/delete/{userId}")
+    public boolean deleteUser(@PathParam("userId") int userId) {
+        User userFound = userDb.getUserById(userId);
         if(userFound.getFirstName() == null && userFound.getLastName() == null) throw new NotFoundException();
         else {
             userFound.setActive(false);
