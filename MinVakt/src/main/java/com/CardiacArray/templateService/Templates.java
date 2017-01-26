@@ -1,25 +1,16 @@
-package com.CardiacArray.templates;
+package com.CardiacArray.templateService;
 
-import com.CardiacArray.AuthFilter.Role;
-import com.CardiacArray.AuthFilter.Secured;
-import com.CardiacArray.Mail.Mail;
-import com.CardiacArray.data.*;
-import com.CardiacArray.db.DbManager;
-import com.CardiacArray.db.UserDb;
+import com.CardiacArray.restService.data.*;
+import com.CardiacArray.restService.db.UserDb;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.security.SecureRandom;
-import java.math.BigInteger;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
@@ -29,15 +20,11 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-@Path("/site/")
+@Path("/")
 public class Templates {
 
     @Context
@@ -46,7 +33,6 @@ public class Templates {
     private HttpServletResponse response;
     @Inject
     private ServletContext servletContext;
-    private static final String HTMLPATH = "/WEB-INF/templates/";
     private ServletContextTemplateResolver templateResolver;
     private TemplateEngine templateEngine;
     private WebContext context;
@@ -80,6 +66,7 @@ public class Templates {
                 }
             }
         }
-        return templateEngine.process("login", context);
+        templateEngine.add
+        return templateEngine.process("main", context);
     }
 }

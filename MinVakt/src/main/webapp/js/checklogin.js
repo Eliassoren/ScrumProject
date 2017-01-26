@@ -7,11 +7,11 @@ $(document).ready(function() {
             statusCode: {
                 401: function () {
                     localStorage.removeItem("token");
-                    window.location.replace("/MinVakt/");
+                    window.location.replace("/MinVakt/site");
                 }
             }
         })
     } else {
-        window.location.replace("/MinVakt");
+        window.location.replace("/MinVakt/site");
     }
 });

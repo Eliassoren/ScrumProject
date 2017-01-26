@@ -1,4 +1,4 @@
-package com.CardiacArray.data;
+package com.CardiacArray.restService.data;
 
 /**
  * Created by andreasbergman on 24/01/17.

@@ -1,8 +1,8 @@
 package com.CardiacArray.restTests;
 
-import com.CardiacArray.data.User;
-import com.CardiacArray.db.UserDb;
-import com.CardiacArray.rest.UserService;
+import com.CardiacArray.restService.data.User;
+import com.CardiacArray.restService.db.UserDb;
+import com.CardiacArray.restService.rest.UserService;
 import org.junit.Assert;
 import org.junit.Test;
 import javax.ws.rs.BadRequestException;

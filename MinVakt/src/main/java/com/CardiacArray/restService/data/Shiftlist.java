@@ -1,4 +1,4 @@
-package com.CardiacArray.data;
+package com.CardiacArray.restService.data;
 
 import java.util.ArrayList;
 

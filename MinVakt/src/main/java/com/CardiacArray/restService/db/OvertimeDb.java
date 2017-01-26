@@ -1,7 +1,6 @@
-package com.CardiacArray.db;
+package com.CardiacArray.restService.db;
 
-import com.CardiacArray.data.Shift;
-import com.CardiacArray.data.User;
+import com.CardiacArray.restService.data.Shift;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

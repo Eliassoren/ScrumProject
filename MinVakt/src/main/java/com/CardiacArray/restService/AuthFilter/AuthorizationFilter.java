@@ -1,7 +1,7 @@
-package com.CardiacArray.AuthFilter;
+package com.CardiacArray.restService.AuthFilter;
 
-import com.CardiacArray.data.User;
-import com.CardiacArray.db.UserDb;
+import com.CardiacArray.restService.data.User;
+import com.CardiacArray.restService.db.UserDb;
 
 import javax.annotation.Priority;
 import javax.ws.rs.ForbiddenException;

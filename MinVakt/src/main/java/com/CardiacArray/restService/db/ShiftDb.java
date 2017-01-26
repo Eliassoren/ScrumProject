@@ -1,7 +1,7 @@
-package com.CardiacArray.db;
+package com.CardiacArray.restService.db;
 
-import com.CardiacArray.data.Shift;
-import com.CardiacArray.data.User;
+import com.CardiacArray.restService.data.Shift;
+import com.CardiacArray.restService.data.User;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -27,7 +27,7 @@ public class ShiftDb extends DbManager{
     * @author Vegard Stenvik
     * @param date the date for the shift
     * @param userId the id that identifies the user
-    * @see com.CardiacArray.data.Shift
+    * @see com.CardiacArray.restService.data.Shift
     * @return Returns single shift object
     * */
     public Shift getShift(java.util.Date date, int userId){
@@ -186,7 +186,7 @@ public class ShiftDb extends DbManager{
      * @param dateStart the start date for the shifts
      * @param dateEnd the end date for the shifts
      * @param userId the id that identifies the user
-     * @see com.CardiacArray.data.Shift
+     * @see com.CardiacArray.restService.data.Shift
      * @return list of shifts for a user in  a given period
      * */
     public ArrayList<Shift> getShiftsForPeriod(java.util.Date dateStart, java.util.Date dateEnd, int userId){
@@ -250,7 +250,7 @@ public class ShiftDb extends DbManager{
      * @author Vegard Stenvik
      * @param dateStart the start date for the shifts
      * @param dateEnd the end date for the shifts
-     * @see com.CardiacArray.data.Shift
+     * @see com.CardiacArray.restService.data.Shift
      * @return list of shifts for in a given period
      * */
     public ArrayList<Shift> getShiftsForPeriod(java.util.Date dateStart, java.util.Date dateEnd){

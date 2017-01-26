@@ -1,4 +1,4 @@
-package com.CardiacArray.rest;
+package com.CardiacArray.restService.rest;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

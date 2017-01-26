@@ -1,4 +1,4 @@
-package com.CardiacArray.rest;
+package com.CardiacArray.restService.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

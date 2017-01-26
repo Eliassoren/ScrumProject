@@ -1,9 +1,9 @@
 package com.CardiacArray.restTests;
 
-import com.CardiacArray.data.Login;
-import com.CardiacArray.data.User;
-import com.CardiacArray.db.UserDb;
-import com.CardiacArray.rest.LoginService;
+import com.CardiacArray.restService.data.Login;
+import com.CardiacArray.restService.data.User;
+import com.CardiacArray.restService.db.UserDb;
+import com.CardiacArray.restService.rest.LoginService;
 import org.junit.Test;
 
 import javax.ws.rs.NotAuthorizedException;

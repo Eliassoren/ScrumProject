@@ -1,6 +1,6 @@
-package com.CardiacArray.Mail;
+package com.CardiacArray.restService.Mail;
 
-import com.CardiacArray.db.ReadConfig;
+import com.CardiacArray.restService.db.ReadConfig;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;

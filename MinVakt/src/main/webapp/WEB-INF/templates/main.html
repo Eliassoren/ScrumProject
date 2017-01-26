@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset = "UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <!-- <script type="text/javascript" src="/MinVakt/js/checklogin.js"></script> -->
+        <link rel="stylesheet" href="/MinVakt/css/new.css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,900" rel="stylesheet">
+        <script type="text/javascript" src="/Minvakt/js/overtime-script.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="/MinVakt/js/new.js"></script>
+        <title>MinVakt</title>
+    </head>
+    <body>
+        <div id="header">
+            <div id="hamburger-menu">
+                <div id="hamburger-text">
+                    <span><i class="fa fa-bars"></i>meny</span>
+                </div>
+                <ul id="hamburger-menu-items">
+                    <li class="hamburger-menu-item" id="hamburger-calendar"><span>Kalender</span></li>
+                    <li class="hamburger-menu-item" id="hamburger-shift"><span>Vaktliste</span></li>
+                    <li class="hamburger-menu-item" id="hamburger-shifttrade"><span>Ledige vakter</span></li>
+                    <li class="hamburger-menu-item" id="hamburger-logout"><span>Logg ut</span></li>
+                </ul>
+            </div>
+            <h1 id="header-title">MinVakt</h1>
+            <div id="header-user-profile">
+                <span th:text="${username}"></span>
+            </div>
+        </div>
+            <h1 id="page-title" th:text="${pagetitle}">Overtid.</h1>
+        <div class="main-area">
+        </div>
+        <footer>
+            <p>&copy; 2017 Cardiac Array</p>
+            <p>
+                <a href="#" class="footer-link">Brukervilkår</a> &bullet;
+                <a href="#" class="footer-link">Hjelp</a> &bullet;
+                <a href="#" class="footer-link">Kontakt</a>
+            </p>
+        </footer>
+    </body>
+</html>

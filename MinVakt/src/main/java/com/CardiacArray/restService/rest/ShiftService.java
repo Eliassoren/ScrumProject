@@ -1,19 +1,19 @@
 
-package com.CardiacArray.rest;
+package com.CardiacArray.restService.rest;
 
-import com.CardiacArray.data.Changeover;
-import com.CardiacArray.data.Shift;
-import com.CardiacArray.data.User;
-import com.CardiacArray.db.OvertimeDb;
-import com.CardiacArray.db.ShiftDb;
-import com.CardiacArray.db.UserDb;
+import com.CardiacArray.restService.data.Changeover;
+import com.CardiacArray.restService.data.Shift;
+import com.CardiacArray.restService.data.User;
+import com.CardiacArray.restService.db.OvertimeDb;
+import com.CardiacArray.restService.db.ShiftDb;
+import com.CardiacArray.restService.db.UserDb;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.*;
 
-@Path("/rest/shifts")
+@Path("/shifts")
 public class ShiftService {
 
     private ShiftDb shiftDb = new ShiftDb();

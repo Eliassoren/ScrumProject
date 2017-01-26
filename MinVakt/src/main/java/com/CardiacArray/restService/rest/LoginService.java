@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.CardiacArray.rest;
+package com.CardiacArray.restService.rest;
 
-import com.CardiacArray.AuthFilter.Role;
-import com.CardiacArray.AuthFilter.Secured;
-import com.CardiacArray.Mail.Mail;
-import com.CardiacArray.data.*;
-import com.CardiacArray.db.DbManager;
-import com.CardiacArray.db.UserDb;
+import com.CardiacArray.restService.AuthFilter.Role;
+import com.CardiacArray.restService.AuthFilter.Secured;
+import com.CardiacArray.restService.Mail.Mail;
+import com.CardiacArray.restService.data.*;
+import com.CardiacArray.restService.db.DbManager;
+import com.CardiacArray.restService.db.UserDb;
 
 import java.security.SecureRandom;
 import java.math.BigInteger;
@@ -27,7 +27,7 @@ import javax.ws.rs.core.*;
  *
  * @author Team 1
  */
-@Path("/rest/session")
+@Path("/session")
 public class LoginService {
 
     private UserDb userDb = new UserDb();

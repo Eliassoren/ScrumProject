@@ -1,18 +1,16 @@
-package com.CardiacArray.rest;
+package com.CardiacArray.restService.rest;
 
-import com.CardiacArray.AuthFilter.Role;
-import com.CardiacArray.AuthFilter.Secured;
-import com.CardiacArray.data.Shift;
-import com.CardiacArray.data.User;
-import com.CardiacArray.db.OvertimeDb;
-import com.CardiacArray.db.ShiftDb;
-import com.CardiacArray.db.UserDb;
-import com.CardiacArray.db.DbManager;
-import java.sql.Connection;
+import com.CardiacArray.restService.AuthFilter.Role;
+import com.CardiacArray.restService.AuthFilter.Secured;
+import com.CardiacArray.restService.data.Shift;
+import com.CardiacArray.restService.data.User;
+import com.CardiacArray.restService.db.OvertimeDb;
+import com.CardiacArray.restService.db.ShiftDb;
+import com.CardiacArray.restService.db.UserDb;
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,7 +23,7 @@ import java.util.*;
  */
 
 @Secured({Role.ADMIN, Role.USER})
-@Path("/rest/users")
+@Path("/users")
 public class UserService {
     private UserDb userDb = new UserDb();
     private ShiftDb shiftDb = new ShiftDb();

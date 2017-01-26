@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.CardiacArray.data;
+package com.CardiacArray.restService.data;
 
-import com.CardiacArray.AuthFilter.Role;
+import com.CardiacArray.restService.AuthFilter.Role;
 
 import java.sql.Timestamp;
 import java.util.regex.Matcher;
