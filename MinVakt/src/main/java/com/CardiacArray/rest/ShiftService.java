@@ -161,6 +161,7 @@ public class ShiftService {
             System.out.println("Tried creating invalid shift");
             throw new BadRequestException();
         }
+        if (shift.getUserId() == 0) shift.setTradeable(true);
         int responseId = shiftDb.createShift(shift);
         System.out.println("Create shift: " + responseId);
         if(responseId < 0) throw new BadRequestException();
