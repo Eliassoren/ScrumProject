@@ -52,16 +52,29 @@ function addRow(data) {
     console.log(data);
 
     var obj = data;
-
-    if (!document.getElementsByTagName) return;
-
     for (var i = 0; i < obj.length; i++) {
 
         var hours = new Date(obj[i].endTime).getHours() - new Date(obj[i].startTime).getHours();
         if (hours < 0){
             hours = hours + 24;
-        }
-
+        }/*
+        $("#overtime-table")
+            .append($("<tr/>")
+                .addClass("tr" + i)
+                .append($("<td/>")
+                    .text(obj[i].shiftId)
+                ).append($("<td/>")
+                    .text(obj[i].userName)
+                ).append($("<td/>")
+                    .text(formatTime(new Date(obj[i].startTime).getHours() + ":" + new Date(obj[i].startTime).getMinutes()) + " - " + formatTime(new Date(obj[i].endTime).getHours() + ":" + new Date(obj[i].endTime).getMinutes()))
+                ).append($("<td/>")
+                    .text(hours)
+                ).append($("<td/>")
+                    .text("Godkjenn")
+                    .addClass("overtime-listbutton")
+                    .addClass("id" + obj[i].shiftId)
+                )
+            );*/
         tabBody = document.getElementById("overtime-table");
         row = document.createElement("tr");
         row.className = "tr" + i;
