@@ -46,6 +46,12 @@
                     <label for="day-id">Velg tidspunkt: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Dag: <input type="radio" name="time-of-day" id="day-id" class="input-time"> </label>
                     <label for="evening-id"> Kveld: <input type="radio" name="time-of-day" id="evening-id" class="input-time"> </label>
                     <label for="night-id"> Natt: <input type="radio" name="time-of-day" id="night-id" class="input-time"> </label>
+                    <label for="department"><select id="department">
+                        <option value="1">1. Nord</option>
+                        <option value="2">2. Sør</option>
+                        <option value="3">3. Øst</option>
+                        <option value="4">4. Vest</option>
+                    </select>
                     <label for="no-user"> Opprett vakt uten bruker: <input type="checkbox" name="no-user" id="no-user" class="no-user"> </label>
 
 
@@ -67,13 +73,13 @@
 
                 <div id="calendar">
                     <ul class="weekdays">
-                        <li>Man</li>
-                        <li>Tir</li>
-                        <li>Ons</li>
-                        <li>Tor</li>
-                        <li>Fre</li>
-                        <li>Lør</li>
-                        <li>Søn</li>
+                        <li>Man<i day="1" class="fa fa-square-o" aria-hidden="true"></i></li>
+                        <li>Tir<i day="2" class="fa fa-square-o" aria-hidden="true"></i></li>
+                        <li>Ons<i day="3" class="fa fa-square-o" aria-hidden="true"></i></li>
+                        <li>Tor<i day="4" class="fa fa-square-o" aria-hidden="true"></i></li>
+                        <li>Fre<i day="5" class="fa fa-square-o" aria-hidden="true"></i></li>
+                        <li>Lør<i day="6" class="fa fa-square-o" aria-hidden="true"></i></li>
+                        <li>Søn<i day="7" class="fa fa-square-o" aria-hidden="true"></i></li>
                     </ul>
 
                     <ul id="week1" class="days">

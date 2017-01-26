@@ -311,3 +311,9 @@ td{border: solid black 1px;}
 .all-users {
 padding: 20px;
 }
+
+.fa-square-o, .fa-check-square-o {
+    margin-left: 5px;
+    top: 2px;
+    position: relative;
+}

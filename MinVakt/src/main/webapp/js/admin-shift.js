@@ -38,15 +38,41 @@ $(document).ready(function() {
         $(".user-row").remove();
     })
 
+    $(".all-users[name='all-users']").click(function(){
+        if ($(".all-users[name='all-users']:checked").length == 1) {
+            $.ajax({
+                type: "GET",
+                url: "/MinVakt/rest/users/all",
+                headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+                success: function(data){
+                   for (var i = 0; i < data.length; i++){
+                       addRow(data[i]);
+                   }
+                },
+                statusCode: {
+                    401: function () {
+                        localStorage.removeItem("token");
+                        window.location.replace("/MinVakt/");
+                    }
+                }
+            });
+        } else {
+            $(".user-row").remove();
+        }
+
+    });
+
 
     $(".day").click(function () {
         $(this).toggleClass("blue");
+        var daysSelected = selectedDays();
+            var dayNumber = Number($(this).attr("id").substring(3,4));
+            $("i[day='"+ dayNumber +"']").toggleClass("fa-square-o");
+            $("i[day='"+ dayNumber +"']").toggleClass("fa-check-square-o");
 
-
-        if ($(".no-user[name='no-user']:checked").length == 0) {
+        if ($(".no-user[name='no-user']:checked").length == 0 && $(".all-users[name='all-users']:checked").length == 0) {
             $(".user-row").remove();
             var usersAdded = [];
-            var daysSelected = selectedDays();
            for (var i = 0; i < daysSelected.length; i++){
                var usersDay = availableUser[Number(daysSelected[i]) - 1];
                if (usersDay !== undefined){
@@ -90,7 +116,7 @@ $(document).ready(function() {
         }
 
         bannerConfirm("Bekreft " + selectedDays().length * selectedUser().length + " vakter?", function(){
-            createShifts(start, end, 1 ,1);
+            createShifts(start, end, Number($("#department option:selected").val()),1);
         });
     })
 });
