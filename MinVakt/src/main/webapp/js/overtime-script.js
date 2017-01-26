@@ -122,7 +122,7 @@ function approveOvertime(shiftid) {
 function rejectOvertime(shiftid) {
     $.ajax({
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
-        type: "PUT",
+        type: "DELETE",
         url: "/MinVakt/rest/shifts/rejectOvertime",
         dataType: 'json',
         data: JSON.stringify({
@@ -185,7 +185,7 @@ function getAvailableShifts(startTime, endTime) {
 
     $.ajax({
         type: "GET",
-        url: "/MinVakt/rest/shifts/tradeable/" + startTime + "/" + endTime,
+        url: "/MinVakt/rest/shifts/overtime/",
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data) {
             addRow(data);

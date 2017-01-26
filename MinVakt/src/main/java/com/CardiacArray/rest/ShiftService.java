@@ -239,8 +239,8 @@ public class ShiftService {
 
     /**
      *
-     * @param shift a Shift object
-     * @return true if overtime is approved
+     * @param shift a Shift object containing only shiftId
+     * @return 200 if database update is successful, 400 if it's not
      */
     @POST
     @Path("/approveOvertime")
@@ -258,6 +258,33 @@ public class ShiftService {
             String endTime = simpleDate.format(shift.getEndTime());
             String email = "Hei./nDin overtid " + date + " fra + " + startTime  + " til " + endTime + " er godkjent/nHilsen MinVakt.";
             Mail.sendMail(user.getEmail(), "Godkjent overtid", email);
+            return Response.ok().build();
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
+
+    /**
+     *
+     * @param shift a Shift object containing only shiftId
+     * @return 200 if database update is successful, 400 if it's not
+     */
+    @DELETE
+    @Path("/rejectOvertime")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response rejectOvertime(Shift shift) {
+        if(validateShift(shift) && overtimeDb.deleteOvertime(shift)) {
+            User user = userDb.getUserById(shift.getUserId());
+            TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
+            SimpleDateFormat simpleDate = new SimpleDateFormat("dd.mm.yyyy");
+            SimpleDateFormat simpleTime = new SimpleDateFormat("HH.mm");
+            simpleDate.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
+            simpleTime.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
+            String date = simpleDate.format(shift.getStartTime());
+            String startTime = simpleDate.format(shift.getStartTime());
+            String endTime = simpleDate.format(shift.getEndTime());
+            String email = "Hei./nDin overtid " + date + " fra + " + startTime  + " til " + endTime + " er ikke godkjent/nHilsen MinVakt.";
+            Mail.sendMail(user.getEmail(), "Ikke godkjent overtid", email);
             return Response.ok().build();
         } else {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -346,7 +373,7 @@ public class ShiftService {
      * @return a collection of all overtime requests
      */
     @GET
-    @Path("/overtime/get")
+    @Path("/overtime")
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Shift> getAllOvertimeRequests() throws Exception {
         Map<Shift,Shift> map = new HashMap<>();
