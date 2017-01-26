@@ -7,12 +7,10 @@ import com.CardiacArray.data.User;
 import com.CardiacArray.db.OvertimeDb;
 import com.CardiacArray.db.ShiftDb;
 import com.CardiacArray.db.UserDb;
-import com.CardiacArray.db.DbManager;
-import java.sql.Connection;
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -114,7 +112,7 @@ public class UserService {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setUserAvailable(@PathParam("userId") int userId, @PathParam("date") long date,
                                      @PathParam("start") long start, @PathParam("end") long end) {
-        User user = userDb.getUserByEmail(userId);
+        User user = userDb.getUserById(userId);
         if (user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || !user.isValidEmail(user.getEmail())) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

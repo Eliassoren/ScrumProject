@@ -1,7 +1,6 @@
 package com.CardiacArray.db;
 
 import com.CardiacArray.data.Shift;
-import com.CardiacArray.data.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -107,7 +106,7 @@ public class OvertimeDb extends DbManager {
         return returnValue;
     }
 
-    public boolean aprove(Shift shift){
+    public boolean approve(Shift shift){
         boolean returnValue = false;
         String toSQL = "UPDATE overtime " +
                 "SET approved = 1 " +
@@ -141,7 +140,7 @@ public class OvertimeDb extends DbManager {
         System.out.println("miliend = " + end);
 
         System.out.println("Get = " + shift.equals(test.getOvertime(shift)));
-        System.out.println("Approve = " + test.aprove(shift));
+        System.out.println("Approve = " + test.approve(shift));
 
         System.out.println(test.deleteOvertime(shift));
     }

@@ -167,7 +167,7 @@ public class ShiftService {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Shift> getTradeable(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime, @PathParam("userId") int userId){
         if (startTime > endTime) throw  new BadRequestException();
-        User user = userDb.getUserByEmail(userId);
+        User user = userDb.getUserById(userId);
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
         System.out.println("Datoer " + new Date(startTime) + " " + new Date(endTime));
         Map<Shift, Shift> map = new HashMap<>();
@@ -201,7 +201,7 @@ public class ShiftService {
     public boolean approveOvertime(Shift shift){
         boolean approvedResponse = false;
         if(validateShift(shift)){
-            approvedResponse = overtimeDb.aprove(shift);
+            approvedResponse = overtimeDb.approve(shift);
         }else{
             throw new BadRequestException();
         }
@@ -245,8 +245,8 @@ public class ShiftService {
         ArrayList<Shift> foundChangeovers = shiftDb.getChangeRequest();
 
         for(Shift shift : foundChangeovers){
-            User oldUser = userDb.getUserByEmail(shiftDb.getShift(shift.getShiftId()).getUserId());
-            User newUser = userDb.getUserByEmail(shift.getUserId());
+            User oldUser = userDb.getUserById(shiftDb.getShift(shift.getShiftId()).getUserId());
+            User newUser = userDb.getUserById(shift.getUserId());
 
             Changeover tempChangeover = new Changeover(oldUser,newUser,shift.getShiftId());
             map.put(tempChangeover,tempChangeover);
