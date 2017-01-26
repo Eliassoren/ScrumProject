@@ -1,8 +1,11 @@
 
 package com.CardiacArray.rest;
 
+import com.CardiacArray.AuthFilter.Role;
+import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.Mail.Mail;
 import com.CardiacArray.data.Changeover;
+import com.CardiacArray.data.Overtime;
 import com.CardiacArray.data.Shift;
 import com.CardiacArray.data.User;
 import com.CardiacArray.db.OvertimeDb;
@@ -15,6 +18,7 @@ import javax.ws.rs.core.Response;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Secured({Role.ADMIN, Role.USER})
 @Path("/shifts")
 public class ShiftService {
 
@@ -242,21 +246,22 @@ public class ShiftService {
      * @param shift a Shift object containing only shiftId
      * @return 200 if database update is successful, 400 if it's not
      */
-    @POST
+    @PUT
     @Path("/approveOvertime")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response approveOvertime(Shift shift) {
-        if(validateShift(shift) && overtimeDb.approve(shift)) {
+        if(overtimeDb.approve(shift)) {
             User user = userDb.getUserById(shift.getUserId());
+            Overtime overtime = overtimeDb.getOvertimeByShiftId(shift.getShiftId());
             TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
-            SimpleDateFormat simpleDate = new SimpleDateFormat("dd.mm.yyyy");
+            SimpleDateFormat simpleDate = new SimpleDateFormat("dd.MM.yyyy");
             SimpleDateFormat simpleTime = new SimpleDateFormat("HH.mm");
             simpleDate.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
             simpleTime.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
-            String date = simpleDate.format(shift.getStartTime());
-            String startTime = simpleDate.format(shift.getStartTime());
-            String endTime = simpleDate.format(shift.getEndTime());
-            String email = "Hei./nDin overtid " + date + " fra + " + startTime  + " til " + endTime + " er godkjent/nHilsen MinVakt.";
+            String date = simpleDate.format(overtime.getStartTime());
+            String startTime = simpleTime.format(overtime.getStartTime());
+            String endTime = simpleTime.format(overtime.getEndTime());
+            String email = "Hei.\n\nDin overtid " + date + " fra " + startTime  + " til " + endTime + " er godkjent\n\nHilsen MinVakt.";
             Mail.sendMail(user.getEmail(), "Godkjent overtid", email);
             return Response.ok().build();
         } else {
@@ -273,17 +278,18 @@ public class ShiftService {
     @Path("/rejectOvertime")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response rejectOvertime(Shift shift) {
-        if(validateShift(shift) && overtimeDb.deleteOvertime(shift)) {
+        Overtime overtime = overtimeDb.getOvertimeByShiftId(shift.getShiftId());
+        if(overtimeDb.deleteOvertime(shift)) {
             User user = userDb.getUserById(shift.getUserId());
             TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
-            SimpleDateFormat simpleDate = new SimpleDateFormat("dd.mm.yyyy");
+            SimpleDateFormat simpleDate = new SimpleDateFormat("dd.MM.yyyy");
             SimpleDateFormat simpleTime = new SimpleDateFormat("HH.mm");
             simpleDate.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
             simpleTime.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
-            String date = simpleDate.format(shift.getStartTime());
-            String startTime = simpleDate.format(shift.getStartTime());
-            String endTime = simpleDate.format(shift.getEndTime());
-            String email = "Hei./nDin overtid " + date + " fra + " + startTime  + " til " + endTime + " er ikke godkjent/nHilsen MinVakt.";
+            String date = simpleDate.format(overtime.getStartTime());
+            String startTime = simpleTime.format(overtime.getStartTime());
+            String endTime = simpleTime.format(overtime.getEndTime());
+            String email = "Hei.\n\nDin overtid " + date + " fra " + startTime  + " til " + endTime + " er ikke godkjent\n\nHilsen MinVakt.";
             Mail.sendMail(user.getEmail(), "Ikke godkjent overtid", email);
             return Response.ok().build();
         } else {
@@ -375,13 +381,9 @@ public class ShiftService {
     @GET
     @Path("/overtime")
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Shift> getAllOvertimeRequests() throws Exception {
-        Map<Shift,Shift> map = new HashMap<>();
-        ArrayList<Shift> al = overtimeDb.getAllOvertime();
-        for (Shift shift : al){
-            map.put(shift,shift);
-        }
-        return map.values();
+    public ArrayList<Overtime> getAllOvertimeRequests() throws Exception {
+        ArrayList<Overtime> overtimes = overtimeDb.getAllOvertime();
+        return overtimes;
     }
 
     /**

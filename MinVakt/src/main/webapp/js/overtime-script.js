@@ -67,9 +67,9 @@ function addRow(data) {
                 .append($("<td/>")
                     .text(obj[i].shiftId)
                 ).append($("<td/>")
-                    .text(obj[i].userName)
+                    .text(obj[i].firstName + " " + obj[i].lastName)
                 ).append($("<td/>")
-                    .text(formatTime(new Date(obj[i].startTime).getHours() + ":" + new Date(obj[i].startTime).getMinutes()) + " - " + formatTime(new Date(obj[i].endTime).getHours() + ":" + new Date(obj[i].endTime).getMinutes()))
+                    .text(new Date(obj[i].startTime).getDate() + "." + new Date(obj[i].startTime).getMonth() + "." + new Date(obj[i].startTime).getFullYear() + " " + formatTime(new Date(obj[i].startTime).getHours() + ":" + new Date(obj[i].startTime).getMinutes()) + " - " + formatTime(new Date(obj[i].endTime).getHours() + ":" + new Date(obj[i].endTime).getMinutes()))
                 ).append($("<td/>")
                     .text(hours)
                 ).append($("<td/>")
@@ -77,30 +77,35 @@ function addRow(data) {
                     .addClass("overtime-list-button")
                     .addClass("accept")
                     .attr("data-shiftid", obj[i].shiftId)
+                    .attr("data-userid", obj[i].userId)
                     .click(function() {
-                        approveOvertime($(this).attr("data-shiftid"));
+                        approveOvertime($(this).attr("data-shiftid"), $(this).attr("data-userid"));
                      })
                 ).append($("<td/>")
                     .text("Ikke godkjenn")
                     .addClass("overtime-list-button")
                     .addClass("cancel")
                     .attr("data-shiftid", obj[i].shiftId)
+                    .attr("data-userid", obj[i].userId)
                     .click(function() {
-                        rejectOvertime($(this).attr("data-shiftid"));
+                        rejectOvertime($(this).attr("data-shiftid"), $(this).attr("data-userid"));
                     })
                 )
             )
     }
 }
 
-function approveOvertime(shiftid) {
+function approveOvertime(shiftId, userId) {
     $.ajax({
-        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token"),
+            'Content-Type': 'application/json',
+        },
         type: "PUT",
         url: "/MinVakt/rest/shifts/approveOvertime",
         dataType: 'json',
         data: JSON.stringify({
-            shiftId: shiftId
+            shiftId: shiftId,
+            userId: userId
         }),
         success: function (data) {
             console.log("Result: " + data);
@@ -119,14 +124,17 @@ function approveOvertime(shiftid) {
     })
 }
 
-function rejectOvertime(shiftid) {
+function rejectOvertime(shiftId, userId) {
     $.ajax({
-        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token"),
+            'Content-Type': 'application/json',
+        },
         type: "DELETE",
         url: "/MinVakt/rest/shifts/rejectOvertime",
         dataType: 'json',
         data: JSON.stringify({
-            shiftId: shiftId
+            shiftId: shiftId,
+            userId: userId
         }),
         success: function (data) {
             console.log("Result: " + data);

@@ -1,23 +1,30 @@
 package com.CardiacArray.data;
 
 
-import java.sql.Time;
+import java.util.Date;
 
 public class Overtime {
     private int overtimeId;
     private int shiftId;
-    private Time startTime;
-    private Time endTime;
+    private Date startTime;
+    private Date endTime;
     private int userId;
+    private String firstName;
+    private String lastName;
     private boolean approved;
 
-    public Overtime(int overtimeId, int shiftId, Time startTime, Time endTime, int userId, boolean approved) {
+    public Overtime(int overtimeId, int shiftId, int userId, String firstName, String lastName, Date startTime, Date endTime, boolean approved) {
         this.overtimeId = overtimeId;
         this.shiftId = shiftId;
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.userId = userId;
         this.approved = approved;
+    }
+
+    public Overtime() {
     }
 
     public int getOvertimeId() {
@@ -36,20 +43,28 @@ public class Overtime {
         this.shiftId = shiftId;
     }
 
-    public Time getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    public Time getEndTime() {
+    public void setStartTime(String startTime) {
+        this.startTime = new Date(Long.parseLong(startTime));
+    }
+
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Time endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = new Date(Long.parseLong(endTime));
     }
 
     public int getUserId() {
@@ -66,5 +81,21 @@ public class Overtime {
 
     public void setApproved(boolean approved) {
         this.approved = approved;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
