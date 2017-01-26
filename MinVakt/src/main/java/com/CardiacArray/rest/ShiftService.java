@@ -96,6 +96,82 @@ public class ShiftService {
     }
 
     /**
+     *
+     * @param startTime the start time for the period
+     * @param endTime the end time of for the period
+     * @return how many nurses missing on a given shift for a given time period
+     */
+    @GET
+    @Path("/missingnurse/{startTime}/{endTime}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public int getShiftsMissingNurse(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime) {
+        int countNurse = 0;
+        int countHealthWorker = 0;
+        int countAssistent = 0;
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
+
+        for (int i = 0; i < shifts.size(); i++) {
+            if (shifts.get(i).getRole() == 1 && shifts.get(i).getUserId() != 0) {
+                System.out.println(shifts.get(i).getRoleDescription());
+                countHealthWorker++;
+            } else if(shifts.get(i).getRole() == 2 && shifts.get(i).getUserId() != 0) {
+                System.out.println(shifts.get(i).getRoleDescription());
+                countNurse++;
+            } else if (shifts.get(i).getRole() == 3 && shifts.get(i).getUserId() != 0) {
+                countAssistent++;
+            }
+        }
+
+        int totalWorkers = countNurse + countHealthWorker + countAssistent;
+        System.out.println("Workers " + totalWorkers);
+        double nursesNeededTemp = totalWorkers * 0.20;
+        System.out.println("Nurses " + nursesNeededTemp);
+        if (nursesNeededTemp <= countNurse) {
+                return 0;
+        } else {
+            int nursedNeeded = (int) (Math.ceil(nursesNeededTemp) - countNurse);
+
+            return nursedNeeded;
+        }
+    }
+
+    /**
+     *
+     * @param startTime the start time for the period
+     * @param endTime the end time of for the period
+     * @return how many health workers missing on a given shift for a given time period
+     */
+    @GET
+    @Path("/missinghealthworker/{startTime}/{endTime}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public int getShiftsMissingHealthWorker(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime) {
+        int countNurse = 0;
+        int countHealthWorker = 0;
+        int countAssistent = 0;
+        ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
+
+        for (int i = 0; i < shifts.size(); i++) {
+            if (shifts.get(i).getRole() == 1 && shifts.get(i).getUserId() != 0) {
+                countHealthWorker++;
+            } else if(shifts.get(i).getRole() == 2 && shifts.get(i).getUserId() != 0) {
+                countNurse++;
+            } else if (shifts.get(i).getRole() == 3 && shifts.get(i).getUserId() != 0) {
+                countAssistent++;
+            }
+        }
+
+        int totalWorkers = countNurse + countHealthWorker + countAssistent;
+        double healthWorkersNeededTemp = totalWorkers * 0.30;
+        if (healthWorkersNeededTemp <= countHealthWorker) {
+            return 0;
+        } else {
+            int healthWorkersNeeded = (int) (Math.ceil(healthWorkersNeededTemp) - countHealthWorker);
+
+            return healthWorkersNeeded;
+        }
+    }
+
+    /**
      * Returns a list of all tradeable shifts
      *
      * @param startTime the start date for the shifts
