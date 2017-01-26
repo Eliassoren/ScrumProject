@@ -60,10 +60,10 @@ function addRow(data) {
         var hours = new Date(obj[i].endTime).getHours() - new Date(obj[i].startTime).getHours();
         if (hours < 0){
             hours = hours + 24;
-        }/*
+        }
         $("#overtime-table")
             .append($("<tr/>")
-                .addClass("tr" + i)
+                .attr("data-shiftid", obj[i].shiftId)
                 .append($("<td/>")
                     .text(obj[i].shiftId)
                 ).append($("<td/>")
@@ -74,42 +74,75 @@ function addRow(data) {
                     .text(hours)
                 ).append($("<td/>")
                     .text("Godkjenn")
-                    .addClass("overtime-listbutton")
-                    .addClass("id" + obj[i].shiftId)
+                    .addClass("overtime-list-button")
+                    .addClass("accept")
+                    .attr("data-shiftid", obj[i].shiftId)
+                    .click(function() {
+                        approveOvertime($(this).attr("data-shiftid"));
+                     })
+                ).append($("<td/>")
+                    .text("Ikke godkjenn")
+                    .addClass("overtime-list-button")
+                    .addClass("cancel")
+                    .attr("data-shiftid", obj[i].shiftId)
+                    .click(function() {
+                        rejectOvertime($(this).attr("data-shiftid"));
+                    })
                 )
-            );*/
-        tabBody = document.getElementById("overtime-table");
-        row = document.createElement("tr");
-        row.className = "tr" + i;
-        cell1 = document.createElement("td");
-        cell2 = document.createElement("td");
-        cell3 = document.createElement("td");
-        cell4 = document.createElement("td");
-        cell5 = document.createElement("td");
-        cell6 = document.createElement("td");
-        cell5.className = "overtime-list-button accept " + "id" + obj[i].shiftId;
-        cell6.className = "overtime-list-button cancel " + "id" + obj[i].shiftId;
-        textnode1 = document.createTextNode(obj[i].shiftId);
-        textnode2 = document.createTextNode(obj[i].userName);
-        textnode3 = document.createTextNode(formatTime(new Date(obj[i].startTime).getHours() + ":" + new Date(obj[i].startTime).getMinutes()) + " - " + formatTime(new Date(obj[i].endTime).getHours() + ":" + new Date(obj[i].endTime).getMinutes()));
-        textnode4 = document.createTextNode(hours);
-        textnode5 = document.createTextNode("Godkjenn");
-        textnode6 = document.createTextNode("Ikke godkjenn");
-        cell1.appendChild(textnode1);
-        cell2.appendChild(textnode2);
-        cell3.appendChild(textnode3);
-        cell4.appendChild(textnode4);
-        cell5.appendChild(textnode5);
-        cell6.appendChild(textnode6);
-        row.appendChild(cell1);
-        row.appendChild(cell2);
-        row.appendChild(cell3);
-        row.appendChild(cell4);
-        row.appendChild(cell5);
-        row.appendChild(cell6);
-        tabBody.appendChild(row);
-        //table = "evening-table";
+            )
     }
+}
+
+function approveOvertime(shiftid) {
+    $.ajax({
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        type: "PUT",
+        url: "/MinVakt/rest/shifts/approveOvertime",
+        dataType: 'json',
+        data: JSON.stringify({
+            shiftId: shiftId
+        }),
+        success: function (data) {
+            console.log("Result: " + data);
+            $("tr[data-shiftid=" + shiftId + "]").remove();
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                window.location.replace("/MinVakt/");
+            },
+            400: function () {
+                console.log(data);
+            }
+        }
+    })
+}
+
+function rejectOvertime(shiftid) {
+    $.ajax({
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        type: "PUT",
+        url: "/MinVakt/rest/shifts/rejectOvertime",
+        dataType: 'json',
+        data: JSON.stringify({
+            shiftId: shiftId
+        }),
+        success: function (data) {
+            console.log("Result: " + data);
+            $("tr[data-shiftid=" + shiftId + "]").remove();
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                window.location.replace("/MinVakt/");
+            },
+            400: function () {
+                console.log(data);
+            }
+        }
+    })
 }
 
 function getShiftAndTrade(id, bool){
@@ -125,10 +158,7 @@ function getShiftAndTrade(id, bool){
 
 function setShiftTradeablePut(shift, bool) {
     $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         type: "PUT",
         url: "/MinVakt/rest/shifts/",
         dataType: 'json',
