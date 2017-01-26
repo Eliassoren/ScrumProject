@@ -936,12 +936,8 @@ tr:hover{background-color: #979797 !important; cursor: pointer;}
 .employee-form-banner{
     transition: 0.5s ease-in-out;
 
-    /* TODO this is important to set to hidden once the banner is completed!!  AND OPACITY TO 0*/
-    visibility: hidden;
-    opacity: 0;
 
-
-    z-index: 3;
+    z-index: 500;
     position: fixed;
     top:50%;
     transform: translate(0,-50%);

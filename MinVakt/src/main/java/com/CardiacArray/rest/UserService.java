@@ -102,14 +102,13 @@ public class UserService {
 
     /**
      *
-     * @param user
+     * @param userId
      * @return
      */
     @PUT
-    @Path("/delete")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public boolean deleteUser(User user) {
-        User userFound = userDb.getUserByEmail(user.getEmail());
+    @Path("/delete/{userId}")
+    public boolean deleteUser(@PathParam("userId") int userId) {
+        User userFound = userDb.getUserById(userId);
         if(userFound.getFirstName() == null && userFound.getLastName() == null) throw new NotFoundException();
         else {
             userFound.setActive(false);

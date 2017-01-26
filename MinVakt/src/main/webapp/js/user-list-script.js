@@ -8,6 +8,13 @@ $(document).ready(function() {
 
     getAllUsers();
 
+    $(".new-button").click(function(){
+        $("body").prepend("<div/>").addClass("new-user-div");
+        $(".new-user-div").load("template/new-user.html", function(){
+            
+        })
+    })
+
 });
 
 function getAllUsers() {
@@ -52,17 +59,40 @@ function addRowEmployee(data) {
         $(".days").click(function(){
             $(".opacity").addClass("blur-activate");
             $(".employee-form-banner").addClass("show-banner");
-            var userId = $(this).attr("userId");
+            var userId = $(this).attr("user-id");
+            console.log(userId);
             $("#overlay-placer").load("template/user-list-user.html", function(){
                 $(".stilling").text("Stilling: " + users[userId].userCategoryString);
+                $(".name").text(users[userId].firstName + " " + users[userId].lastName);
+                $(".telefon").text("Telefon: " + users[userId].mobile);
+                $(".epost").text("Epost: " + users[userId].email);
+                $(".adresse").text("Adresse: " + users[userId].address);
+
+
+                $(".fa-times").click(function(){
+                    $(".opacity").removeClass("blur-activate");
+                    $(".employee-form-banner").remove();
+
+                });
+
+                $(".employee-form-delete-button").click(function(){
+                    bannerConfirm("Er du helt sikker på at du vil slette bruker?", function(){
+                            $.ajax({
+                                type: "PUT",
+                                url: "/MinVakt/rest/users/delete/" + userId,
+                                headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+                                success: function (data) {
+                                    location.reload(true);
+                                }
+                            })
+                    })
+                })
             })
 
 
+
         });
 
-        $(".fa-times").click(function(){
-            $(".opacity").removeClass("blur-activate");
-            $(".employee-form-banner").removeClass("show-banner");
-        });
+
     }
 }

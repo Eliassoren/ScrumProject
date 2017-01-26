@@ -405,7 +405,7 @@ public class UserDb extends DbManager {
         ArrayList<User> al = new ArrayList<>();
         try {
             String toSQL = "select * from user join user_category " +
-                    "on user.user_category_id = user_category.user_category_id ";
+                    "on user.user_category_id = user_category.user_category_id WHERE active = 1";
             statement = connection.prepareStatement(toSQL);
             res = statement.executeQuery();
             while(res.next()) {
