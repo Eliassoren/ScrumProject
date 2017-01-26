@@ -395,7 +395,7 @@ public class UserDb extends DbManager {
                 Timestamp startTime = res.getTimestamp("start_time");
                 Timestamp endTime = res.getTimestamp("end_time");
                 int workpercent = res.getInt("work_percent");
-                int departmentId = res.getInt("departmentId");
+                int departmentId = res.getInt("department_id");
                 Available tempAvailable = new Available(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workpercent,departmentId,new Date(startLong),new Date(endLong));
                 availables.add(tempAvailable);
             }

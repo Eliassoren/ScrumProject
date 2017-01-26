@@ -34,32 +34,37 @@ $(document).ready(function() {
 
     getShiftsForWeek();
 
+    $(".no-user").click(function(){
+        $(".user-row").remove();
+    })
 
-
-    $(".day").click(function(){
-        $(this).toggleClass("blue");
-    });
 
     $(".day").click(function () {
-        $(".user-row").remove();
-        var usersAdded = [];
-        var daysSelected = selectedDays();
-       for (var i = 0; i < daysSelected.length; i++){
-           var usersDay = availableUser[Number(daysSelected[i]) - 1];
-           if (usersDay !== undefined){
-               for (var j = 0; j < usersDay.length; j++){
-                       //console.log(usersDay[j]);
-                   if (usersAdded[usersDay[j].id] != 1){
-                       console.log(usersDay[j] != 1)
-                       usersAdded[usersDay[j].id] = 1;
-                       console.log(usersAdded);
-                       addRow(usersDay[j]);
-                   }
+        $(this).toggleClass("blue");
 
+
+        if ($(".no-user[name='no-user']:checked").length == 0) {
+            $(".user-row").remove();
+            var usersAdded = [];
+            var daysSelected = selectedDays();
+           for (var i = 0; i < daysSelected.length; i++){
+               var usersDay = availableUser[Number(daysSelected[i]) - 1];
+               if (usersDay !== undefined){
+                   for (var j = 0; j < usersDay.length; j++){
+                           //console.log(usersDay[j]);
+                       if (usersAdded[usersDay[j].id] != 1){
+                           console.log(usersDay[j] != 1)
+                           usersAdded[usersDay[j].id] = 1;
+                           console.log(usersAdded);
+                           addRow(usersDay[j]);
+                       }
+                   }
                }
            }
-       }
+        }
+
     });
+
 
     $(".accept-button").click(function(){
         var shiftProfile = $(".input-time[name=time-of-day]:checked").attr("id");
@@ -84,7 +89,9 @@ $(document).ready(function() {
                 end = "16:00";
         }
 
-        bannerConfirm("Bekreft " + selectedDays().length * selectedUser().length + " vakter?", createShifts(start, end, 1 ,1));
+        bannerConfirm("Bekreft " + selectedDays().length * selectedUser().length + " vakter?", function(){
+            createShifts(start, end, 1 ,1);
+        });
     })
 });
 
@@ -93,9 +100,10 @@ function getShiftsForWeek() {
     $(".admin-shift-shiftItem").remove();
     var monday = getDateOfWeek(week, dateNow.getFullYear());
     var sunday = getDateOfWeek(week, dateNow.getFullYear());
-    sunday.setDate(sunday.getDate() + 6);
+    sunday.setDate(Number(sunday.getDate()) + 6);
     sunday.setHours(23);
     sunday.setMinutes(59);
+    console.log("Sunday = " + sunday );
     $.ajax({
         type: "GET",
         url: "/MinVakt/rest/shifts/" + monday.getTime() + "/" + sunday.getTime(),
@@ -137,18 +145,24 @@ function getAvailableUsers(starter, ender, place) {
 
 function addShifts(shift) {
     var date = new Date(shift.startTime).getDay();
+    if(date == 0) {date = 7}
     var shiftItem = $("<div/>").addClass("admin-shift-shiftItem");
     var assignedUser = (shift.userName != "" ? shift.userName : "Ingen ansatt");
     shiftItem.append("<div>" + assignedUser + "</div>");
+    shiftItem.attr("id", shift.shiftId);
     shiftItem.append("<div>" + formatTime(new Date(shift.startTime+3600000)) + " - " + formatTime(new Date(shift.endTime+3600000)) + "</div>");
     $("#day" + date).append(shiftItem);
 }
 
 function selectedUser(){
     var usersSelected = [];
-    $(".user-selected").each(function(){
-        usersSelected.push(Number($(this).attr("id")));
-    });
+    if ($(".no-user[name='no-user']:checked").length == 1) {
+        usersSelected.push(0);
+    } else {
+        $(".user-selected").each(function(){
+            usersSelected.push(Number($(this).attr("id")));
+        });
+    }
     return usersSelected;
 }
 
@@ -167,7 +181,7 @@ function createShifts(start, end, department, role) {
     }
     var users = selectedUser();
     var days = selectedDays();
-    if (users == 0 || days == 0) {
+    if (($(".no-user[name='no-user']:checked").length == 0 && users == 0) || days == 0) {
         bannerAlert("Vennligst velg bruker(e) og dag(er)");
         return;
     }
@@ -175,10 +189,12 @@ function createShifts(start, end, department, role) {
     for (var i = 0; i < days.length; i++) {
         var dateOfShift = getDateOfWeek(week, dateNow.getFullYear());
         var endOfShift = getDateOfWeek(week, dateNow.getFullYear());
+        console.log(dateOfShift + " " + endOfShift);
         var startTime = start.split(":");
         var endTime = end.split(":");
-        dateOfShift.setDate(Number(getDateOfWeek(week, dateNow.getFullYear()).getDate()) + (days[i] - 1));
-        endOfShift.setDate(Number(getDateOfWeek(week, dateNow.getFullYear()).getDate()) + (days[i] - 1));
+        dateOfShift.setDate(Number(getDateOfWeek(week, dateNow.getFullYear()).getDate()) + Number(days[i] - 1));
+        endOfShift.setDate(Number(getDateOfWeek(week, dateNow.getFullYear()).getDate()) + Number(days[i] - 1));
+        console.log(dateOfShift + " " + endOfShift);
         dateOfShift.setHours(startTime[0]);
         dateOfShift.setMinutes(startTime[1]);
         endOfShift.setHours(endTime[0]);
@@ -237,3 +253,22 @@ function addRow(userObj) {
     });
 }
 
+function getAllUsers(){
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/users/availability/" + starter.getTime() + "/" + ender.getTime(),
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function(data){
+            if(data.length != 0){
+                availableUser[place] = data;
+            }
+
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                window.location.replace("/MinVakt/");
+            }
+        }
+    })
+}
