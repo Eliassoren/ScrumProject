@@ -30,7 +30,7 @@ import javax.ws.rs.core.*;
  * @author Team 1
  */
 @Path("/session")
-public class LoginService {
+public class    LoginService {
 
     private UserDb userDb = new UserDb();
     private PasswordUtil passwordUtil = new PasswordUtil();

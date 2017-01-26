@@ -18,8 +18,6 @@ public class Shift {
     private Time startTimeTime;
     private Time endTimeTime;
 
-
-
     public Shift(int shiftId, Date startTime, Date endTime, int userId, String userName, int departmentId, int role, boolean tradeable, boolean responsibleUser, String roleDescription) {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         if (startTime.getTime() >= endTime.getTime()) throw new IllegalArgumentException("Shift duration is less than 1 min");

@@ -320,6 +320,14 @@ public class User {
         return expired;
     }
 
+    public int getDepartementId() {
+        return departmentId;
+    }
+
+    public void setDepartementId(int departmentId) {
+        this.departmentId = departmentId;
+    }
+
     /**
      *
      * @param email email of the user
