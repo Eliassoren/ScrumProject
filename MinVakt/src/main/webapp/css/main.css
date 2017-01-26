@@ -787,6 +787,8 @@ th {color: #2D5684; text-align: center}
 }
 
 .fixed-main-container-outer{
+    overflow: hidden;
+    transition: 0.8s;
     position: fixed;
     background-color: #2D5684;
     width: 100%;
@@ -797,17 +799,27 @@ th {color: #2D5684; text-align: center}
 
 .fixed-main-container-inner{
     position: relative;
-    background-color: #2D5684;
+    background-color: transparent;
     width: 50%;
     height: 100%;
     margin: auto;
 }
 
-.a-text-header{
+.a-text-header, .a-fade-in-text{
     font-size: 50px;
     color: white;
     font-family: 'Source Sans Pro', sans-serif; !important;
     text-align: center;
+}
+
+.a-fade-in-text{
+    pointer-events: none;
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    transition: 5.0s;
+    opacity: 0;
 }
 
 .absence{
@@ -820,6 +832,8 @@ th {color: #2D5684; text-align: center}
     width: 80px;
     height: 30px;
     background-color: white;
+    font-family: 'Source Sans Pro', sans-serif; !important;
+    font-size: 2rem;
 }
 
 .a-label{
@@ -838,6 +852,7 @@ th {color: #2D5684; text-align: center}
 }
 
 .absence-calendar-container{
+    cursor: default;
     text-align: center;
     font-family: 'Source Sans Pro', sans-serif; !important;
     font-size: 2rem;
@@ -852,4 +867,61 @@ th {color: #2D5684; text-align: center}
 
 .a-item3{
     text-align: center;
+}
+
+.fa-times{
+    z-index: 100;
+    color: white;
+    position: absolute;
+    font-size: 50px;
+    right: 0;
+    top: 0;
+}
+
+.fa-times:hover{
+    color: #90BAED;
+    cursor: pointer;
+}
+
+.a-item4{
+    margin: auto;
+    width: 250px;
+}
+
+.a-button{
+    color: white;
+    font-size: 2rem;
+    width: 49%;
+    background-color: #2D5684;
+}
+
+.a-item1{
+    height: 100px;
+    padding-top: 50px;
+}
+
+.cancel-activate{
+    background-color: #ee5c58;
+}
+
+.confirm-activate{
+    background-color: rgb(140, 173, 43);
+}
+
+.a-removeable{
+    transition: 0.3s;
+}
+
+.a-removeable-activate{
+    pointer-events: none;
+    opacity: 0;
+}
+
+.a-fade-in-text-activate{
+    opacity: 1;
+}
+
+.fa-times-activate{
+    pointer-events: none;
+    opacity: 0;
 }
