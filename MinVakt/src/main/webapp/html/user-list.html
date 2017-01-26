@@ -11,16 +11,18 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/af.js"></script>
     <script type="text/javascript" src="../js/checklogin.js"></script>
     <script type="text/javascript" src="../js/moment.js"></script>
-    <script type="text/javascript" src="../js/main.js"></script>
+    <script type="text/javascript" src="../js/lib.js"></script>
+    <script type="text/javascript" src="../js/user-list-script.js"></script>
     <link rel= "stylesheet" href = "../css/main.css">
     <link rel = "stylesheet" href = "../css/admin-shift-style.css">
+    <link rel = "stylesheet" href = "../css/user-form.css">
     <title>Ansatte</title>
 </head>
 <body>
 <div id="overlay-placer"></div>
 
 
-<div id="header">
+<div id="header" class="opacity">
     <div class="icon-bar">
         <a id="hamburger-toggle" class="fa fa-bars"></a>
         <ul id="hamburger-menu">
@@ -40,8 +42,23 @@
 </div>
 
 <!--TODO-->
-<h2 id = "users-h2">Ansatte</h2>
-<div class = "container">
+<h2 id = "users-h2" class="opacity">Ansatte</h2>
+<div class = "container opacity">
+    <div id = "user-list">
+        <table class="employee-table">
+            <tbody id="employee-table">
+
+            <th class = "table-header">Navn</th>
+            <th class = "table-header">Stilling</th>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="button-container-new">
+        <button class="new-button">Registrer ny ansatt</button>
+    </div>
+
 
 </div>
 <footer>
