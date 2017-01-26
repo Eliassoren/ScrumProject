@@ -32,7 +32,74 @@ $(document).ready(
         })
     }
 );
+function editPassword(){
+    var userId = window.localStorage.getItem("userid");
 
+    $("#edit-password-form").validate({
+        rules: {
+            old_password: {
+                required: true,
+                minlength: 8
+            },
+            new_password: {
+                required: true,
+                minlength: 8
+            },
+            confirm_new_password: {
+                required: true,
+                minlength: 8
+            }
+
+        },
+        messages: {
+
+            old_password: {
+                required: "Passord er obligatorisk.",
+                minlength: "Passordet må bestå av minimum 8 tegn."
+            },
+            new_password: {
+                required: "Nytt passord må fylles ut.",
+                minlength: "Passordet må bestå av minimum 8 tegn."
+            },
+            confirm_new_password: {
+                required: "Nytt passord må bekreftes.",
+                minlength: "Passordet må bestå av minimum 8 tegn."
+            }
+        },
+        errorPlacement: function(error, element) {
+            error.appendTo($("#" + element.attr("id") + "-error"));
+        },
+        submitHandler: function(form) {
+
+            $.ajax({
+                type: "PUT",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                url: "MinVakt/rest/users/",
+                data: $(form).serialize(),
+                response: "json",
+                statusCode: {
+                    409: function() {
+                        $("#error-message").text("Noe gikk galt. Bruker ble ikke endret. Prøv igjen senere. Hvis feilen fortsetter, " +
+                            "kontakt service");
+
+                    },
+                    401: function () {
+                        localStorage.removeItem("token");
+                        window.location.replace("/MinVakt/");
+                    }
+                },
+                success: function(data) {
+                    console.log(data);
+                    return data;
+                }
+            })
+        }
+    });
+}
 function updateUser (user) {
     $.ajax({
         headers: {
