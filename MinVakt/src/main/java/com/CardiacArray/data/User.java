@@ -80,10 +80,18 @@ public class User {
         }
     }
 
+    /**
+     *
+     * @return work percent of a user
+     */
     public int getWorkPercent() {
         return workPercent;
     }
 
+    /**
+     *
+     * @param workPercent work percent to be set
+     */
     public void setWorkPercent(int workPercent) {
         this.workPercent = workPercent;
     }
@@ -112,25 +120,30 @@ public class User {
         }
     }
 
-
-
     public User() {
         
     }
 
     /**
      *
-     * @return the user id
+     * @return true if active, false if not
      */
-
     public boolean isActive() {
         return active;
     }
 
+    /**
+     *
+     * @param active set active as true of false
+     */
     public void setActive(boolean active) {
         this.active = active;
     }
 
+    /**
+     *
+     * @return the user id
+     */
     public int getId() {
         return id;
     }
@@ -336,6 +349,10 @@ public class User {
         return false;
     }
 
+    /**
+     *
+     * @return if USER or ADMIN
+     */
     public Role getRole() {
         return role;
     }

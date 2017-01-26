@@ -148,7 +148,7 @@ public class ShiftService {
     }
 
     /**
-     * Createing new shift
+     * Creating new shift
      *
      * @param shift-object to be created
      * @return  a negative number if the shift was not created. shiftId if it was created
@@ -273,7 +273,7 @@ public class ShiftService {
 
     /**
      *
-     * @return collection of users who want to a shift changeover
+     * @return collection of users who want to do a shift changeover
      */
     @GET
     @Path("/changeover")
@@ -292,6 +292,10 @@ public class ShiftService {
         return map.values();
     }
 
+    /**
+     *
+     * @return a collection of all overtime requests
+     */
     @GET
     @Path("/overtime")
     @Produces(MediaType.APPLICATION_JSON)
@@ -304,6 +308,11 @@ public class ShiftService {
         return map.values();
     }
 
+    /**
+     *
+     * @param shift a Shift object
+     * @return false if a shift is not valid
+     */
     private boolean validateShift(Shift shift){
         Date start = shift.getStartTime();
         Date end = shift.getEndTime();

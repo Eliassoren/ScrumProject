@@ -86,8 +86,8 @@ public class UserService {
 
     /**
      *
-     * @param user
-     * @return
+     * @param user a User object
+     * @return true if user is set as inactive
      */
     @PUT
     @Path("/delete")
@@ -141,6 +141,13 @@ public class UserService {
         return Response.ok().build();
     }
 
+    /**
+     *
+     * @param startTime start time of the period
+     * @param endTime end time of the period
+     * @param userId id of the user
+     * @return a long with hours worked
+     */
     @GET
     @Path("/hours/{startTime}/{endTime}/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -156,6 +163,13 @@ public class UserService {
         return hoursWorked;
     }
 
+    /**
+     *
+     * @param shift a Shift objet
+     * @param startTime start time of the period
+     * @param endTime end time of the period
+     * @return a long with total overtime hours
+     */
     public long checkOvertimeforPeriod(Shift shift, long startTime, long endTime){
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime),shift.getUserId());
         long totOvertimeHours = 0;
@@ -171,6 +185,13 @@ public class UserService {
         return totOvertimeHours;
     }
 
+    /**
+     *
+     * @param userId id of the user
+     * @param startTime start time of the period
+     * @param endTime end time of the period
+     * @return an array with overtime for a given period
+     */
     @GET
     @Path("/overtime/{userId}/{startTime}/{endTime}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -195,10 +216,10 @@ public class UserService {
 
     /**
      *
-     * @param shift
-     * @param from
-     * @param to
-     * @return
+     * @param shift a Shift object
+     * @param from start time
+     * @param to end time
+     * @return true if successful
      */
     @POST
     @Path("/overtime/{from}/{to}")
