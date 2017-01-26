@@ -12,6 +12,7 @@ import com.CardiacArray.db.UserDb;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Path("/shifts")
@@ -226,7 +227,15 @@ public class ShiftService {
     public Response approveOvertime(Shift shift) {
         if(validateShift(shift) && overtimeDb.approve(shift)) {
             User user = userDb.getUserById(shift.getUserId());
-            String email = "Hei./nDin overtid " + shift.getStartTime().getDate() + " er godkjent/nHilsen MinVakt.";
+            TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
+            SimpleDateFormat simpleDate = new SimpleDateFormat("dd.mm.yyyy");
+            SimpleDateFormat simpleTime = new SimpleDateFormat("HH.mm");
+            simpleDate.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
+            simpleTime.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
+            String date = simpleDate.format(shift.getStartTime());
+            String startTime = simpleDate.format(shift.getStartTime());
+            String endTime = simpleDate.format(shift.getEndTime());
+            String email = "Hei./nDin overtid " + date + " fra + " + startTime  + " til " + endTime + " er godkjent/nHilsen MinVakt.";
             Mail.sendMail(user.getEmail(), "Godkjent overtid", email);
             return Response.ok().build();
         } else {
