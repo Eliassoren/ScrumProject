@@ -13,6 +13,7 @@
     <script type="text/javascript" src="../js/checklogin.js"></script>
     <script type="text/javascript" src="../js/moment.js"></script>
     <script type="text/javascript" src="../js/main.js"></script>
+    <script type="text/javascript" src="../js/user-profile.js"></script>
     <!--link rel="stylesheet" href="../css/main.css"-->
     <link rel="stylesheet" href="../css/user-form.css">
     <title>Profil</title>
@@ -46,25 +47,25 @@
             <label id= "last-name-label" class = "text-label" for="last_name">Etternavn</label>
         </div>
         <div class = "inline-container">
-            <input class = "input" id = "first_name" type = "text" placeholder = " Fornavn" name="firstName">
-            <input class = "input" id = "last_name" type = "text" placeholder = " Etternavn" name="lastName">
+            <input class = "input" id = "first_name" type = "text" placeholder = " Fornavn" name="firstName"  readonly>
+            <input class = "input" id = "last_name" type = "text" placeholder = " Etternavn" name="lastName"  readonly>
         </div>
         <div class = "label-line inline-container">
-            <label class = "postal-label" for="address">Adresse</label>
-            <label id = "postal-code-label" class = "postal-label" for="postal_code">Postkode</label>
+            <label class = "postal-label" for="address"  readonly>Adresse</label>
+            <label id = "postal-code-label" class = "postal-label" for="postal_code"  readonly>Postkode</label>
         </div>
         <div class = "inline-container">
 
-            <input class = "input" id = "address" type = "text" placeholder = " Adresse" name="address">
-            <input class = "input" id = "postal_code" type = "text" placeholder = " Postnr.">
+            <input class = "input" id = "address" type = "text" placeholder = " Adresse" name="address"  readonly>
+            <input class = "input" id = "postal_code" type = "text" placeholder = " Postnr."  readonly>
         </div>
         <div class = "label-line inline-container">
             <label class = "text-label" for="phone">Telefon</label>
         </div>
-        <input class = "input" id = "phone" type = "text" placeholder = " Telefon" name="mobile">
+        <input class = "input" id = "phone" type = "text" placeholder = " Telefon" name="mobile"  readonly>
         <div class = "label-line inline-container">
             <label class = "text-label" for="email">Epost</label></div>
-        <input class = "input" id = "email" type = "text" placeholder = " Epost" name="email">
+        <input class = "input" id = "email" type = "text" placeholder = " Epost" name="email"  readonly>
     </fieldset>
     <fieldset class = "fieldset">
         <legend>Ansattinfo</legend>
@@ -74,20 +75,20 @@
             <label class = "select-label" for = "spinner" id = "work-percent-label">Stillingsprosent</label>
         </div>
         <div class = "inline-container">
-            <select required class = "select section-picker picker" id = "dept_cb">
+            <select required class = "select section-picker picker" id = "dept_cb" >
                 <option value = "" disabled selected>Velg Avdeling..</option>
                 <option value = "1" >Nord</option>
                 <option value = "2">Sør</option>
                 <option value = "3">Øst</option>
                 <option value = "4">Vest</option>
             </select>
-            <select required class = "select section-picker picker" id = "position_cb" name="userCategoryInt">
-                <option value = "" disabled selected>Velg Stillingstype..</option>
+            <select required class = "select section-picker picker" id = "position_cb" name="userCategoryInt"  >
+                <option value = "" disabled selected >Velg Stillingstype..</option>
                 <option value = "1">Assistent</option>
                 <option value = "2">Helsefagarbeider</option>
                 <option value = "3">Sykepleier</option>
             </select>
-            <input class ="select" id= "spinner" type="number" min="0" max = "100" step="1" value="0" size = "6">
+            <input class ="select" id= "spinner" type="number" min="0" max = "100" step="1" value="0" size = "6"  readonly>
         </div>
         <!--div class = "inline-container">
             <label class = "label" for = "active_checkbox"> <input checked class = "input" id = "active_checkbox" type = "checkbox"  name = active>Aktiv</label>
@@ -99,7 +100,7 @@
     <fieldset>
         <legend>Endre passord</legend>
         <div class = "label-line inline-container">
-            <label class = "text-label" for = "old_password">Gammel passord</label>
+            <label class = "text-label" for = "old_password">Gammelt passord</label>
         </div>
 
         <input class="input" id = "old_password" type = "text" placeholder = " Gammelt passord" name="old-pw">

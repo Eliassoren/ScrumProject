@@ -3,8 +3,6 @@ package com.CardiacArray.db;
 import com.CardiacArray.data.User;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -20,7 +18,7 @@ public class UserDb extends DbManager {
     @param id Id of user
     @return User specified by id
      */
-    public User getUserByEmail(int id){
+    public User getUserById(int id){
         User user = new User();
         try {
             String toSQL = "select * from user join user_category " +
@@ -384,7 +382,7 @@ public class UserDb extends DbManager {
         }
         testUser2.setFirstName("David");
         udb.updateUser(testUser2);
-        User testUser3 = udb.getUserByEmail(testUser2.getId());
+        User testUser3 = udb.getUserById(testUser2.getId());
         if(testUser2.getFirstName().equals(testUser3.getFirstName())){
             System.out.println("user update OK");
             testCounter ++;
