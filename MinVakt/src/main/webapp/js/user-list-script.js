@@ -1,7 +1,7 @@
 /**
  * Created by Chris on 25.01.2017.
  */
-
+var users = [];
 
 $(document).ready(function() {
 
@@ -17,6 +17,7 @@ function getAllUsers() {
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data) {
             addRowEmployee(data);
+
         }
     })
 }
@@ -30,7 +31,7 @@ function addRowEmployee(data) {
     if (!document.getElementsByTagName) return;
 
     for (var i = 0; i < obj.length; i++) {
-
+        users[obj[i].id] = obj[i];
         tabBody = document.getElementById("employee-table");
         row = document.createElement("tr");
         row.className = "days";
@@ -52,7 +53,9 @@ function addRowEmployee(data) {
             $(".opacity").addClass("blur-activate");
             $(".employee-form-banner").addClass("show-banner");
             var userId = $(this).attr("userId");
-
+            $("#overlay-placer").load("template/user-list-user.html", function(){
+                $(".stilling").text("Stilling: " + users[userId].userCategoryString);
+            })
 
         });
 
