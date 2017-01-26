@@ -24,7 +24,6 @@ public class ShiftDb extends DbManager{
     /**
     * Returns a single shift object
     *
-    * @author Vegard Stenvik
     * @param date the date for the shift
     * @param userId the id that identifies the user
     * @see com.CardiacArray.restService.data.Shift
@@ -32,7 +31,7 @@ public class ShiftDb extends DbManager{
     * */
     public Shift getShift(java.util.Date date, int userId){
         Shift shift = null;
-
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         // Formats date to form yyyy-MM-dd
         SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
         simpleDate.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
@@ -85,11 +84,11 @@ public class ShiftDb extends DbManager{
 
 
     /**
-     * @author Erik
      * @param shiftId
      * @return shift
      */
     public Shift getShift(int shiftId){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         Shift shift = null;
         String sql = "SELECT shift.shift_id, shift.date, shift.start," +
                 "                shift.end, shift.department_id, shift.user_category_id, shift.responsible_user, shift.tradeable, user.user_id, user_category.type," +
@@ -133,7 +132,16 @@ public class ShiftDb extends DbManager{
         return shift;
     }
 
+    /**
+     * A method used to filter shifts.
+     *
+     * @Deprecated
+     * @param user_id
+     * @param user_category_id
+     * @return
+     */
     public ArrayList<Shift> getShiftByCategory(int user_id, int user_category_id){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         ArrayList<Shift> shiftArray = new ArrayList<>();
         String sql = "SELECT shift.shift_id, shift.date, shift.start,\n" +
                 "  shift.end, shift.department_id, shift.user_category_id,\n" +
@@ -182,7 +190,6 @@ public class ShiftDb extends DbManager{
     /**
      * Returns a list of shifts for a user in  a given period
      *
-     * @author Vegard Stenvik
      * @param dateStart the start date for the shifts
      * @param dateEnd the end date for the shifts
      * @param userId the id that identifies the user
@@ -190,8 +197,8 @@ public class ShiftDb extends DbManager{
      * @return list of shifts for a user in  a given period
      * */
     public ArrayList<Shift> getShiftsForPeriod(java.util.Date dateStart, java.util.Date dateEnd, int userId){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         ArrayList<Shift> shiftArray = new ArrayList<>();
-
         // Formats date to form yyyy-MM-dd
         SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
         String onlyDateStart= simpleDate.format(dateStart);
@@ -240,14 +247,12 @@ public class ShiftDb extends DbManager{
             e.printStackTrace();
             DbManager.rollback();
         }
-
         return shiftArray;
     }
 
     /**
      * Returns a list of shifts for in a given period
      *
-     * @author Vegard Stenvik
      * @param dateStart the start date for the shifts
      * @param dateEnd the end date for the shifts
      * @see com.CardiacArray.restService.data.Shift
@@ -281,8 +286,8 @@ public class ShiftDb extends DbManager{
                 java.sql.Date dateFromQuery = res.getDate("date");
                 Time startTimeFromQuery = res.getTime("start");
                 Time endTimeFromQuery = res.getTime("end");
-                java.util.Date startDateFormatted = new java.util.Date(dateFromQuery.getTime() + startTimeFromQuery.getTime());
-                java.util.Date endDateFormatted = new java.util.Date(dateFromQuery.getTime() + endTimeFromQuery.getTime());
+                java.util.Date startDateFormatted = new java.util.Date(dateFromQuery.getTime() + startTimeFromQuery.getTime() + 3600000L);
+                java.util.Date endDateFormatted = new java.util.Date(dateFromQuery.getTime() + endTimeFromQuery.getTime() + 3600000L);
 
                 shiftArray.add(new Shift(
                         res.getInt("shift_id"),
@@ -309,10 +314,10 @@ public class ShiftDb extends DbManager{
         return shiftArray;
     }
 
-    /*
+    /**
     * Converts Date to HH:mm
-    * @author Vegard Stenvik
     * @param date The date to convert to time formatted HH:mm
+    * @return date in String format
     * */
     private String DateToSQLTimeString(java.util.Date date){
         Calendar calendar = GregorianCalendar.getInstance();
@@ -322,9 +327,8 @@ public class ShiftDb extends DbManager{
 
 
     /**
-     * @Erik Kjosavik
      * @param shift
-     * @return Success
+     * @return True if the shift was updated successfully.
      */
     public boolean updateShift(Shift shift) {
         try {
@@ -366,6 +370,13 @@ public class ShiftDb extends DbManager{
         return success;
     }
 
+    /**
+     * This methode adds a user to a shift that has not yet gotten a user assigned to it.
+     * @param shiftId The shift that needs a user.
+     * @param userId The user that is being assigned to a shift.
+     * @see #setUser(Shift, User) 
+     * @return True if successful.
+     */
     public boolean assignShift(int shiftId, int userId) {
         try {
             connection.setAutoCommit(false);
@@ -395,60 +406,68 @@ public class ShiftDb extends DbManager{
 
     /**
      * Methode used to create new shifts which are not saved in the database.
-     * @author Erik Kjosavik
      * @param shift
      * @return Id generated by the database, or -1 if an error occurs.
      * @see Shift
      */
-    public int createShift(Shift shift){
+    public boolean createShift(Shift shift){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleTime = new SimpleDateFormat("HH:mm");
+        simpleDate.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
         String date = simpleDate.format(shift.getStartTime());
-        int returnValue = -1;
 
         String sql = "insert into shift " +
-                "(shift_id, date, start, shift_id.end, department_id, user_category_id, tradeable, responsible_user)\n" +
-                "VALUES (DEFAULT , ?,?,?,?,?,?)";
+                "(shift_id, date, start, end, department_id, user_category_id, tradeable, responsible_user)\n" +
+                "VALUES (DEFAULT , ?,?,?,?,?,?,?)";
 
         try {
             statement = connection.prepareStatement(sql);
             statement.setDate(1, new java.sql.Date(shift.getStartTime().getTime()));
-            statement.setString(2, DateToSQLTimeString(shift.getStartTime()));
-            statement.setString(3, DateToSQLTimeString(shift.getEndTime()));
+            statement.setString(2, simpleTime.format(shift.getStartTime()));
+            statement.setString(3, simpleTime.format(shift.getEndTime()));
             statement.setInt(4, shift.getDepartmentId());
             statement.setInt(5, shift.getRole());
-            statement.setBoolean(6, shift.isResponsibleUser());
+            statement.setBoolean(6, false);
+            statement.setBoolean(7, shift.isResponsibleUser());
             statement.execute();
-            connection.commit();
             ResultSet res = statement.getGeneratedKeys();
             if(res.next()){
-                returnValue = res.getInt(1);
+                shift.setShiftId(res.getInt(1));
             } else{
-                return -1;
+                return false;
             }
             statement.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
             DbManager.rollback();
+            return false;
         }
-        return returnValue;
+
+        if (shift.getUserId() != 0){
+            setUser(shift.getShiftId(), shift.getUserId());
+            System.out.println("Setting user " + shift.getUserId());
+        }
+        return true;
     }
 
     /**
-     * Adds a user to a shift.
+     * Used to change a user where a user already is assigned to a shift.
+     * @see #assignShift(int, int)
+     * @see #setApproved(int)
      * @param shift
-     * @param user
+     * @param userId
      * @return Success
      */
-    public boolean setUser(Shift shift, User user) {
+    public boolean setUser(Shift shift, int userId) {
         String sql = "UPDATE user_shift SET user_id = ? WHERE shift_id = ?";
         boolean success = false;
         try {
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, user.getId());
+            statement.setInt(1, userId);
             statement.setInt(2, shift.getShiftId());
             statement.execute();
-            connection.commit();
             statement.close();
             success = true;
         } catch (SQLException e) {
@@ -459,6 +478,37 @@ public class ShiftDb extends DbManager{
         return success;
     }
 
+    /**
+     * @Deprecated
+     * Adds a user to a shift.
+     * @param shift
+     * @param userId
+     * @return Success
+     */
+    public boolean setUser(int shift, int userId) {
+        String sql = "INSERT INTO user_shift VALUES (?, ?)";
+        boolean success = false;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            statement.setInt(2, shift);
+            statement.executeUpdate();
+            statement.close();
+            success = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            DbManager.rollback();
+            return success;
+        }
+        return success;
+    }
+
+    /**
+     * Mehtod used when an employee asks to take a new shift.
+     * @param shiftId id of the shift which the user would like take
+     * @param userId user asking to take new shift
+     * @return True if the change request was saved.
+     */
     public boolean sendChangeRequest(int shiftId, int userId){
         boolean returnValue = false;
         String toSQL = "INSERT INTO changeover (shift_id, new_user_id, approved) values (?, ? , 0)";
@@ -479,6 +529,11 @@ public class ShiftDb extends DbManager{
         return returnValue;
     }
 
+    /**
+     * Used when an admin would like to see which shift changes that have not been approved.
+     *
+     * @return All shift where a user has asked to be assigned to a shift.
+     */
     public ArrayList<Shift> getChangeRequest(){
         String toSQL = "SELECT * FROM changeover WHERE approved = 0";
         ArrayList<Shift> al = new ArrayList<>();
@@ -501,6 +556,14 @@ public class ShiftDb extends DbManager{
         return al;
     }
 
+    /**
+     * Approve a change shift request.
+     * This method does not change the user that holds a shift.
+     * It will only hide the shift in the list over not approved shifts.
+     * To change the user use methode {@link#setUser(Shift, userId)}
+     * @param shiftId
+     * @return True, if the change was approved.
+     */
     public boolean setApproved(int shiftId){
         boolean returnValue = false;
         String toSQL = "UPDATE changeover set approved = 1 WHERE shift_id  = ?";
@@ -519,7 +582,23 @@ public class ShiftDb extends DbManager{
         return returnValue;
     }
 
+    public boolean deleteApproved(){
+        boolean returnValue = false;
 
+        String toSQL = "DELETE changeover WHERE approved = 1";
+        try{
+            statement = connection.prepareStatement(toSQL);
+            int status = statement.executeUpdate();
+            if (status != 0){
+                returnValue = true;
+            }
+            res.close();
+            statement.close();
+        } catch (SQLException e ){
+            e.printStackTrace();
+        }
+        return returnValue;
+    }
 
     public static void main(String args[]) throws Exception {
         ShiftDb db = new ShiftDb();

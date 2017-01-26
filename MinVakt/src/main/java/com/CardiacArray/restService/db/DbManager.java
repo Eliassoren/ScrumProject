@@ -12,6 +12,10 @@ public class DbManager {
 
     public static Connection connection;
 
+    /**
+     * Constructor that establishes a connection with that database.
+     * All other database classes inherit this connection.
+     */
     public DbManager() {
         try {
             if(connection == null || connection.isClosed()) {

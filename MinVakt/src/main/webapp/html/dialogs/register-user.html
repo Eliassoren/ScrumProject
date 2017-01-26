@@ -3,7 +3,7 @@
     <h2 class = "form-title">OPPRETT BRUKER</h2>
     <fieldset class = "fieldset">
         <legend>Kontaktinfo</legend>
-        <div class = "inline-container">
+        <div class = "label-line inline-container" >
             <label  class = "text-label" for="first_name">Fornavn</label>
             <label id= "last-name-label" class = "text-label" for="last_name">Etternavn</label>
         </div>
@@ -11,7 +11,7 @@
             <input class = "input" id = "first_name" type = "text" placeholder = " Fornavn" name="firstName">
             <input class = "input" id = "last_name" type = "text" placeholder = " Etternavn" name="lastName">
         </div>
-        <div class = "inline-container">
+        <div class = "label-line inline-container">
             <label class = "postal-label" for="address">Adresse</label>
             <label id = "postal-code-label" class = "postal-label" for="postal_code">Postkode</label>
         </div>
@@ -21,7 +21,7 @@
             <input class = "input" id = "address" type = "text" placeholder = " Adresse" name="address">
             <input class = "input" id = "postal_code" type = "text" placeholder = " Postnr.">
         </div>
-        <div class = "inline-container">
+        <div class = "label-line inline-container">
             <label class = "text-label" for="phone">Telefon</label>
         </div>
         <input class = "input" id = "phone" type = "text" placeholder = " Telefon" name="mobile">
@@ -31,7 +31,7 @@
     </fieldset>
     <fieldset class = "fieldset">
         <legend>Ansattinfo</legend>
-        <div class = "inline-container">
+        <div class = "label-line inline-container">
             <label class = "select-label" for="dept_cb">Avdeling</label>
             <label class = "select-label" for="position_cb">Stillingstype</label>
             <label class = "select-label" for = "spinner" id = "work-percent-label">Stillingsprosent</label>
@@ -52,8 +52,8 @@
             </select>
             <input class ="select" id= "spinner" type="number" min="0" max = "100" step="1" value="0" size = "6">
         </div>                                           <div class = "inline-container">
-        <label class = "label" for = "active_checkbox"> <input class = "input" id = "active_checkbox" type = "checkbox" name = active>Aktiv</label>
-        <label class="label" for = "admin_checkbox">  <input class = "input" id = "admin_checkbox" type = "checkbox" name="admin">Administrator</label>
+        <label class = "label" for = "active_checkbox"> <input checked class = "input" id = "active_checkbox" type = "checkbox"  name = active>Aktiv</label>
+        <label class="label" for = "admin_checkbox">  <input class = "input" id = "admin_checkbox" type = "checkbox"  name="admin">Administrator</label>
     </div>
         <div class = "button-group">
             <input class = "button" id = "button_ok" type = "submit" value = "Lagre"/>

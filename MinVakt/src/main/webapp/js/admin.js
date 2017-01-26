@@ -2,98 +2,221 @@
  * Created by kjosavik on 20-Jan-17.
  */
 
-$("#new-user-form").validate({
-    rules: {
-        first_name: {
-            required: true
-        },
-        last_name: {
-            required : true
-        },
-        password: {
-            required: true,
-            minlength: 8
-        },
-        admin_checkbox: {
-            required: false
-        },
-        phone: {
-            required : true,
-            digits: true,
-            minlength: 8
-        },
-        position_cb: {
-            required: true
-        },
-        email: {
-            required: true,
-            email: true
-        },
-        active_checkbox: {
-            required: false
-        },
-        address: {
-            required: true
-        },
-        spinner: {
-            required: true,
-            digits: true,
-            range: [0,100]
-        },
-        dept_cb: {
-            required: true
-        }
-    },
-    messages: {
-        first_name: {
-          required: "Fornavn er obligatorisk"
-        },
-        last_name: {
-          required: "Etternavn er obligatorisk"
-        },
-        phone: {
-            required: "Telefonnummer må registreres",
-            minlength: "Telefonnummer må være minst 8 tegn"
-        },
-        email: {
-            required: "E-postadresse er obligatorisk.",
-            email: "E-postadressen er ugyldig."
-        },
-        password: {
-            required: "Passord er obligatorisk.",
-            minlength: "Passordet må bestå av minimum 8 tegn."
-        },
-        position_cb: {
-            required "Please choose one."
-        }
-    },
-    errorPlacement: function(error, element) {
-        error.appendTo($("#" + element.attr("id") + "-error"));
-    },
-    submitHandler: function(form) {
-        $.ajax({
-            type: "POST",
-            url: "MinVakt/rest/users/",
-            data: $(form).serialize(),
-            response: "json",
-            statusCode: {
-                409: function() {
-                    $("#error-message").text("Noe gikk galt. Bruker ble ikke opprettet. Prøv igjen senere. Hvis feilen fortsetter, " +
-                        "kontakt utviklerene eller utvikle noe selv din late faen.");
 
-                },
-                401: function () {
-                    localStorage.removeItem("token");
-                    window.location.replace("/MinVakt/");
-                }
-            },
-            success: function(data) {
-                console.log(data);
-                return data;
-            }
-        })
-    }
+// TODO
+$(document).ready(function(){
+    var userId = window.localStorage.getItem("userid");
+    newUser();
 });
+
+function newUser() {
+    var userId = window.localStorage.getItem("userid");
+
+    $("#new-user-form").validate({
+        rules: {
+            first_name: {
+                required: true
+            },
+            last_name: {
+                required: true
+            },
+            password: {
+                required: true,
+                minlength: 8
+            },
+            admin_checkbox: {
+                required: false
+            },
+            phone: {
+                required: true,
+                digits: true,
+                minlength: 8
+            },
+            position_cb: {
+                required: true
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            active_checkbox: {
+                required: false
+            },
+            address: {
+                required: true
+            },
+            spinner: {
+                required: true,
+                digits: true,
+                range: [0, 100]
+            },
+            dept_cb: {
+                required: true
+            }
+        },
+        messages: {
+            first_name: {
+                required: "Fornavn er obligatorisk"
+            },
+            last_name: {
+                required: "Etternavn er obligatorisk"
+            },
+            phone: {
+                required: "Telefonnummer må registreres",
+                minlength: "Telefonnummer må være minst 8 tegn"
+            },
+            email: {
+                required: "E-postadresse er obligatorisk.",
+                email: "E-postadressen er ugyldig."
+            },
+            password: {
+                required: "Passord er obligatorisk.",
+                minlength: "Passordet må bestå av minimum 8 tegn."
+            },
+            position_cb: {
+                required: "Velg en stilling"
+            },
+            dept_cb: {
+                required: "Velg en avdeling"
+            }
+        },
+        errorPlacement: function (error, element) {
+            error.appendTo($("#" + element.attr("id") + "-error"));
+        },
+        submitHandler: function (form) {
+            $.ajax({
+                type: "POST",
+                url: "MinVakt/rest/users/",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                data: $(form).serialize(),
+                response: "json",
+                success: function (data) {
+                    console.log(data);
+                    return data;
+                },
+                statusCode: {
+                    409: function () {
+                        $("#error-message").text("Noe gikk galt. Bruker ble ikke opprettet. Prøv igjen senere. Hvis feilen fortsetter, " +
+                            "kontakt it-service");
+
+                    },
+                    401: function () {
+                        localStorage.removeItem("token");
+                        window.location.replace("/MinVakt/");
+                    }
+                }
+
+            })
+        }
+    });
+}
+
+
+function editUser() {
+
+    $("#edit-user-form").validate({
+        rules: {
+            first_name: {
+                required: true
+            },
+            last_name: {
+                required: true
+            },
+            password: {
+                required: true,
+                minlength: 8
+            },
+            admin_checkbox: {
+                required: false
+            },
+            phone: {
+                required: true,
+                digits: true,
+                minlength: 8
+            },
+            position_cb: {
+                required: true
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            active_checkbox: {
+                required: false
+            },
+            address: {
+                required: true
+            },
+            spinner: {
+                required: true,
+                digits: true,
+                range: [0, 100]
+            },
+            dept_cb: {
+                required: true
+            }
+        },
+        messages: {
+            first_name: {
+                required: "Fornavn er obligatorisk"
+            },
+            last_name: {
+                required: "Etternavn er obligatorisk"
+            },
+            phone: {
+                required: "Telefonnummer må registreres",
+                minlength: "Telefonnummer må være minst 8 tegn"
+            },
+            email: {
+                required: "E-postadresse er obligatorisk.",
+                email: "E-postadressen er ugyldig."
+            },
+            position_cb: {
+                required: "Velg en stilling"
+            },
+            dept_cb: {
+                required: "Velg en avdeling"
+            }
+        },
+        errorPlacement: function (error, element) {
+            error.appendTo($("#" + element.attr("id") + "-error"));
+        },
+        submitHandler: function (form) {
+            $.ajax({
+                type: "PUT",
+                url: "MinVakt/rest/users/",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                data: $(form).serialize(),
+                response: "json",
+                statusCode: {
+                    409: function () {
+                        $("#error-message").text("Noe gikk galt. Bruker ble ikke endret. Prøv igjen senere. Hvis feilen fortsetter, " +
+                            "kontakt service");
+
+                    },
+                    401: function () {
+                        localStorage.removeItem("token");
+                        window.location.replace("/MinVakt/");
+                    }
+                },
+                success: function (data) {
+                    console.log(data);
+                    return data;
+                }
+            })
+        }
+    });
+}
+
+
 
 $("#new-shift-form").validate({
     rules: {
@@ -128,7 +251,7 @@ $("#new-shift-form").validate({
         }
     },
     errorPlacement: function(error, element) {
-    error.appendTo($("#" + element.attr("id") + "-error"));
+        error.appendTo($("#" + element.attr("id") + "-error"));
     },
     submitHandler: function(form) {
         $.ajax({
@@ -199,8 +322,3 @@ $("#assign-shift-form").validate({
         })
     }
 });
-
-
-
-
-

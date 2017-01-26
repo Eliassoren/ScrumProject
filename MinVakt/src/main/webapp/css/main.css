@@ -101,7 +101,7 @@ h2{
     display: inline-block;
     position: relative;
     font-size: 2.5rem !important;
-    margin-top: 180px;
+    margin-top: 100px;
     margin-left: 10rem;
     margin-right: 10rem;
     width: 220px !important;
@@ -120,11 +120,10 @@ h3{
     margin: 2rem auto 2rem auto;
 }
 #left-arrow{
-//user-select: none;
+
     -webkit-user-select: none;
 }
 #right-arrow{
-//user-select: none;
     -webkit-user-select: none;
 }
 .fa-chevron-left{
@@ -169,7 +168,6 @@ h3{
     font-size: 1.5rem;
     top: 2rem;
     left: 2rem;
-
 }
 #calendar .week-name {
     display: none;
@@ -199,6 +197,7 @@ h3{
     text-indent: 4px;
     width: 7.5%;
     margin-left: 5%;
+
 }
 
 #calendar .uke{
@@ -229,6 +228,8 @@ h3{
 
 #calendar .day:hover {
     background: #d3d3d3;
+    cursor: pointer;
+
 }
 
 
@@ -257,7 +258,10 @@ h3{
     overflow: hidden;
     cursor: pointer;
 }
+.event-active{
+    background: linear-gradient(180deg, #FC4A1A 50%, white 50%) !important;
 
+}
 
 #calendar .event-desc {
     color: white;
@@ -297,7 +301,31 @@ h3{
         padding: 10px;
         margin-bottom: -1px;
     }
-
+    #calendar .week-name {
+        font-size: 2rem;
+        display: inline;
+        float: left;
+        visibility: visible;
+        margin-right: 1rem;
+    }
+    #calendar .week-number{
+        background: #979797;
+        color: white;
+        width: 100%;
+        padding: 10px;
+        margin-left: 0;
+        margin-bottom: -1px;
+    }
+    #calendar .week{
+        display: inline;
+        float: left;
+        background: #979797;
+        width: auto;
+        height: auto;
+        color: white;
+        clip-path: none;
+        font-size: 2rem;
+    }
     #calendar .date {
         float: none;
     }
@@ -314,12 +342,10 @@ h3{
         font-size: 1.6rem !important;
         text-align: center;
     }
-    #calendar .week{
-        display: inline;
-        float: left;
+
+    #calendar .week-number:hover{
+        background: #979797;
     }
-
-
     #h1-title{
 
         font-size: 36px;
@@ -329,6 +355,79 @@ h3{
         margin: 0 auto 0 auto;
         height: 100%;
         overflow: hidden;
+    }
+    #banner-alert {
+        height: 200px;
+        width: 100% !important;
+        background: #2D5684;
+        position: fixed;
+        top: 50%;
+        transform: translate(0%,-50%);
+        z-index: 1000;
+    }
+    #banner-shift-container {
+        font-size: 16px;
+        color: #FFF;
+        width: 100% !important;
+        height: 100%;
+        margin-left: 50%;
+        padding: 5px;
+        transform: translate(-50%, 0%);
+    }
+    #banner-shift-container h1 {
+        float: left !important;
+        position: relative;
+        text-align: center;
+        margin: auto;
+        font-size: 16px;
+    }
+    .banner-button {
+        width: 30% !important;
+        height: 400px;
+        border: solid 1px;
+        border-color: #FFF;
+        text-align: center;
+        margin: 4% !important;
+        display: inline-block;
+        padding-left: 10%;
+        padding-right: 10%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        cursor: pointer;
+    }
+    #banner-shift {
+        height: 200px;
+        width: 100%;
+        background: #2D5684;
+        position: fixed;
+        top: 50%;
+        transform: translate(0%,-50%);
+        z-index: 1000;
+    }
+    #banner-alert-container {
+        font-size: 16px;
+        color: #FFF;
+        width: 100% !important;
+        height: 100%;
+
+        padding: 5px;
+        margin-left: 50%;
+        transform: translate(-50%, 0%);
+    }
+
+    #banner-alert {
+        height: 200px;
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+        background: #2D5684;
+        position: fixed;
+        top: 50%;
+        transform: translate(0%,-50%);
+        z-index: 1000;
+    }
+    .banner-button .approve{
+        margin: auto;
     }
 }
 
@@ -446,7 +545,7 @@ option{
     position: relative;
     left: 10%;
     top: 80%;
-    color: red;
+    color: darkgreen;
     text-decoration: underline;
     margin-bottom: 2px;
     font-size: 12px;
@@ -585,9 +684,42 @@ font-family: 'Source Sans Pro', sans-serif; !important;
 
 button:focus {outline:0;}
 
-tr { line-height: 34px; text-align: center}
-tr:nth-child(even) {background: #D5D5D5}
-th {color: #2D5684; text-align: center}
+#user-list table.employee-table {
+    height: 25px;
+    color: transparent; !important;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 0;
+}
+#user-list table.employee-table th {
+    position: relative;
+    height: 25px;
+    background: #2D5684;
+    text-align: center;
+    border: none !important;
+    color: white;
+    width: 50%;
+    font-size: 16px;
+}
+
+ul{
+    padding: 0;
+    margin: 0;
+}
+
+tr:nth-child(even) {background: #F3F3F3;}
+td{border: solid black 1px;}
+
+tr:hover{background-color: #979797 !important; cursor: pointer;}
+
+#user-list table.employee-table td {
+    color: #2D5684;
+    height: 20px;
+    padding: 0;
+    box-sizing:border-box;
+    border: 0px solid #ccc;
+    transition: 0.7s ease-in-out;
+}
 
 .absolute-dropdown-div{
     transition: 0.7s ease-in-out;
@@ -656,6 +788,7 @@ th {color: #2D5684; text-align: center}
     /*padding-left: 5rem;
     padding-right: 5rem;*/
 }
+
 /*.adm-h2{
     font-size: 5rem;
     width: 100% !important;
@@ -674,7 +807,7 @@ th {color: #2D5684; text-align: center}
     width: 100%;
     background: #2D5684;
     position: fixed;
-    margin-top: 50%;
+    top: 50%;
     transform: translate(0%,-50%);
     z-index: 1000;
 }
@@ -740,7 +873,7 @@ th {color: #2D5684; text-align: center}
     width: 100%;
     background: #2D5684;
     position: fixed;
-    margin-top: 50%;
+    top: 50%;
     transform: translate(0%,-50%);
     z-index: 1000;
 }
@@ -756,26 +889,16 @@ th {color: #2D5684; text-align: center}
 #banner-alert-button {
     margin-top: 10%;
 }
+
 #user-list{
-    height: 90%;
-    width: 100%;
+    height: auto;
+    width: 550px;
     position: relative;
     margin: auto;
     margin-top: 5%;
-}
-#user-list .users{
- /*TODO*/
-}
-#user-list ul{
-    list-style: none;
-
-}
-#user-list li{
-    height: 3rem;
-    border: 2px solid #2D5684;
     text-align: center;
-    color: #2D5684;
 }
+
 #users-h2{
     color: #2D5684;
     font-size: 4rem !important;
@@ -783,4 +906,152 @@ th {color: #2D5684; text-align: center}
     width: 100% !important;
     position: relative;
     margin: 3% auto 3% auto;
+}
+
+.button-container-new{
+    margin: 50px auto auto auto;
+    border-top: none;
+    height: 38px;
+    width: 550px;
+    position: relative;
+    text-align: center;
+}
+
+.employee-form-button{
+    text-align: center;
+    background-color: #2D5684;
+    cursor: pointer;
+    border: solid 2px;
+    width: 70px;
+    height: 35px;
+    margin: auto;
+}
+
+.new-button{
+    border: solid #2D5684 3px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #2D5684;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+.employee-form-banner{
+    transition: 0.5s ease-in-out;
+
+
+    z-index: 500;
+    position: fixed;
+    top:50%;
+    transform: translate(0,-50%);
+    width: 100%;
+    height: 80%;
+    background-color: #2D5684;
+}
+
+.form-container{
+    position: relative;
+    background-color: #2D5684;
+    width: 50%;
+    height: 100%;
+    margin: auto;
+}
+
+.employee-picture{
+    z-index: 100;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,0);
+    background-image: url(http://www.pieglobal.com/wp-content/uploads/2015/10/placeholder-user.png);
+    background-size: 100%;
+    margin: 10px auto 0 auto;
+    width: 220px;
+    height: 220px;
+}
+
+.opacity{
+    transition: 0.5s ease-in-out;
+    opacity: 1;
+}
+
+.blur-activate{
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+.show-banner{
+    visibility: visible;
+    opacity: 1;
+}
+
+.employee-information-container{
+    position: absolute;
+    background-color: #2D5684;
+    height: 50%;
+    width: 100%;
+
+    left: 50%;
+    bottom: 10px;
+    transform: translate(-50%,0);
+}
+
+.text{
+    font-size: 25px;
+    color: white;
+    font-family: 'Source Sans Pro', monospace; !important;
+    text-align: center;
+}
+
+.line{
+    height: 50px;
+    width: 100%;
+    margin: auto;
+}
+
+.first-half{
+    left: 0;
+}
+
+.second-half{
+    right: 0;
+}
+
+.half{
+    position: absolute;
+    width: 50%;
+    margin: 0;
+}
+
+.fa-times{
+    color: white;
+    position: absolute;
+    font-size: 50px;
+    right: 0;
+    top: 0;
+}
+
+.fa-times:hover{
+    color: #90BAED;
+    cursor: pointer;
+}
+
+.employee-form-delete-button{
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    right: 0;
+    width: 50%;
+}
+
+.employee-form-edit-button{
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    left: 0;
+    width: 50%;
 }

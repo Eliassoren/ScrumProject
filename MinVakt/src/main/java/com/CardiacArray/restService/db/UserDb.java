@@ -1,7 +1,7 @@
 package com.CardiacArray.restService.db;
 
+import com.CardiacArray.restService.data.Available;
 import com.CardiacArray.restService.data.User;
-
 import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -14,11 +14,11 @@ public class UserDb extends DbManager {
     private ResultSet res;
     private PreparedStatement statement;
 
-    /**
-    @param id Id of user
-    @return User specified by id
+    /*
+    * @param id Id of user
+    * @return User specified by id
      */
-    public User getUserByEmail(int id){
+    public User getUserById(int id){
         User user = new User();
         try {
             String toSQL = "select * from user join user_category " +
@@ -41,7 +41,8 @@ public class UserDb extends DbManager {
                 Timestamp expired = res.getTimestamp("expired");
                 boolean active = res.getBoolean("active");
                 int workPercent = res.getInt("work_percent");
-                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent);
+                int departmentId = res.getInt("department_id");
+                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent, departmentId);
                 res.close();
                 statement.close();
             } else{ return null; }
@@ -82,7 +83,8 @@ public class UserDb extends DbManager {
                 Timestamp expired = res.getTimestamp("expired");
                 boolean active = res.getBoolean("active");
                 int workPercent = res.getInt("work_percent");
-                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent);
+                int departmentId = res.getInt("department_id");
+                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent, departmentId);
                 res.close();
                 statement.close();
             } else {
@@ -98,6 +100,7 @@ public class UserDb extends DbManager {
 
 
     /**
+     *This method is used to get the user which is logged on.
      @param token
      @return User
      */
@@ -123,7 +126,9 @@ public class UserDb extends DbManager {
                 Timestamp expired = res.getTimestamp("expired");
                 boolean active = res.getBoolean("active");
                 int workPercent = res.getInt("work_percent");
-                User user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent);
+                int departmentId = res.getInt("department_id");
+
+                User user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent, departmentId);
                 res.close();
                 statement.close();
                 return user;
@@ -139,13 +144,53 @@ public class UserDb extends DbManager {
     }
 
     /**
+     *
+     * @param departmentId Id of the department which you would like to list out all users.
+     * @return All users that are in a department.
+     */
+    public ArrayList<User> getUsersByDepartmentId(int departmentId) {
+        ArrayList<User> users = new ArrayList<>();
+        try {
+            String toSQL = "select * from user join user_category " +
+                    "on user.user_category_id = user_category.user_category_id " +
+                    "where department_id=?";
+            PreparedStatement statement = connection.prepareStatement(toSQL);
+            statement.setInt(1, departmentId);
+            ResultSet res = statement.executeQuery();
+            while(res.next()){
+                int id = res.getInt("user_id");
+                String firstName= res.getString("first_name");
+                String lastName = res.getString("last_name");
+                String email = res.getString("email");
+                String password = res.getString("password");
+                boolean adminRights = res.getBoolean("admin_rights");
+                int mobile = res.getInt("mobile");
+                String address = res.getString("address");
+                int userCategoryInt = res.getInt("user.user_category_id");
+                String userCategoryString = res.getString("type");
+                String token = res.getString("token");
+                Timestamp expired = res.getTimestamp("expired");
+                boolean active = res.getBoolean("active");
+                int workPercent = res.getInt("work_percent");
+                User user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent, departmentId);
+                users.add(user);
+            }
+            res.close();
+            statement.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    /**
     @param user
-    @return boolean
+    @return True if the update was successful.
      */
     public boolean updateUser(User user){
         try {
             String toSQL = "UPDATE user " +
-                    "SET first_name = ?, last_name = ?, password = ?, admin_rights = ?, mobile = ?, address = ?, user_category_id = ?, email = ?, active = ?, work_percent = ? " +
+                    "SET first_name = ?, last_name = ?, password = ?, admin_rights = ?, mobile = ?, address = ?, user_category_id = ?, email = ?, active = ?, work_percent = ?, department_id = ? " +
                     "WHERE user_id = ?";
             statement = connection.prepareStatement(toSQL);
             statement.setString(1, user.getFirstName());
@@ -158,7 +203,8 @@ public class UserDb extends DbManager {
             statement.setString(8, user.getEmail());
             statement.setBoolean(9, user.isActive());
             statement.setInt(10,user.getWorkPercent());
-            statement.setInt(11,user.getId());
+            statement.setInt(11, user.getDepartementId());
+            statement.setInt(12,user.getId());
             statement.execute();
             statement.close();
             return true;
@@ -169,6 +215,11 @@ public class UserDb extends DbManager {
         }
     }
 
+    /**
+     * Used when a user logs on at a different location.
+     * @param user
+     * @return True if the tolken update was successful.
+     */
     public boolean updateUserToken(User user) {
         try {
             String toSQL = "UPDATE user SET token = ?, expired = ? WHERE user_id = ?;";
@@ -186,6 +237,11 @@ public class UserDb extends DbManager {
         }
     }
 
+    /**
+     * If a user works at the facility he is considered active.
+     * @param user
+     * @return True, if the update was successfull.
+     */
     public boolean setUserActive(User user){
         try {
             String toSQL = "UPDATE user SET active = ? where user_id = ?";
@@ -204,6 +260,7 @@ public class UserDb extends DbManager {
     }
 
     /**
+     * Deletes a user from the database entirely. Only used to delete test users.
      *@deprecated
      *@param user
      */
@@ -221,14 +278,15 @@ public class UserDb extends DbManager {
     }
 
     /**
+     *
     * @param user
     * @return User ID generated by the database, else -1 if an error occurs.
      */
     public int createUser(User user){
         int returnValue = -1;
         try {
-            String toSQL = "INSERT into user (user_id, first_name, last_name, password, admin_rights, user_category_id, mobile, address, email, active, workPercent)\n" +
-                    "  VALUES (DEFAULT ,?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String toSQL = "INSERT into user (first_name, last_name, password, admin_rights, user_category_id, mobile, address, email, active, workPercent, department_id)\n" +
+                    "  VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             statement = connection.prepareStatement(toSQL);
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
@@ -240,6 +298,7 @@ public class UserDb extends DbManager {
             statement.setString(8, user.getEmail());
             statement.setBoolean(9, user.isActive());
             statement.setInt(10, user.getWorkPercent());
+            statement.setInt(11, user.getDepartementId());
             statement.execute();
             ResultSet res = statement.getGeneratedKeys();
             if(res.next()){
@@ -255,6 +314,13 @@ public class UserDb extends DbManager {
         return returnValue;
     }
 
+    /** Sets a user as available for given dates
+     *
+     * @param userId id of the user
+     * @param start start date
+     * @param end end date
+     * @return true if user set available
+     */
     public boolean setUserAvailable(int userId, long start, long end) {
         try {
             String toSQL = "INSERT INTO availability (availability.user_id, availability.start_time, availability.end_time) VALUES (?,?,?)";
@@ -275,9 +341,14 @@ public class UserDb extends DbManager {
             return false;
         }
     }
-
-    public ArrayList<User> getAvailableUsers(long startLong, long endLong){
-        ArrayList<User> users = new ArrayList<User>();
+    /**
+     * Users that have registered themselves as available will be fetched by this method.
+     * @param startLong start date
+     * @param endLong end date
+     * @return list of available users
+     */
+    public ArrayList<Available> getAvailableUsers(long startLong, long endLong){
+        ArrayList<Available> availables = new ArrayList<Available>();
         try {
             String toSQL = "SELECT * FROM user JOIN availability ON user.user_id = availability.user_id JOIN user_category ON user.user_category_id = user_category.user_category_id" +
                     " WHERE start_time BETWEEN ?" +
@@ -308,16 +379,82 @@ public class UserDb extends DbManager {
                 Timestamp startTime = res.getTimestamp("start_time");
                 Timestamp endTime = res.getTimestamp("end_time");
                 int workpercent = res.getInt("work_percent");
-                User user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workpercent);
-                users.add(user);
+                int departmentId = res.getInt("department_id");
+                Available tempAvailable = new Available(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workpercent,departmentId,new Date(startLong),new Date(endLong));
+                availables.add(tempAvailable);
             }
             res.close();
             statement.close();
         }catch(SQLException e) {
             e.printStackTrace();
         }
-        return users;
+        return availables;
     }
+
+    /**
+     *
+     * @param id id of the user
+     * @param date date to check
+     * @return true if user has a shift that date
+     */
+    public boolean userHasShift(int id, java.sql.Date date) {
+        try {
+            String toSQL = "select * from shift " +
+            " join user_shift on shift.shift_id = user_shift.shift_id" +
+            " join user on user_shift.user_id = user.user_id" +
+            " where shift.date = ? and user.user_id = ?";
+            statement = connection.prepareStatement(toSQL);
+            statement.setDate(1, date);
+            statement.setInt(2, id);
+            res = statement.executeQuery();
+            if (!res.next()) {
+                return false;
+            }
+            res.close();
+            statement.close();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public ArrayList<User> getAllUsers(){
+        ArrayList<User> al = new ArrayList<>();
+        try {
+            String toSQL = "select * from user join user_category " +
+                    "on user.user_category_id = user_category.user_category_id WHERE active = 1";
+            statement = connection.prepareStatement(toSQL);
+            res = statement.executeQuery();
+            while(res.next()) {
+                int id = res.getInt("user_id");
+                String email = res.getString("email");
+                String firstName = res.getString("first_name");
+                String lastName = res.getString("last_name");
+                String password = res.getString("password");
+                boolean adminRights = res.getBoolean("admin_rights");
+                int mobile = res.getInt("mobile");
+                String address = res.getString("address");
+                int userCategoryInt = res.getInt("user.user_category_id");
+                String userCategoryString = res.getString("type");
+                String token = res.getString("token");
+                Timestamp expired = res.getTimestamp("expired");
+                boolean active = res.getBoolean("active");
+                int workPercent = res.getInt("work_percent");
+                int departmentId = res.getInt("department_id");
+                User user = new User(id, firstName, lastName, mobile, email, password, adminRights, address, userCategoryInt, userCategoryString, token, expired, active, workPercent, departmentId);
+                al.add(user);
+            }
+                res.close();
+                statement.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace(System.err);
+            DbManager.rollback();
+        }
+        return al;
+    }
+
+
 
     /**
      * Main methode that does the following:
@@ -342,7 +479,7 @@ public class UserDb extends DbManager {
         }
         testUser2.setFirstName("David");
         udb.updateUser(testUser2);
-        User testUser3 = udb.getUserByEmail(testUser2.getId());
+        User testUser3 = udb.getUserById(testUser2.getId());
         if(testUser2.getFirstName().equals(testUser3.getFirstName())){
             System.out.println("user update OK");
             testCounter ++;

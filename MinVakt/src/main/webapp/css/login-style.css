@@ -44,7 +44,8 @@ body {
     justify-content: center;
     align-content: center;
     width: 30rem;
-    border: 0.2rem solid black;
+    border: 1px solid #2D5684;
+    background: #F3F3F3;
 }
 
 #button:active {
