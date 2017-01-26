@@ -255,7 +255,10 @@ h3{
     overflow: hidden;
     cursor: pointer;
 }
+.event-active{
+    background: linear-gradient(180deg, #FC4A1A 50%, white 50%) !important;
 
+}
 
 #calendar .event-desc {
     color: white;
@@ -539,7 +542,7 @@ option{
     position: relative;
     left: 10%;
     top: 80%;
-    color: red;
+    color: darkgreen;
     text-decoration: underline;
     margin-bottom: 2px;
     font-size: 12px;
