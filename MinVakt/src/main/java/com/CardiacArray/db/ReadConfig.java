@@ -12,7 +12,13 @@ public class ReadConfig {
     InputStream inputStream;
     String [] output;
 
-
+    /**
+     * The database password and username is not saved on github for security reasons.
+     * We therefore have a program which reads a config file where the username and password is saved.
+     *
+     * @return String array containing the username and password for the database.
+     * @throws IOException If the data isn't saved in ScrumProject/MinVakt/src/main/resources/config.properties
+     */
     public String[] getConfigValues() throws IOException {
         try {
             output = new String[4];

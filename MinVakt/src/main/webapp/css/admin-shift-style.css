@@ -308,3 +308,7 @@ td{border: solid black 1px;}
 .blur {
     filter: blur(5px);
 }
+
+.all-users {
+padding: 20px;
+}

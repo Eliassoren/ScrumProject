@@ -42,6 +42,13 @@ public class    LoginService {
         this.userDb = userDb;
     }
 
+    /** Checks if email and password is valid
+     * and login the user if successful
+     *
+     * @param email email of the user
+     * @param password password of the user
+     * @return login object
+     */
     @Path("/login")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -62,6 +69,11 @@ public class    LoginService {
         } else throw new NotAuthorizedException("Error");
     }
 
+    /** Sends a new password to email
+     *
+     * @param email email of the user
+     * @return response ok if successful
+     */
     @POST
     @Path("/lostpassword")
     public Response lostPassword(@FormParam("login_lost_email") String email) {
@@ -77,6 +89,10 @@ public class    LoginService {
         } else return Response.status(Response.Status.NOT_FOUND).build();
     }
 
+    /**
+     *
+     * @return response ok if token is active
+     */
     @Secured({Role.ADMIN, Role.USER})
     @GET
     @Path("/checktoken")

@@ -82,6 +82,7 @@ public class ShiftService {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Shift> getShift(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime) {
         if (startTime > endTime) throw  new BadRequestException();
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
         Map<Shift, Shift> map = new HashMap<>();
         for (Shift shiftElement : shifts){
@@ -102,6 +103,7 @@ public class ShiftService {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Shift> getTradeable(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime) {
         if (startTime > endTime) throw  new BadRequestException();
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
         System.out.println(new Date(startTime) + " " + new Date(endTime));
         Map<Shift, Shift> map = new HashMap<>();
@@ -146,7 +148,7 @@ public class ShiftService {
             if (userDb.userHasShift(userId, new java.sql.Date(shift.getStartTime().getTime()))) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             } else if (validateShift(getShift(shiftId))) {
-                shiftDb.assignShift(shift.getShiftId(), userId);
+                shiftDb.setUser(shift, userId);
                 return Response.ok().build();
             }
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -154,7 +156,7 @@ public class ShiftService {
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
     /**
-     * Createing new shift
+     * Creating new shift
      *
      * @param shift-object to be created
      * @return  a negative number if the shift was not created. shiftId if it was created
@@ -168,6 +170,7 @@ public class ShiftService {
             System.out.println("Tried creating invalid shift");
             throw new BadRequestException();
         }
+        if (shift.getUserId() == 0) shift.setTradeable(true);
         if(shiftDb.createShift(shift)) {
             System.out.println("Create shift: " + shift.getShiftId());
             Calendar calendar = new GregorianCalendar();
@@ -187,10 +190,18 @@ public class ShiftService {
         }
     }
 
+    /**
+     *
+     * @param startTime start time for the period
+     * @param endTime end time for the period
+     * @param userId id of the user
+     * @return a collection of shifts which are tradeable
+     */
     @GET
     @Path("/tradeable/{startTime}/{endTime}/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Shift> getTradeable(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime, @PathParam("userId") int userId) {
+    public Collection<Shift> getTradeable(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime, @PathParam("userId") int userId){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         if (startTime > endTime) throw  new BadRequestException();
         User user = userDb.getUserById(userId);
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
@@ -207,6 +218,12 @@ public class ShiftService {
         return map.values();
     }
 
+    /**
+     *
+     * @param userId id of the user
+     * @param userCategoryId category id of the user
+     * @return a collection of shifts filtered by category
+     */
     @GET
     @Path("/filter/{userId}/{userCategoryId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -220,7 +237,11 @@ public class ShiftService {
         return map.values();
     }
 
-
+    /**
+     *
+     * @param shift a Shift object
+     * @return true if overtime is approved
+     */
     @POST
     @Path("/approveOvertime")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -248,6 +269,11 @@ public class ShiftService {
         return shiftDb.deleteApproved();
     }
 
+    /**
+     *
+     * @param changeoverShift a Changeover object
+     * @return true if changeover is approved
+     */
     @PUT
     @Path("/approveChange")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -274,6 +300,12 @@ public class ShiftService {
         }
     }
 
+    /**
+     *
+     * @param shiftId id of the shift
+     * @param userId id of the user
+     * @return true if change request is ok
+     */
     @POST
     @Path("/changeover/{shiftId}/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -288,6 +320,10 @@ public class ShiftService {
         }
     }
 
+    /**
+     *
+     * @return collection of users who want to do a shift changeover
+     */
     @GET
     @Path("/changeover")
     @Produces(MediaType.APPLICATION_JSON)
@@ -305,6 +341,10 @@ public class ShiftService {
         return map.values();
     }
 
+    /**
+     *
+     * @return a collection of all overtime requests
+     */
     @GET
     @Path("/overtime/get")
     @Produces(MediaType.APPLICATION_JSON)
@@ -317,6 +357,11 @@ public class ShiftService {
         return map.values();
     }
 
+    /**
+     *
+     * @param shift a Shift object
+     * @return false if a shift is not valid
+     */
     private boolean validateShift(Shift shift){
         Date start = shift.getStartTime();
         Date end = shift.getEndTime();

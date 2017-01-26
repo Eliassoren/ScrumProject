@@ -306,7 +306,7 @@ $(document).ready(function() {
                 headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
                 success: function(data){
                     $("#banner-shift-date").text(formatDate(new Date(data.startTime)));
-                    $("#banner-shift-time span:nth-child(2)").text(formatTime(new Date(data.startTime)) + " - " + formatTime(new Date(data.startTime)));
+                    $("#banner-shift-time span:nth-child(2)").text(formatTime(new Date(data.startTime)) + " - " + formatTime(new Date(data.endTime)));
                     $("#banner-shift-dep span:nth-child(2)").text(data.departmentId);
                     if(data.tradeable){
                         $("#banner-shift").css("background", "#FC4A1A");
@@ -410,7 +410,7 @@ function getTradeableShifts(year, month){
 
             }
             $(".free-event-text").click(function(){
-                console.log($("this").parent());
+                console.log($(this).parent());
                 $(".container").addClass("blur");
                 $("#overlay-placer").load("template/free-shift.html", function(){
                     $(".absolute-dropdown").click(function(){
@@ -427,7 +427,8 @@ function getTradeableShifts(year, month){
                 console.log($(this).parent().parent().find(".date").text());
                 console.log(new Date(year,MONTH_CURR, Number($(this).parent().parent().find(".date").text())));
                 console.log(new Date(year,MONTH_CURR, Number($(this).parent().parent().find(".date").text())+1 ));
-                getAvailableShifts(new Date(year,MONTH_CURR-1, Number($(this).parent().parent().find(".date").text())).getTime(), new Date(year,MONTH_CURR-1, Number($(this).parent().parent().find(".date").text())+1 ).getTime());
+                console.log(new Date(year,month, Number($(this).parent().parent().find(".date").text())));
+                getAvailableShifts(new Date(year,month, Number($(this).parent().parent().find(".date").text())).getTime(), new Date(year,month, Number($(this).parent().parent().find(".date").text())+1 ).getTime());
 
             });
 
@@ -527,19 +528,20 @@ function addRow(data) {
     var obj = data;
 
     //TODO this needs to be removed after the table slector below works
-    var table = "dateNow-table";
+    var table = "day-table";
     //if (!document.getElementsByTagName) return;
 
     for (var i = 0; i < obj.length; i++) {
 
         //TODO: This part needs to add to the correct table given a working time.
-
-        var startTime = new Date(obj[i].startTime).getHours();
+        console.log(obj[i]);
+        var startTime = new Date(obj[i].startTime).getHours() + 1;
+        console.log(startTime);
         var isFree = obj[i].tradeable;
 
         if (startTime >= 8 && startTime < 16) {
-            table = $("#dateNow-table");
-        } else if (startTime >= 16 && startTime < 25) {
+            table = $("#day-table");
+        } else if (startTime >= 16 && startTime < 24) {
             table = $("#evening-table");
         } else if (startTime >= 0 && startTime < 8) {
             table = $("#night-table");
@@ -548,6 +550,7 @@ function addRow(data) {
             alert("ERROR CHECK THE ADD ROW FUNCTION IN SHIFT-SCRIPT.JS!")
         }
 
+        console.log("DATO:" + new Date(obj[i].startTime));
 
         tabBody = table;
         row = document.createElement("tr");
@@ -706,5 +709,3 @@ function bannerConfirm(message, callBack) {
         }
     })
 }*/
-
-
