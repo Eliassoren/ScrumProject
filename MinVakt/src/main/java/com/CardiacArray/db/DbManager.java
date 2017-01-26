@@ -15,6 +15,10 @@ public class DbManager {
 
     public static Connection connection;
 
+    /**
+     * Constructor that establishes a connection with that database.
+     * All other database classes inherit this connection.
+     */
     public DbManager() {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         if(connection == null){

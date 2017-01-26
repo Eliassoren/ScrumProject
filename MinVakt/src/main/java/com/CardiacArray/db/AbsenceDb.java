@@ -25,7 +25,7 @@ public class AbsenceDb extends DbManager {
     /**
      *
      * @param user
-     * @return All
+     * @return All shifts where a user has been absent from a shift.
      */
     public ArrayList<Shift> getAbsence(User user) {
         ArrayList<Shift> al = new ArrayList<>();
@@ -43,13 +43,16 @@ public class AbsenceDb extends DbManager {
                 int shiftId = res.getInt("shift_id");
 
                 Shift shift = new Shift();
-                shift.setStartTime(startTime.value());
+                shift.setStartTime(String.valueOf(startTime.getTime()));
+                shift.setStartTime(String.valueOf(endTime.getTime()));
+                shift.setShiftId(shiftId);
 
+                al.add(shift);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return shift;
+        return al;
     }
 }
