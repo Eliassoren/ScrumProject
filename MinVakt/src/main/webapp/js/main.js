@@ -214,6 +214,11 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
 
 }
 $(document).ready(function() {
+
+    $("#hamburger-toggle").click(function(){
+        $(".experimental-menu").toggleClass("experimental-menu-activated");
+    });
+
     //var userId = localStorage.getItem("token");
     $("#hamburger-toggle").click(function () {
         $("#hamburger-menu").toggleClass("hamburger-menu-open");

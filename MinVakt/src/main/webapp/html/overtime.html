@@ -21,19 +21,31 @@
 
 <div class="experimental-menu">
     <div class="menu-container">
-        <div class="element1 element">Hjem</div>
-        <div class="element2 element">Profil</div>
-        <div class="element3 element">Vaktliste</div>
-        <div class="element4 element">Overtid</div>
-        <div class="element4 element">Ansatte</div>
-        <div class="element5 element">Logg ut</div>
+        <div class="element1 element">Hjem
+            <a class="menu-home menu-a" href="calendar.html"></a>
+        </div>
+        <div class="element2 element">Profil
+            <a class="menu-profile menu-a" href="user-profile.html"></a>
+        </div>
+        <div class="element3 element">Vaktliste
+            <a class="menu-shift-list menu-a" href="shift.html"></a>
+        </div>
+        <div class="element4 element">Overtid
+            <a class="menu-overtime menu-a" href="overtime.html"></a>
+        </div>
+        <div class="element4 element">Ansatte
+            <a class="menu-employee menu-a" href="user-list.html"></a>
+        </div>
+        <div class="element5 element">Logg ut
+            <a class="menu-exit menu-a" id="hamburger-logout"></a>
+        </div>
     </div>
 </div>
 
 <div class="header-menu">
 
-    <div class="hamburger-area">
-        <a id="hamburger-toggle" class="fa fa-bars"></a>
+    <div class="hamburger-area" id="hamburger-toggle">
+        <a class="fa fa-bars"></a>
         meny
     </div>
 
@@ -56,13 +68,15 @@
         <button class="dropdown-button" id="dropdown-toggle-evening">Overtid</button>
         <div class="table-div">
             <table class="table" id="evening-table">
-                <tr>
-                    <th>Vakt ID</th>
-                    <th>Navn</th>
-                    <th>Start - Slutt</th>
-                    <th>Antall timer</th>
-                    <th>Godkjenn</th>
-                </tr>
+                <tbody id="">
+                    <tr>
+                        <th>Vakt ID</th>
+                        <th>Navn</th>
+                        <th>Start - Slutt</th>
+                        <th>Antall timer</th>
+                        <th>Godkjenn</th>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>

@@ -22,24 +22,44 @@
 <div id="overlay-placer"></div>
 
 
-<div id="header">
-    <div class="icon-bar">
-        <a id="hamburger-toggle" class="fa fa-bars"></a>
-        <ul id="hamburger-menu">
-            <li id="hamburger-calendar">Kalender</li>
-            <li id="hamburger-shift">Vaktliste</li>
-            <li id="hamburger-shifttrade">Ledige vakter</li>
-            <li id="hamburger-logout">Logg ut</li>
-        </ul>
-    </div>
-    <h1 id="h1-title">
-        <a id="search-toggle" href="/MinVakt/">MinVakt</a>
-    </h1>
-    <div class="icon-bar">
-        <a id="search" href="#" class="fa fa-search-right"></a>
-
+<div class="experimental-menu">
+    <div class="menu-container">
+        <div class="element1 element">Hjem
+            <a class="menu-home menu-a" href="calendar.html"></a>
+        </div>
+        <div class="element2 element">Profil
+            <a class="menu-profile menu-a" href="user-profile.html"></a>
+        </div>
+        <div class="element3 element">Vaktliste
+            <a class="menu-shift-list menu-a" href="shift.html"></a>
+        </div>
+        <div class="element4 element">Overtid
+            <a class="menu-overtime menu-a" href="overtime.html"></a>
+        </div>
+        <div class="element4 element">Ansatte
+            <a class="menu-employee menu-a" href="user-list.html"></a>
+        </div>
+        <div class="element5 element">Logg ut
+            <a class="menu-exit menu-a" id="hamburger-logout"></a>
+        </div>
     </div>
 </div>
+
+<div class="header-menu">
+
+    <div class="hamburger-area" id="hamburger-toggle">
+        <a class="fa fa-bars"></a>
+        meny
+    </div>
+
+    <div class="header-object header-title">
+        <h3>MinVakt</h3>
+    </div>
+    <div class="header-object header-username">
+        <h4>Username here</h4>
+    </div>
+</div>
+
 <div class = "container">
     <div class = "calendar-head">
         <a id= "left-arrow" class="fa fa-chevron-left fa-2x"></a>

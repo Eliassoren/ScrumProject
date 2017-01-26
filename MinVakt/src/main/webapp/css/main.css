@@ -20,10 +20,6 @@ body{
 
 }
 
-.fa{
-    text-align: center;
-}
-
 #header{
     position: relative;
     top:0;
@@ -45,57 +41,6 @@ body{
     height: 100%;
 }
 
-#h1-title a {
-    color: white;
-}
-
-#h1-title a:hover {
-    color: white;
-    text-decoration: none;
-}
-
-.icon-bar{
-    float:left;
-    display: inline;
-    position: relative;
-    width: 10%;
-    height: 100%;
-}
-
-.icon-bar > a{
-    font-size: 40px;
-    color: white;
-    background: transparent;
-    border-style: none;
-    padding: 30px;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-}
-
-.hamburger-toggle-open {
-    background-color: #3d5176 !important;
-    color: #4d7196 !important;
-}
-
-.icon-bar > a:hover {
-    background-color: #6d81a6;
-    color: #1d3156;
-    text-decoration: none;
-    border-style: none;
-}
-
-.icon-bar > a:visited {
-    text-decoration: none;
-    border-style: none;
-}
-
-.icon-bar > a:focus {
-    text-decoration: none;
-    color: black;
-    border-style: none;
-}
-
 h2{
     padding: 1.25rem;
     display: inline-block;
@@ -107,12 +52,6 @@ h2{
     width: 220px !important;
     line-height: 0;
     text-align: center;
-}
-
-h3{
-    margin: 0;
-    position: absolute;
-    top: 0;
 }
 .calendar-head{
     text-align: center;
@@ -352,22 +291,6 @@ h3{
     }
 }
 
-.fa-search-right:after {
-    content:"\f002";
-    text-decoration: none;
-}
-
-#hamburger-toggle {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    cursor: pointer;
-}
-
-.hamburger-toggle-open {
-    background-color: #3d5176 !important;
-}
-
 footer{
     padding: 1rem;
     margin-top: auto;
@@ -375,31 +298,6 @@ footer{
     bottom: 0;
 }
 
-#hamburger-menu {
-    list-style-type: none;
-    display: none;
-    position: absolute;
-    left: 0; top: 100%;
-    width: 100%;
-    -webkit-padding-start: 0;
-}
-
-#hamburger-menu li {
-    background-color: #3d5176;
-    display: block;
-    height: 50px;
-    width: 100%;
-    padding-left: 10px;
-    color: white;
-}
-
-#hamburger-menu li:hover {
-    background-color: #4d7196;
-}
-
-.hamburger-menu-open {
-    display: block !important;
-}
 /*
 .event-open {
     top:50%;
@@ -944,4 +842,151 @@ th {color: #2D5684; text-align: center}
 .fa-times-activate{
     pointer-events: none;
     opacity: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.hamburger-area a, h5{
+    display: inline-block;
+}
+
+.header-object{
+    position: absolute;
+    font-family: 'Source Sans Pro', sans-serif;
+    display: inline-block;
+    color: white;
+}
+
+.header-title{
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%,-50%);
+}
+
+.header-username{
+    right: 30px;
+    height: 100%;
+    top: 50%;
+    transform: translate(0,-50%);
+}
+
+.header-menu{
+    position: relative;
+    height: 4.5rem;
+    width: 100%;
+    background-color: #2D5684;
+}
+
+.fa{
+    text-decoration: none;
+    text-align: center;
+    color: black;
+}
+
+.hamburger-area {
+    z-index: 6;
+    position: absolute;
+    top: 50%;
+    height: 70%;
+    width: 100px;
+    text-align: center;
+    left: 55px;
+    transform: translate(-50%,-50%);
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    font-weight: 300;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.h2-div {
+    text-align: center;
+    position: relative;
+    margin-top: 4rem;
+    margin-bottom: 5rem;
+    height: 10%;
+}
+
+.icon-bar{
+    float:left;
+    display: inline;
+    position: relative;
+    width: 10%;
+    height: 100%;
+}
+
+.container{
+    display: block;
+    margin: auto;
+    top: 200px;
+}
+
+.experimental-menu{
+    overflow: hidden;
+    z-index: 5;
+    position: fixed;
+    height: 100%;
+    width: 0;
+    background-color: #90BAED;
+    transition: 0.5s ease-in-out;
+}
+
+.experimental-menu-activated{
+    width: 200px;
+}
+
+.menu-container{
+    margin-top: 90px;
+    height: 100%;
+    width: 100%;
+}
+
+.element{
+    width: 100%;
+    cursor: pointer;
+    text-indent: 18px;
+    position: relative;
+    height: 45px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 300;
+    color: white;
+    font-size: 2.5rem;
+}
+
+.element:hover{
+    background-color: #2D5684;
+}
+
+.fa-bars{
+    color: white;
+}
+
+.fa-bars:hover{
+    text-decoration: none;
+    color: white;
+}
+
+.hamburger-area:hover {
+    opacity: 0.8;
+}
+
+.menu-a{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
 }
