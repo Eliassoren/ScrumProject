@@ -272,3 +272,37 @@ function getAllUsers(){
         }
     })
 }
+
+function getShiftsMissingNurse(start, end) {
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/missingnurse/" + start + "/" + end,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function(data){
+            console.log(data);
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                window.location.replace("/MinVakt/");
+            }
+        }
+    })
+}
+
+function getShiftsMissingHealthWorker(start, end) {
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/missinghealthworker/" + start + "/" + end,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function(data){
+            console.log(data);
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                window.location.replace("/MinVakt/");
+            }
+        }
+    })
+}
