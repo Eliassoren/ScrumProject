@@ -167,6 +167,13 @@ public class ShiftService {
         else return shiftDb.getShift(responseId);
     }
 
+    /**
+     *
+     * @param startTime start time for the period
+     * @param endTime end time for the period
+     * @param userId id of the user
+     * @return a collection of shifts which are tradeable
+     */
     @GET
     @Path("/tradeable/{startTime}/{endTime}/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -187,6 +194,12 @@ public class ShiftService {
         return map.values();
     }
 
+    /**
+     *
+     * @param userId id of the user
+     * @param userCategoryId category id of the user
+     * @return a collection of shifts filtered by category
+     */
     @GET
     @Path("/filter/{userId}/{userCategoryId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -200,7 +213,11 @@ public class ShiftService {
         return map.values();
     }
 
-
+    /**
+     *
+     * @param shift a Shift object
+     * @return true if overtime is approved
+     */
     @POST
     @Path("/approveOvertime")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -214,6 +231,11 @@ public class ShiftService {
         return approvedResponse;
     }
 
+    /**
+     *
+     * @param changeoverShift a Changeover object
+     * @return true if changeover is approved
+     */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/approveChange")
@@ -232,6 +254,12 @@ public class ShiftService {
         return response;
     }
 
+    /**
+     *
+     * @param shiftId id of the shift
+     * @param userId id of the user
+     * @return true if change request is ok
+     */
     @POST
     @Path("/changeover/{shiftId}/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -243,6 +271,10 @@ public class ShiftService {
         return changeoverResponse;
     }
 
+    /**
+     *
+     * @return collection of users who want to a shift changeover
+     */
     @GET
     @Path("/changeover")
     @Produces(MediaType.APPLICATION_JSON)

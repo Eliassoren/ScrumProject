@@ -119,9 +119,15 @@ public class UserService {
             return true;
         }
         else throw new BadRequestException();
-
     }
 
+    /** Sets the user available for a given period
+     *
+     * @param userId id of the user
+     * @param start start date
+     * @param end end date
+     * @return response ok if user is set available for given period
+     */
     @POST
     @Path("/available/{userId}/{start}/{end}")
     @Consumes(MediaType.APPLICATION_JSON)
