@@ -135,10 +135,12 @@ public class ShiftService {
      */
     @POST
     @Path("/assign/{shiftId}/{userId}")
-    @Consumes (MediaType.APPLICATION_JSON)
     public Response assignShift(@PathParam("shiftId") int shiftId, @PathParam("userId") int userId) {
-        if(validateShift(getShift(shiftId))) {
-            Shift shift = getShift(shiftId);
+        Shift shift = getShift(shiftId);
+        if(userDb.userHasShift(userId, new java.sql.Date(shift.getStartTime().getTime()))) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        else if(validateShift(getShift(shiftId))) {
             shiftDb.assignShift(shift.getShiftId(), userId);
             return Response.ok().build();
         }
@@ -153,13 +155,16 @@ public class ShiftService {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createShift(Shift shift) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Shift createShift(Shift shift) {
         if(!validateShift(shift)){
+            System.out.println("Tried creating invalid shift");
             throw new BadRequestException();
         }
         int responseId = shiftDb.createShift(shift);
+        System.out.println("Create shift: " + responseId);
         if(responseId < 0) throw new BadRequestException();
-        else return Response.ok().build();
+        else return shiftDb.getShift(responseId);
     }
 
     @GET
@@ -254,17 +259,24 @@ public class ShiftService {
         return map.values();
     }
 
-
+    @GET
+    @Path("/overtime")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Shift> getAllOvertimeRequests(){
+        Map<Shift,Shift> map = new HashMap<>();
+        ArrayList<Shift> al = overtimeDb.getAllOvertime();
+        for (Shift shift : al){
+            map.put(shift,shift);
+        }
+        return map.values();
+    }
 
     private boolean validateShift(Shift shift){
         Date start = shift.getStartTime();
         Date end = shift.getEndTime();
 
         if(start != null && end != null){
-            if(!(end.after(start))){
-                return false;
-            }
-            return true;
+            return end.after(start);
         }
         return false;
     }

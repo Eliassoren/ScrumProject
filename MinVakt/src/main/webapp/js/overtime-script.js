@@ -241,6 +241,35 @@ function getAvailableUsers(startTime, endTime) {
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data) {
             console.log(data);
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                window.location.replace("/MinVakt/");
+            },
+            400: function () {
+                console.log(data);
+            }
+        }
+    })
+}
+
+function getAllOvertimeRequest(){
+
+    $.ajax({
+        type: "GET",
+        url: "MinVakt/rest/shifts/overtime",
+        success: function (data){
+            console.log(data);
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                window.location.replace("/MinVakt/");
+            },
+            400: function () {
+                console.log(data);
+            }
         }
     })
 }

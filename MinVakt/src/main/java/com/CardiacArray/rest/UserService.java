@@ -38,10 +38,25 @@ public class UserService {
 
     /**
      *
+     * @param id users ID
+     * @return user object
+     */
+    @GET
+    @Path("/id/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUserById(@PathParam("id") String id){
+        User userFound = userDb.getUserByEmail(Integer.parseInt(id));
+        if(userFound.getFirstName() == null || userFound.getLastName() == null) throw new NotFoundException();
+        else return userFound;
+    }
+
+    /**
+     *
      * @param email email of the user
      * @return user object
      */
-     @Path("/{email}")
+    @GET
+    @Path("/{email}")
     @Produces(MediaType.APPLICATION_JSON)
     public User getUser(@PathParam("email") String email) {
         User userFound = userDb.getUserByEmail(email);
@@ -202,8 +217,16 @@ public class UserService {
         Map<User, User> map = new HashMap<>();
         for(User user : availableUsers){
             map.put(user,user);
+            System.out.println(user);
         }
         return map.values();
+    }
+
+    @GET
+    @Path("/available/{userId}/{date}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public boolean userHasShift(@PathParam("userId") int userId, @PathParam("date") long date) {
+        return userDb.userHasShift(userId, new java.sql.Date(date));
     }
 /*
     @GET
