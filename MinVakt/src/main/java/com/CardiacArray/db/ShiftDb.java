@@ -449,12 +449,12 @@ public class ShiftDb extends DbManager{
      * @param user
      * @return Success
      */
-    public boolean setUser(Shift shift, User user) {
+    public boolean setUser(Shift shift, int userId) {
         String sql = "UPDATE user_shift SET user_id = ? WHERE shift_id = ?";
         boolean success = false;
         try {
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, user.getId());
+            statement.setInt(1, userId);
             statement.setInt(2, shift.getShiftId());
             statement.execute();
             statement.close();
@@ -468,6 +468,7 @@ public class ShiftDb extends DbManager{
     }
 
     /**
+     * @Deprecated
      * Adds a user to a shift.
      * @param shift
      * @param userId
@@ -535,8 +536,6 @@ public class ShiftDb extends DbManager{
 
     public boolean setApproved(int shiftId){
         boolean returnValue = false;
-
-        //TODO slett godkjenning
         String toSQL = "UPDATE changeover set approved = 1 WHERE shift_id  = ?";
         try{
             statement = connection.prepareStatement(toSQL);
