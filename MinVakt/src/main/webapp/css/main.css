@@ -804,16 +804,52 @@ th {color: #2D5684; text-align: center}
 }
 
 .a-text-header{
-    padding-top: 15px;
     font-size: 50px;
     color: white;
     font-family: 'Source Sans Pro', sans-serif; !important;
     text-align: center;
 }
 
+.absence{
+    width: 100%;
+    height: 50px;
+}
+
 .time-input{
-    position: absolute;
+    position: relative;
     width: 80px;
     height: 30px;
-    background-color: red;
+    background-color: white;
+}
+
+.a-label{
+    font-family: 'Source Sans Pro', sans-serif; !important;
+    font-size: 2rem;
+    color: white;
+}
+
+.fa-calendar-check-o{
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translate(0,-50%);
+    font-size: 2rem;
+    color: #2D5684;
+}
+
+.absence-calendar-container{
+    text-align: center;
+    font-family: 'Source Sans Pro', sans-serif; !important;
+    font-size: 2rem;
+    position: relative;
+    top:50%;
+    transform: translate(0,-50%);
+    height: 30px;
+    width: 250px;
+    margin: 10px auto auto auto;
+    background-color: white;
+}
+
+.a-item3{
+    text-align: center;
 }
