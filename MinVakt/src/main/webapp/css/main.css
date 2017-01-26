@@ -878,3 +878,143 @@ th {color: #2D5684; text-align: center}
     position: relative;
     margin: 3% auto 3% auto;
 }
+
+.fixed-main-container-outer{
+    overflow: hidden;
+    transition: 0.8s;
+    position: fixed;
+    background-color: #2D5684;
+    width: 100%;
+    height: 50%;
+    top:50%;
+    transform: translate(0,-50%);
+}
+
+.fixed-main-container-inner{
+    position: relative;
+    background-color: transparent;
+    width: 50%;
+    height: 100%;
+    margin: auto;
+}
+
+.a-text-header, .a-fade-in-text{
+    font-size: 50px;
+    color: white;
+    font-family: 'Source Sans Pro', sans-serif; !important;
+    text-align: center;
+}
+
+.a-fade-in-text{
+    pointer-events: none;
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    transition: 5.0s;
+    opacity: 0;
+}
+
+.absence{
+    width: 100%;
+    height: 50px;
+}
+
+.time-input{
+    position: relative;
+    width: 80px;
+    height: 30px;
+    background-color: white;
+    font-family: 'Source Sans Pro', sans-serif; !important;
+    font-size: 2rem;
+}
+
+.a-label{
+    font-family: 'Source Sans Pro', sans-serif; !important;
+    font-size: 2rem;
+    color: white;
+}
+
+.fa-calendar-check-o{
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translate(0,-50%);
+    font-size: 2rem;
+    color: #2D5684;
+}
+
+.absence-calendar-container{
+    cursor: default;
+    text-align: center;
+    font-family: 'Source Sans Pro', sans-serif; !important;
+    font-size: 2rem;
+    position: relative;
+    top:50%;
+    transform: translate(0,-50%);
+    height: 30px;
+    width: 250px;
+    margin: 10px auto auto auto;
+    background-color: white;
+}
+
+.a-item3{
+    text-align: center;
+}
+
+.fa-times{
+    z-index: 100;
+    color: white;
+    position: absolute;
+    font-size: 50px;
+    right: 0;
+    top: 0;
+}
+
+.fa-times:hover{
+    color: #90BAED;
+    cursor: pointer;
+}
+
+.a-item4{
+    margin: auto;
+    width: 250px;
+}
+
+.a-button{
+    color: white;
+    font-size: 2rem;
+    width: 49%;
+    background-color: #2D5684;
+}
+
+.a-item1{
+    height: 100px;
+    padding-top: 50px;
+}
+
+.cancel-activate{
+    background-color: #ee5c58;
+}
+
+.confirm-activate{
+    background-color: rgb(140, 173, 43);
+}
+
+.a-removeable{
+    transition: 0.3s;
+}
+
+.a-removeable-activate{
+    pointer-events: none;
+    opacity: 0;
+}
+
+.a-fade-in-text-activate{
+    opacity: 1;
+}
+
+.fa-times-activate{
+    pointer-events: none;
+    opacity: 0;
+}

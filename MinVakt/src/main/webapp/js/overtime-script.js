@@ -23,15 +23,10 @@ function refreshTable() {
 }
 
 $(document).ready(function() {
-    $("#dropdown-toggle-dateNow").click(function(){
-        $("#dateNow").toggleClass("dropdown-active");
-    });
     $("#dropdown-toggle-evening").click(function(){
         $("#evening").toggleClass("dropdown-active");
     });
-    $("#dropdown-toggle-night").click(function(){
-        $("#night").toggleClass("dropdown-active");
-    });
+
 });
 
 function formatTime(string) {
@@ -47,67 +42,107 @@ function formatTime(string) {
     return time;
 }
 
+function getCount(data) {
+
+    var obj = data;
+    var count = obj.length;
+    $(".table-count-alert").text(count);
+
+}
+
 function addRow(data) {
 
     console.log(data);
 
-    //DUMMY DATA
-    //var text= '[{"shiftId":1,"startTime":1483254000000,"endTime":1483282800000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":true,"responsibleUser":false},{"shiftId":6,"startTime":1483542000000,"endTime":1483570740000,"userId":16,"userName":"Siri Sirisen","departmentId":1,"role":1,"tradeable":false,"responsibleUser":false}]'
     var obj = data;
-
-    //TODO this needs to be removed after the table slector below works
-    var table = "dateNow-table";
-
-
-    if (!document.getElementsByTagName) return;
-
     for (var i = 0; i < obj.length; i++) {
 
-        //TODO: This part needs to add to the correct table given a working time.
-
-        var startTime = new Date(obj[i].startTime).getHours();
-        var isFree = obj[i].tradeable;
-
-        if (startTime >= 8 && startTime < 16) {
-            table = "dateNow-table";
-        } else if (startTime >= 16 && startTime < 25) {
-            table = "evening-table";
-        } else if (startTime >= 0 && startTime < 8) {
-            table = "night-table";
-        } else {
-            alert("ERROR CHECK THE ADD ROW FUNCTION IN SHIFT-SCRIPT.JS!")
+        var hours = new Date(obj[i].endTime).getHours() - new Date(obj[i].startTime).getHours();
+        if (hours < 0){
+            hours = hours + 24;
         }
-
-        tabBody = document.getElementById(table);
-        row = document.createElement("tr");
-        row.className = "tr" + i;
-        cell1 = document.createElement("td");
-        cell2 = document.createElement("td");
-        cell3 = document.createElement("td");
-        cell4 = document.createElement("Button");
-        cell4.className = "listButton " + "id" + obj[i].shiftId;
-        textnode1 = document.createTextNode(obj[i].userName);
-        textnode2 = document.createTextNode(formatTime(startTime + ":" + new Date(obj[i].startTime).getMinutes()));
-        textnode3 = document.createTextNode(formatTime(new Date(obj[i].endTime).getHours() + ":" + new Date(obj[i].endTime).getMinutes()));
-        textnode4 = document.createTextNode("Ta vakt");
-        cell1.appendChild(textnode1);
-        cell2.appendChild(textnode2);
-        cell3.appendChild(textnode3);
-        cell4.appendChild(textnode4)
-        row.appendChild(cell1);
-        row.appendChild(cell2);
-        row.appendChild(cell3);
-        row.appendChild(cell4);
-        tabBody.appendChild(row);
-        //table = "evening-table";
-        if (obj[i].userName == ""){
-            $('.tr' + i).css('background-color', '#FF5468');
-            //$('.id' + obj[i].shiftId).css('background-color', '#BA3E4C');
-        } else if (isFree) {
-            $('.tr' + i).css('background-color', '#4DFA90');
-            //$('.id' + obj[i].shiftId).css('background-color', '#40CD76');
-        }
+        $("#overtime-table")
+            .append($("<tr/>")
+                .attr("data-shiftid", obj[i].shiftId)
+                .append($("<td/>")
+                    .text(obj[i].shiftId)
+                ).append($("<td/>")
+                    .text(obj[i].userName)
+                ).append($("<td/>")
+                    .text(formatTime(new Date(obj[i].startTime).getHours() + ":" + new Date(obj[i].startTime).getMinutes()) + " - " + formatTime(new Date(obj[i].endTime).getHours() + ":" + new Date(obj[i].endTime).getMinutes()))
+                ).append($("<td/>")
+                    .text(hours)
+                ).append($("<td/>")
+                    .text("Godkjenn")
+                    .addClass("overtime-list-button")
+                    .addClass("accept")
+                    .attr("data-shiftid", obj[i].shiftId)
+                    .click(function() {
+                        approveOvertime($(this).attr("data-shiftid"));
+                     })
+                ).append($("<td/>")
+                    .text("Ikke godkjenn")
+                    .addClass("overtime-list-button")
+                    .addClass("cancel")
+                    .attr("data-shiftid", obj[i].shiftId)
+                    .click(function() {
+                        rejectOvertime($(this).attr("data-shiftid"));
+                    })
+                )
+            )
     }
+}
+
+function approveOvertime(shiftid) {
+    $.ajax({
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        type: "PUT",
+        url: "/MinVakt/rest/shifts/approveOvertime",
+        dataType: 'json',
+        data: JSON.stringify({
+            shiftId: shiftId
+        }),
+        success: function (data) {
+            console.log("Result: " + data);
+            $("tr[data-shiftid=" + shiftId + "]").remove();
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                window.location.replace("/MinVakt/");
+            },
+            400: function () {
+                console.log(data);
+            }
+        }
+    })
+}
+
+function rejectOvertime(shiftid) {
+    $.ajax({
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        type: "PUT",
+        url: "/MinVakt/rest/shifts/rejectOvertime",
+        dataType: 'json',
+        data: JSON.stringify({
+            shiftId: shiftId
+        }),
+        success: function (data) {
+            console.log("Result: " + data);
+            $("tr[data-shiftid=" + shiftId + "]").remove();
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                window.location.replace("/MinVakt/");
+            },
+            400: function () {
+                console.log(data);
+            }
+        }
+    })
 }
 
 function getShiftAndTrade(id, bool){
@@ -123,10 +158,7 @@ function getShiftAndTrade(id, bool){
 
 function setShiftTradeablePut(shift, bool) {
     $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         type: "PUT",
         url: "/MinVakt/rest/shifts/",
         dataType: 'json',
@@ -157,6 +189,19 @@ function getAvailableShifts(startTime, endTime) {
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data) {
             addRow(data);
+            getCount(data);
+        }
+    })
+}
+
+function getAvailableShiftNumber(startTime, endTime) {
+
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/tradeable/" + startTime + "/" + endTime,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function (data) {
+            getCount(data);
         }
     })
 }
@@ -274,6 +319,7 @@ function getAllOvertimeRequest(){
 
 $(document).ready(function() {
     getAvailableShifts(0,1589483849399);
+    $("#evening").toggleClass("dropdown-active");
 });
 
 $( function() {
