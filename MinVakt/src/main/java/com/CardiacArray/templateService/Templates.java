@@ -66,7 +66,7 @@ public class Templates {
                 }
             }
         }
-        templateEngine.add
-        return templateEngine.process("main", context);
+
+        return templateEngine.process("login", context);
     }
 }
