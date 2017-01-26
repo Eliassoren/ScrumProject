@@ -23,15 +23,10 @@ function refreshTable() {
 }
 
 $(document).ready(function() {
-    $("#dropdown-toggle-dateNow").click(function(){
-        $("#dateNow").toggleClass("dropdown-active");
-    });
     $("#dropdown-toggle-evening").click(function(){
         $("#evening").toggleClass("dropdown-active");
     });
-    $("#dropdown-toggle-night").click(function(){
-        $("#night").toggleClass("dropdown-active");
-    });
+
 });
 
 function formatTime(string) {
@@ -45,6 +40,14 @@ function formatTime(string) {
         time += "0" + min;
     } else time += min;
     return time;
+}
+
+function getCount(data) {
+
+    var obj = data;
+    var count = obj.length;
+    $(".table-count-alert").text(count);
+
 }
 
 function addRow(data) {
@@ -82,8 +85,8 @@ function addRow(data) {
         cell2 = document.createElement("td");
         cell3 = document.createElement("td");
         cell4 = document.createElement("td");
-        cell5 = document.createElement("Button");
-        cell5.className = "overtime-listButton " + "id" + obj[i].shiftId;
+        cell5 = document.createElement("td");
+        cell5.className = "overtime-list-button " + "id" + obj[i].shiftId;
         textnode1 = document.createTextNode(obj[i].shiftId);
         textnode2 = document.createTextNode(obj[i].userName);
         textnode3 = document.createTextNode(formatTime(new Date(obj[i].startTime).getHours() + ":" + new Date(obj[i].startTime).getMinutes()) + " - " + formatTime(new Date(obj[i].endTime).getHours() + ":" + new Date(obj[i].endTime).getMinutes()));
@@ -151,6 +154,19 @@ function getAvailableShifts(startTime, endTime) {
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data) {
             addRow(data);
+            getCount(data);
+        }
+    })
+}
+
+function getAvailableShiftNumber(startTime, endTime) {
+
+    $.ajax({
+        type: "GET",
+        url: "/MinVakt/rest/shifts/tradeable/" + startTime + "/" + endTime,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        success: function (data) {
+            getCount(data);
         }
     })
 }
@@ -268,6 +284,7 @@ function getAllOvertimeRequest(){
 
 $(document).ready(function() {
     getAvailableShifts(0,1589483849399);
+    $("#evening").toggleClass("dropdown-active");
 });
 
 $( function() {
