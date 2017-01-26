@@ -86,22 +86,27 @@ function addRow(data) {
         cell3 = document.createElement("td");
         cell4 = document.createElement("td");
         cell5 = document.createElement("td");
-        cell5.className = "overtime-list-button " + "id" + obj[i].shiftId;
+        cell6 = document.createElement("td");
+        cell5.className = "overtime-list-button accept " + "id" + obj[i].shiftId;
+        cell6.className = "overtime-list-button cancel " + "id" + obj[i].shiftId;
         textnode1 = document.createTextNode(obj[i].shiftId);
         textnode2 = document.createTextNode(obj[i].userName);
         textnode3 = document.createTextNode(formatTime(new Date(obj[i].startTime).getHours() + ":" + new Date(obj[i].startTime).getMinutes()) + " - " + formatTime(new Date(obj[i].endTime).getHours() + ":" + new Date(obj[i].endTime).getMinutes()));
         textnode4 = document.createTextNode(hours);
         textnode5 = document.createTextNode("Godkjenn");
+        textnode6 = document.createTextNode("Ikke godkjenn");
         cell1.appendChild(textnode1);
         cell2.appendChild(textnode2);
         cell3.appendChild(textnode3);
         cell4.appendChild(textnode4);
         cell5.appendChild(textnode5);
+        cell6.appendChild(textnode6);
         row.appendChild(cell1);
         row.appendChild(cell2);
         row.appendChild(cell3);
         row.appendChild(cell4);
         row.appendChild(cell5);
+        row.appendChild(cell6);
         tabBody.appendChild(row);
         //table = "evening-table";
     }
