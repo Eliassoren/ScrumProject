@@ -1,7 +1,11 @@
 /**
  * Created by Chris on 25.01.2017.
  */
+<<<<<<< HEAD
 var users = [];
+=======
+
+>>>>>>> 351cc6f336a36d07b0e602eac0cc9b7cbf2ee23e
 
 $(document).ready(function() {
 
@@ -17,7 +21,6 @@ function getAllUsers() {
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data) {
             addRowEmployee(data);
-
         }
     })
 }
@@ -56,6 +59,7 @@ function addRowEmployee(data) {
             $("#overlay-placer").load("template/user-list-user.html", function(){
                 $(".stilling").text("Stilling: " + users[userId].userCategoryString);
             })
+
 
         });
 
