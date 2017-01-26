@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 /**
  * Created by andreasbergman on 24/01/17.
@@ -21,9 +22,14 @@ public class AbsenceDb extends DbManager {
     }
 
 
-    public Shift getAbsence(User user) {
+    /**
+     *
+     * @param user
+     * @return All
+     */
+    public ArrayList<Shift> getAbsence(User user) {
+        ArrayList<Shift> al = new ArrayList<>();
         int userId = user.getId();
-        Shift shift = null;
 
         String toSql = "SELECT *  FROM absence WHERE user_id = ? ";
         try {
@@ -31,14 +37,13 @@ public class AbsenceDb extends DbManager {
             statement.setInt(1, userId);
             res = statement.executeQuery();
 
-            if(res.next()){
+            while(res.next()){
                 Timestamp startTime = res.getTimestamp("start_time");
                 Timestamp endTime = res.getTimestamp("end_time");
                 int shiftId = res.getInt("shift_id");
 
-                shift = new Shift(
-
-                );
+                Shift shift = new Shift();
+                shift.setStartTime(startTime.value());
 
             }
 
