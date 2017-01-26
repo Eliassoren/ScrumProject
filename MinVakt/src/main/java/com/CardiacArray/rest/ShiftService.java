@@ -202,6 +202,7 @@ public class ShiftService {
 
 
     @POST
+    @Path("/approveOvertime")
     @Consumes(MediaType.APPLICATION_JSON)
     public boolean approveOvertime(Shift shift){
         boolean approvedResponse = false;
