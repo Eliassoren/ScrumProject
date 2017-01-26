@@ -135,6 +135,7 @@ public class ShiftDb extends DbManager{
     }
 
     public ArrayList<Shift> getShiftByCategory(int user_id, int user_category_id){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         ArrayList<Shift> shiftArray = new ArrayList<>();
         String sql = "SELECT shift.shift_id, shift.date, shift.start,\n" +
                 "  shift.end, shift.department_id, shift.user_category_id,\n" +
@@ -191,8 +192,8 @@ public class ShiftDb extends DbManager{
      * @return list of shifts for a user in  a given period
      * */
     public ArrayList<Shift> getShiftsForPeriod(java.util.Date dateStart, java.util.Date dateEnd, int userId){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         ArrayList<Shift> shiftArray = new ArrayList<>();
-
         // Formats date to form yyyy-MM-dd
         SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
         String onlyDateStart= simpleDate.format(dateStart);
@@ -241,7 +242,6 @@ public class ShiftDb extends DbManager{
             e.printStackTrace();
             DbManager.rollback();
         }
-
         return shiftArray;
     }
 
@@ -282,8 +282,8 @@ public class ShiftDb extends DbManager{
                 java.sql.Date dateFromQuery = res.getDate("date");
                 Time startTimeFromQuery = res.getTime("start");
                 Time endTimeFromQuery = res.getTime("end");
-                java.util.Date startDateFormatted = new java.util.Date(dateFromQuery.getTime() + startTimeFromQuery.getTime());
-                java.util.Date endDateFormatted = new java.util.Date(dateFromQuery.getTime() + endTimeFromQuery.getTime());
+                java.util.Date startDateFormatted = new java.util.Date(dateFromQuery.getTime() + startTimeFromQuery.getTime() + 3600000L);
+                java.util.Date endDateFormatted = new java.util.Date(dateFromQuery.getTime() + endTimeFromQuery.getTime() + 3600000L);
 
                 shiftArray.add(new Shift(
                         res.getInt("shift_id"),

@@ -80,6 +80,7 @@ public class ShiftService {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Shift> getShift(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime) {
         if (startTime > endTime) throw  new BadRequestException();
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
         Map<Shift, Shift> map = new HashMap<>();
         for (Shift shiftElement : shifts){
@@ -100,6 +101,7 @@ public class ShiftService {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Shift> getTradeable(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
         if (startTime > endTime) throw  new BadRequestException();
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
         System.out.println(new Date(startTime) + " " + new Date(endTime));
         Map<Shift, Shift> map = new HashMap<>();
@@ -172,6 +174,7 @@ public class ShiftService {
     @Path("/tradeable/{startTime}/{endTime}/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Shift> getTradeable(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime, @PathParam("userId") int userId){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         if (startTime > endTime) throw  new BadRequestException();
         User user = userDb.getUserById(userId);
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
