@@ -22,7 +22,11 @@ public class AbsenceDb extends DbManager {
 
     public ArrayList<Absence> getAbsenceForUser(int userId, Timestamp sTime, Timestamp eTime) {
         ArrayList<Absence> absenceList = null;
-
+    /**
+     *
+     * @param user
+     * @return All shifts where a user has been absent from a shift.
+     */
         String toSql = "SELECT *  FROM absence WHERE user_id = ? ";
         try {
             statement = connection.prepareStatement(toSql);

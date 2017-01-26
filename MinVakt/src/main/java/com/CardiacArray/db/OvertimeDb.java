@@ -23,6 +23,13 @@ public class OvertimeDb extends DbManager {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
     }
 
+    /**
+     *
+     * @param originalShift
+     * @return A shift object that is completely the same as originalShift except for the time,
+     * which is the time that has been worked extra.
+     */
+
     public Shift getOvertime(Shift originalShift){
         int shiftId = originalShift.getShiftId();
 
@@ -67,6 +74,11 @@ public class OvertimeDb extends DbManager {
         return originalShift;
     }
 
+    /**
+     *
+     * @param shift The shift that has the overtime which you would like to delete.
+     * @return True if the deletion was successful. False if an error occurred.
+     */
     public boolean deleteOvertime(Shift shift) {
         int returnvalue = 0;
         String toSql = "DELETE FROM overtime WHERE shift_id = ? ";
@@ -82,6 +94,13 @@ public class OvertimeDb extends DbManager {
         return returnvalue != 0;
     }
 
+    /**
+     *
+     * @param shift Shift on which overtime has occurred.
+     * @param fromTime  Time where overtime has started. Typically the same as the shifts endTime.
+     * @param toTime Time where overtime stopped.
+     * @return True if overtime was added successfully.
+     */
     public boolean setOvertime(Shift shift, Time fromTime, Time toTime){
         boolean returnValue = false;
         String toSql = "INSERT INTO overtime " +
@@ -106,7 +125,12 @@ public class OvertimeDb extends DbManager {
         return returnValue;
     }
 
-    public boolean approve(Shift shift){
+    /**
+     *
+     * @param shift The shift where overtime must be approved.
+     * @return True if overtime was successfully added.
+     */
+    public boolean aprove(Shift shift){
         boolean returnValue = false;
         String toSQL = "UPDATE overtime " +
                 "SET approved = 1 " +
@@ -127,6 +151,10 @@ public class OvertimeDb extends DbManager {
         return returnValue;
     }
 
+    /**
+     *
+     * @return A list with shifts that have overtime registered to it.
+     */
     public ArrayList<Shift> getAllOvertime(){
         ArrayList<Shift> al = new ArrayList<>();
         String toSQL = "Select overtime.shift_id, user.first_name, user.last_name, overtime.start, overtime.end\n" +
