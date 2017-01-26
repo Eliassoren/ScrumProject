@@ -1,5 +1,7 @@
 package com.CardiacArray.templateService;
 
+import com.CardiacArray.AuthFilter.Role;
+import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.restService.data.*;
 import com.CardiacArray.restService.db.UserDb;
 
@@ -24,7 +26,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-@Path("/")
+@Secured({Role.ADMIN})
+@Path("")
 public class Templates {
 
     @Context
@@ -33,9 +36,14 @@ public class Templates {
     private HttpServletResponse response;
     @Inject
     private ServletContext servletContext;
+    @Context
+    private UriInfo uriInfo;
+    private @CookieParam("token") Cookie cookie;
     private ServletContextTemplateResolver templateResolver;
     private TemplateEngine templateEngine;
     private WebContext context;
+    private UserDb userDb = new UserDb();
+    private User user;
 
     @PostConstruct
     public void postConstruct() {
@@ -47,26 +55,40 @@ public class Templates {
         templateEngine = new TemplateEngine();
         context = new WebContext(request, response, servletContext);
         templateEngine.setTemplateResolver(templateResolver);
+        if(cookie != null) {
+            user = userDb.getUserByToken(cookie.getValue());
+        } else {
+            user = new User();
+            user.setFirstName("Siri-Test");
+        }
+    }
+    @Secured({Role.ADMIN})
+    @GET
+    @Path("/")
+    @Produces(MediaType.TEXT_HTML)
+    public String login() {
+        if(user != null) {
+            try {
+                URI uri = new URI("/MinVakt/site/calendar");
+                throw new RedirectionException(Response.Status.SEE_OTHER, uri);
+            } catch(URISyntaxException e) {
+                e.printStackTrace();
+                throw new NotAuthorizedException("Error");
+            }
+        } else {
+            context.setVariable("pagetitle", "");
+            context.setVariable("page", "login");
+            return templateEngine.process("main", context);
+        }
     }
 
+    @Secured({Role.ADMIN})
     @GET
+    @Path("/calendar")
     @Produces(MediaType.TEXT_HTML)
-    public String login(@CookieParam("token") Cookie cookie) {
-        if(cookie != null) {
-            String token = cookie.getValue();
-            UserDb userDb = new UserDb();
-            User user = userDb.getUserByToken(token);
-            if(user != null) {
-                try {
-                    URI uri = new URI("/MinVakt/site/calendar");
-                    throw new RedirectionException(Response.Status.SEE_OTHER, uri);
-                } catch(URISyntaxException e) {
-                    e.printStackTrace();
-                    throw new NotAuthorizedException("Error");
-                }
-            }
-        }
-
-        return templateEngine.process("login", context);
+    public String calendar(@CookieParam("token") Cookie cookie) {
+        context.setVariable("page", "calendar");
+        context.setVariable("user", user);
+        return templateEngine.process("main", context);
     }
 }

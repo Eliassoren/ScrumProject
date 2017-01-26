@@ -1,8 +1,8 @@
 package com.CardiacArray.restService.rest;
 
 
-import com.CardiacArray.restService.AuthFilter.Role;
-import com.CardiacArray.restService.AuthFilter.Secured;
+import com.CardiacArray.AuthFilter.Role;
+import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.restService.data.Absence;
 import com.CardiacArray.restService.data.Available;
 import com.CardiacArray.restService.data.Shift;

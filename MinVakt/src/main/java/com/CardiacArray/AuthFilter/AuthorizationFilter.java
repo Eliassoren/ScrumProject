@@ -1,4 +1,4 @@
-package com.CardiacArray.restService.AuthFilter;
+package com.CardiacArray.AuthFilter;
 
 import com.CardiacArray.restService.data.User;
 import com.CardiacArray.restService.db.UserDb;
@@ -32,6 +32,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext containerRequest) throws IOException {
+        System.out.println("AuthorizationFilter");
         this.containerRequest = containerRequest;
         Class<?> resourceClass = resourceInfo.getResourceClass();
         List<Role> classRoles = extractRoles(resourceClass);

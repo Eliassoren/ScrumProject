@@ -1,4 +1,4 @@
-package com.CardiacArray.restService.AuthFilter;
+package com.CardiacArray.AuthFilter;
 
 import javax.ws.rs.NameBinding;
 import java.lang.annotation.Retention;

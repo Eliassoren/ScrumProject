@@ -21,7 +21,7 @@
     </init-param>
     <init-param>
       <param-name>javax.ws.rs.container.ContainerRequestFilter</param-name>
-      <param-value>org.glassfish.jersey.filter.LoggingFilter;com.CardiacArray.restService.AuthFilter.AuthenticationFilter;com.CardiacArray.restService.AuthFilter.AuthorizationFilter</param-value>
+      <param-value>org.glassfish.jersey.filter.LoggingFilter;com.CardiacArray.AuthFilter.AuthenticationFilter;com.CardiacArray.AuthFilter.AuthorizationFilter</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
@@ -35,10 +35,6 @@
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>
       <param-value>org.glassfish.jersey.filter;com.CardiacArray.templateService</param-value>
-    </init-param>
-    <init-param>
-      <param-name>javax.ws.rs.container.ContainerRequestFilter</param-name>
-      <param-value>org.glassfish.jersey.filter.LoggingFilter;com.CardiacArray.restService.AuthFilter.AuthenticationFilter;com.CardiacArray.restService.AuthFilter.AuthorizationFilter</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>

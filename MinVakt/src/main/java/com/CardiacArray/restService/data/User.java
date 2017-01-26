@@ -5,7 +5,7 @@
  */
 package com.CardiacArray.restService.data;
 
-import com.CardiacArray.restService.AuthFilter.Role;
+import com.CardiacArray.AuthFilter.Role;
 
 import java.sql.Timestamp;
 import java.util.regex.Matcher;

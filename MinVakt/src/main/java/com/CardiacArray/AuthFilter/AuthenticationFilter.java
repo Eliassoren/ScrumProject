@@ -1,4 +1,4 @@
-package com.CardiacArray.restService.AuthFilter;
+package com.CardiacArray.AuthFilter;
 
 import javax.annotation.Priority;
 import javax.ws.rs.NotAuthorizedException;
@@ -20,6 +20,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext containerRequest) throws WebApplicationException {
+        System.out.println("AuthenticationFilter");
         String authHeader = containerRequest.getHeaderString(HttpHeaders.AUTHORIZATION);
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new NotAuthorizedException("Error");

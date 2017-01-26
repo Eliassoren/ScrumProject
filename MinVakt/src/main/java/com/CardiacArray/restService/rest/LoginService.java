@@ -5,8 +5,8 @@
  */
 package com.CardiacArray.restService.rest;
 
-import com.CardiacArray.restService.AuthFilter.Role;
-import com.CardiacArray.restService.AuthFilter.Secured;
+import com.CardiacArray.AuthFilter.Role;
+import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.restService.Mail.Mail;
 import com.CardiacArray.restService.data.*;
 import com.CardiacArray.restService.db.DbManager;
