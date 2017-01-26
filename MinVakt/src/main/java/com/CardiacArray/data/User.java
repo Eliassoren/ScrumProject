@@ -35,7 +35,7 @@ public class User {
     private int departementId;
 
 
-    public User(int id, String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired, boolean active, int workPercent) {
+    public User(int id, String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired, boolean active, int workPercent, int departmentId) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -50,6 +50,7 @@ public class User {
         this.expired = expired;
         this.active = active;
         this.workPercent = workPercent;
+        this.departementId = departmentId;
         if(admin) {
             role = Role.ADMIN;
         } else {
@@ -317,6 +318,14 @@ public class User {
      */
     public Timestamp getExpired() {
         return expired;
+    }
+
+    public int getDepartementId() {
+        return departementId;
+    }
+
+    public void setDepartementId(int departementId) {
+        this.departementId = departementId;
     }
 
     /**
