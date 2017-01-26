@@ -216,6 +216,7 @@ public class ShiftService {
 
 
     @POST
+    @Path("/approveOvertime")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response approveOvertime(Shift shift) {
         if(validateShift(shift) && overtimeDb.approve(shift)) {

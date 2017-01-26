@@ -222,6 +222,12 @@ public class UserService {
         return map.values();
     }
 
+    /**
+     *
+     * @param userId the id of the user
+     * @param date date to be checked
+     * @return true if user has a shift that date
+     */
     @GET
     @Path("/available/{userId}/{date}")
     @Produces(MediaType.APPLICATION_JSON)
