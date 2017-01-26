@@ -197,6 +197,7 @@ h3{
     text-indent: 4px;
     width: 7.5%;
     margin-left: 5%;
+
 }
 
 #calendar .uke{
@@ -227,6 +228,8 @@ h3{
 
 #calendar .day:hover {
     background: #d3d3d3;
+    cursor: pointer;
+
 }
 
 

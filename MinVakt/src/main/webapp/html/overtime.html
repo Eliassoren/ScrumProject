@@ -11,8 +11,6 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,900" rel="stylesheet">
 
     <script type="text/javascript" src="../js/overtime-script.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <title>MinVakt</title>
 
@@ -56,13 +54,18 @@
         <button class="dropdown-button" id="dropdown-toggle-evening">Overtid</button>
         <div class="table-div">
             <table class="table" id="evening-table">
+                <thead>
                 <tr>
                     <th>Vakt ID</th>
                     <th>Navn</th>
                     <th>Start - Slutt</th>
                     <th>Antall timer</th>
-                    <th>Godkjenn</th>
+                    <th></th>
+                    <th></th>
                 </tr>
+                </thead>
+                <tbody id="overtime-table">
+                </tbody>
             </table>
         </div>
     </div>
