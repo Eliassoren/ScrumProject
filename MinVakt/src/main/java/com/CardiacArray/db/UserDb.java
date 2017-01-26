@@ -4,8 +4,6 @@ import com.CardiacArray.data.Available;
 import com.CardiacArray.data.User;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -54,7 +52,7 @@ public class UserDb extends DbManager {
     @param id Id of user
     @return User specified by id
      */
-    public User getUserByEmail(int id){
+    public User getUserById(int id){
         User user = new User();
         try {
             String toSQL = "select * from user join user_category " +
@@ -294,6 +292,13 @@ public class UserDb extends DbManager {
         return returnValue;
     }
 
+    /** Sets a user as available for given dates
+     *
+     * @param userId id of the user
+     * @param start start date
+     * @param end end date
+     * @return true if user set available
+     */
     public boolean setUserAvailable(int userId, long start, long end) {
         try {
             String toSQL = "INSERT INTO availability (availability.user_id, availability.start_time, availability.end_time) VALUES (?,?,?)";
@@ -314,7 +319,12 @@ public class UserDb extends DbManager {
             return false;
         }
     }
-
+    /**
+     *
+     * @param startLong start date
+     * @param endLong end date
+     * @return list of available users
+     */
     public ArrayList<Available> getAvailableUsers(long startLong, long endLong){
         ArrayList<Available> availables = new ArrayList<Available>();
         try {
@@ -360,6 +370,33 @@ public class UserDb extends DbManager {
     }
 
     /**
+     *
+     * @param id id of the user
+     * @param date date to check
+     * @return true if user has a shift that date
+     */
+    public boolean userHasShift(int id, java.sql.Date date) {
+        try {
+            String toSQL = "select * from shift " +
+            " join user_shift on shift.shift_id = user_shift.shift_id" +
+            " join user on user_shift.user_id = user.user_id" +
+            " where shift.date = ? and user.user_id = ?";
+            statement = connection.prepareStatement(toSQL);
+            statement.setDate(1, date);
+            statement.setInt(2, id);
+            res = statement.executeQuery();
+            if (!res.next()) {
+                return false;
+            }
+            res.close();
+            statement.close();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    /**
      * Main methode that does the following:
      * creates a connection with DbManager
      * creates a user (testUser1)
@@ -382,7 +419,7 @@ public class UserDb extends DbManager {
         }
         testUser2.setFirstName("David");
         udb.updateUser(testUser2);
-        User testUser3 = udb.getUserByEmail(testUser2.getId());
+        User testUser3 = udb.getUserById(testUser2.getId());
         if(testUser2.getFirstName().equals(testUser3.getFirstName())){
             System.out.println("user update OK");
             testCounter ++;

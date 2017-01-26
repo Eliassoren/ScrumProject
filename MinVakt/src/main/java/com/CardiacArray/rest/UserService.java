@@ -4,13 +4,15 @@ import com.CardiacArray.AuthFilter.Role;
 import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.data.*;
 import com.CardiacArray.db.*;
-
-import java.sql.Connection;
+import com.CardiacArray.data.Shift;
+import com.CardiacArray.data.User;
+import com.CardiacArray.db.OvertimeDb;
+import com.CardiacArray.db.ShiftDb;
+import com.CardiacArray.db.UserDb;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -39,9 +41,25 @@ public class UserService {
 
     /**
      *
+     * @param id users ID
+     * @return user object
+     */
+    @GET
+    @Path("/id/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUserById(@PathParam("id") String id){
+        User userFound = userDb.getUserById(Integer.parseInt(id));
+        if(userFound.getFirstName() == null || userFound.getLastName() == null) throw new NotFoundException();
+        else return userFound;
+    }
+
+    /**
+     *
      * @param email email of the user
      * @return user object
      */
+
+    @GET
     @Path("/{email}")
     @Produces(MediaType.APPLICATION_JSON)
     public User getUser(@PathParam("email") String email) {
@@ -123,7 +141,7 @@ public class UserService {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setUserAvailable(@PathParam("userId") int userId,
                                      @PathParam("start") long start, @PathParam("end") long end) {
-        User user = userDb.getUserByEmail(userId);
+        User user = userDb.getUserById(userId);
         if (user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || !user.isValidEmail(user.getEmail())) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -210,6 +228,7 @@ public class UserService {
         Map<Available, Available> map = new HashMap<>();
         for(Available user : availableUsers){
             map.put(user,user);
+            System.out.println(user);
         }
         return map.values();
     }
@@ -235,6 +254,12 @@ public class UserService {
         return absenceDb.setAbsence(userId,new Timestamp(startTime),new Timestamp(endTime));
     }
 
+    @Path("/available/{userId}/{date}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public boolean userHasShift(@PathParam("userId") int userId, @PathParam("date") long date) {
+        return userDb.userHasShift(userId, new java.sql.Date(date));
+    }
+    /*
     @GET
     @Path("/{userId}/timesheet/{startTime}/{endTime}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -259,5 +284,5 @@ public class UserService {
         }
 
         return map.values();
-    }
+    }*/
 }

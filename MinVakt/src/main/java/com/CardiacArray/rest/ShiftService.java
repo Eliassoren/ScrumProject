@@ -135,35 +135,41 @@ public class ShiftService {
      */
     @POST
     @Path("/assign/{shiftId}/{userId}")
-    @Consumes (MediaType.APPLICATION_JSON)
     public Response assignShift(@PathParam("shiftId") int shiftId, @PathParam("userId") int userId) {
-        if(validateShift(getShift(shiftId))) {
+        if (validateShift(getShift(shiftId))) {
             Shift shift = getShift(shiftId);
-            if(shift.getUserId() > 0){
-                sendChangeShiftRequest(shiftId,userId);
+            if (shift.getUserId() > 0) {
+                sendChangeShiftRequest(shiftId, userId);
             }
-            //Har det bruker? Til godkjenning
-            shiftDb.assignShift(shift.getShiftId(), userId);
-            return Response.ok().build();
+            if (userDb.userHasShift(userId, new java.sql.Date(shift.getStartTime().getTime()))) {
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            } else if (validateShift(getShift(shiftId))) {
+                shiftDb.assignShift(shift.getShiftId(), userId);
+                return Response.ok().build();
+            }
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
-
     /**
      * Createing new shift
      *
      * @param shift-object to be created
      * @return  a negative number if the shift was not created. shiftId if it was created
      */
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createShift(Shift shift) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Shift createShift(Shift shift) {
         if(!validateShift(shift)){
+            System.out.println("Tried creating invalid shift");
             throw new BadRequestException();
         }
         int responseId = shiftDb.createShift(shift);
+        System.out.println("Create shift: " + responseId);
         if(responseId < 0) throw new BadRequestException();
-        else return Response.ok().build();
+        else return shiftDb.getShift(responseId);
     }
 
     @GET
@@ -171,7 +177,7 @@ public class ShiftService {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Shift> getTradeable(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime, @PathParam("userId") int userId){
         if (startTime > endTime) throw  new BadRequestException();
-        User user = userDb.getUserByEmail(userId);
+        User user = userDb.getUserById(userId);
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime));
         System.out.println("Datoer " + new Date(startTime) + " " + new Date(endTime));
         Map<Shift, Shift> map = new HashMap<>();
@@ -205,7 +211,7 @@ public class ShiftService {
     public boolean approveOvertime(Shift shift){
         boolean approvedResponse = false;
         if(validateShift(shift)){
-            approvedResponse = overtimeDb.aprove(shift);
+            approvedResponse = overtimeDb.approve(shift);
         }else{
             throw new BadRequestException();
         }
@@ -240,12 +246,15 @@ public class ShiftService {
     @POST
     @Path("/changeover/{shiftId}/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public boolean sendChangeShiftRequest(@PathParam("shiftId") int shiftId, @PathParam("userId") int userId){
+    public Response sendChangeShiftRequest(@PathParam("shiftId") int shiftId, @PathParam("userId") int userId){
         if(shiftId < 0 || userId < 0){
-            throw new BadRequestException();
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
         boolean changeoverResponse = shiftDb.sendChangeRequest(shiftId,userId);
-        return changeoverResponse;
+        if(changeoverResponse){
+            return Response.ok().build();
+        }
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     @GET
@@ -256,8 +265,8 @@ public class ShiftService {
         ArrayList<Shift> foundChangeovers = shiftDb.getChangeRequest();
 
         for(Shift shift : foundChangeovers){
-            User oldUser = userDb.getUserByEmail(shiftDb.getShift(shift.getShiftId()).getUserId());
-            User newUser = userDb.getUserByEmail(shift.getUserId());
+            User oldUser = userDb.getUserById(shiftDb.getShift(shift.getShiftId()).getUserId());
+            User newUser = userDb.getUserById(shift.getUserId());
 
             Changeover tempChangeover = new Changeover(oldUser,newUser,shift.getShiftId());
             map.put(tempChangeover,tempChangeover);
@@ -270,7 +279,6 @@ public class ShiftService {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Shift> getAllOvertimeRequests() throws Exception {
         Map<Shift,Shift> map = new HashMap<>();
-        OvertimeDb overtimeDb = new OvertimeDb();
         ArrayList<Shift> al = overtimeDb.getAllOvertime();
         for (Shift shift : al){
             map.put(shift,shift);
@@ -278,17 +286,12 @@ public class ShiftService {
         return map.values();
     }
 
-
-
     private boolean validateShift(Shift shift){
         Date start = shift.getStartTime();
         Date end = shift.getEndTime();
 
         if(start != null && end != null){
-            if(!(end.after(start))){
-                return false;
-            }
-            return true;
+            return end.after(start);
         }
         return false;
     }
