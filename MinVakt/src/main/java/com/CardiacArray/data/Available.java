@@ -11,8 +11,8 @@ public class Available extends User {
     private Date startTime;
     private Date endTime;
 
-    public Available(int id, String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired, boolean active, int workPercent,Date startTime, Date endTime){
-        super(id,firstName,lastName,mobile,email,password,admin,address,userCategoryInt,userCategoryString,token,expired,active,workPercent);
+    public Available(int id, String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired, boolean active, int workPercent,int departmentId,Date startTime, Date endTime){
+        super(id,firstName,lastName,mobile,email,password,admin,address,userCategoryInt,userCategoryString,token,expired,active,workPercent, departmentId);
     }
 
     public Date getStartTime() {

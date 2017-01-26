@@ -32,10 +32,10 @@ public class User {
     private boolean active; //false if user does not work at the facility anymore.
     private Role role;
     private int workPercent;
-    private int departementId;
+    private int departmentId;
 
 
-    public User(int id, String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired, boolean active, int workPercent) {
+    public User(int id, String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired, boolean active, int workPercent, int departmentId) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -50,6 +50,7 @@ public class User {
         this.expired = expired;
         this.active = active;
         this.workPercent = workPercent;
+        this.departmentId = departmentId;
         if(admin) {
             role = Role.ADMIN;
         } else {

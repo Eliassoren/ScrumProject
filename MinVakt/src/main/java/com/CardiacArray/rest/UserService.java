@@ -42,7 +42,7 @@ public class UserService {
      * @param email email of the user
      * @return user object
      */
-     @Path("/{email}")
+    @Path("/{email}")
     @Produces(MediaType.APPLICATION_JSON)
     public User getUser(@PathParam("email") String email) {
         User userFound = userDb.getUserByEmail(email);
@@ -50,6 +50,16 @@ public class UserService {
         else return userFound;
     }
 
+    @Path("/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<User> getAllUsers(){
+        Map<User,User> map = new HashMap<>();
+        ArrayList<User> allUsers = userDb.getAllUsers();
+        for(User user : allUsers){
+            map.put(user,user);
+        }
+        return map.values();
+    }
 
     /**
      *
@@ -127,7 +137,6 @@ public class UserService {
     public long getHoursForPeriod(@PathParam("startTime") long startTime, @PathParam("endTime") long endTime,@PathParam("userId") int userId){
         long hoursWorked = 0;
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime), userId);
-
         for(Shift eachShift : shifts){
             long diff = eachShift.getEndTime().getTime() - eachShift.getStartTime().getTime();
             long diffHours = diff / (60 * 60 * 1000);
@@ -139,9 +148,7 @@ public class UserService {
     public long checkOvertimeforPeriod(Shift shift, long startTime, long endTime){
         ArrayList<Shift> shifts = shiftDb.getShiftsForPeriod(new Date(startTime),new Date(endTime),shift.getUserId());
         long totOvertimeHours = 0;
-
         for(Shift eachShift : shifts) {
-
             Shift overtimeShift = overtimeDB.getOvertime(eachShift);
             if (!eachShift.equals(overtimeShift)){
                 long diffOvertime = overtimeShift.getEndTime().getTime()-overtimeShift.getStartTime().getTime();
@@ -206,7 +213,7 @@ public class UserService {
         }
         return map.values();
     }
-/*
+
     @GET
     @Path("/absence/get/{startTime}/{endTime}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -253,5 +260,4 @@ public class UserService {
 
         return map.values();
     }
-*/
 }

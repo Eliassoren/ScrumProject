@@ -17,6 +17,39 @@ public class UserDb extends DbManager {
     private ResultSet res;
     private PreparedStatement statement;
 
+
+    public ArrayList<User> getAllUsers(){
+        String toSQL = "SELECT * FROM users";
+        ArrayList<User> allUsers = new ArrayList<>();
+        try {
+            statement = connection.prepareStatement(toSQL);
+            res = statement.executeQuery();
+
+            while (res.next()){
+                int id = res.getInt("user_id");
+                String email = res.getString("email");
+                String firstName= res.getString("first_name");
+                String lastName = res.getString("last_name");
+                String password = res.getString("password");
+                boolean adminRights = res.getBoolean("admin_rights");
+                int mobile = res.getInt("mobile");
+                String address = res.getString("address");
+                int userCategoryInt = res.getInt("user.user_category_id");
+                String userCategoryString = res.getString("type");
+                String token = res.getString("token");
+                Timestamp expired = res.getTimestamp("expired");
+                boolean active = res.getBoolean("active");
+                int workpercent = res.getInt("work_percent");
+                int departmentId = res.getInt("department_id");
+                allUsers.add(new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workpercent,departmentId));
+                res.close();
+                statement.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+                return allUsers;
+    }
     /**
     @param id Id of user
     @return User specified by id
@@ -44,7 +77,8 @@ public class UserDb extends DbManager {
                 Timestamp expired = res.getTimestamp("expired");
                 boolean active = res.getBoolean("active");
                 int workPercent = res.getInt("work_percent");
-                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent);
+                int departmentId = res.getInt("department_id");
+                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent,departmentId);
                 res.close();
                 statement.close();
             } else{ return null; }
@@ -85,7 +119,8 @@ public class UserDb extends DbManager {
                 Timestamp expired = res.getTimestamp("expired");
                 boolean active = res.getBoolean("active");
                 int workPercent = res.getInt("work_percent");
-                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent);
+                int departmentId = res.getInt("department_id");
+                user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent,departmentId);
                 res.close();
                 statement.close();
             } else {
@@ -126,7 +161,8 @@ public class UserDb extends DbManager {
                 Timestamp expired = res.getTimestamp("expired");
                 boolean active = res.getBoolean("active");
                 int workPercent = res.getInt("work_percent");
-                User user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent);
+                int departmentId = res.getInt("department_id");
+                User user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent,departmentId);
                 res.close();
                 statement.close();
                 return user;
@@ -311,7 +347,8 @@ public class UserDb extends DbManager {
                 Timestamp startTime = res.getTimestamp("start_time");
                 Timestamp endTime = res.getTimestamp("end_time");
                 int workpercent = res.getInt("work_percent");
-                Available tempAvailable = new Available(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workpercent,new Date(startLong),new Date(endLong));
+                int departmentId = res.getInt("departmentId");
+                Available tempAvailable = new Available(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workpercent,departmentId,new Date(startLong),new Date(endLong));
                 availables.add(tempAvailable);
             }
             res.close();

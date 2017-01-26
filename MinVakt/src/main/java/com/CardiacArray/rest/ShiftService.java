@@ -139,6 +139,10 @@ public class ShiftService {
     public Response assignShift(@PathParam("shiftId") int shiftId, @PathParam("userId") int userId) {
         if(validateShift(getShift(shiftId))) {
             Shift shift = getShift(shiftId);
+            if(shift.getUserId() > 0){
+                sendChangeShiftRequest(shiftId,userId);
+            }
+            //Har det bruker? Til godkjenning
             shiftDb.assignShift(shift.getShiftId(), userId);
             return Response.ok().build();
         }
@@ -208,11 +212,17 @@ public class ShiftService {
         return approvedResponse;
     }
 
+    @DELETE
+    public boolean deleteApprovedShift(){
+        return shiftDb.deleteApproved();
+    }
+
     @PUT
     @Path("/changeover/approve")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/approveChange")
     public boolean approveChangeover(Changeover changeoverShift){
+
+        //TODO Slette godkjenning fra databasen
 
         //Setter shift til approved og blir borte fra "til godkjenning"
         shiftDb.setApproved(changeoverShift.getShiftId());
@@ -256,12 +266,12 @@ public class ShiftService {
     }
 
     @GET
-    @Path("/overtime")
+    @Path("/overtime/get")
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Shift> getAllOvertimeRequests(){
+    public Collection<Shift> getAllOvertimeRequests() throws Exception {
         Map<Shift,Shift> map = new HashMap<>();
         OvertimeDb overtimeDb = new OvertimeDb();
-        ArrayList al = overtimeDb.getAllOvertime();
+        ArrayList<Shift> al = overtimeDb.getAllOvertime();
         for (Shift shift : al){
             map.put(shift,shift);
         }
