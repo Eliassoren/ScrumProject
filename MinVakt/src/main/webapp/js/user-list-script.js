@@ -1,11 +1,8 @@
 /**
  * Created by Chris on 25.01.2017.
  */
-<<<<<<< HEAD
-var users = [];
-=======
 
->>>>>>> 351cc6f336a36d07b0e602eac0cc9b7cbf2ee23e
+var users = [];
 
 $(document).ready(function() {
 

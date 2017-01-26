@@ -68,6 +68,7 @@ public class UserService {
         else return userFound;
     }
 
+    @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<User> getAllUsers(){
