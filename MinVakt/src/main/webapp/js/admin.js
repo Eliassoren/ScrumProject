@@ -14,54 +14,54 @@ function newUser() {
 
     $("#new-user-form").validate({
         rules: {
-            first_name: {
+            firstName: {
                 required: true
             },
-            last_name: {
+            lastName: {
                 required: true
             },
             password: {
                 required: true,
                 minlength: 8
             },
-            admin_checkbox: {
+            admin: {
                 required: false
             },
-            phone: {
+            mobile: {
                 required: true,
                 digits: true,
                 minlength: 8
             },
-            position_cb: {
+            userCategoryInt: {
                 required: true
             },
             email: {
                 required: true,
                 email: true
             },
-            active_checkbox: {
+            active: {
                 required: false
             },
             address: {
                 required: true
             },
-            spinner: {
+            workPercent: {
                 required: true,
                 digits: true,
                 range: [0, 100]
             },
-            dept_cb: {
+            departmentId: {
                 required: true
             }
         },
         messages: {
-            first_name: {
+            firstName: {
                 required: "Fornavn er obligatorisk"
             },
-            last_name: {
+            lastName: {
                 required: "Etternavn er obligatorisk"
             },
-            phone: {
+            mobile: {
                 required: "Telefonnummer må registreres",
                 minlength: "Telefonnummer må være minst 8 tegn"
             },
@@ -73,10 +73,10 @@ function newUser() {
                 required: "Passord er obligatorisk.",
                 minlength: "Passordet må bestå av minimum 8 tegn."
             },
-            position_cb: {
+            userCategoryInt: {
                 required: "Velg en stilling"
             },
-            dept_cb: {
+            departmentId: {
                 required: "Velg en avdeling"
             }
         },
@@ -114,8 +114,11 @@ function newUser() {
         }
     });
 }
+$("#button_ok").click(function () {
+    newUser();
 
-
+});
+/*
 function editUser() {
 
     $("#edit-user-form").validate({
@@ -322,3 +325,5 @@ $("#assign-shift-form").validate({
         })
     }
 });
+
+*/
