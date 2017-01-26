@@ -145,7 +145,7 @@ public class ShiftService {
             if (userDb.userHasShift(userId, new java.sql.Date(shift.getStartTime().getTime()))) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             } else if (validateShift(getShift(shiftId))) {
-                shiftDb.assignShift(shift.getShiftId(), userId);
+                shiftDb.setUser(shift, userId);
                 return Response.ok().build();
             }
             return Response.status(Response.Status.BAD_REQUEST).build();
