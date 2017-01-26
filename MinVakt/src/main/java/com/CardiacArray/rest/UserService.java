@@ -7,12 +7,10 @@ import com.CardiacArray.data.User;
 import com.CardiacArray.db.OvertimeDb;
 import com.CardiacArray.db.ShiftDb;
 import com.CardiacArray.db.UserDb;
-import com.CardiacArray.db.DbManager;
-import java.sql.Connection;
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -47,7 +45,7 @@ public class UserService {
     @Path("/id/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public User getUserById(@PathParam("id") String id){
-        User userFound = userDb.getUserByEmail(Integer.parseInt(id));
+        User userFound = userDb.getUserById(Integer.parseInt(id));
         if(userFound.getFirstName() == null || userFound.getLastName() == null) throw new NotFoundException();
         else return userFound;
     }
@@ -127,9 +125,9 @@ public class UserService {
     @POST
     @Path("/available/{userId}/{start}/{end}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setUserAvailable(@PathParam("userId") int userId, @PathParam("date") long date,
+    public Response setUserAvailable(@PathParam("userId") int userId,
                                      @PathParam("start") long start, @PathParam("end") long end) {
-        User user = userDb.getUserByEmail(userId);
+        User user = userDb.getUserById(userId);
         if (user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || !user.isValidEmail(user.getEmail())) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -219,6 +217,7 @@ public class UserService {
         Map<User, User> map = new HashMap<>();
         for(User user : availableUsers){
             map.put(user,user);
+            System.out.println(user);
         }
         return map.values();
     }

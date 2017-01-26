@@ -161,9 +161,6 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
         return firstDate;
     });*/
     var day = getMonday2(firstDate);
-
-
-    //var day = moment().startOf(moment(firstDate).isoWeek()).getDate();
     var noPrevMonth = day == 1; // Special case when month starts on a monday..
     var monday = convertToMonday(firstDate); // first monday of calendar view (of previous month)
     var monthStatus = 0; // 0 when previous, 1 when current, 2 when next
@@ -210,14 +207,14 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
         }else{
             week = 1;
         }
-    })
+    });
 
     getTradeableShifts(year, month);
 
 
 }
 $(document).ready(function() {
-    //var localStorage = localStorage.getItem();
+    //var userId = localStorage.getItem("token");
     $("#hamburger-toggle").click(function () {
         $("#hamburger-menu").toggleClass("hamburger-menu-open");
         $("#hamburger-toggle").toggleClass("hamburger-toggle-open");

@@ -37,7 +37,7 @@
     </div>
 </div>
 <div id=<"createUserDialog">
-<form class="user-form" id = "new-user-form" action = "#" method="post">
+<form class="user-form">
     <h2 class = "form-title">Profil</h2>
     <fieldset class = "fieldset">
         <legend>Kontaktinfo</legend>
@@ -89,33 +89,35 @@
             </select>
             <input class ="select" id= "spinner" type="number" min="0" max = "100" step="1" value="0" size = "6">
         </div>
-        <div class = "inline-container">
+        <!--div class = "inline-container">
             <label class = "label" for = "active_checkbox"> <input checked class = "input" id = "active_checkbox" type = "checkbox"  name = active>Aktiv</label>
-            <label class="label" for = "admin_checkbox">  <input class = "input" id = "admin_checkbox" type = "checkbox"  name="admin">Administrator</label></div>
+            <label class="label" for = "admin_checkbox">  <input class = "input" id = "admin_checkbox" type = "checkbox"  name="admin">Administrator</label></div-->
 
     </fieldset>
+    </form>
+    <form class= "user-form" id = "edit-password-form" action = "#" method="post">
     <fieldset>
         <legend>Endre passord</legend>
         <div class = "label-line inline-container">
-            <label class = "text-label" for = "old-password">Gammel passord</label>
+            <label class = "text-label" for = "old_password">Gammel passord</label>
         </div>
 
-        <input class="input" id = "old-password" type = "text" placeholder = " Gammelt passord" name="old-pw">
+        <input class="input" id = "old_password" type = "text" placeholder = " Gammelt passord" name="old-pw">
         <div class = "label-line inline-container">
-            <label class = "text-label" for = "new-password">Nytt passord</label>
+            <label class = "text-label" for = "new_password">Nytt passord</label>
         </div>
-        <input class= "input" id = "new-password" type = "text" placeholder = " Nytt passord" name="new-pw">
+        <input class= "input" id = "new_password" type = "text" placeholder = " Nytt passord" name="new-pw">
         <div class="label-line inline-container">
-            <label class= "text-label" for= "confirm-new-password">Bekreft nytt passord</label>
+            <label class= "text-label" for= "confirm_new_password">Bekreft nytt passord</label>
         </div>
-        <input class="input" id = "confirm-new-password" type = "text" placeholder = " Bekreft nytt passord" name="conf-new-pw">
+        <input class="input" id = "confirm_new_password" type = "text" placeholder = " Bekreft nytt passord" name="conf-new-pw">
         <div class = "button-group">
             <input class = "button" id = "button_ok" type = "submit" value = "Lagre"/>
             <button class = "button" id = "button_cancel">Avbryt</button>
         </div>
     </fieldset>
+    </form>
 
-</form>
 </div>
 <footer>
     <p>&copy; 2017 Cardiac Array</p>
