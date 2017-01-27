@@ -136,5 +136,11 @@ public class Templates {
     public String overtime() {
         return templateEngine.process("admin-overtime", context);
     }
-
+    @SecuredTpl({Role.USER, Role.ADMIN})
+    @GET
+    @Path("/admin/absence")
+    @Produces(MediaType.TEXT_HTML)
+    public String absence() {
+        return templateEngine.process("admin-absence", context);
+    }
 }

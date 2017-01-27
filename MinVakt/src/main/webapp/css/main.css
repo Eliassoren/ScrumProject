@@ -503,7 +503,9 @@ option{
     margin-left: auto;
     width: 80%;
 }
-
+#absence-cont{
+    margin-top: 20%;
+}
 .container .header-transparent{
     opacity: 0.6;
     filter: blur(3px);
@@ -1046,7 +1048,9 @@ tr:hover{background-color: #979797 !important; cursor: pointer;}
     width: 50%;
 }
 
-
+#absence-form{
+    top: 30%;
+}
 
 .user-form{
     padding: 1rem;
@@ -1072,7 +1076,7 @@ tr:hover{background-color: #979797 !important; cursor: pointer;}
 .user-select{
     width: 40% !important;
     margin: 0 0.3rem 0.8rem 0.3rem !important;
-    height: 1.5rem !important;
+    height: 2rem !important;
     border: 2px solid #2D5684 !important;
     /* margin: 0.5rem 0.3rem;*/
 }
