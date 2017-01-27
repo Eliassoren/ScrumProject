@@ -1,7 +1,6 @@
 package com.CardiacArray.dataTests;
 
-import com.CardiacArray.data.Shift;
-import junit.framework.TestCase;
+import com.CardiacArray.restService.data.Shift;
 import org.junit.Test;
 import java.util.Date;
 

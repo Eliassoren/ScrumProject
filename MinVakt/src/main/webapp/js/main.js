@@ -224,10 +224,10 @@ $(document).ready(function() {
         window.location.href = "/MinVakt/html/calendar.html";
     });
     $("#hamburger-shift").click(function() {
-       window.location.href = "/MinVakt/html/shift.html";
+       window.location.href = "/MinVakt/html/not-currently-in-use.html";
     });
     $("#hamburger-shifttrade").click(function() {
-        window.location.href = "/MinVakt/html/shift-tradable.html";
+        window.location.href = "/MinVakt/html/user-shift-view.html";
     });
     $("#hamburger-logout").click(function() {
         localStorage.removeItem("token");
@@ -289,7 +289,7 @@ $(document).ready(function() {
         var shiftId = $(this).children('.event').attr('shiftId');
         if($(this).find(".event").length > 0 && $(".blur").length == 0){
                 $("body").prepend("<div id='banner-div'></div>");
-                $("#banner-div").load("template/banner-shift.html", function () {
+                $("#banner-div").load("template/banner-not-currently-in-use.html", function () {
 
                     $(".container").click(function () {
                         $("#banner-div").remove();
@@ -412,7 +412,7 @@ function getTradeableShifts(year, month){
             $(".free-event-text").click(function(){
                 console.log($(this).parent());
                 $(".container").addClass("blur");
-                $("#overlay-placer").load("template/free-shift.html", function(){
+                $("#overlay-placer").load("template/free-not-currently-in-use.html", function(){
                     $(".absolute-dropdown").click(function(){
                         $(this).toggleClass("dropdown-active");
                     });

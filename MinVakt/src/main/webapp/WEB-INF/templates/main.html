@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset = "UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+        <link rel= "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,900" rel="stylesheet">
+        <link rel="stylesheet" href="/MinVakt/css/new.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/af.js"></script>
+        <script type="text/javascript" src="/MinVakt/js/moment.js"></script>
+        <script type="text/javascript" src="/MinVakt/js/new.js"></script>
+        <title>MinVakt</title>
+    </head>
+    <body>
+        <div id="header">
+            <div id="hamburger-menu">
+                <div id="hamburger-text">
+                    <span><i class="fa fa-bars"></i>meny</span>
+                </div>
+                <ul id="hamburger-menu-items">
+                    <li class="hamburger-menu-item" id="hamburger-calendar"><span>Kalender</span></li>
+                    <li class="hamburger-menu-item" id="hamburger-shift"><span>Vaktliste</span></li>
+                    <li class="hamburger-menu-item" id="hamburger-shifttrade"><span>Ledige vakter</span></li>
+                    <li class="hamburger-menu-item" id="hamburger-logout"><span>Logg ut</span></li>
+                </ul>
+            </div>
+            <h1 id="header-title">MinVakt</h1>
+            <div th:if="${page} != 'login'" id="header-user-profile">
+                <span id="header-user-profile-link" th:text="${user.firstName}"></span>
+            </div>
+        </div>
+        <div class="main-area" th:replace="${page}">
+        </div>
+        <footer>
+            <p>&copy; 2017 Cardiac Array</p>
+            <p>
+                <a href="#" class="footer-link">Brukervilkår</a> &bullet;
+                <a href="#" class="footer-link">Hjelp</a> &bullet;
+                <a href="#" class="footer-link">Kontakt</a>
+            </p>
+        </footer>
+    </body>
+</html>
