@@ -443,7 +443,8 @@ public class ShiftService {
             Shift oldShift = shiftDb.getShift(shift.getShiftId());
             User oldUser = userDb.getUserById(oldShift.getUserId());
             User newUser = userDb.getUserById(shift.getUserId());
-
+           System.out.println("Old shift: " + oldShift.getShiftId());
+           System.out.println("HELLO " + oldUser.getId());
             Changeover tempChangeover = new Changeover(oldUser,newUser,shift.getShiftId());
             map.put(tempChangeover,tempChangeover);
        }

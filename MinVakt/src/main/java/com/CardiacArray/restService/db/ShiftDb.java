@@ -374,7 +374,7 @@ public class ShiftDb extends DbManager{
      * This methode adds a user to a shift that has not yet gotten a user assigned to it.
      * @param shiftId The shift that needs a user.
      * @param userId The user that is being assigned to a shift.
-     * @see #setUser(Shift, User) 
+     * @see #setUser(Shift, User)
      * @return True if successful.
      */
     public boolean assignShift(int shiftId, int userId) {
@@ -548,6 +548,7 @@ public class ShiftDb extends DbManager{
                 shift.setShiftId(shiftId);
                 shift.setUserId(newUserId);
                 al.add(shift);
+                System.out.println("Added shift: " + shift.getShiftId());
             }
             res.close();
             statement.close();
@@ -616,4 +617,3 @@ public class ShiftDb extends DbManager{
 
 
 }
-
