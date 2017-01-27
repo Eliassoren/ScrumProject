@@ -126,7 +126,15 @@ public class Templates {
     @Path("/admin/userlist")
     @Produces(MediaType.TEXT_HTML)
     public String userList() {
-        return templateEngine.process("userlist", context);
+        return templateEngine.process("admin-userlist", context);
+    }
+
+    @SecuredTpl({Role.USER, Role.ADMIN})
+    @GET
+    @Path("/admin/overtime")
+    @Produces(MediaType.TEXT_HTML)
+    public String overtime() {
+        return templateEngine.process("admin-overtime", context);
     }
 
 }
