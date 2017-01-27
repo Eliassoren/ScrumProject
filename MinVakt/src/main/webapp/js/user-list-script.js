@@ -11,7 +11,7 @@ $(document).ready(function() {
     $(".new-button").click(function(){
         $("body").prepend("<div/>").addClass("new-user-div");
         $(".new-user-div").load("/MinVakt/html/template/new-user.html", function(){
-            
+            newUser();
         })
     })
 

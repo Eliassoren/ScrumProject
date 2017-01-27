@@ -333,11 +333,11 @@ public class User {
         return expired;
     }
 
-    public int getDepartementId() {
+    public int getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartementId(int departmentId) {
+    public void setDepartmentId(int departmentId) {
         this.departmentId = departmentId;
     }
 

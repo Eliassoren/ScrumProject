@@ -3,6 +3,7 @@ package com.CardiacArray.restService.rest;
 
 import com.CardiacArray.restService.AuthFilter.SecuredRest;
 import com.CardiacArray.restService.AuthFilter.Role;
+import com.CardiacArray.restService.Mail.Mail;
 import com.CardiacArray.restService.data.Absence;
 import com.CardiacArray.restService.data.Available;
 import com.CardiacArray.restService.data.Shift;
@@ -128,17 +129,25 @@ public class UserService {
      * @return True if the user is created, throw exception if not
      */
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public boolean createUser(User user) {
+    public Response createUser(User user) {
         User checkUser = userDb.getUserByEmail(user.getEmail());
-        if(checkUser.getFirstName() == null && checkUser.getLastName() == null){
-
-            user.setPassword(passwordUtil.hashPassword(user.getPassword(),user.getEmail()));
-            userDb.createUser(user);
-
-            return true;
+        System.out.println("fnavn: " + user.getFirstName() + "lnavn: " + user.getLastName() + "epost: " + user.getEmail());
+        if (checkUser != null) {
+            System.out.println("Bruker finnes");
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        else throw new BadRequestException();
+        if(user.getFirstName() != null && user.getLastName() != null && user.getEmail() != null) {
+            PasswordUtil pU = new PasswordUtil();
+            String password = pU.newPassword();
+            String hashedPassword = pU.hashPassword(pU.newPassword(), user.getFirstName());
+            user.setPassword(hashedPassword);
+            userDb.createUser(user);
+            Mail.sendMail(user.getEmail(), "Logginn til MinVakt", "Epost her");
+            return Response.ok().build();
+        }
+        else return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     /** Sets the user available for a given period
