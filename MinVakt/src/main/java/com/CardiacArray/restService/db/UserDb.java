@@ -203,7 +203,7 @@ public class UserDb extends DbManager {
             statement.setString(8, user.getEmail());
             statement.setBoolean(9, user.isActive());
             statement.setInt(10,user.getWorkPercent());
-            statement.setInt(11, user.getDepartementId());
+            statement.setInt(11, user.getDepartmentId());
             statement.setInt(12,user.getId());
             statement.execute();
             statement.close();
@@ -285,7 +285,7 @@ public class UserDb extends DbManager {
     public int createUser(User user){
         int returnValue = -1;
         try {
-            String toSQL = "INSERT into user (first_name, last_name, password, admin_rights, user_category_id, mobile, address, email, active, workPercent, department_id)\n" +
+            String toSQL = "INSERT into user (first_name, last_name, password, admin_rights, user_category_id, mobile, address, email, active, work_percent, department_id)\n" +
                     "  VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             statement = connection.prepareStatement(toSQL);
             statement.setString(1, user.getFirstName());
@@ -298,7 +298,7 @@ public class UserDb extends DbManager {
             statement.setString(8, user.getEmail());
             statement.setBoolean(9, user.isActive());
             statement.setInt(10, user.getWorkPercent());
-            statement.setInt(11, user.getDepartementId());
+            statement.setInt(11, user.getDepartmentId());
             statement.execute();
             ResultSet res = statement.getGeneratedKeys();
             if(res.next()){
