@@ -47,7 +47,7 @@ function getDateOfWeek(w, y) {
 
 function bannerAlert(message) {
     $("body").prepend("<div id='banner-div'></div>");
-    $("#banner-div").load("template/banner-alert.html", function () {
+    $("#banner-div").load("/MinVakt/html/template/banner-alert.html", function () {
         $("#alert").text(message);
         $(".container").click(function () {
             $("#banner-div").remove();
@@ -65,7 +65,7 @@ function bannerAlert(message) {
 
 function bannerConfirm(message, callBack) {
     $("body").prepend("<div id='banner-div'></div>");
-    $("#banner-div").load("template/banner-alertConfirm.html", function () {
+    $("#banner-div").load("/MinVakt/html/template/banner-alertConfirm.html", function () {
         $("#alert").text(message);
         $(".container").click(function () {
             $("#banner-div").remove();

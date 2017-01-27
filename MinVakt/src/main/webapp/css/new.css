@@ -23,23 +23,15 @@ body {
     margin: 0;
 }
 
-h1, h2, h3 {
-    font-weight: normal;
-}
-
-a:focus, a:hover {
+#header a:focus, #header a:hover {
     color: #23527c;
     text-decoration: underline;
 }
-a:active, a:hover {
+#header a:active, #header a:hover {
     outline: 0;
 }
-a {
-    color: #337ab7;
-    text-decoration: none;
-}
 
-.fa{
+#header .fa{
     text-align: center;
     color: white;
 }
@@ -58,8 +50,9 @@ a {
     height: 100%;
     font-weight: 300;
     font-size: 2rem;
-    width: 8%;
+    width: 15%;
     cursor: pointer;
+    z-index: 2500;
 }
 
 .hamburger-menu-open {
@@ -95,7 +88,13 @@ a {
     margin-top: 0;
     z-index: 100;
 }
-
+@media(max-width: 768px){
+    #hamburger-menu {
+        height: 100%;
+        width: 45%;
+        cursor: pointer;
+    }
+}
 .hamburger-menu-item {
     background-color: #1b4472;
     display: block;
@@ -122,7 +121,8 @@ a {
     display: block !important;
 }
 
-#header-title {
+#header-title, #header-title-link {
+    font-weight: normal;
     margin: auto;
 }
 
