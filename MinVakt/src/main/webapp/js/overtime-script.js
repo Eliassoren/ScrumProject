@@ -16,21 +16,9 @@ $(document).on("input", function() {
     refreshTable()
 });
 
-function refreshTable() {
-    var currentDate = $( ".date-picker" ).datepicker( "getDate" );
-    var dateTime = currentDate.getTime();
-    getAvailableShifts(dateTime, dateTime + 86400000);
-}
-
 $(document).ready(function() {
-    $("#dropdown-toggle-dateNow").click(function(){
-        $("#dateNow").toggleClass("dropdown-active");
-    });
-    $("#dropdown-toggle-evening").click(function(){
-        $("#evening").toggleClass("dropdown-active");
-    });
-    $("#dropdown-toggle-night").click(function(){
-        $("#night").toggleClass("dropdown-active");
+    $("#overtime-dropdown-toggle-evening").click(function(){
+        $("#overtime-evening").toggleClass("overtime-dropdown-active");
     });
 });
 
