@@ -19,10 +19,10 @@
       <param-name>jersey.config.server.provider.packages</param-name>
       <param-value>org.glassfish.jersey.filter;com.CardiacArray.restService</param-value>
     </init-param>
-    <init-param>
-      <param-name>javax.ws.rs.container.ContainerRequestFilter</param-name>
-      <param-value>org.glassfish.jersey.filter.LoggingFilter;com.CardiacArray.AuthFilter.AuthenticationFilter;com.CardiacArray.AuthFilter.AuthorizationFilter</param-value>
-    </init-param>
+      <init-param>
+        <param-name>javax.ws.rs.container.ContainerRequestFilter</param-name>
+        <param-value>org.glassfish.jersey.filter.LoggingFilter;com.CardiacArray.AuthFilter.AuthenticationFilter;com.CardiacArray.AuthFilter.AuthorizationFilter</param-value>
+      </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>jersey-rest</servlet-name>

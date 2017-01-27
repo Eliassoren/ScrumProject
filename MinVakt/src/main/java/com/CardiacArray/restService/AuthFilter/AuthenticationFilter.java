@@ -1,4 +1,7 @@
-package com.CardiacArray.AuthFilter;
+package com.CardiacArray.restService.AuthFilter;
+
+import com.CardiacArray.restService.data.User;
+import com.CardiacArray.restService.db.UserDb;
 
 import javax.annotation.Priority;
 import javax.ws.rs.NotAuthorizedException;
@@ -10,10 +13,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.ext.Provider;
 import java.time.LocalDateTime;
 
-import com.CardiacArray.restService.data.User;
-import com.CardiacArray.restService.db.UserDb;
-
-@Secured
+@SecuredRest
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class AuthenticationFilter implements ContainerRequestFilter {

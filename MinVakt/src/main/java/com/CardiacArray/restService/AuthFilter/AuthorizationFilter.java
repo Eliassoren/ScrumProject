@@ -1,4 +1,4 @@
-package com.CardiacArray.AuthFilter;
+package com.CardiacArray.restService.AuthFilter;
 
 import com.CardiacArray.restService.data.User;
 import com.CardiacArray.restService.db.UserDb;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Secured
+@SecuredRest
 @Provider
 @Priority(Priorities.AUTHORIZATION)
 public class AuthorizationFilter implements ContainerRequestFilter {
@@ -55,7 +55,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         if (annotatedElement == null) {
             return new ArrayList<Role>();
         } else {
-            Secured secured = annotatedElement.getAnnotation(Secured.class);
+            SecuredRest secured = annotatedElement.getAnnotation(SecuredRest.class);
             if (secured == null) {
                 return new ArrayList<Role>();
             } else {

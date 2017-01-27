@@ -1,8 +1,8 @@
 
 package com.CardiacArray.restService.rest;
 
-import com.CardiacArray.AuthFilter.Role;
-import com.CardiacArray.AuthFilter.Secured;
+import com.CardiacArray.restService.AuthFilter.Role;
+import com.CardiacArray.restService.AuthFilter.SecuredRest;
 import com.CardiacArray.restService.Mail.Mail;
 import com.CardiacArray.restService.data.Changeover;
 import com.CardiacArray.restService.data.Overtime;
@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@Secured({Role.ADMIN, Role.USER})
+@SecuredRest({Role.ADMIN, Role.USER})
 @Path("/shifts")
 public class ShiftService {
 

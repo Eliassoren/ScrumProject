@@ -1,7 +1,4 @@
 package com.CardiacArray.templateService;
-
-import com.CardiacArray.AuthFilter.Role;
-import com.CardiacArray.AuthFilter.Secured;
 import com.CardiacArray.restService.data.*;
 import com.CardiacArray.restService.db.UserDb;
 
@@ -18,6 +15,8 @@ import javax.ws.rs.Produces;
 
 import javax.ws.rs.core.*;
 
+import com.CardiacArray.templateService.AuthFilter.SecuredTpl;
+import com.CardiacArray.templateService.AuthFilter.Role;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -26,7 +25,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-@Secured({Role.ADMIN})
 @Path("")
 public class Templates {
 
@@ -62,7 +60,7 @@ public class Templates {
             user.setFirstName("Siri-Test");
         }
     }
-    @Secured({Role.ADMIN})
+
     @GET
     @Path("/")
     @Produces(MediaType.TEXT_HTML)
@@ -82,7 +80,7 @@ public class Templates {
         }
     }
 
-    @Secured({Role.ADMIN})
+    @SecuredTpl({Role.ADMIN})
     @GET
     @Path("/calendar")
     @Produces(MediaType.TEXT_HTML)

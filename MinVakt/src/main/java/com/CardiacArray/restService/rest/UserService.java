@@ -1,8 +1,8 @@
 package com.CardiacArray.restService.rest;
 
 
-import com.CardiacArray.AuthFilter.Role;
-import com.CardiacArray.AuthFilter.Secured;
+import com.CardiacArray.restService.AuthFilter.SecuredRest;
+import com.CardiacArray.restService.AuthFilter.Role;
 import com.CardiacArray.restService.data.Absence;
 import com.CardiacArray.restService.data.Available;
 import com.CardiacArray.restService.data.Shift;
@@ -27,7 +27,7 @@ import java.util.*;
  * @author Team 1 
  */
 
-@Secured({Role.ADMIN, Role.USER})
+@SecuredRest({Role.ADMIN, Role.USER})
 @Path("/users")
 public class UserService {
     private UserDb userDb = new UserDb();

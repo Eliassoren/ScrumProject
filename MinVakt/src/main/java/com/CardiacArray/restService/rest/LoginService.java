@@ -5,8 +5,8 @@
  */
 package com.CardiacArray.restService.rest;
 
-import com.CardiacArray.AuthFilter.Role;
-import com.CardiacArray.AuthFilter.Secured;
+import com.CardiacArray.restService.AuthFilter.Role;
+import com.CardiacArray.restService.AuthFilter.SecuredRest;
 import com.CardiacArray.restService.Mail.Mail;
 import com.CardiacArray.restService.data.*;
 import com.CardiacArray.restService.db.DbManager;
@@ -92,7 +92,7 @@ public class    LoginService {
      *
      * @return response ok if token is active
      */
-    @Secured({Role.ADMIN, Role.USER})
+    @SecuredRest({Role.ADMIN, Role.USER})
     @GET
     @Path("/checktoken")
     public Response checkToken() {
