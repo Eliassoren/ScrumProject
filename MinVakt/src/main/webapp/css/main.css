@@ -179,6 +179,16 @@ h3{
 
 }
 
+#banner-absence-date{
+    font-family: 'Source Sans Pro', monospace;
+    text-align: center;
+    font-size: 30px;
+    position: relative;
+    display: inline-block;
+    margin: auto;
+    height: 35px;
+    width: 100%;
+}
 
 #calendar .date {
     text-align: center;
@@ -331,13 +341,14 @@ h3{
         font-size: 16px;
     }
     #banner-absence-container h1 {
-        float: left !important;
+        font-family: 'Source Sans Pro', monospace; !important;
+        text-align: center;
+        font-size: 30px;
         position: relative;
         display: inline-block;
-        text-align: center;
         margin: auto;
+        height: 35px;
         width: 100%;
-        font-size: 16px;
 
     }
 
@@ -347,13 +358,27 @@ h3{
         border: solid 1px;
         border-color: #FFF;
         text-align: center;
-        margin: 4% !important;
+        margin: 0;
+        padding: 0 !important;
         display: inline-block;
-        padding-left: 10%;
-        padding-right: 10%;
-        padding-top: 10px;
-        padding-bottom: 10px;
         cursor: pointer;
+    }
+
+    .banner-button-row{
+        width: 100%;
+        margin-top: 25% !important;
+    }
+
+    #absence-button-row{
+        margin-top: 60px !important;
+    }
+
+    #absence-cancel{
+        margin: 0; !important;
+    }
+
+    #absence-confirm{
+        margin: 0; !important;
     }
 
     #banner-shift {
@@ -788,9 +813,11 @@ tr:hover{background-color: #979797 !important; cursor: pointer;}
     transform: translate(-50%, 0%);
 }
 .banner-container{
+    position: relative;
+    padding: 0 !important;
     font-size: 16px;
     color: #FFF;
-    width: 500px;
+    width: 400px;
     height: 100%;
     margin-left: 50%;
     transform: translate(-50%, 0%);
@@ -822,14 +849,20 @@ tr:hover{background-color: #979797 !important; cursor: pointer;}
     font-weight: 700;
     margin-right: 4px;
 }
-.banner-absence-date{
-    height: 30px;
+
+.banner-header-container{
+    position: relative;
+    font-family: 'Source Sans Pro', monospace;
+    font-size: 30px;
+    height: 35px;
+    width: 100%;
 }
+
 .banner-absence-input{
-    display: block;
+    position: relative;
+    text-align: center;
     height: 30px;
-    margin-top: 10%;
-    margin-bottom: 3%;
+    margin-top: 31px;
 }
 .banner-button-row {
     margin-top: 20%;
@@ -839,15 +872,35 @@ tr:hover{background-color: #979797 !important; cursor: pointer;}
     float: right;
 }
 #absence-button-row{
-    margin-top: 15%;
+    position: relative;
+    height: 42px;
+    margin: 63px 0 10px 0;
 }
+
+#absence-confirm{
+    width: 30%;
+    margin: 0 25px 0 0;
+    position: absolute;
+    text-align: center;
+    height: 42px;
+    left: 20%;
+    transform: translate(0,-50%);
+}
+
+#absence-cancel{
+    width: 30%;
+    margin: 0 0 0 25px;
+    position: absolute;
+    height: 42px;
+    right: 20%;
+    transform: translate(0,-50%);
+}
+
 .banner-button {
-    width: 30px;
-    height: 400px;
+    height: 42px;
     border: solid 1px #FFF;
     text-align: center;
-    margin-right: 15px;
-    display: inline;
+    display: inline-block;
     padding-left: 5%;
     padding-right: 5%;
     padding-top: 10px;
@@ -855,7 +908,7 @@ tr:hover{background-color: #979797 !important; cursor: pointer;}
     cursor: pointer;
 }
 .time-input{
-    width: 40%;
+    width: 30%;
     height: 100%;
     color: #2D5684;
 }
