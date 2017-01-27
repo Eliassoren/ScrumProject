@@ -289,7 +289,7 @@ $(document).ready(function() {
         var shiftId = $(this).children('.event').attr('shiftId');
         if($(this).find(".event").length > 0 && $(".blur").length == 0){
                 $("body").prepend("<div id='banner-div'></div>");
-                $("#banner-div").load("template/banner-not-currently-in-use.html", function () {
+                $("#banner-div").load("template/banner-shift.html", function () {
 
                     $(".container").click(function () {
                         $("#banner-div").remove();
@@ -299,7 +299,10 @@ $(document).ready(function() {
                     $(".container").addClass("blur");
                 });
 
-
+            $(".absence").click(function(){
+                $("#banner-shift").remove();
+                absenceAlert(formatDate(new Date(data.startTime)));
+            });
             $.ajax({
                 type: "GET",
                 url: "/MinVakt/rest/shifts/" + shiftId,
@@ -319,7 +322,12 @@ $(document).ready(function() {
                         if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
                         $(".container").unbind();
                     });
-
+                    $(".absence").click(function(){
+                        $("#banner-shift").remove();
+                        if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+                        $(".container").unbind();
+                        absenceAlert(data.startTime);
+                    });
                     $(".approve").click(function(){
                         $("#banner-shift").remove();
                         if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
@@ -412,7 +420,7 @@ function getTradeableShifts(year, month){
             $(".free-event-text").click(function(){
                 console.log($(this).parent());
                 $(".container").addClass("blur");
-                $("#overlay-placer").load("template/free-not-currently-in-use.html", function(){
+                $("#overlay-placer").load("template/free-shift.html", function(){
                     $(".absolute-dropdown").click(function(){
                         $(this).toggleClass("dropdown-active");
                     });
@@ -621,7 +629,31 @@ function assignAvailableShift(shiftId) {
         }
     })
 }
+function absenceAlert(time) {
+    $("body").prepend("<div id='banner-div'></div>");
 
+    $("#banner-div").load("template/banner-absence.html", function () {
+        $("#alert").text(formatDate(new Date(time)));
+        $(".container").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+        });
+        $(".approve").click(function(){
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+            // TODO: Send absence to backend
+            bannerAlert("Fravær registrert");
+        });
+        $(".container").addClass("blur");
+        $(".closer").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+        });
+    });
+}
 
 function bannerAlert(message) {
     $("body").prepend("<div id='banner-div'></div>");
