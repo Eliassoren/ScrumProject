@@ -10,7 +10,7 @@ $(document).ready(function() {
 
     $(".new-button").click(function(){
         $("body").prepend("<div/>").addClass("new-user-div");
-        $(".new-user-div").load("template/new-user.html", function(){
+        $(".new-user-div").load("/MinVakt/html/template/new-user.html", function(){
             
         })
     })
@@ -61,7 +61,7 @@ function addRowEmployee(data) {
             $(".employee-form-banner").addClass("show-banner");
             var userId = $(this).attr("user-id");
             console.log(userId);
-            $("#overlay-placer").load("template/user-list-user.html", function(){
+            $("#overlay-placer").load("/MinVakt/html/template/user-list-user.html", function(){
                 $(".stilling").text("Stilling: " + users[userId].userCategoryString);
                 $(".name").text(users[userId].firstName + " " + users[userId].lastName);
                 $(".telefon").text("Telefon: " + users[userId].mobile);
