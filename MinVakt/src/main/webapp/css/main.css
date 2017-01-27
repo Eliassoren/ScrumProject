@@ -250,7 +250,9 @@ h3{
     #calendar .weekdays{
         display: none;
     }
-
+    .container{
+        width: 100% !important;
+    }
     #calendar li {
         height: auto !important;
         border: 1px solid #ededed;
@@ -506,6 +508,7 @@ option{
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
+    width: 80%;
 }
 
 .container .header-transparent{

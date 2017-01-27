@@ -58,12 +58,14 @@ a {
     height: 100%;
     font-weight: 300;
     font-size: 2rem;
-    width: 8%;
+    width: 18%;
     cursor: pointer;
+    z-index: 1500;
 }
 
 .hamburger-menu-open {
     background-color: #1b4472 !important;
+    height: 100%;
 }
 
 #hamburger-text {
@@ -185,11 +187,26 @@ footer{
 }
 
 .dropdown-active{
-    border-bottom: #2D5684 20px;
+    border-bottom: #2D5684 2px;
     margin-bottom: 0;
-    max-height: 445px;
+    max-height: 100%;
 }
+@media(max-width: 768px){
+    #hamburger-menu {
+        position: absolute;
+        height: 100%;
+        font-weight: 300;
+        font-size: 2rem;
+        width: 45%;
+        cursor: pointer;
+        z-index: 1500;
+    }
 
+    .hamburger-menu-open {
+        background-color: #1b4472 !important;
+        height: 100%;
+    }
+}
 tr { line-height: 34px; text-align: center}
 tr:nth-child(even) {background: #D5D5D5}
 th {background: #979797; color:white; text-align: center}
