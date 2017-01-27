@@ -11,7 +11,7 @@ Lysest grå: #F3F3F3
 
 body{
     position: relative;
-
+    font-size: 10px;
     /*Todo: make sure font-family is everywhere*/
     font-family: 'Source Sans Pro', monospace; !important;
 
@@ -87,6 +87,7 @@ h3{
 }
 .fa-chevron-left:hover{
     text-decoration: none;
+    cursor: pointer;
 }
 .fa-chevron-right{
     display: inline;
@@ -94,6 +95,7 @@ h3{
 }
 .fa-chevron-right:hover{
     text-decoration: none;
+    cursor:pointer;
 }
 #calendar {
     width: 100%;

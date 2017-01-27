@@ -301,7 +301,7 @@ $(document).ready(function() {
 
             $(".absence").click(function(){
                 $("#banner-shift").remove();
-                absenceAlert(formatDate(new Date(data.startTime)));
+                absenceAlert(data.startTime,formatDate(new Date(data.startTime)));
             });
             $.ajax({
                 type: "GET",
@@ -326,7 +326,7 @@ $(document).ready(function() {
                         $("#banner-shift").remove();
                         if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
                         $(".container").unbind();
-                        absenceAlert(data.startTime);
+                        absenceAlert(data.startTime,formatTime(new Date(data.startTime)));
                     });
                     $(".approve").click(function(){
                         $("#banner-shift").remove();
@@ -629,11 +629,11 @@ function assignAvailableShift(shiftId) {
         }
     })
 }
-function absenceAlert(time) {
+function absenceAlert(time, format) {
     $("body").prepend("<div id='banner-div'></div>");
 
     $("#banner-div").load("template/banner-absence.html", function () {
-        $("#alert").text(formatDate(new Date(time)));
+        $("#alert").text(format);
         $(".container").click(function () {
             $("#banner-div").remove();
             if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
