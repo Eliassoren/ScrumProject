@@ -210,7 +210,7 @@ public class ShiftDb extends DbManager{
                 "LEFT JOIN user_shift ON shift.shift_id = user_shift.shift_id\n" +
                 "LEFT JOIN user ON user_shift.user_id = user.user_id\n" +
                 "LEFT JOIN user_category ON shift.user_category_id = user_category.user_category_id\n" +
-                "WHERE shift.date >= ? AND shift.date <= ? AND user.user_id = ?";
+                "WHERE shift.date >= ? AND shift.date <= ? AND user.user_id = ? ORDER BY shift.start";
 
         try {
             statement = connection.prepareStatement(sql);

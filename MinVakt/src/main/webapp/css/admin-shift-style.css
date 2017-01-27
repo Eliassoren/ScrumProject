@@ -63,7 +63,7 @@ body {
     display: block;
     float: left;
     width: 14.28%;
-    height: 600px;
+    height: 800px;
     padding: 0;
     box-sizing:border-box;
     border: 1px solid #ccc;
@@ -310,4 +310,24 @@ td{border: solid black 1px;}
 
 .all-users {
 padding: 20px;
+}
+
+.fa-square-o, .fa-check-square-o {
+    margin-right: 5px;
+    top: 2px;
+    position: relative;
+}
+
+#nurse-missing, #hw-missing {
+    margin-left: 2px;
+}
+
+#admin-shift-explain {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    background: #2D5684;
+    display: block;
+    width: 500px;
+    color: white;
 }

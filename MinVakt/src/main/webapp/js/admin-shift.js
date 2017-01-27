@@ -14,22 +14,51 @@ $(document).ready(function() {
         week--;
         $("#month-title").text("Uke " + week);
         getShiftsForWeek();
+        var theDay = getDateOfWeek(week, dateNow.getFullYear());
+        var nextDay = getDateOfWeek(week, dateNow.getFullYear());
+        nextDay.setHours(23);
+        nextDay.setMinutes(59);
+        for (var i = 1; i <= 7; i++){
+            //console.log(theDay + " " + nextDay);
+            getAvailableUsers(theDay, nextDay, i);
+            getShiftsMissingNurse(theDay, nextDay, i);
+            getShiftsMissingHealthWorker(theDay, nextDay, i);
+            theDay.setDate(theDay.getDate()+1);
+            nextDay.setDate(nextDay.getDate()+1);
+
+        }
     });
 
     $("#right-arrow").click(function () {
         week++;
         $("#month-title").text("Uke " + week);
         getShiftsForWeek();
+        var theDay = getDateOfWeek(week, dateNow.getFullYear());
+        var nextDay = getDateOfWeek(week, dateNow.getFullYear());
+        nextDay.setHours(23);
+        nextDay.setMinutes(59);
+        for (var i = 1; i <= 7; i++){
+            //console.log(theDay + " " + nextDay);
+            getAvailableUsers(theDay, nextDay, i);
+            getShiftsMissingNurse(theDay, nextDay, i);
+            getShiftsMissingHealthWorker(theDay, nextDay, i);
+            theDay.setDate(theDay.getDate()+1);
+            nextDay.setDate(nextDay.getDate()+1);
+
+        }
     });
     var theDay = getDateOfWeek(week, dateNow.getFullYear());
     var nextDay = getDateOfWeek(week, dateNow.getFullYear());
     nextDay.setHours(23);
     nextDay.setMinutes(59);
-    for (var i = 0; i < 7; i++){
+    for (var i = 1; i <= 7; i++){
         //console.log(theDay + " " + nextDay);
         getAvailableUsers(theDay, nextDay, i);
+        getShiftsMissingNurse(theDay, nextDay, i);
+        getShiftsMissingHealthWorker(theDay, nextDay, i);
         theDay.setDate(theDay.getDate()+1);
         nextDay.setDate(nextDay.getDate()+1);
+
     }
 
     getShiftsForWeek();
@@ -38,24 +67,48 @@ $(document).ready(function() {
         $(".user-row").remove();
     })
 
+    $(".all-users[name='all-users']").click(function(){
+        if ($(".all-users[name='all-users']:checked").length == 1) {
+            $.ajax({
+                type: "GET",
+                url: "/MinVakt/rest/users/all",
+                headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+                success: function(data){
+                   for (var i = 0; i < data.length; i++){
+                       addRow(data[i]);
+                   }
+                },
+                statusCode: {
+                    401: function () {
+                        localStorage.removeItem("token");
+                        window.location.replace("/MinVakt/");
+                    }
+                }
+            });
+        } else {
+            $(".user-row").remove();
+        }
+
+    });
+
 
     $(".day").click(function () {
         $(this).toggleClass("blue");
+        var daysSelected = selectedDays();
+            var dayNumber = Number($(this).attr("id").substring(3,4));
+            $("i[day='"+ dayNumber +"']").toggleClass("fa-square-o");
+            $("i[day='"+ dayNumber +"']").toggleClass("fa-check-square-o");
 
-
-        if ($(".no-user[name='no-user']:checked").length == 0) {
+        if ($(".no-user[name='no-user']:checked").length == 0 && $(".all-users[name='all-users']:checked").length == 0) {
             $(".user-row").remove();
             var usersAdded = [];
-            var daysSelected = selectedDays();
            for (var i = 0; i < daysSelected.length; i++){
                var usersDay = availableUser[Number(daysSelected[i]) - 1];
                if (usersDay !== undefined){
                    for (var j = 0; j < usersDay.length; j++){
                            //console.log(usersDay[j]);
                        if (usersAdded[usersDay[j].id] != 1){
-                           console.log(usersDay[j] != 1)
                            usersAdded[usersDay[j].id] = 1;
-                           console.log(usersAdded);
                            addRow(usersDay[j]);
                        }
                    }
@@ -90,7 +143,7 @@ $(document).ready(function() {
         }
 
         bannerConfirm("Bekreft " + selectedDays().length * selectedUser().length + " vakter?", function(){
-            createShifts(start, end, 1 ,1);
+            createShifts(start, end, Number($("#department option:selected").val()),1);
         });
     })
 });
@@ -103,14 +156,12 @@ function getShiftsForWeek() {
     sunday.setDate(Number(sunday.getDate()) + 6);
     sunday.setHours(23);
     sunday.setMinutes(59);
-    console.log("Sunday = " + sunday );
     $.ajax({
         type: "GET",
         url: "/MinVakt/rest/shifts/" + monday.getTime() + "/" + sunday.getTime(),
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
            for (var i = 0; i < data.length; i++){
-               console.log(data[i]);
                addShifts(data[i]);
            }
         },
@@ -150,7 +201,7 @@ function addShifts(shift) {
     var assignedUser = (shift.userName != "" ? shift.userName : "Ingen ansatt");
     shiftItem.append("<div>" + assignedUser + "</div>");
     shiftItem.attr("id", shift.shiftId);
-    shiftItem.append("<div>" + formatTime(new Date(shift.startTime+3600000)) + " - " + formatTime(new Date(shift.endTime+3600000)) + "</div>");
+    shiftItem.append("<div>" + formatTime(new Date(shift.startTime)) + " - " + formatTime(new Date(shift.endTime)) + "</div>");
     $("#day" + date).append(shiftItem);
 }
 
@@ -273,13 +324,14 @@ function getAllUsers(){
     })
 }
 
-function getShiftsMissingNurse(start, end) {
+function getShiftsMissingNurse(start, end, day) {
     $.ajax({
         type: "GET",
-        url: "/MinVakt/rest/shifts/missingnurse/" + start + "/" + end,
+        url: "/MinVakt/rest/shifts/missingnurse/" + start.getTime() + "/" + end.getTime(),
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
-            console.log(data);
+            $("#nurse-missing[nday='"+ day +"']").text("-"+data);
+            console.log("Mangler: " + data + " Dag:"+ day )
         },
         statusCode: {
             401: function () {
@@ -290,13 +342,14 @@ function getShiftsMissingNurse(start, end) {
     })
 }
 
-function getShiftsMissingHealthWorker(start, end) {
+function getShiftsMissingHealthWorker(start, end, day) {
     $.ajax({
         type: "GET",
-        url: "/MinVakt/rest/shifts/missinghealthworker/" + start + "/" + end,
+        url: "/MinVakt/rest/shifts/missinghealthworker/" + start.getTime() + "/" + end.getTime(),
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
-            console.log(data);
+            $("#hw-missing[nday='"+ day +"']").text("-"+data);
+            console.log("Mangler: " + data + " Dag:"+ day )
         },
         statusCode: {
             401: function () {

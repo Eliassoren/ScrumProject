@@ -125,12 +125,12 @@ public class ShiftService {
         int totalWorkers = countNurse + countHealthWorker + countAssistent;
         System.out.println("Workers " + totalWorkers);
         double nursesNeededTemp = totalWorkers * 0.20;
-        System.out.println("Nurses " + nursesNeededTemp);
+        System.out.println(nursesNeededTemp);
         if (nursesNeededTemp <= countNurse) {
                 return 0;
         } else {
             int nursedNeeded = (int) (Math.ceil(nursesNeededTemp) - countNurse);
-
+            System.out.println("Nurses: -" + nursedNeeded);
             return nursedNeeded;
         }
     }
@@ -166,7 +166,7 @@ public class ShiftService {
             return 0;
         } else {
             int healthWorkersNeeded = (int) (Math.ceil(healthWorkersNeededTemp) - countHealthWorker);
-
+            System.out.println("Healthworker: -" + healthWorkersNeeded);
             return healthWorkersNeeded;
         }
     }
