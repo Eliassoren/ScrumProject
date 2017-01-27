@@ -18,7 +18,6 @@ import javax.ws.rs.core.Response;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@SecuredRest({Role.ADMIN, Role.USER})
 @Path("/shifts")
 public class ShiftService {
 
