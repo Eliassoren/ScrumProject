@@ -225,7 +225,7 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
 
 }
 $(document).ready(function() {
-    //var userId = localStorage.getItem("token");
+    var userId = localStorage.getItem("userid");
     $("#hamburger-toggle").click(function () {
         $("#hamburger-menu").toggleClass("hamburger-menu-open");
         $("#hamburger-toggle").toggleClass("hamburger-toggle-open");
@@ -263,7 +263,7 @@ $(document).ready(function() {
         //clearCalendar();
         clearCalendar();
         // TODO: add localstorage instead of hardcode
-        getShiftsForUser(year,month,8);
+        getShiftsForUser(year,month,userId);
         //getTradeableShifts(year,month,8);
     });
 
@@ -283,7 +283,7 @@ $(document).ready(function() {
         clearCalendar();
         // Localstorage
         // todo: add localstorage instead of hardcoded
-        getShiftsForUser(year,month,8);
+        getShiftsForUser(year,month,userId);
         //getTradeableShifts(year,month,8);
         //clearCalendar();
     });
