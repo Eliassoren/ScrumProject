@@ -439,13 +439,14 @@ public class ShiftService {
         Map<Changeover, Changeover> map = new HashMap<>();
         ArrayList<Shift> foundChangeovers = shiftDb.getChangeRequest();
 
-        for(Shift shift : foundChangeovers){
-            User oldUser = userDb.getUserById(shiftDb.getShift(shift.getShiftId()).getUserId());
+       for(Shift shift : foundChangeovers){
+            Shift oldShift = shiftDb.getShift(shift.getShiftId());
+            User oldUser = userDb.getUserById(oldShift.getUserId());
             User newUser = userDb.getUserById(shift.getUserId());
 
             Changeover tempChangeover = new Changeover(oldUser,newUser,shift.getShiftId());
             map.put(tempChangeover,tempChangeover);
-        }
+       }
         return map.values();
     }
 
