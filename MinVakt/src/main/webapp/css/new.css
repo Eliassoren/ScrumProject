@@ -50,8 +50,9 @@ body {
     height: 100%;
     font-weight: 300;
     font-size: 2rem;
-    width: 8%;
+    width: 15%;
     cursor: pointer;
+    z-index: 2500;
 }
 
 .hamburger-menu-open {
@@ -87,7 +88,13 @@ body {
     margin-top: 0;
     z-index: 100;
 }
-
+@media(max-width: 768px){
+    #hamburger-menu {
+        height: 100%;
+        width: 45%;
+        cursor: pointer;
+    }
+}
 .hamburger-menu-item {
     background-color: #1b4472;
     display: block;
