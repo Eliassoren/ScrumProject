@@ -62,7 +62,7 @@ public class UserServiceTest {
         User validUser = new User("Ola", "Nordmann", 12345678, "test@test.no",
                 "Passord", false, "Testveien 2", 1, true, 100);
         when(mockUserDb.getUserByEmail("test@test.no")).thenReturn(new User());
-        Assert.assertTrue(service.createUser(validUser));
+        Assert.assertTrue((service.createUser(validUser)).getStatus() == 200);
     }
 
     @Test(expected = BadRequestException.class)
