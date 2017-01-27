@@ -227,7 +227,7 @@ $(document).ready(function() {
        window.location.href = "/MinVakt/html/shift.html";
     });
     $("#hamburger-shifttrade").click(function() {
-        window.location.href = "/MinVakt/html/shift-tradable.html";
+        window.location.href = "/MinVakt/html/user-shift-view.html";
     });
     $("#hamburger-logout").click(function() {
         localStorage.removeItem("token");
