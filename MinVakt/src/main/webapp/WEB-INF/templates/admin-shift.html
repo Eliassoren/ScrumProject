@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset = "UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../M.png">
+    <link rel= "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+    <link rel="stylesheet" href="../css/admin-shift-style.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/af.js"></script>
+    <script type="text/javascript" src="/MinVakt/js/checklogin.js"></script>
+    <script type="text/javascript" src="/MinVakt/js/admin-shift.js"></script>
+    <script type="text/javascript" src="/MinVakt/js/lib.js"></script>
+    <title>MinVakt</title>
+
+</head>
+<body>
+
+<div th:replace="${header}"></div>
+
+    <div class="container">
+
+        <h2>Sett opp vakter</h2>
+
+        <div class="container-container">
+
+            <div class="person-list-div">
+
+                <div id="person-list">
+
+                    <label for="all-users"> Vis alle brukere <input type="checkbox" name="all-users" id="all-users" class="all-users"> </label>
+                    <span>Tilgjengelige ansatte:</span>
+                    <table class="weekdays">
+                        <th>Navn</th>
+                        <th>Stilling</th>
+                    </table>
+
+                    <label for="day-id">Velg tidspunkt: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Dag: <input type="radio" name="time-of-day" id="day-id" class="input-time"> </label>
+                    <label for="evening-id"> Kveld: <input type="radio" name="time-of-day" id="evening-id" class="input-time"> </label>
+                    <label for="night-id"> Natt: <input type="radio" name="time-of-day" id="night-id" class="input-time"> </label>
+                    <label for="department"><select id="department">
+                        <option value="1">1. Nord</option>
+                        <option value="2">2. Sør</option>
+                        <option value="3">3. Øst</option>
+                        <option value="4">4. Vest</option>
+                    </select>
+                    <label for="no-user"> Opprett vakt uten bruker: <input type="checkbox" name="no-user" id="no-user" class="no-user"> </label>
+
+                </div>
+
+                <div class="button-container">
+                    <button class="accept-button">Bekreft</button>
+                </div>
+
+
+            </div>
+
+            <div class="date-list-div">
+                <div class = "calendar-head">
+                    <a id= "left-arrow" class="fa fa-chevron-left fa-3x"></a>
+                    <h3 id="month-title">Uke X</h3>
+
+                    <a id="right-arrow" class = "fa fa-chevron-right fa-3x"></a>
+                    <h5 id="admin-shift-explain"><b>Forklaring:</b> Dag [manglende sykelpleier] [manglende helsefagarbeider]<p>Klikk på en dag for å velge den</p></h5>
+                </div>
+
+                <div id="calendar">
+                    <ul class="weekdays">
+                        <li><i day="1" class="fa fa-square-o" aria-hidden="true"></i>Man
+                        <span nday="1" id="nurse-missing"></span>
+                        <span nday="1" id="hw-missing"></span></li>
+
+                        <li><i day="2" class="fa fa-square-o" aria-hidden="true"></i>Tir
+                        <span nday="2" id="nurse-missing"></span>
+                        <span nday="2" id="hw-missing"></span></li>
+
+                        <li><i day="3" class="fa fa-square-o" aria-hidden="true"></i>Ons
+                        <span nday="3" id="nurse-missing"></span>
+                        <span nday="3" id="hw-missing"></span></li>
+
+                        <li><i day="4" class="fa fa-square-o" aria-hidden="true"></i>Tor
+                        <span nday="4" id="nurse-missing"></span>
+                        <span nday="4" id="hw-missing"></span></li>
+
+                        <li><i day="5" class="fa fa-square-o" aria-hidden="true"></i>Fre
+                        <span nday="5" id="nurse-missing"></span>
+                        <span nday="5" id="hw-missing"></span></li>
+
+                        <li><i day="6" class="fa fa-square-o" aria-hidden="true"></i>Lør
+                        <span nday="6" id="nurse-missing"></span>
+                        <span nday="6" id="hw-missing"></span></li>
+
+                        <li><i day="7" class="fa fa-square-o" aria-hidden="true"></i>Søn
+                        <span nday="7" id="nurse-missing"></span>
+                        <span nday="7" id="hw-missing"></span></li>
+
+                    </ul>
+
+                    <ul id="week1" class="days">
+                        <li class="day box1" id="day1"></li>
+                        <li class="day box2" id="day2"></li>
+                        <li class="day box3" id="day3"></li>
+                        <li class="day box4" id="day4"></li>
+                        <li class="day box5" id="day5"></li>
+                        <li class="day box6" id="day6"></li>
+                        <li class="day box7" id="day7"></li>
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

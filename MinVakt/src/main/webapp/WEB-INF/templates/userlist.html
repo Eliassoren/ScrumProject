@@ -1,7 +1,28 @@
-<script type="text/javascript" src="/MinVakt/js/lib.js"></script>
-<script type="text/javascript" src="/MinVakt/js/user-list-script.js"></script>
-<link rel = "stylesheet" href = "/MinVakt/css/admin-shift-style.css">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset = "UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <!--link rel= "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,900">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/af.js"></script>
+    <script type="text/javascript" src="../js/checklogin.js"></script>
+    <script type="text/javascript" src="../js/moment.js"></script>
+    <script type="text/javascript" src="../js/lib.js"></script>
+    <script type="text/javascript" src="../js/user-list-script.js"></script>
+    <link rel= "stylesheet" href = "/MinVakt/css/main.css">
+
+    <link rel = "stylesheet" href = "/MinVakt/css/admin-shift-style.css">
+    <!-- <link rel = "stylesheet" href = "/Minvakt/css/user-form.css"> -->
+    <title>Ansatte</title>
+</head>
+<body>
 <div id="overlay-placer"></div>
+<div th:replace="${header}"></div>
+
 <!--TODO-->
 <h2 id = "users-h2" class="opacity">Ansatte</h2>
 <div class = "container opacity">
@@ -19,4 +40,16 @@
     <div class="button-container-new">
         <button class="new-button">Registrer ny ansatt</button>
     </div>
+
+
 </div>
+<footer>
+    <p>&copy; 2017 Cardiac Array</p>
+    <p>
+        <a href="#" class="footer-link">Brukervilkår</a> &bullet;
+        <a href="#" class="footer-link">Hjelp</a> &bullet;
+        <a href="#" class="footer-link">Kontakt</a>
+    </p>
+</footer>
+</body>
+</html>
