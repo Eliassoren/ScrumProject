@@ -319,7 +319,12 @@ $(document).ready(function() {
                         if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
                         $(".container").unbind();
                     });
-
+                    $(".absence").click(function(){
+                        $("#banner-shift").remove();
+                        if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+                        $(".container").unbind();
+                        absenceAlert(data.startTime);
+                    });
                     $(".approve").click(function(){
                         $("#banner-shift").remove();
                         if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
@@ -621,7 +626,31 @@ function assignAvailableShift(shiftId) {
         }
     })
 }
+function absenceAlert(time) {
+    $("body").prepend("<div id='banner-div'></div>");
 
+    $("#banner-div").load("template/banner-absence.html", function () {
+        $("#alert").text(formatDate(new Date(time)));
+        $(".container").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+        });
+        $(".approve").click(function(){
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+            // TODO: Send absence to backend
+            bannerAlert("Fravær registrert");
+        });
+        $(".container").addClass("blur");
+        $(".closer").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+        });
+    });
+}
 
 function bannerAlert(message) {
     $("body").prepend("<div id='banner-div'></div>");
