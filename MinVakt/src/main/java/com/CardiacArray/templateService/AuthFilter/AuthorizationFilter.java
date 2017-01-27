@@ -5,6 +5,8 @@ import com.CardiacArray.restService.data.User;
 import com.CardiacArray.restService.db.UserDb;
 
 import javax.annotation.Priority;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.RedirectionException;
@@ -32,6 +34,8 @@ public class AuthorizationFilter implements ContainerRequestFilter {
     @Context
     private ResourceInfo resourceInfo;
     private ContainerRequestContext containerRequest;
+    @Context
+    private HttpServletResponse HttpServletResponse;
 
     @Override
     public void filter(ContainerRequestContext containerRequest) throws IOException {
@@ -74,14 +78,14 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         System.out.println("AuthenticationFilter 2");
         if(containerRequest.getCookies().get("token") == null) {
             System.out.println("Authoriz: Token not found");
-            throw new RedirectionException(Response.Status.SEE_OTHER, uri);
+            HttpServletResponse.sendRedirect("/MinVakt/site/");
         }
         String token = containerRequest.getCookies().get("token").getValue();
         UserDb userDb = new UserDb();
         User user = userDb.getUserByToken(token);
         if(user == null) {
             System.out.println("Authoriz: User not found");
-            throw new RedirectionException(Response.Status.SEE_OTHER, uri);
+            HttpServletResponse.sendRedirect("/MinVakt/site/");
         } else {
             System.out.println("Authoriz: User found");
             LocalDateTime expiredTime = user.getExpired().toLocalDateTime();
@@ -89,9 +93,10 @@ public class AuthorizationFilter implements ContainerRequestFilter {
                 user.setToken(null);
                 user.setExpired(null);
                 userDb.updateUserToken(user);
-                throw new RedirectionException(Response.Status.SEE_OTHER, uri);
+                HttpServletResponse.sendRedirect("/MinVakt/site/");
             } else if(!allowedRoles.contains(user.getRole())) {
-                throw new RedirectionException(Response.Status.SEE_OTHER, uri);
+                System.out.println("Authoriz: User does not have access");
+                HttpServletResponse.sendRedirect("/MinVakt/site/");
             }
             System.out.println("Authoriz: User has access");
             return;
