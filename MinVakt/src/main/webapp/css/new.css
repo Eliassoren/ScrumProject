@@ -23,23 +23,15 @@ body {
     margin: 0;
 }
 
-h1, h2, h3 {
-    font-weight: normal;
-}
-
-a:focus, a:hover {
+#header a:focus, #header a:hover {
     color: #23527c;
     text-decoration: underline;
 }
-a:active, a:hover {
+#header a:active, #header a:hover {
     outline: 0;
 }
-a {
-    color: #337ab7;
-    text-decoration: none;
-}
 
-.fa{
+#header .fa{
     text-align: center;
     color: white;
 }
@@ -122,7 +114,8 @@ a {
     display: block !important;
 }
 
-#header-title {
+#header-title, #header-title-link {
+    font-weight: normal;
     margin: auto;
 }
 

@@ -107,7 +107,23 @@ public class Templates {
 
     @SecuredTpl({Role.USER, Role.ADMIN})
     @GET
-    @Path("/userlist")
+    @Path("/admin/shift")
+    @Produces(MediaType.TEXT_HTML)
+    public String adminShift() {
+        return templateEngine.process("admin-shift", context);
+    }
+
+    @SecuredTpl({Role.USER, Role.ADMIN})
+    @GET
+    @Path("/admin/shift-accept")
+    @Produces(MediaType.TEXT_HTML)
+    public String adminShiftAccept() {
+        return templateEngine.process("admin-shift-accept", context);
+    }
+
+    @SecuredTpl({Role.USER, Role.ADMIN})
+    @GET
+    @Path("/admin/userlist")
     @Produces(MediaType.TEXT_HTML)
     public String userList() {
         return templateEngine.process("userlist", context);

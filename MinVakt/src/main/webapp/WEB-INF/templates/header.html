@@ -19,7 +19,7 @@
             <li class="hamburger-menu-item" id="hamburger-logout"><span>Logg ut</span></li>
         </ul>
     </div>
-    <h1 id="header-title">MinVakt</h1>
+    <h1 id="header-title"><a id="header-title-link" style="color: white; text-decoration: none;" href="/MinVakt/site/">MinVakt</a></h1>
     <div th:if="${page} != 'login'" id="header-user-profile">
         <span id="header-user-profile-link" th:text="${user.firstName}"></span>
     </div>
