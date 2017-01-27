@@ -289,7 +289,7 @@ $(document).ready(function() {
         var shiftId = $(this).children('.event').attr('shiftId');
         if($(this).find(".event").length > 0 && $(".blur").length == 0){
                 $("body").prepend("<div id='banner-div'></div>");
-                $("#banner-div").load("template/banner-shift.html", function () {
+                $("#banner-div").load("/MinVakt/html/template/banner-shift.html", function () {
 
                     $(".container").click(function () {
                         $("#banner-div").remove();
@@ -632,7 +632,7 @@ function assignAvailableShift(shiftId) {
 function absenceAlert(time, format) {
     $("body").prepend("<div id='banner-div'></div>");
 
-    $("#banner-div").load("template/banner-absence.html", function () {
+    $("#banner-div").load("/MinVakt/html/template/banner-absence.html", function () {
         $("#alert").text(format);
         $(".container").click(function () {
             $("#banner-div").remove();
@@ -657,7 +657,7 @@ function absenceAlert(time, format) {
 
 function bannerAlert(message) {
     $("body").prepend("<div id='banner-div'></div>");
-    $("#banner-div").load("template/banner-alert.html", function () {
+    $("#banner-div").load("/MinVakt/html/template/banner-alert.html", function () {
         $("#alert").text(message);
         $(".container").click(function () {
             $("#banner-div").remove();
@@ -675,7 +675,7 @@ function bannerAlert(message) {
 
 function bannerConfirm(message, callBack) {
     $("body").prepend("<div id='banner-div'></div>");
-    $("#banner-div").load("template/banner-alertConfirm.html", function () {
+    $("#banner-div").load("/MinVakt/html/template/banner-alertConfirm.html", function () {
         $("#alert").text(message);
         $(".container").click(function () {
             $("#banner-div").remove();

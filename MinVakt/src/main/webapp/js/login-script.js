@@ -41,7 +41,7 @@ $(document).ready(function() {
                     localStorage.setItem("token", loginObj.token);
                     localStorage.setItem("userid", loginObj.id);
                     document.cookie = "token=" + loginObj.token;
-                    window.location.replace("/MinVakt/site/calendar");
+                    window.location.replace("/MinVakt/site/");
                 }
             });
         }
