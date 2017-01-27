@@ -57,6 +57,7 @@ public class Templates {
             user = userDb.getUserByToken(cookie.getValue());
             context.setVariable("user", user);
         }
+        context.setVariable("header", "header");
     }
 
     @GET
@@ -64,17 +65,13 @@ public class Templates {
     @Produces(MediaType.TEXT_HTML)
     public String login() {
         if(user != null) {
-            try {
-                URI uri = new URI("/MinVakt/site/calendar");
-                throw new RedirectionException(Response.Status.SEE_OTHER, uri);
-            } catch(URISyntaxException e) {
-                e.printStackTrace();
-                throw new NotAuthorizedException("Error");
+            if(user.isAdmin()) {
+                return templateEngine.process("admin", context);
+            } else {
+                return templateEngine.process("calendar", context);
             }
-        } else {
-            context.setVariable("page", "login");
-            return templateEngine.process("main", context);
         }
+        return templateEngine.process("login", context);
     }
 
     @SecuredTpl({Role.USER, Role.ADMIN})
@@ -82,8 +79,9 @@ public class Templates {
     @Path("/calendar")
     @Produces(MediaType.TEXT_HTML)
     public String calendar() {
-        context.setVariable("page", "calendar");
-        return templateEngine.process("main", context);
+
+        context.setVariable("header", "header");
+        return templateEngine.process("calendar", context);
     }
 
     @SecuredTpl({Role.USER, Role.ADMIN})
@@ -91,8 +89,7 @@ public class Templates {
     @Path("/admin")
     @Produces(MediaType.TEXT_HTML)
     public String admin() {
-        context.setVariable("page", "admin");
-        return templateEngine.process("main", context);
+        return templateEngine.process("admin", context);
     }
 
     @SecuredTpl({Role.USER, Role.ADMIN})
@@ -100,7 +97,6 @@ public class Templates {
     @Path("/userlist")
     @Produces(MediaType.TEXT_HTML)
     public String userList() {
-        context.setVariable("page", "userlist");
-        return templateEngine.process("main", context);
+        return templateEngine.process("userlist", context);
     }
 }
