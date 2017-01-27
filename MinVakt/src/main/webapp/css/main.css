@@ -1216,6 +1216,10 @@ option{
     display: list-item;
 }
 
+#input-user-info-new {
+    color: #000;
+}
+
 /*#header{
     position: relative;
     top:0;

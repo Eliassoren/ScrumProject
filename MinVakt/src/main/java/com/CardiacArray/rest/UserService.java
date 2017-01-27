@@ -89,11 +89,14 @@ public class UserService {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public boolean updateUser(User user) {
+        System.out.println("Updating user");
         if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || !user.isValidEmail(user.getEmail())) {
+            System.out.println("ERROR: Invalid user");
             throw new BadRequestException();
         }
         boolean updateResponse = userDb.updateUser(user);
         if(!updateResponse) {
+            System.out.println("ERROR: Could not update DB");
             throw new BadRequestException();
         }
         return updateResponse;

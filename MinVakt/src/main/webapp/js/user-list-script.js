@@ -11,7 +11,7 @@ $(document).ready(function() {
     $(".new-button").click(function(){
         $("body").prepend("<div/>").addClass("new-user-div");
         $(".new-user-div").load("template/new-user.html", function(){
-            
+
         })
     })
 
@@ -84,10 +84,64 @@ function addRowEmployee(data) {
                                 success: function (data) {
                                     location.reload(true);
                                 }
-                            })
-                    })
-                })
-            })
+                            });
+                    });
+                });
+
+                $(".employee-form-edit-button").click(function(){
+                    $(".text").each(function(){
+                        console.log($(this).text());
+                        var newElement = $("<input>");
+                        if ($(this).attr("jsonName") == 'userCategoryInt') {
+                            newElement = $("<select>");
+                            newElement.attr("type", "dropdown");
+                            newElement.append("<option value = '1'>Assistent</option><option value = '2'>Helsefagarbeider</option><option value = '3'>Sykepleier</option>");
+                        } else {
+                            newElement.attr("placeholder", $(this).text());
+                        }
+                        newElement.attr("id", "input-user-info-new")
+                        newElement.attr("jsonName", $(this).attr("jsonName"));
+                        newElement.addClass($(this).attr("class"));
+
+                        if($(this).text() != "") {$(this).parent().append(newElement); }
+                        $(this).remove();
+                    });
+                    $(".employee-form-edit-button").text("Lagre");
+                    $(".employee-form-edit-button").unbind();
+                    $(".employee-form-edit-button").click(function(){
+                        if ($(".text[jsonName='userName']").val() != "") {
+                            console.log("New name");
+                            var fullname = $(".text[jsonName='userName']").val()
+                            var firstName = fullname.substring(0, fullname.lastIndexOf(" "));
+                            var lastName = fullname.substring(fullname.lastIndexOf(" ")+1, fullname.length);
+                            users[userId].firstName = firstName;
+                            users[userId].lastName = lastName;
+                        }
+                        if ($(".text[jsonName='address']").val() != ""){
+                            users[userId].address = $(".text[jsonName='address']").val();
+                        }
+                        if ($(".text[jsonName='mobile']").val() != ""){
+                            users[userId].address = $(".text[jsonName='mobile']").val();
+                        }
+                        if ($(".text[jsonName='email']").val() != ""){
+                            users[userId].email = $(".text[jsonName='email']").val();
+                        }
+
+                        console.log(users[userId]);
+
+                        $.ajax({
+                            type: "PUT",
+                            url: "/MinVakt/rest/users",
+                            headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+                            contentType: "application/json",
+                            data: users[userId],
+                            success: function (data) {
+                                location.reload(true);
+                            }
+                        })
+                    });
+                });
+            });
 
 
 
