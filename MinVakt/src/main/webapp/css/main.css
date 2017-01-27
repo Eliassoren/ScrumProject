@@ -855,6 +855,8 @@ tr:hover{background-color: #979797 !important; cursor: pointer;}
     cursor: pointer;
 }
 .time-input{
+    width: 40%;
+    height: 100%;
     color: #2D5684;
 }
 .banner-button .approve {
