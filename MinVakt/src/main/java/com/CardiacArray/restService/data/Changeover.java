@@ -20,6 +20,7 @@ public class Changeover {
 
     }
 
+
     public Changeover (User oldUser, User newUser, int shiftId){
         this.oldUserId = oldUser.getId();
         this.oldUser = oldUser.getEmail();
@@ -30,6 +31,7 @@ public class Changeover {
         this.newUser = newUser.getEmail();
         this.fNameNew = newUser.getFirstName();
         this.lNameNew = newUser.getLastName();
+        this.shiftId = shiftId;
     }
 
     /**
