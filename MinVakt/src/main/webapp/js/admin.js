@@ -28,8 +28,7 @@ function newUser() {
                 admin:($("#admin_checkbox[name='admin']:checked").length > 0),
             }),
             success: function (data) {
-                console.log(data);
-                return data;
+                location.reload(true);
             },
             statusCode: {
                 409: function () {
