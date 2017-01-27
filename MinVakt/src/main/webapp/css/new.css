@@ -58,9 +58,8 @@ a {
     height: 100%;
     font-weight: 300;
     font-size: 2rem;
-    width: 18%;
+    width: 8%;
     cursor: pointer;
-    z-index: 1500;
 }
 
 .hamburger-menu-open {

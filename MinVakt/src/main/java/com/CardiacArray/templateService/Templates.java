@@ -66,10 +66,23 @@ public class Templates {
     public String login() {
         if(user != null) {
             if(user.isAdmin()) {
-                return templateEngine.process("admin", context);
+                try {
+                    URI uri = new URI("/MinVakt/site/admin");
+                    throw new RedirectionException(Response.Status.SEE_OTHER, uri);
+                } catch(URISyntaxException e) {
+                    e.printStackTrace();
+                    throw new NotAuthorizedException("Error");
+                }
             } else {
-                return templateEngine.process("calendar", context);
+                try {
+                    URI uri = new URI("/MinVakt/site/calendar");
+                    throw new RedirectionException(Response.Status.SEE_OTHER, uri);
+                } catch(URISyntaxException e) {
+                    e.printStackTrace();
+                    throw new NotAuthorizedException("Error");
+                }
             }
+
         }
         return templateEngine.process("login", context);
     }
@@ -99,4 +112,5 @@ public class Templates {
     public String userList() {
         return templateEngine.process("userlist", context);
     }
+
 }
