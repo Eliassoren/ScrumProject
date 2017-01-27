@@ -128,5 +128,11 @@ public class Templates {
     public String userList() {
         return templateEngine.process("userlist", context);
     }
-
+    @SecuredTpl({Role.USER, Role.ADMIN})
+    @GET
+    @Path("/admin/absence")
+    @Produces(MediaType.TEXT_HTML)
+    public String absence() {
+        return templateEngine.process("admin-absence", context);
+    }
 }
