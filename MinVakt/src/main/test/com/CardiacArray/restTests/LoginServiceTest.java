@@ -7,6 +7,7 @@ import com.CardiacArray.restService.rest.LoginService;
 import org.junit.Test;
 
 import javax.ws.rs.NotAuthorizedException;
+import javax.ws.rs.core.Response;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
@@ -26,6 +27,6 @@ public class LoginServiceTest {
         UserDb userDb = mock(UserDb.class);
         when(userDb.getUserByEmail("test@test.no")).thenReturn(validUser);
         LoginService loginService = new LoginService(userDb);
-        Login login = loginService.login("test@test.no", "password");
+        Response login = loginService.login("test@test.no", "password");
     }
 }
