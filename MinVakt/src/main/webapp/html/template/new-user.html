@@ -14,13 +14,11 @@
         </div>
         <div class = "label-line user-inline-container">
             <label class = "user-label postal-label" for="address">Adresse</label>
-            <label id = "postal-code-label" class = "user-label postal-label" for="postal_code">Postkode</label>
         </div>
 
         <div class = "user-inline-container">
 
             <input class = "user-input" id = "address" type = "text" placeholder = "Adresse" name="address">
-            <input class = "user-input" id = "postal_code" type = "text" placeholder = "Postnr.">
         </div>
         <div class = "label-line user-inline-container">
             <label class = "user-label user-text-label" for="phone">Telefon</label>
@@ -47,9 +45,9 @@
             </select>
             <select required class = "user-select select picker" id = "position_cb" name="userCategoryInt">
                 <option value = "" disabled selected>Velg Stillingstype..</option>
-                <option value = "1">Assistent</option>
-                <option value = "2">Helsefagarbeider</option>
-                <option value = "3">Sykepleier</option>
+                <option value = "3">Assistent</option>
+                <option value = "1">Helsefagarbeider</option>
+                <option value = "2">Sykepleier</option>
             </select>
             <input class ="select" id= "spinner" type="number" min="0" max = "100" step="1" value="0" size = "6">
         </div>                                           <div class = "user-inline-container">
@@ -57,7 +55,7 @@
         <label class="check-box-label" for = "admin_checkbox">  <input class = "user-input" id = "admin_checkbox" type = "checkbox" name="admin">Administrator</label>
     </div>
         <div class = "button-group">
-            <input class = "button user-button" id = "button_ok" type = "submit" value = "Lagre"/>
+            <div class = "button user-button" id = "button_ok">Lagre</div>
             <button class = "button user-button" id = "button_cancel">Avbryt</button>
         </div>
     </fieldset>
