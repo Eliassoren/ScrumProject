@@ -130,7 +130,7 @@ footer{
 .dropdown-active{
     border-bottom: #2D5684 20px;
     margin-bottom: 0;
-    max-height: 50000px;
+    max-height: 1000px;
 }
 
 tr { line-height: 34px; text-align: center}
@@ -157,7 +157,7 @@ button:focus {outline:0;}
     color: blue;
 }
 
-.table-count-alert{
+.admin-shift-table-count-alert{
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 20px;
     color: white;
