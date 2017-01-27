@@ -309,10 +309,7 @@ $(document).ready(function() {
                     $(".container").addClass("blur");
                 });
 
-            $(".absence").click(function(){
-                $("#banner-shift").remove();
-                absenceAlert(data.startTime,formatDate(new Date(data.startTime)));
-            });
+
             $.ajax({
                 type: "GET",
                 url: "/MinVakt/rest/shifts/" + shiftId,
@@ -336,7 +333,7 @@ $(document).ready(function() {
                         $("#banner-shift").remove();
                         if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
                         $(".container").unbind();
-                        absenceAlert(data.startTime,formatTime(new Date(data.startTime)));
+                        absenceAlert(new Date(data.startTime),formatTime(new Date(data.startTime)));
                     });
                     $(".approve").click(function(){
                         $("#banner-shift").remove();
@@ -640,6 +637,7 @@ function assignAvailableShift(shiftId) {
     })
 }
 function absenceAlert(time, format) {
+    console.log(time);
     $("body").prepend("<div id='banner-div'></div>");
 
     $("#banner-div").load("/MinVakt/html/template/banner-absence.html", function () {
@@ -649,12 +647,36 @@ function absenceAlert(time, format) {
             if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
             $(".container").unbind();
         });
-        $(".approve").click(function(){
+        $("#absence-confirm").click(function(){
+            var aFromTime = Number($("#a-from-time").val());
+            var aToTime = Number($("#a-to-time").val());
+            time.setHours(aFromTime);
+            var fromTimeDate = time.getTime();
+            time.setHours(aToTime);
+            var toTimeDate = time.getTime();
             $("#banner-div").remove();
             if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
             $(".container").unbind();
-            // TODO: Send absence to backend
-            bannerAlert("Fravær registrert");
+            if (aFromTime >= aToTime){
+                bannerAlert("Ugyldig tidspunkt");
+            } else {
+
+                $.ajax({
+                    type: "POST",
+                    url: "/MinVakt/rest/users/absence/set/" + localStorage.getItem('userid') + "/" + fromTimeDate + "/" + toTimeDate,
+                    headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+                    success: function(data){
+                        bannerAlert("Fravær registrert");
+                    },
+                    statusCode: {
+                        401: function () {
+                            localStorage.removeItem("token");
+                            window.location.replace("/MinVakt/");
+                        }
+                    }
+                })
+
+            }
         });
         $(".container").addClass("blur");
         $(".closer").click(function () {
