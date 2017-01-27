@@ -70,6 +70,13 @@ function getMonday2(firstDate){
         firstDate.setHours(-24 * (day1-1));
     return firstDate.getDate();
 }
+// End source
+
+
+/**
+ * Months of the year
+ * @type {string}
+ */
 monthNames[0] = "Januar";
 monthNames[1] = "Februar";
 monthNames[2] = "Mars";
@@ -83,7 +90,10 @@ monthNames[9] = "Oktober";
 monthNames[10] = "November";
 monthNames[10] = "November";
 monthNames[11] = "Desember";
-
+/**
+ * @param year The current year
+ * @returns {Array} first date of each month in current year
+ */
 function getFirstDaysOfEachMonth(year){
     var firstDays = new Array(12);
     var date;

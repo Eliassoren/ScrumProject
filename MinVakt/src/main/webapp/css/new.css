@@ -58,12 +58,14 @@ a {
     height: 100%;
     font-weight: 300;
     font-size: 2rem;
-    width: 8%;
+    width: 18%;
     cursor: pointer;
+    z-index: 1500;
 }
 
 .hamburger-menu-open {
     background-color: #1b4472 !important;
+    height: 100%;
 }
 
 #hamburger-text {

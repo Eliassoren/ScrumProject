@@ -23,9 +23,16 @@
                     <span><i class="fa fa-bars"></i>meny</span>
                 </div>
                 <ul id="hamburger-menu-items">
-                    <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-calendar"><span>Kalender</span></li>
-                    <li class="hamburger-menu-item" id="hamburger-shift"><span>Vaktliste</span></li>
-                    <li class="hamburger-menu-item" id="hamburger-shifttrade"><span>Ledige vakter</span></li>
+                    <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-admin-home"><span>Hjem</span></li>
+                    <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-admin-shift"><span>Sett opp vakter</span></li>
+                    <li th:if="${user.admin}" class="hamburger-menu-item" id="admin-shift-accept"><span>Vaktbytter</span></li>
+                    <li th:if="${user.admin}" class="hamburger-menu-item" id="admin-overtime-accept"><span>Overtid</span></li>
+                    <li class="hamburger-menu-item" id="hamburger-calendar"><span>Kalender</span></li>
+                    <li class="hamburger-menu-item" id="hamburger-user-profile"><span>Profil</span></li>
+                    <li class="hamburger-menu-item" id="hamburger-availability"><span>Tilgjengelighet</span></li>
+                    <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-user-list"><span>Ansatte</span></li>
+                    <li class="hamburger-menu-item" id="hamburger-shift"><span>Vaktlister</span></li>
+
                     <li class="hamburger-menu-item" id="hamburger-logout"><span>Logg ut</span></li>
                 </ul>
             </div>
