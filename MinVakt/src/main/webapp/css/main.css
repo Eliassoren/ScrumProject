@@ -429,6 +429,7 @@ h3{
     }
 }
 
+
 .fa-search-right:after {
     content:"\f002";
     text-decoration: none;
@@ -809,7 +810,25 @@ tr:hover{background-color: #979797 !important; cursor: pointer;}
     transform: translate(0%,-50%);
     z-index: 1000;
 }
-
+.banner-div{
+    height: 200px;
+    width: 100%;
+    background: #2D5684;
+    position: fixed;
+    top: 50%;
+    transform: translate(0%,-50%);
+    z-index: 1000;
+}
+#banner-alert {
+    height: 200px;
+    width: 100%;
+    background: #2D5684;
+    position: fixed;
+    top: 50%;
+    transform: translate(0%,-50%);
+    z-index: 1000;
+}
+/*
 #banner-shift-container {
     font-size: 16px;
     color: #FFF;
@@ -817,8 +836,24 @@ tr:hover{background-color: #979797 !important; cursor: pointer;}
     height: 100%;
     margin-left: 50%;
     transform: translate(-50%, 0%);
+}*/
+.banner-container{
+    font-size: 16px;
+    color: #FFF;
+    width: 500px;
+    height: 100%;
+    margin-left: 50%;
+    transform: translate(-50%, 0%);
 }
-
+/*
+#banner-alert-container {
+    font-size: 16px;
+    color: #FFF;
+    width: 500px;
+    height: 100%;
+    margin-left: 50%;
+    transform: translate(-50%, 0%);
+}*/
 #banner-shift-container h1 {
     float: right;
     position: relative;
@@ -860,30 +895,19 @@ tr:hover{background-color: #979797 !important; cursor: pointer;}
 .banner-button .approve {
     right: 5rem;
 }
+.banner-button .absence{
+    left: 5rem;
+    right: 5rem;
+}
 
 .banner-button .closer {
     left: 5rem;
     padding-left: 30px;
 }
 
-#banner-alert {
-    height: 200px;
-    width: 100%;
-    background: #2D5684;
-    position: fixed;
-    top: 50%;
-    transform: translate(0%,-50%);
-    z-index: 1000;
-}
 
-#banner-alert-container {
-    font-size: 16px;
-    color: #FFF;
-    width: 500px;
-    height: 100%;
-    margin-left: 50%;
-    transform: translate(-50%, 0%);
-}
+
+
 #banner-alert-button {
     margin-top: 10%;
 }

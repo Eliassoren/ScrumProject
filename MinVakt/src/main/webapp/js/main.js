@@ -299,7 +299,10 @@ $(document).ready(function() {
                     $(".container").addClass("blur");
                 });
 
-
+            $(".absence").click(function(){
+                $("#banner-shift").remove();
+                absenceAlert(formatDate(new Date(data.startTime)));
+            });
             $.ajax({
                 type: "GET",
                 url: "/MinVakt/rest/shifts/" + shiftId,
@@ -621,7 +624,23 @@ function assignAvailableShift(shiftId) {
         }
     })
 }
-
+function absenceAlert(message) {
+    $("body").prepend("<div id='banner-div'></div>");
+    $("#banner-div").load("template/banner-absence.html", function () {
+        $("#alert").text(message);
+        $(".container").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+        });
+        $(".container").addClass("blur");
+        $(".closer").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
+            $(".container").unbind();
+        });
+    });
+}
 
 function bannerAlert(message) {
     $("body").prepend("<div id='banner-div'></div>");
