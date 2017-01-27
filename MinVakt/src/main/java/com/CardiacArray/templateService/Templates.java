@@ -88,19 +88,19 @@ public class Templates {
 
     @SecuredTpl({Role.USER, Role.ADMIN})
     @GET
-    @Path("/absence")
+    @Path("/admin")
     @Produces(MediaType.TEXT_HTML)
-    public String absence() {
-        context.setVariable("page", "absence");
+    public String admin() {
+        context.setVariable("page", "admin");
         return templateEngine.process("main", context);
     }
 
     @SecuredTpl({Role.USER, Role.ADMIN})
     @GET
-    @Path("/admin")
+    @Path("/userlist")
     @Produces(MediaType.TEXT_HTML)
-    public String admin() {
-        context.setVariable("page", "admin");
+    public String userList() {
+        context.setVariable("page", "userlist");
         return templateEngine.process("main", context);
     }
 }
