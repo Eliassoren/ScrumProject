@@ -17,28 +17,24 @@
 
 </head>
 <body>
-<div id="header">
-    <div class="icon-bar">
-        <a id="hamburger-toggle" class="fa fa-bars"></a>
-        <ul id="hamburger-menu">
-            <li><a href="#">Hjem</a></li>
-            <li><a href="#">Profil</a></li>
-            <li><a href="#">Vaktlister</a></li>
-            <li><a href="#">Ansatte</a></li>
-            <li><a href="#">Logg ut</a></li>
-        </ul>
-    </div>
-    <h1 id="h1-title">
-        <a id="search-toggle" href="/MinVakt/">MinVakt</a>
-    </h1>
-    <div class="icon-bar">
-        <a id="search" href="#" class="fa fa-search-right"></a>
 
+<div class="header-menu">
+
+    <div class="hamburger-area">
+        <a id="hamburger-toggle" class="fa fa-bars"></a>
+        meny
+    </div>
+
+    <div class="header-object header-title">
+        <h3>MinVakt</h3>
+    </div>
+    <div class="header-object header-username">
+        <h4>Username here</h4>
     </div>
 </div>
 
 <div class="h2-div">
-    <h2 id="h2-title">Velkommen til vaktbytte, venligst velg din avdeling og dato</h2>
+    <h2 id="h2-title">Velkommen til oversikt over alle vakter</h2>
 </div>
 
 <div class="main-area">
@@ -47,11 +43,11 @@
 
         <div class="picker-div">
             <select required class="section-picker picker">
-                <option value="" disabled selected>Velg avdeling</option>
-                <option>Maurtua</option>
-                <option>Bjørnestua</option>
-                <option>Trollstua</option>
-                <option>Majorstua</option>
+                <option value = "" disabled selected>Velg Avdeling..</option>
+                <option value = "1" >Nord</option>
+                <option value = "2">Sør</option>
+                <option value = "3">Øst</option>
+                <option value = "4">Vest</option>
             </select>
         </div>
         <div class="picker-div">
@@ -61,6 +57,7 @@
     </div>
 
     <div class="dropdown" id="day">
+        <div class="table-count-alert">8</div>
         <button class="dropdown-button" id="dropdown-toggle-day">Dagvakt</button>
         <div class="table-div">
             <table class="table" id="day-table">
@@ -75,6 +72,7 @@
     </div>
 
     <div class="dropdown" id="evening">
+        <div class="table-count-alert">8</div>
         <button class="dropdown-button" id="dropdown-toggle-evening">Kveldsvakt</button>
         <div class="table-div">
             <table class="table" id="evening-table">
@@ -89,6 +87,7 @@
     </div>
 
     <div class="dropdown" id="night">
+        <div class="table-count-alert">8</div>
         <button class="dropdown-button" id="dropdown-toggle-night">Nattvakt</button>
         <div class="table-div">
             <table class="table" id="night-table">
