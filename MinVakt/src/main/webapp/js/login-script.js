@@ -1,26 +1,6 @@
 var $lostPasswordDialog;
 
 $(document).ready(function() {
-    var onLoginPage = true;
-    if(localStorage.getItem("token") != null) {
-        $.ajax({
-            type: "GET",
-            url: "/MinVakt/rest/session/checktoken",
-            headers: { "Authorization": "Bearer " + localStorage.getItem("token")},
-            success: function() {
-                if(onLoginPage != undefined && onLoginPage) {
-                    window.location.replace("/MinVakt/html/calendar.html");
-                }
-            },
-            statusCode: {
-                401: function() {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("userid");
-                    window.location.replace("/MinVakt/");
-                }
-            }
-        })
-    }
     createDialog("#login-lost-password", "Glemt passord", "/MinVakt/html/dialogs/login-password.html");
     $("#login-form").validate({
         rules: {
@@ -60,7 +40,8 @@ $(document).ready(function() {
                 success: function(loginObj) {
                     localStorage.setItem("token", loginObj.token);
                     localStorage.setItem("userid", loginObj.id);
-                    window.location.replace("/MinVakt/html/calendar.html");
+                    document.cookie = "token=" + loginObj.token;
+                    window.location.replace("/MinVakt/site/calendar");
                 }
             });
         }

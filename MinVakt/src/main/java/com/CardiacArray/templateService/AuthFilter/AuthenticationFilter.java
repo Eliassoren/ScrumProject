@@ -27,7 +27,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         try {
             URI uri = new URI("/MinVakt/site/");
             System.out.println("AuthenticationFilter 2");
-            if(containerRequest.getCookies().get("token").getValue() == null) {
+            if(containerRequest.getCookies().get("token") == null) {
                 throw new RedirectionException(Response.Status.SEE_OTHER, uri);
             }
             String token = containerRequest.getCookies().get("token").getValue();

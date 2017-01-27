@@ -1,5 +1,6 @@
 package com.CardiacArray.templateService.AuthFilter;
 
+import com.CardiacArray.restService.AuthFilter.Role;
 import javax.ws.rs.NameBinding;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

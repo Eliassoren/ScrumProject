@@ -62,8 +62,7 @@ public class    LoginService {
                 user.setExpired(expired);
                 userDb.updateUserToken(user);
                 Login login = new Login(user.getId(), token);
-                NewCookie cookie = new NewCookie("token", token);
-                return Response.ok(login, MediaType.APPLICATION_JSON).cookie(cookie).build();
+                return Response.ok(login, MediaType.APPLICATION_JSON).build();
             } else throw new NotAuthorizedException("Error");
         } else throw new NotAuthorizedException("Error");
     }

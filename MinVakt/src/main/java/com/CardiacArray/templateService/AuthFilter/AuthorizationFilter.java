@@ -1,11 +1,13 @@
 package com.CardiacArray.templateService.AuthFilter;
 
+import com.CardiacArray.restService.AuthFilter.Role;
 import com.CardiacArray.restService.data.User;
 import com.CardiacArray.restService.db.UserDb;
 
 import javax.annotation.Priority;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.Priorities;
+import javax.ws.rs.RedirectionException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
@@ -16,6 +18,7 @@ import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,11 +41,12 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         List<Role> classRoles = extractRoles(resourceClass);
         Method resourceMethod = resourceInfo.getResourceMethod();
         List<Role> methodRoles = extractRoles(resourceMethod);
-
         try {
             if (methodRoles.isEmpty()) {
+                System.out.println("Authoriz: checking for class permissions");
                 checkPermissions(classRoles);
             } else {
+                System.out.println("Authoriz: checking for method permissions");
                 checkPermissions(methodRoles);
             }
         } catch (Exception e) {
@@ -66,25 +70,30 @@ public class AuthorizationFilter implements ContainerRequestFilter {
     }
 
     private void checkPermissions(List<Role> allowedRoles) throws Exception {
-        String authHeader = containerRequest.getHeaderString(HttpHeaders.AUTHORIZATION);
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new ForbiddenException("Error");
+        URI uri = new URI("/MinVakt/site/");
+        System.out.println("AuthenticationFilter 2");
+        if(containerRequest.getCookies().get("token") == null) {
+            System.out.println("Authoriz: Token not found");
+            throw new RedirectionException(Response.Status.SEE_OTHER, uri);
         }
-        String token = authHeader.substring("Bearer".length()).trim();
+        String token = containerRequest.getCookies().get("token").getValue();
         UserDb userDb = new UserDb();
         User user = userDb.getUserByToken(token);
         if(user == null) {
-            throw new ForbiddenException("Error");
+            System.out.println("Authoriz: User not found");
+            throw new RedirectionException(Response.Status.SEE_OTHER, uri);
         } else {
+            System.out.println("Authoriz: User found");
             LocalDateTime expiredTime = user.getExpired().toLocalDateTime();
             if (expiredTime.isBefore(LocalDateTime.now())) {
                 user.setToken(null);
                 user.setExpired(null);
                 userDb.updateUserToken(user);
-                throw new ForbiddenException("Error");
+                throw new RedirectionException(Response.Status.SEE_OTHER, uri);
             } else if(!allowedRoles.contains(user.getRole())) {
-                throw new ForbiddenException("Error");
+                throw new RedirectionException(Response.Status.SEE_OTHER, uri);
             }
+            System.out.println("Authoriz: User has access");
             return;
         }
     }

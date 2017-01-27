@@ -1,6 +1,7 @@
 package com.CardiacArray.templateService;
 import com.CardiacArray.restService.data.*;
 import com.CardiacArray.restService.db.UserDb;
+import com.CardiacArray.restService.AuthFilter.Role;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,7 +17,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.*;
 
 import com.CardiacArray.templateService.AuthFilter.SecuredTpl;
-import com.CardiacArray.templateService.AuthFilter.Role;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -55,9 +55,7 @@ public class Templates {
         templateEngine.setTemplateResolver(templateResolver);
         if(cookie != null) {
             user = userDb.getUserByToken(cookie.getValue());
-        } else {
-            user = new User();
-            user.setFirstName("Siri-Test");
+            context.setVariable("user", user);
         }
     }
 
@@ -74,19 +72,35 @@ public class Templates {
                 throw new NotAuthorizedException("Error");
             }
         } else {
-            context.setVariable("pagetitle", "");
             context.setVariable("page", "login");
             return templateEngine.process("main", context);
         }
     }
 
-    @SecuredTpl({Role.ADMIN})
+    @SecuredTpl({Role.USER, Role.ADMIN})
     @GET
     @Path("/calendar")
     @Produces(MediaType.TEXT_HTML)
-    public String calendar(@CookieParam("token") Cookie cookie) {
+    public String calendar() {
         context.setVariable("page", "calendar");
-        context.setVariable("user", user);
+        return templateEngine.process("main", context);
+    }
+
+    @SecuredTpl({Role.USER, Role.ADMIN})
+    @GET
+    @Path("/absence")
+    @Produces(MediaType.TEXT_HTML)
+    public String absence() {
+        context.setVariable("page", "absence");
+        return templateEngine.process("main", context);
+    }
+
+    @SecuredTpl({Role.USER, Role.ADMIN})
+    @GET
+    @Path("/admin")
+    @Produces(MediaType.TEXT_HTML)
+    public String admin() {
+        context.setVariable("page", "admin");
         return templateEngine.process("main", context);
     }
 }
