@@ -1,32 +1,69 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel= "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel= "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/af.js"></script>
+    <link rel="stylesheet" href = "/MinVakt/css/main.css">
+    <title>Hjem</title>
+</head>
+<body>
+<div id="overlay-placer"></div>
+<div th:replace="${header}"></div>
 <h2 class = "adm-h2" id = "admin-h2">Administrasjon</h2>
 <div class="container">
     <div class = "adm-boxes">
         <div id = "overtime-box" class = "adm-home-box left-box">
-            <h3 class = "adm-h3">Overtid</h3>
-            <span class = "adm-span">x til godkjenning</span>
+            <a href="overtime.html">
+                <h3 class = "adm-h3">Overtid</h3>
+                <span class = "adm-span">x til godkjenning</span>
+            </a>
         </div>
         <div id = "leave-box" class = "adm-home-box">
-            <h3 class = "adm-h3">Fravær</h3>
-            <span class = "adm-span">Administrer fravær</span>
+            <a href="absence.html">
+                <h3 class = "adm-h3">Fravær</h3>
+                <span class = "adm-span">Administrer fravær</span>
+            </a>
         </div>
         <div id = "changeover-box" class = "adm-home-box  left-box">
-            <h3 class = "adm-h3">Vaktbytter</h3>
-            <span class = "adm-span">x til godkjenning</span>
-
+            <a href="admin-shift-accept.html">
+                <h3 class = "adm-h3">Vaktbytter</h3>
+                <span class = "adm-span">x til godkjenning</span>
+            </a>
         </div>
         <div id = "shift-list-box" class = "adm-home-box">
-            <h3 class = "adm-h3">Vaktlister</h3>
-            <span class = "adm-span">Administrer vaktlister</span>
-
+            <a href="admin-shift.html">
+                <h3 class = "adm-h3">Vaktlister</h3>
+                <span class = "adm-span">Administrer vaktlister</span>
+            </a>
         </div>
         <div id = "archive-box" class = "adm-home-box left-box">
+
             <h3 class = "adm-h3">Arkiv</h3>
             <span class = "adm-span">Se historikk</span>
 
         </div>
         <div id = "employees-box" class = "adm-home-box">
-            <h3 class = "adm-h3">Ansatte</h3>
-            <span class = "adm-span">Se ansatte</span>
+            <a href="user-list.html">
+                <h3 class = "adm-h3">Ansatte</h3>
+                <span class = "adm-span">Se ansatte</span>
+            </a>
         </div>
     </div>
 </div>
+<footer>
+    <p>&copy; 2017 Cardiac Array</p>
+    <p>
+        <a href="#" class="footer-link">Brukervilkår</a> &bullet;
+        <a href="#" class="footer-link">Hjelp</a> &bullet;
+        <a href="#" class="footer-link">Kontakt</a>
+    </p>
+</footer>
+</body>
+</html>

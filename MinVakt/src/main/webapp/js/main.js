@@ -70,6 +70,13 @@ function getMonday2(firstDate){
         firstDate.setHours(-24 * (day1-1));
     return firstDate.getDate();
 }
+// End source
+
+
+/**
+ * Months of the year
+ * @type {string}
+ */
 monthNames[0] = "Januar";
 monthNames[1] = "Februar";
 monthNames[2] = "Mars";
@@ -83,7 +90,10 @@ monthNames[9] = "Oktober";
 monthNames[10] = "November";
 monthNames[10] = "November";
 monthNames[11] = "Desember";
-
+/**
+ * @param year The current year
+ * @returns {Array} first date of each month in current year
+ */
 function getFirstDaysOfEachMonth(year){
     var firstDays = new Array(12);
     var date;
@@ -289,7 +299,7 @@ $(document).ready(function() {
         var shiftId = $(this).children('.event').attr('shiftId');
         if($(this).find(".event").length > 0 && $(".blur").length == 0){
                 $("body").prepend("<div id='banner-div'></div>");
-                $("#banner-div").load("template/banner-shift.html", function () {
+                $("#banner-div").load("/MinVakt/html/template/banner-shift.html", function () {
 
                     $(".container").click(function () {
                         $("#banner-div").remove();
@@ -301,7 +311,7 @@ $(document).ready(function() {
 
             $(".absence").click(function(){
                 $("#banner-shift").remove();
-                absenceAlert(formatDate(new Date(data.startTime)));
+                absenceAlert(data.startTime,formatDate(new Date(data.startTime)));
             });
             $.ajax({
                 type: "GET",
@@ -326,7 +336,7 @@ $(document).ready(function() {
                         $("#banner-shift").remove();
                         if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
                         $(".container").unbind();
-                        absenceAlert(data.startTime);
+                        absenceAlert(data.startTime,formatTime(new Date(data.startTime)));
                     });
                     $(".approve").click(function(){
                         $("#banner-shift").remove();
@@ -629,11 +639,11 @@ function assignAvailableShift(shiftId) {
         }
     })
 }
-function absenceAlert(time) {
+function absenceAlert(time, format) {
     $("body").prepend("<div id='banner-div'></div>");
 
-    $("#banner-div").load("template/banner-absence.html", function () {
-        $("#alert").text(formatDate(new Date(time)));
+    $("#banner-div").load("/MinVakt/html/template/banner-absence.html", function () {
+        $("#alert").text(format);
         $(".container").click(function () {
             $("#banner-div").remove();
             if ($(".container").hasClass("blur")){ $(".container").removeClass("blur")};
@@ -657,7 +667,7 @@ function absenceAlert(time) {
 
 function bannerAlert(message) {
     $("body").prepend("<div id='banner-div'></div>");
-    $("#banner-div").load("template/banner-alert.html", function () {
+    $("#banner-div").load("/MinVakt/html/template/banner-alert.html", function () {
         $("#alert").text(message);
         $(".container").click(function () {
             $("#banner-div").remove();
@@ -675,7 +685,7 @@ function bannerAlert(message) {
 
 function bannerConfirm(message, callBack) {
     $("body").prepend("<div id='banner-div'></div>");
-    $("#banner-div").load("template/banner-alertConfirm.html", function () {
+    $("#banner-div").load("/MinVakt/html/template/banner-alertConfirm.html", function () {
         $("#alert").text(message);
         $(".container").click(function () {
             $("#banner-div").remove();

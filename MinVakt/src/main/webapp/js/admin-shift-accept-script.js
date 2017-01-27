@@ -10,12 +10,6 @@
  * Created by Chris on 12.01.2017.
  */
 
-$(document).ready(function() {
-    $("#hamburger-toggle").click(function(){
-        $(".experimental-menu").toggleClass("experimental-menu-activated");
-    });
-});
-
 $(document).on("input", function() {
     refreshTable()
 });
@@ -27,17 +21,19 @@ function refreshTable() {
 }
 
 $(document).ready(function() {
+
+    getChangeover();
+
+    $("#evening").toggleClass("dropdown-active");
+
     $("#dropdown-toggle-evening").click(function(){
         $("#evening").toggleClass("dropdown-active");
     });
 
-});
+    $("#hamburger-toggle").click(function(){
+        $(".experimental-menu").toggleClass("experimental-menu-activated");
+    });
 
-$(document).ready(function() {
-    var changeover;
-    changeover = getChangeover(changeover);
-    addRow(changeover);
-    $("#evening").toggleClass("dropdown-active");
 });
 
 function formatTime(string) {
@@ -53,19 +49,13 @@ function formatTime(string) {
     return time;
 }
 
-function getCount(data) {
-
-    var obj = data;
-    var count = obj.length;
-    $(".table-count-alert").text(count);
-
-}
-
 function addRow(data) {
 
-    console.log(data);
-
     var obj = data;
+    console.log(obj);
+
+    $('.admin-shift-table-count-alert').text(obj.length);
+
     for (var i = 0; i < obj.length; i++) {
 
         var hours = new Date(obj[i].endTime).getHours() - new Date(obj[i].startTime).getHours();
@@ -76,19 +66,13 @@ function addRow(data) {
             .append($("<tr/>")
                 .attr("data-vakttid", obj[i].shiftId)
                 .append($("<td/>")
-                    .text(obj[i].shiftId)
-                ).append($("<td/>")
                     .text(obj[i].fNameOld + " " + obj[i].lNameOld)
                 ).append($("<td/>")
                     .text(obj[i].fNameNew + " " + obj[i].lNameNew)
                 ).append($("<td/>")
-                    .text(new Date(obj[i].startTime).getDate() + "." + new Date(obj[i].startTime).getMonth() + "." + new Date(obj[i].startTime).getFullYear() + " " + formatTime(new Date(obj[i].startTime).getHours() + ":" + new Date(obj[i].startTime).getMinutes()) + " - " + formatTime(new Date(obj[i].endTime).getHours() + ":" + new Date(obj[i].endTime).getMinutes()))
-                ).append($("<td/>")
-                    .text(hours)
-                ).append($("<td/>")
                     .text("Godkjenn")
                     .addClass("overtime-list-button")
-                    .addClass("accept")
+                    .addClass("shift-accept")
                     .attr("data-shiftid", obj[i].shiftId)
                     .attr("data-userid", obj[i].userId)
                     .click(function() {
@@ -97,7 +81,7 @@ function addRow(data) {
                 ).append($("<td/>")
                     .text("Ikke godkjenn")
                     .addClass("overtime-list-button")
-                    .addClass("cancel")
+                    .addClass("shift-cancel")
                     .attr("data-shiftid", obj[i].shiftId)
                     .attr("data-userid", obj[i].userId)
                     .click(function() {
@@ -109,14 +93,13 @@ function addRow(data) {
 }
 
 
-function getChangeover(changeover){
+function getChangeover(){
     $.ajax({
         type: "GET",
-        url: "MinVakt/rest/shifts/changeover",
-        data: changeover,
-        success: function(changeover){
-            console.log(changeover);
-            return changeover
+        url: "/MinVakt/rest/shifts/changeover",
+        success: function(data){
+            console.log(data);
+            addRow(data);
         }
     })
 }
