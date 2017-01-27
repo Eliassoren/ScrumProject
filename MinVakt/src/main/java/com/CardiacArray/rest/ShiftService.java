@@ -223,12 +223,15 @@ public class ShiftService {
         if (validateShift(getShift(shiftId))) {
             Shift shift = getShift(shiftId);
             if (shift.getUserId() > 0) {
-                sendChangeShiftRequest(shiftId, userId);
+                shiftDb.sendChangeRequest(shiftId, userId);
+                System.out.println("Change shift request registered: " + shift.getUserId() + " -> " + userId);
             }
             if (userDb.userHasShift(userId, new java.sql.Date(shift.getStartTime().getTime()))) {
+                System.out.println("ERROR: User new shift conflict");
                 return Response.status(Response.Status.BAD_REQUEST).build();
             } else if (validateShift(getShift(shiftId))) {
-                shiftDb.setUser(shift, userId);
+                System.out.println("Assigning shift " + shiftId + " to " + userId);
+                shiftDb.setUser(shift.getShiftId(), userId);
                 return Response.ok().build();
             }
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -290,9 +293,6 @@ public class ShiftService {
         for(Shift shiftElement: shifts){
             if(shiftElement.isTradeable() && shiftElement.getRole() == user.getUserCategoryInt()){
                 map.put(shiftElement,shiftElement);
-                System.out.println(shiftElement);
-            } else {
-                System.out.println("H");
             }
         }
         return map.values();
@@ -398,7 +398,7 @@ public class ShiftService {
         updatedShift.setUserId(changeoverShift.getNewUserId());
         updatedShift.setUserName(changeoverShift.getNewUser());
         updatedShift.setTradeable(false);
-        if(shiftDb.updateShift(updatedShift)) {
+        if(shiftDb.setUser(updatedShift, updatedShift.getUserId())) {
             String email = "Hei./nDitt skift er nå gitt til " + newUser.getFirstName() + " " + newUser.getLastName() + "./mHilsen Minvakt.";
             Mail.sendMail(oldUser.getEmail(), "Endring av vakt", email);
             email = "Hei./nDu har nå tatt over skiftet til " + oldUser.getFirstName() + " " + oldUser.getLastName() + "./nHilsen Minvakt.";

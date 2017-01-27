@@ -473,14 +473,15 @@ public class ShiftDb extends DbManager{
         } catch (SQLException e) {
             e.printStackTrace();
             DbManager.rollback();
-            return success;
         }
+
+        System.out.println(success ? "Shift " + shift.getShiftId() + " successfully updated with new user: " + userId : "Set user failed");
         return success;
     }
 
     /**
      * @Deprecated
-     * Adds a user to a shift.
+     * Adds a user to an empty shift.
      * @param shift
      * @param userId
      * @return Success
