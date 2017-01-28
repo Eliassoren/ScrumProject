@@ -57,9 +57,7 @@ public class AbsenceDb extends DbManager {
 
     public boolean setAbsence(int userId, Timestamp startTime, Timestamp endTime){
         boolean returnValue = false;
-        String toSql = "INSERT INTO absence " +
-                "(user_id, start_time, end_time,) " +
-                "VALUES (?, ?, ?)";
+        String toSql = "INSERT INTO absence (user_id, start_time, end_time) VALUES (?, ?,?)";
         try{
             statement = connection.prepareStatement(toSql);
             statement.setInt(1, userId);
