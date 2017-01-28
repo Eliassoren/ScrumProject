@@ -84,8 +84,8 @@
 }
 .user-input {
     display : inline;
-    width: 96.5%;
-    margin: 0 1% 0.8rem 1%;
+    width: 95%;
+    margin: 0 1% 0.8rem 1.5%;
     height: 1.5rem;
     border: 2px solid #2D5684;
     padding-left: 0px;
@@ -128,25 +128,31 @@ label{
     display: inline;
     margin-right: 10%;
 }
+
+.register-user-label{
+    font-size: 15px;
+}
+
 .user-text-label {
-    margin: 0 43% 0 1.25% !important;
+    margin: 0 35.5% 0 1.53% !important;
 }
 #last-name-label{
-    margin: 0 40% 0 1.53% !important;
+    margin: 0 10% 0 1.53% !important;
 }
 .postal-label{
-    margin: 0 43% 0 1.25% !important;
+    margin: 0 35.5% 0 1.53% !important;
 }
-.select-label{
-    margin: 0 35% 0 1.25% !important;
+#section-label{
+    margin: 0 10% 0 1.53% !important;
 }
-#work-percent-label{
-    margin-right: -18%;
-    margin-left: -6%;
+#position-label{
+    margin: 0 10% 0 20% !important;
+}
+#position-percent-label{
+    margin: 0 0 0 12% !important;
 }
 #postal-code-label{
-    margin-left: 25%;
-    margin-right: -15%;
+    margin: 0 10% 0 27.3% !important;
 }
 #last_name{
     display: inline-block;
@@ -172,7 +178,7 @@ label{
 }
 .user-inline-container {
     width: 100%;
-    margin: 0 0 0.8rem 0;
+    margin: 0;
     position: relative;
     display: block;
 }
