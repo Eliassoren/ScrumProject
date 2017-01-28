@@ -46,6 +46,7 @@ body {
 }
 
 #hamburger-menu {
+    position: absolute;
     height: 45px;
     font-weight: 300;
     font-size: 2rem;
@@ -55,7 +56,6 @@ body {
 }
 
 .hamburger-menu-open {
-    position: fixed;
     background-color: #1b4472 !important;
     height: 100%;
 }
