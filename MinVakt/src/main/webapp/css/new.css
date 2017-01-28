@@ -84,7 +84,7 @@ body {
     z-index: 10;
     overflow: hidden;
     position: fixed;
-    height: 100%;
+    height: auto;
     width: 0;
     transition: 0.8s ease-in-out;
 }

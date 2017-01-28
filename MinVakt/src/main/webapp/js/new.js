@@ -1,9 +1,7 @@
 $(document).ready(function() {
     $("#hamburger-menu").click(function () {
         $("#hamburger-menu-items").toggleClass("hamburger-menu-open");
-        $("#hamburger-text").toggleClass("hamburger-text-fixed-activate");
         $(".hamburger-items-container").toggleClass("hamburger-items-container-activate");
-        $("#hamburger-menu").toggleClass("hamburger-menu-open");
     });
     $("#hamburger-calendar").click(function() {
         window.location.href = "/MinVakt/site/calendar";
@@ -15,6 +13,8 @@ $(document).ready(function() {
         window.location.href = "/MinVakt/site/shift-tradeable";
     });
     $("#hamburger-logout").click(function() {
+        alert("This function works, but it doesnt log-out. Needs fixing? just remove " +
+            "this alert if everything is working as it should");
         localStorage.removeItem("token");
         localStorage.removeItem("userid");
         $.cookie("token", null, { path: '/' });
