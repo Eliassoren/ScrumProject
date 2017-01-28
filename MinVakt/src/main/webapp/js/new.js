@@ -1,6 +1,8 @@
 $(document).ready(function() {
     $("#hamburger-menu").click(function () {
         $("#hamburger-menu-items").toggleClass("hamburger-menu-open");
+        $("#hamburger-text").toggleClass("hamburger-text-fixed-activate");
+        $(".hamburger-items-container").toggleClass("hamburger-items-container-activate");
         $("#hamburger-menu").toggleClass("hamburger-menu-open");
     });
     $("#hamburger-calendar").click(function() {
