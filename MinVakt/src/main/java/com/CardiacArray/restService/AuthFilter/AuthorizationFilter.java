@@ -38,6 +38,11 @@ public class AuthorizationFilter implements ContainerRequestFilter {
     private ResourceInfo resourceInfo;
     private ContainerRequestContext containerRequest;
 
+    /**
+     *
+     * @param containerRequest The request from user session
+     * @throws IOException
+     */
     @Override
     public void filter(ContainerRequestContext containerRequest) throws IOException {
         System.out.println("AuthorizationFilter");

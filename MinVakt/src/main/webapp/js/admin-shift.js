@@ -155,7 +155,7 @@ $(document).ready(function() {
 
 
 function getShiftsForWeek() {
-    $(".admin-shift-shiftItem").remove();
+    $(".admin-shift-shift-item").remove();
     var monday = getDateOfWeek(week, dateNow.getFullYear());
     var sunday = getDateOfWeek(week, dateNow.getFullYear());
     sunday.setDate(Number(sunday.getDate()) + 6);
@@ -212,7 +212,7 @@ function getAvailableUsers(starter, ender, place) {
 function addShifts(shift) {
     var date = new Date(shift.startTime).getDay();
     if(date == 0) {date = 7}
-    var shiftItem = $("<div/>").addClass("admin-shift-shiftItem");
+    var shiftItem = $("<div/>").addClass("admin-shift-shift-item");
     var assignedUser = (shift.userName != "" ? shift.userName : "Ingen ansatt");
     shiftItem.append("<div>" + assignedUser + "</div>");
     shiftItem.attr("id", shift.shiftId);
