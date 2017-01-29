@@ -61,7 +61,12 @@ body {
     height: 100%;
 }
 
+#hamburger-text:hover{
+    background-color: #FC4A1A;
+}
+
 #hamburger-text {
+    transition: 0.5s;
     position: relative;
     width: 100%;
     height: 100%;
@@ -163,10 +168,6 @@ body {
 }
 
 #header-user-profile:hover {
-    background-color: #FC4A1A;
-}
-
-#hamburger-menu:hover {
     background-color: #FC4A1A;
 }
 
