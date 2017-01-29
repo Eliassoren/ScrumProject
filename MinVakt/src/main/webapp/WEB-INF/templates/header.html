@@ -41,6 +41,15 @@
     </div>
     <h1 id="header-title"><a id="header-title-link" style="color: white; text-decoration: none;" href="/MinVakt/site/">MinVakt</a></h1>
     <div th:if="${page} != 'login'" id="header-user-profile">
+        <i class="fa fa-user" aria-hidden="true"></i>
         <span id="header-user-profile-link" th:text="${user.firstName}"></span>
+    </div>
+    <div class="header-user-items-container">
+        <ul class="header-user-items">
+            <li class="hamburger-menu-item" id="header-user-user-profile">
+                <span><i class="fa fa-user" aria-hidden="true"></i>&nbsp;  Profil</span></li>
+            <li class="hamburger-menu-item" id="header-user-logout">
+                <span><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;  Logg ut</span></li>
+        </ul>
     </div>
 </div>

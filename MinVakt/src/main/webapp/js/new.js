@@ -20,4 +20,7 @@ $(document).ready(function() {
         $.cookie("token", null, { path: '/' });
         window.location.replace("/MinVakt/site");
     });
+    $("#header-user-profile").click(function() {
+        $(".header-user-items-container").toggleClass("header-user-items-container-activate");
+    });
 });
