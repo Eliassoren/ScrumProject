@@ -92,7 +92,7 @@ body {
     position: fixed;
     height: auto;
     width: 0;
-    transition: 0.8s ease-in-out;
+    transition: 0.5s;
 }
 
 .hamburger-menu-item span{
@@ -131,6 +131,7 @@ body {
     }
 }
 .hamburger-menu-item {
+    cursor: pointer;
     z-index: 10000;
     font-size: 2rem;
     pointer-events: auto;
@@ -210,7 +211,7 @@ footer{
     right: 0;
     width: 0;
     overflow: hidden;
-    transition: 0.8s;
+    transition: 0.5s;
 }
 
 .header-user-items-container-activate{
