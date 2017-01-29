@@ -607,7 +607,9 @@ font-family: 'Source Sans Pro', sans-serif; !important;
     color: white;
     font-weight: 200;
 }
-
+option[value=""][disabled] .section-picker{
+    display: none;
+}
 #date-picker{
     font-family: 'Source Sans Pro', sans-serif; !important;
     font-size: 2rem;
@@ -1271,6 +1273,9 @@ option{
     color: #2D5684;
     z-index: 2;
     display: list-item;
+}
+.banner-option{
+    color: white;
 }
 
 /*#header{
