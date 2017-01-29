@@ -22,26 +22,50 @@ public class Absence {
         this.userId = userId;
     }
 
+    /**
+     *
+     * @return the start time of absence in timestamp
+     */
     public Timestamp getStartTime() {
         return startTime;
     }
 
+    /**
+     *
+     * @param startTime
+     */
     public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
+    /**
+     *
+     * @return the end time of absence in timestamp
+     */
     public Timestamp getEndTime() {
         return endTime;
     }
 
+    /**
+     *
+     * @param endTime time of the absence
+     */
     public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
 
+    /**
+     *
+     * @return the user id
+     */
     public int getUserId() {
         return userId;
     }
 
+    /**
+     *
+     * @param userId a new id as int
+     */
     public void setUserId(int userId) {
         this.userId = userId;
     }

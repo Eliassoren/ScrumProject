@@ -15,18 +15,34 @@ public class Available extends User {
         super(id,firstName,lastName,mobile,email,password,admin,address,userCategoryInt,userCategoryString,token,expired,active,workPercent, departmentId);
     }
 
+    /**
+     *
+     * @return start time of available
+     */
     public Date getStartTime() {
         return startTime;
     }
 
+    /**
+     *
+     * @param startTime start time of the available
+     */
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
+    /**
+     *
+     * @return end time of the available
+     */
     public Date getEndTime() {
         return endTime;
     }
 
+    /**
+     *
+     * @param endTime end time of the available
+     */
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
