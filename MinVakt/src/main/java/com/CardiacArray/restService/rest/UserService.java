@@ -163,7 +163,7 @@ public class UserService {
     public Response setUserAvailable(@PathParam("userId") int userId,
                                      @PathParam("start") long start, @PathParam("end") long end) {
         User user = userDb.getUserById(userId);
-        if (user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null || !user.isValidEmail(user.getEmail())) {
+        if (user == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         userDb.setUserAvailable(userId, start, end);
