@@ -155,14 +155,6 @@ public class Templates {
 
     @SecuredTpl({Role.USER, Role.ADMIN})
     @GET
-    @Path("/admin/admin-absence")
-    @Produces(MediaType.TEXT_HTML)
-    public String absence() {
-        return templateEngine.process("admin-absence", context);
-    }
-
-    @SecuredTpl({Role.USER, Role.ADMIN})
-    @GET
     @Path("/availability")
     @Produces(MediaType.TEXT_HTML)
     public String availability() {
