@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/af.js"></script>
+    <script type="text/javascript" src="/MinVakt/js/lib.js"></script>
+    <link rel="stylesheet" href = "/MinVakt/css/main.css">
+    <script type="text/javascript" src="/MinVakt/js/admin-absence-script.js"></script>
+    <title>Fravær</title>
+</head>
+<body>
+<div th:replace="${header}"></div>
+<div class = "container" id = "absence-cont">
+    <div class = "user-form" id="absence-form">
+        <fieldset class = "user-fieldset">
+            <legend class="user-legend">Fravær</legend>
+            <div class = "user-inline-container">
+                <select required class = "user-select select picker" id = "users">
+                    <option value = "" disabled selected>Velg Ansatt..</option>
+                    <option value = "1" >Nord</option>
+                    <option value = "2">Sør</option>
+                    <option value = "3">Øst</option>
+                    <option value = "4">Vest</option>
+                </select>
+                <p>Date: <input class = "user-input" type="text" id="datepicker"></p>
+
+            </div>
+            <div class = "user-inline-container">
+                <select required class = "user-select select picker" id = "dept_cb">
+                    <option value = "" disabled selected>Startstidspunkt..</option>
+                    <option value = "1" >Nord</option>
+                    <option value = "2">Sør</option>
+                    <option value = "3">Øst</option>
+                    <option value = "4">Vest</option>
+                </select>
+                <select required class = "user-select select picker" id = "position_cb" name="userCategoryInt">
+                    <option value = "" disabled selected>Sluttidspunkt..</option>
+                    <option value = "1">Assistent</option>
+                    <option value = "2">Helsefagarbeider</option>
+                    <option value = "3">Sykepleier</option>
+                </select>
+                </div>
+        </fieldset>
+    </div>
+</div>
+<footer>
+    <p>&copy; 2017 Cardiac Array</p>
+    <p>
+        <a href="#" class="footer-link">Brukervilkår</a> &bullet;
+        <a href="#" class="footer-link">Hjelp</a> &bullet;
+        <a href="#" class="footer-link">Kontakt</a>
+    </p>
+</footer>
+</body>
+</html>

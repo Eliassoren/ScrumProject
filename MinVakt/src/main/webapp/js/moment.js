@@ -466,7 +466,7 @@ var defaultRelativeTime = {
     mm : '%d minutes',
     h  : 'an hour',
     hh : '%d hours',
-    d  : 'a day',
+    d  : 'a dateNow',
     dd : '%d days',
     M  : 'a month',
     MM : '%d months',
@@ -1146,9 +1146,9 @@ function createUTCDate (y) {
 
 // start-of-first-week - start-of-year
 function firstWeekOffset(year, dow, doy) {
-    var // first-week day -- which january is always in the first week (4 for iso, 1 for other)
+    var // first-week dateNow -- which january is always in the first week (4 for iso, 1 for other)
         fwd = 7 + dow - doy,
-        // first-week day local weekday -- which local weekday is fwd
+        // first-week dateNow local weekday -- which local weekday is fwd
         fwdlw = (7 + createUTCDate(year, 0, fwd).getUTCDay() - dow) % 7;
 
     return -fwdlw + fwd - 1;
@@ -1241,7 +1241,7 @@ function localeWeek (mom) {
 }
 
 var defaultLocaleWeek = {
-    dow : 0, // Sunday is the first day of the week.
+    dow : 0, // Sunday is the first dateNow of the week.
     doy : 6  // The week that contains Jan 1st is the first week of the year.
 };
 
@@ -1267,7 +1267,7 @@ function getSetISOWeek (input) {
 
 // FORMATTING
 
-addFormatToken('d', 0, 'do', 'day');
+addFormatToken('d', 0, 'do', 'dateNow');
 
 addFormatToken('dd', 0, 0, function (format) {
     return this.localeData().weekdaysMin(this, format);
@@ -1286,12 +1286,12 @@ addFormatToken('E', 0, 0, 'isoWeekday');
 
 // ALIASES
 
-addUnitAlias('day', 'd');
+addUnitAlias('dateNow', 'd');
 addUnitAlias('weekday', 'e');
 addUnitAlias('isoWeekday', 'E');
 
 // PRIORITY
-addUnitPriority('day', 11);
+addUnitPriority('dateNow', 11);
 addUnitPriority('weekday', 11);
 addUnitPriority('isoWeekday', 11);
 
@@ -1494,7 +1494,7 @@ function getSetLocaleDayOfWeek (input) {
     if (!this.isValid()) {
         return input != null ? this : NaN;
     }
-    var weekday = (this.day() + 7 - this.localeData()._week.dow) % 7;
+    var weekday = (this.dateNow() + 7 - this.localeData()._week.dow) % 7;
     return input == null ? weekday : this.add(input - weekday, 'd');
 }
 
@@ -1503,15 +1503,15 @@ function getSetISODayOfWeek (input) {
         return input != null ? this : NaN;
     }
 
-    // behaves the same as moment#day except
+    // behaves the same as moment#dateNow except
     // as a getter, returns 7 instead of 0 (1-7 range instead of 0-6)
     // as a setter, sunday should belong to the previous week.
 
     if (input != null) {
         var weekday = parseIsoWeekday(input, this.localeData());
-        return this.day(this.day() % 7 ? weekday : weekday - 7);
+        return this.dateNow(this.dateNow() % 7 ? weekday : weekday - 7);
     } else {
-        return this.day() || 7;
+        return this.dateNow() || 7;
     }
 }
 
@@ -2114,7 +2114,7 @@ function currentDateArray(config) {
 // convert an array to a date.
 // the array should mirror the parameters below
 // note: all values past the year are optional and will default to the lowest possible value.
-// [year, month, day , hour, minute, second, millisecond]
+// [year, month, dateNow , hour, minute, second, millisecond]
 function configFromArray (config) {
     var i, date, input = [], currentDate, yearToUse;
 
@@ -2124,12 +2124,12 @@ function configFromArray (config) {
 
     currentDate = currentDateArray(config);
 
-    //compute day of the year from weeks and weekdays
+    //compute dateNow of the year from weeks and weekdays
     if (config._w && config._a[DATE] == null && config._a[MONTH] == null) {
         dayOfYearFromWeekInfo(config);
     }
 
-    //if the day of the year is set, figure out what it is
+    //if the dateNow of the year is set, figure out what it is
     if (config._dayOfYear) {
         yearToUse = defaults(config._a[YEAR], currentDate[YEAR]);
 
@@ -2143,8 +2143,8 @@ function configFromArray (config) {
     }
 
     // Default to current date.
-    // * if no year, month, day of month are given, default to today
-    // * if day of month is given, default month and year
+    // * if no year, month, dateNow of month are given, default to today
+    // * if dateNow of month is given, default month and year
     // * if month is given, default only year
     // * if year is given, don't default anything
     for (i = 0; i < 3 && config._a[i] == null; ++i) {
@@ -2207,7 +2207,7 @@ function dayOfYearFromWeekInfo(config) {
         week = defaults(w.w, curWeek.week);
 
         if (w.d != null) {
-            // weekday -- low day numbers are considered next week
+            // weekday -- low dateNow numbers are considered next week
             weekday = w.d;
             if (weekday < 0 || weekday > 6) {
                 weekdayOverflow = true;
@@ -2566,7 +2566,7 @@ function Duration (duration) {
         minutes * 6e4 + // 1000 * 60
         hours * 1000 * 60 * 60; //using 1000 * 60 * 60 instead of 36e5 to avoid floating point rounding errors https://github.com/moment/moment/issues/2978
     // Because of dateAddRemove treats 24 hours as different from a
-    // day when working around DST, we need to store them separately
+    // dateNow when working around DST, we need to store them separately
     this._days = +days +
         weeks * 7;
     // It is impossible translate months into days without knowing
@@ -2820,7 +2820,7 @@ var aspNetRegex = /^(\-)?(?:(\d*)[. ])?(\d+)\:(\d+)(?:\:(\d+)(\.\d*)?)?$/;
 
 // from http://docs.closure-library.googlecode.com/git/closure_goog_date_date.js.source.html
 // somewhat more in line with 4.4.3.2 2004 spec, but allows decimal anywhere
-// and further modified to allow for strings containing both week and day
+// and further modified to allow for strings containing both week and dateNow
 var isoRegex = /^(-)?P(?:(-?[0-9,.]*)Y)?(?:(-?[0-9,.]*)M)?(?:(-?[0-9,.]*)W)?(?:(-?[0-9,.]*)D)?(?:T(?:(-?[0-9,.]*)H)?(?:(-?[0-9,.]*)M)?(?:(-?[0-9,.]*)S)?)?$/;
 
 function createDuration (input, key) {
@@ -2988,7 +2988,7 @@ function calendar$1 (time, formats) {
     // We want to compare the start of today, vs this.
     // Getting start-of-today depends on whether we're local/utc/offset or not.
     var now = time || createLocal(),
-        sod = cloneWithOffset(now, this).startOf('day'),
+        sod = cloneWithOffset(now, this).startOf('dateNow'),
         format = hooks.calendarFormat(this, sod) || 'sameElse';
 
     var output = formats && (isFunction(formats[format]) ? formats[format].call(this, now) : formats[format]);
@@ -3086,7 +3086,7 @@ function diff (input, units, asFloat) {
         output = units === 'second' ? delta / 1e3 : // 1000
             units === 'minute' ? delta / 6e4 : // 1000 * 60
             units === 'hour' ? delta / 36e5 : // 1000 * 60 * 60
-            units === 'day' ? (delta - zoneDelta) / 864e5 : // 1000 * 60 * 60 * 24, negate dst
+            units === 'dateNow' ? (delta - zoneDelta) / 864e5 : // 1000 * 60 * 60 * 24, negate dst
             units === 'week' ? (delta - zoneDelta) / 6048e5 : // 1000 * 60 * 60 * 24 * 7, negate dst
             delta;
     }
@@ -3241,7 +3241,7 @@ function startOf (units) {
             /* falls through */
         case 'week':
         case 'isoWeek':
-        case 'day':
+        case 'dateNow':
         case 'date':
             this.hours(0);
             /* falls through */
@@ -3277,9 +3277,9 @@ function endOf (units) {
         return this;
     }
 
-    // 'date' is an alias for 'day', so it should be considered as such.
+    // 'date' is an alias for 'dateNow', so it should be considered as such.
     if (units === 'date') {
-        units = 'day';
+        units = 'dateNow';
     }
 
     return this.startOf(units).add(1, (units === 'isoWeek' ? 'week' : units)).subtract(1, 'ms');
@@ -3516,7 +3516,7 @@ addParseToken(['DDD', 'DDDD'], function (input, array, config) {
 // MOMENTS
 
 function getSetDayOfYear (input) {
-    var dayOfYear = Math.round((this.clone().startOf('day') - this.clone().startOf('year')) / 864e5) + 1;
+    var dayOfYear = Math.round((this.clone().startOf('dateNow') - this.clone().startOf('year')) / 864e5) + 1;
     return input == null ? dayOfYear : this.add((input - dayOfYear), 'd');
 }
 
@@ -3853,13 +3853,13 @@ function listWeekdaysImpl (localeSorted, format, index, field) {
         shift = localeSorted ? locale._week.dow : 0;
 
     if (index != null) {
-        return get$1(format, (index + shift) % 7, field, 'day');
+        return get$1(format, (index + shift) % 7, field, 'dateNow');
     }
 
     var i;
     var out = [];
     for (i = 0; i < 7; i++) {
-        out[i] = get$1(format, (i + shift) % 7, field, 'day');
+        out[i] = get$1(format, (i + shift) % 7, field, 'dateNow');
     }
     return out;
 }
@@ -4021,7 +4021,7 @@ function as (units) {
         days = this._days + Math.round(monthsToDays(this._months));
         switch (units) {
             case 'week'   : return days / 7     + milliseconds / 6048e5;
-            case 'day'    : return days         + milliseconds / 864e5;
+            case 'dateNow'    : return days         + milliseconds / 864e5;
             case 'hour'   : return days * 24    + milliseconds / 36e5;
             case 'minute' : return days * 1440  + milliseconds / 6e4;
             case 'second' : return days * 86400 + milliseconds / 1000;
@@ -4084,7 +4084,7 @@ var round = Math.round;
 var thresholds = {
     s: 45,  // seconds to minute
     m: 45,  // minutes to hour
-    h: 22,  // hours to day
+    h: 22,  // hours to dateNow
     d: 26,  // days to month
     M: 11   // months to year
 };

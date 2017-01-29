@@ -1,0 +1,343 @@
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.header-menu{
+    position: relative;
+    height: 4.5rem;
+    width: 100%;
+    background-color: #2D5684;
+}
+
+.fa-search-right:after {
+    content:"\f002";
+    text-decoration: none;
+}
+
+.fa{
+    text-align: center;
+    color: white;
+    text-decoration: none;
+}
+
+.hamburger-area {
+    position: absolute;
+    top: 50%;
+    left: 55px;
+    transform: translate(-50%,-50%);
+    color: white;
+    font-weight: 300;
+    font-size: 2rem;
+}
+
+.container{
+    width: 100%;
+    height: 100%;
+}
+
+#calendar ul.weekdays {
+    height: 25px;
+    color: transparent; !important;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+#calendar ul.weekdays li {
+    position: relative;
+    height: 25px;
+    font-family: 'Source Sans Pro', monospace; !important;
+    background: #2D5684;
+    text-align: center;
+    border: none !important;
+    color: white;
+    width: 14.28%;
+    font-size: 16px;
+}
+
+#week1{
+    padding: 0;
+    margin: 0;
+}
+
+#calendar li {
+    display: block;
+    float: left;
+    width: 14.28%;
+    height: auto;
+    padding: 0;
+    box-sizing:border-box;
+    border: 1px solid #ccc;
+    transition: 0.7s ease-in-out;
+}
+
+.blue {
+    background: rgba(138, 179, 235, 0.15);
+}
+
+#calendar .day{
+}
+
+#calendar .day-activated{
+    background-color: #90BAED;
+}
+
+#left-arrow{
+    -webkit-user-select: none;
+    text-decoration: none;
+}
+#right-arrow{
+    -webkit-user-select: none;
+    text-decoration: none;
+}
+.fa-chevron-left{
+    display: inline;
+    color: #2D5684;
+    font-size: 3rem;
+}
+.fa-chevron-left:hover{
+    color: #90BAED
+}
+.fa-chevron-right{
+    display: inline;
+    color: #2D5684;
+    font-size: 3rem;
+}
+.fa-chevron-right:hover{
+   color: #90BAED;
+}
+option[value=""][disabled]{
+    display: none;
+}
+.calendar-head{
+    text-align: center;
+    position: relative;
+    margin: 2rem auto 2rem auto;
+}
+
+#calendar{
+    position: relative;
+    height: 200px;
+    width: 95%;
+    margin: auto;
+}
+
+h3{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #90BAED;
+    display: inline;
+    margin-left: 4rem;
+    margin-right: 4rem;
+    font-size: 3rem !important;
+    text-align: center;
+}
+
+h2{
+    width: 90%;
+    margin:30px auto 10px auto;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 900;
+    font-size: 3rem;
+    color: #2D5684;
+}
+
+#person-list table.weekdays {
+    height: 25px;
+    color: #000;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 0;
+}
+#person-list table.weekdays th {
+    position: relative;
+    height: 25px;
+    background: #2D5684;
+    text-align: center;
+    border: none !important;
+    color: white;
+    width: 50%;
+    font-size: 16px;
+}
+
+ul{
+    padding: 0;
+    margin: 0;
+}
+
+td{border: solid black 1px;}
+
+#person-list table.weekdays td {
+
+    height: 20px;
+    padding: 0;
+    box-sizing:border-box;
+    border: 1px solid #ccc;
+    transition: 0.7s ease-in-out;
+}
+
+#person-list .day-activated{
+    background-color: #90BAED;
+}
+
+
+.date-list-div{
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 70%;
+}
+
+.person-list-div{
+    position: absolute;
+    top: 21%;
+    left: 0;
+    height: 100%;
+    width: 30%;
+}
+
+.container-container{
+    margin: auto auto auto auto;
+    text-align: center;
+    position: relative;
+    width: 90%;
+    height: 300px;
+}
+
+#person-list{
+    margin-top: 73px;
+}
+
+.admin-shift-shift-item {
+    width: 100%;
+    height: 65px;
+    background: #90BAED;
+    color: #FFFFFF;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.user-row {
+    cursor: pointer;
+}
+
+.user-selected {
+    background: #2D5684;
+    color: #FFF;
+}
+
+#banner-shift {
+    height: 200px;
+    width: 100%;
+    background: #2D5684;
+    position: fixed;
+    margin-top: 50%;
+    transform: translate(0%,-50%);
+    z-index: 1000;
+}
+
+#banner-shift-container {
+    font-size: 16px;
+    color: #FFF;
+    width: 500px;
+    height: 100%;
+    margin-left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+#banner-shift-container h1 {
+    float: right;
+    position: relative;
+}
+
+#banner-shift-info {
+    margin-top: 10%;
+    float: left;
+}
+
+.banner-label {
+    float: left;
+    font-weight: 700;
+    margin-right: 4px;
+}
+
+.banner-button-row {
+    margin-top: 30%;
+    width: 100%;
+    position: fixed;
+    float: right;
+}
+
+.banner-button {
+    width: 100px;
+    height: 400px;
+    border: solid 1px;
+    border-color: #FFF;
+    text-align: center;
+    margin-right: 50px;
+    display: inline;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    cursor: pointer;
+}
+
+.banner-button .approve {
+    right: 5rem;
+}
+
+.banner-button .closer {
+    left: 5rem;
+    padding-left: 30px;
+}
+
+#banner-alert {
+    height: 200px;
+    width: 100%;
+    background: #2D5684;
+    position: fixed;
+    top: 50%;
+    transform: translate(0%,-50%);
+    z-index: 1000;
+}
+
+#banner-alert-container {
+    font-size: 16px;
+    color: #FFF;
+    width: 500px;
+    height: 100%;
+    margin-left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+#banner-alert-button {
+    margin-top: 10%;
+}
+
+.blur {
+    filter: blur(5px);
+}
+
+.all-users {
+padding: 20px;
+}
+
+.fa-square-o, .fa-check-square-o {
+    margin-right: 5px;
+    top: 2px;
+    position: relative;
+}
+
+#nurse-missing, #hw-missing {
+    margin-left: 2px;
+}
+
+#admin-shift-explain {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    background: #2D5684;
+    display: block;
+    width: 500px;
+    color: white;
+}

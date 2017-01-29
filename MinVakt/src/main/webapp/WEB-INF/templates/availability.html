@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta charset = "UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+    <link rel="stylesheet" href="/MinVakt/css/availability-style.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/af.js"></script>
+    <script type="text/javascript" src="/MinVakt/js/moment.js"></script>
+    <script type="text/javascript" src="/MinVakt/js/availability.js"></script>
+    <script type="text/javascript" src="/MinVakt/js/lib.js"></script>
+    <title>MinVakt</title>
+
+</head>
+<body>
+<div th:replace="${header}"></div>
+
+<div class="container">
+    <div class="h2-container">
+        <h2 class="h2">Tilgjengelighet</h2>
+    </div>
+
+    <div class = "calendar-head">
+        <a id="left-arrow" class="fa fa-chevron-left fa-3x"></a>
+        <h3 id="month-title"></h3>
+        <h3 id="year-title"></h3>
+        <a id="right-arrow" class = "fa fa-chevron-right fa-3x"></a>
+    </div>
+
+    <div id="calendar">
+        <ul class="weekdays">
+            <li>Man</li>
+            <li>Tir</li>
+            <li>Ons</li>
+            <li>Tor</li>
+            <li>Fre</li>
+            <li>Lør</li>
+            <li>Søn</li>
+        </ul>
+
+        <ul id="week1" class="days">
+            <li class="day box1" id="day1">
+                <i class="fa fa-check" aria-hidden="true"></i>
+            </li>
+            <li class="day box2" id="day2">
+                <i class="fa fa-check" aria-hidden="true"></i>
+            </li>
+            <li class="day box3" id="day3">
+                <i class="fa fa-check" aria-hidden="true"></i>
+            </li>
+            <li class="day box4" id="day4">
+                <i class="fa fa-check" aria-hidden="true"></i>
+            </li>
+            <li class="day box5" id="day5">
+                <i class="fa fa-check" aria-hidden="true"></i>
+            </li>
+
+            <li class="day box6" id="day6">
+                <i class="fa fa-check" aria-hidden="true"></i>
+            </li>
+            <li class="day box7" id="day7">
+                <i class="fa fa-check" aria-hidden="true"></i>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="input-time-container">
+
+    <label for="day-id"> Dag: <input type="checkbox" id="day-id" class="input-time"> </label>
+    <label for="evening-id"> Kveld: <input type="checkbox" id="evening-id" class="input-time"> </label>
+    <label for="night-id"> Natt: <input type="checkbox" id="night-id" class="input-time"> </label>
+
+    </div>
+
+    <div class="button-container">
+    <button class="accept-button" id="accept-btn">Bekreft</button>
+    </div>
+</div>
+<footer>
+    <p>&copy; 2017 Cardiac Array</p>
+    <p>
+        <a href="#" class="footer-link">Brukervilkår</a> &bullet;
+        <a href="#" class="footer-link">Hjelp</a> &bullet;
+        <a href="#" class="footer-link">Kontakt</a>
+    </p>
+</footer>
+</body>
+</html>

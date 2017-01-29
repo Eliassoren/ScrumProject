@@ -1,0 +1,51 @@
+<!--h4 class = "subform-title">Kontaktinfo</h4-->
+<script type="text/javascript" src="/MinVakt/js/update-user-profile.js"></script>
+<form class="update-user-form" id="update-user-form" action="#" method="post" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="user-inline-container">
+    </div>
+    <fieldset class ="user-fieldset">
+        <legend class ="user-legend">Kontaktinfo</legend>
+        <label class="user-label user-text-label name-labels" for="first_name">Fornavn</label>
+        <input th:value="${user.firstName}" class = "user-input" id = "first_name" type = "text" placeholder = "Fornavn" name="firstName">
+        <label id="last-name-label" class="user-label user-text-label name-labels" for="last_name">Etternavn</label>
+        <input th:value="${user.lastName}" class = "user-input" id = "last_name" type = "text" placeholder = "Etternavn" name="lastName">
+        <label class = "user-label postal-label" for="address">Adresse</label>
+        <input th:value="${user.address}" class = "user-input" id = "address" type = "text" placeholder = "Adresse" name="address">
+        <label class = "user-label user-text-label" for="phone">Telefon</label>
+        <input th:value="${user.mobile}" class = "user-input" id = "phone" type = "text" placeholder = "Telefon" name="mobile">
+        <label class = "user-label user-text-label" for="email">Epost</label>
+        <input th:value="${user.email}" class = "user-input" id = "email" type = "text" placeholder = "Epost" name="email">
+    </fieldset>
+    <fieldset class ="user-fieldset">
+        <legend class="user-legend">Ansattinfo</legend>
+        <div class="user-inline-div">
+            <label class = "user-label select-label" for="dept_cb">Avdeling</label>
+            <select th:value="${user.departmentId}" class = "user-select select picker" id = "dept_cb" name="departmentId">
+                <option value = "" disabled selected>Velg Avdeling..</option>
+                <option value = "1" >Nord</option>
+                <option value = "2">Sør</option>
+                <option value = "3">Øst</option>
+                <option value = "4">Vest</option>
+            </select>
+        </div>
+        <div class="user-inline-div">
+            <label class = "user-label select-label" for="position_cb">Stillingstype</label>
+            <select th:value="${user.userCategoryInt}" class = "user-select select picker" id = "position_cb" name="userCategoryInt">
+                <option value = "" disabled selected>Velg Stillingstype..</option>
+                <option value = "3">Assistent</option>
+                <option value = "1">Helsefagarbeider</option>
+                <option value = "2">Sykepleier</option>
+            </select>
+        </div>
+        <div class="user-inline-div">
+            <label class = "user-label select-label" for = "spinner" id = "work-percent-label">Stillingsprosent</label>
+            <input th:value="${user.workPercent}" class ="select" id= "spinner" type="number" min="0" max = "100" step="1" value="0" size = "6" name="workPercent">
+        </div>
+        <label class = "check-box-label" for = "active_checkbox"><input th:value="${user.active}" checked class = "user-input" id = "active_checkbox" type = "checkbox" name=#active#>&nbsp;Aktiv</label>
+        <label class="check-box-label" for = "admin_checkbox"><input th:value="${user.admin}" class = "user-input" id = "admin_checkbox" type = "checkbox" name="admin">&nbsp;Administrator</label>
+        <div class = "button-group">
+            <input class="button user-button" type="submit" value="Lagre">
+            <button class="button user-button" id="button_cancel">Avbryt</button>
+        </div>
+    </fieldset>
+</form>

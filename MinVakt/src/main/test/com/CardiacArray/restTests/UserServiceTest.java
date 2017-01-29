@@ -1,10 +1,12 @@
 package com.CardiacArray.restTests;
 
-import com.CardiacArray.data.User;
-import com.CardiacArray.db.UserDb;
-import com.CardiacArray.rest.UserService;
+import com.CardiacArray.restService.data.User;
+import com.CardiacArray.restService.db.UserDb;
+import com.CardiacArray.restService.rest.UserService;
 import org.junit.Assert;
 import org.junit.Test;
+
+import javax.validation.constraints.AssertTrue;
 import javax.ws.rs.BadRequestException;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -20,7 +22,7 @@ public class UserServiceTest {
         UserService service = new UserService((mockUserDb));
         //String firstName, String lastName, int mobile, String email, String password, int admin, String address, int userCategoryInt, boolean active
         User validUser = new User("Ola", "Nordmann", 12345678, "test@test.no",
-                "Passord", 0, "Testveien 2", 1, true);
+                "Passord", false, "Testveien 2", 1, true, 100);
         when(mockUserDb.getUserByEmail("test@test.no")).thenReturn(validUser);
         Assert.assertEquals(service.getUser("test@test.no").getFirstName(), "Ola");
     }
@@ -30,7 +32,7 @@ public class UserServiceTest {
         UserDb mockUserDb = mock(UserDb.class);
         UserService service = new UserService((mockUserDb));
         User invalidUser = new User("Ola", null, 12345678, "test@test.no",
-                "Passord", 0, "Testveien 2", 1, true);
+                "Passord", false, "Testveien 2", 1, true, 100);
         when(mockUserDb.getUserByEmail("test@test.no")).thenReturn(invalidUser);
         service.getUser("test@test.no");
     }
@@ -40,7 +42,7 @@ public class UserServiceTest {
         UserDb mockUserDb = mock(UserDb.class);
         UserService service = new UserService((mockUserDb));
         User updatedUser = new User("Ola", "Nordmann", 12345678, "test@test.no",
-                "Passord", 0, "Testveien 2", 1, true);
+                "Passord", false, "Testveien 2", 1, true, 100);
         when(mockUserDb.updateUser(updatedUser)).thenReturn(true);
         Assert.assertEquals(true, service.updateUser(updatedUser));
     }
@@ -50,7 +52,7 @@ public class UserServiceTest {
         UserDb mockUserDb = mock(UserDb.class);
         UserService service = new UserService((mockUserDb));
         User updatedUser = new User("Ola", null, 12345678, "test@test.no",
-                "Passord", 0, "Testveien 2", 1, true);
+                "Passord", false, "Testveien 2", 1, true, 100);
         when(mockUserDb.updateUser(updatedUser)).thenReturn(false);
         service.updateUser(updatedUser);
     }
@@ -60,19 +62,22 @@ public class UserServiceTest {
         UserDb mockUserDb = mock(UserDb.class);
         UserService service = new UserService((mockUserDb));
         User validUser = new User("Ola", "Nordmann", 12345678, "test@test.no",
-                "Passord", 0, "Testveien 2", 1, true);
-        when(mockUserDb.getUserByEmail("test@test.no")).thenReturn(new User());
-        Assert.assertTrue(service.createUser(validUser));
+                "Passord", false, "Testveien 2", 1, true, 100);
+        User returnUser = new User();
+        returnUser.setEmail("test@test.no");
+        when(mockUserDb.getUserByEmail("test@test.no")).thenReturn(null);
+        System.out.println(service.createUser(validUser).getStatus());
+        Assert.assertTrue((service.createUser(validUser)).getStatus() == 200);
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void createUserFailed() throws Exception {
         UserDb mockUserDb = mock(UserDb.class);
         UserService service = new UserService((mockUserDb));
         User invalidUser = new User("Ola", null, 12345678, "test@test.no",
-                "Passord", 0, "Testveien 2", 1, true);
+                "Passord", false, "Testveien 2", 1, true, 100);
         when(mockUserDb.getUserByEmail("test@test.no")).thenReturn(invalidUser);
-        service.createUser(invalidUser);
+        Assert.assertTrue((service.createUser(invalidUser)).getStatus() == 400);
     }
 
 }

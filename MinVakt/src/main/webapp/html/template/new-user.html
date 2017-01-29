@@ -1,0 +1,62 @@
+<!--h4 class = "subform-title">Kontaktinfo</h4-->
+<form class="user-form" id = "new-user-form" action = "#" method="post">
+    <div class="user-inline-container">    <span id= "new-user-h2" class = "form-title">OPPRETT BRUKER</span>
+    </div>
+    <fieldset class ="user-fieldset">
+        <legend class ="user-legend">Kontaktinfo</legend>
+        <div class = "label-line user-inline-container" >
+            <label class = "user-label user-text-label" for="first_name">Fornavn</label>
+            <label id= "last-name-label" class = "user-label user-text-label" for="last_name">Etternavn</label>
+        </div>
+        <div class = "user-inline-container">
+            <input class = "user-input" id = "first_name" type = "text" placeholder = "Fornavn" name="firstName">
+            <input class = "user-input" id = "last_name" type = "text" placeholder = "Etternavn" name="lastName">
+        </div>
+        <div class = "label-line user-inline-container">
+            <label class = "user-label postal-label" for="address">Adresse</label>
+        </div>
+
+        <div class = "user-inline-container">
+
+            <input class = "user-input" id = "address" type = "text" placeholder = "Adresse" name="address">
+        </div>
+        <div class = "label-line user-inline-container">
+            <label class = "user-label user-text-label" for="phone">Telefon</label>
+        </div>
+        <input class = "user-input" id = "phone" type = "text" placeholder = "Telefon" name="mobile">
+        <div class = "label-line user-inline-container">
+            <label class = "user-label user-text-label" for="email">Epost</label></div>
+        <input class = "user-input" id = "email" type = "text" placeholder = "Epost" name="email">
+    </fieldset>
+    <fieldset class ="user-fieldset">
+        <legend class="user-legend">Ansattinfo</legend>
+        <div class = "label-line user-inline-container">
+            <label class = "user-label select-label" for="dept_cb">Avdeling</label>
+            <label class = "user-label select-label" for="position_cb">Stillingstype</label>
+            <label class = "user-label select-label" for = "spinner" id = "work-percent-label">Stillingsprosent</label>
+        </div>
+        <div class = "user-inline-container">
+            <select required class = "user-select select picker" id = "dept_cb">
+                <option value = "" disabled selected>Velg Avdeling..</option>
+                <option value = "1" >Nord</option>
+                <option value = "2">Sør</option>
+                <option value = "3">Øst</option>
+                <option value = "4">Vest</option>
+            </select>
+            <select required class = "user-select select picker" id = "position_cb" name="userCategoryInt">
+                <option value = "" disabled selected>Velg Stillingstype..</option>
+                <option value = "3">Assistent</option>
+                <option value = "1">Helsefagarbeider</option>
+                <option value = "2">Sykepleier</option>
+            </select>
+            <input class ="select" id= "spinner" type="number" min="0" max = "100" step="1" value="0" size = "6">
+        </div>                                           <div class = "user-inline-container">
+        <label class = "check-box-label" for = "active_checkbox"> <input checked class = "user-input" id = "active_checkbox" type = "checkbox" name = active>Aktiv</label>
+        <label class="check-box-label" for = "admin_checkbox">  <input class = "user-input" id = "admin_checkbox" type = "checkbox" name="admin">Administrator</label>
+    </div>
+        <div class = "button-group">
+            <input class = "button user-button save-button-margin" id = "button_ok">Lagre</input>
+            <button class = "button user-button" id = "button_cancel">Avbryt</button>
+        </div>
+    </fieldset>
+</form>

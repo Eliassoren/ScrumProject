@@ -1,23 +1,7 @@
+var $popupDialog;
+
 $(document).ready(function() {
-    var onLoginPage = true;
-    if(localStorage.getItem("token") != null) {
-        $.ajax({
-            type: "GET",
-            url: "/MinVakt/rest/session/checktoken",
-            headers: { "Authorization": "Bearer " + localStorage.getItem("token")},
-            success: function() {
-                if(onLoginPage != undefined && onLoginPage) {
-                    window.location.replace("/MinVakt/html/calendar.html");
-                }
-            },
-            statusCode: {
-                401: function() {
-                    localStorage.removeItem("token");
-                    window.location.replace("/MinVakt/");
-                }
-            }
-        })
-    }
+    createDialog("#login-lost-password", "Glemt passord", "/MinVakt/html/dialogs/login-password.html", 400);
     $("#login-form").validate({
         rules: {
             login_email: {
@@ -47,7 +31,7 @@ $(document).ready(function() {
                 type: "POST",
                 url: "/MinVakt/rest/session/login",
                 data: $(form).serialize(),
-                response: "json",
+                datatype: "json",
                 statusCode: {
                     401: function() {
                         $("#error-message").text("Feil e-postadresse eller passord.");
@@ -56,9 +40,36 @@ $(document).ready(function() {
                 success: function(loginObj) {
                     localStorage.setItem("token", loginObj.token);
                     localStorage.setItem("userid", loginObj.id);
-                    window.location.replace("/MinVakt/html/calendar.html");
+                    document.cookie = "token=" + loginObj.token;
+                    window.location.replace("/MinVakt/site/");
                 }
             });
         }
     });
 });
+
+function createDialog(selector, title, url, width) {
+    $(selector).each(function() {
+        $popupDialog = $("<div/>");
+        var $link = $(this).one("click", function() {
+            $popupDialog.dialog({
+                title: title,
+                modal: true,
+                closeOnEscape: true,
+                width: width,
+                resizable: false,
+                autoOpen: false,
+                show: "fade",
+                hide: "fade",
+                position: {my: "center", at: "center", of: window}
+            }).load(url, function() {
+                $(this).dialog("open");
+            });
+            $link.click(function() {
+                $popupDialog.dialog("open");
+                return false;
+            });
+            return false;
+        });
+    });
+}

@@ -3,28 +3,26 @@
 <html lang = "en">
 <head>
     <meta charset = "UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../css/main.css">
     <link rel= "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,900">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/af.js"></script>
     <script type="text/javascript" src="../js/checklogin.js"></script>
     <script type="text/javascript" src="../js/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/af.js"></script>
     <script type="text/javascript" src="../js/main.js"></script>
+    <link rel="stylesheet" href="../css/main.css">
 
     <title>MinVakt</title>
-    <!--script type="text/javascript">
-        $(document).ready(function() {
-            $("#hamburger-toggle").click(function(){
-                $("#hamburger-menu").toggleClass("hamburger-menu-open");
-                $("#hamburger-toggle").toggleClass("hamburger-toggle-open");
-            });
-        });
-    </script-->
 </head>
 <body>
+<div id="overlay-placer"></div>
+
+
 <div id="header">
     <div class="icon-bar">
         <a id="hamburger-toggle" class="fa fa-bars"></a>
@@ -35,30 +33,30 @@
             <li id="hamburger-logout">Logg ut</li>
         </ul>
     </div>
-    <div id="icon-bar-right" class="icon-bar">
-        <a id="search" href="#" class="fa fa-search-right"></a>
-    </div>
     <h1 id="h1-title">
         <a id="search-toggle" href="/MinVakt/">MinVakt</a>
     </h1>
-</div>
+    <div class="icon-bar">
+        <a id="search" href="#" class="fa fa-search-right"></a>
 
+    </div>
+</div>
 <div class = "container">
     <div class = "calendar-head">
-        <a id= "left-arrow" class="fa fa-chevron-left fa-3x"></a>
+        <a id= "left-arrow" class="fa fa-chevron-left fa-2x"></a>
         <h2 id="month-title"></h2>
-        <a id="right-arrow" class = "fa fa-chevron-right fa-3x"></a>
+        <a id="right-arrow" class = "fa fa-chevron-right fa-2x"></a>
     </div>
     <div id="calendar">
         <ul class="weekdays">
-            <li>Uke</li>
-            <li>Mandag</li>
-            <li>Tirsdag</li>
-            <li>Onsdag</li>
-            <li>Torsdag</li>
-            <li>Fredag</li>
-            <li>Lørdag</li>
-            <li>Søndag</li>
+            <li id="uke">Uke</li>
+            <li>Man</li>
+            <li>Tir</li>
+            <li>Ons</li>
+            <li>Tor</li>
+            <li>Fre</li>
+            <li>Lør</li>
+            <li>Søn</li>
         </ul>
 
         <!-- Days from previous month -->
@@ -76,6 +74,7 @@
                 <div class="date">26</div>
             </li>
             <li class="day">
+
                 <div class="date">27</div>
             </li>
             <li class="day">
