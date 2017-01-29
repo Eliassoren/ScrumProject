@@ -247,6 +247,10 @@ h3{
 
 @media(max-width: 768px) {
 
+    .absolute-main-box{
+        width: 100% !important;
+    }
+
     #calendar .weekdays{
         display: none;
     }
@@ -631,7 +635,6 @@ option[value=""][disabled] .section-picker{
     text-align:center;
     width: 100%;
     max-height: 60px;
-    transition: 0.7s ease-in-out;
     margin: auto;
 }
 .dropdown-button{
@@ -703,7 +706,6 @@ tr:hover{background-color: #979797 !important; cursor: pointer;}
 }
 
 .absolute-dropdown-div{
-    transition: 0.7s ease-in-out;
     margin-top: 0;
 }
 
@@ -1276,6 +1278,22 @@ option{
 }
 .banner-option{
     color: white;
+}
+
+th{
+    background-color: #2D5684;
+    color: white;
+}
+
+.table{
+    width: 100%;
+    font-family: 'Source Sans Pro', monospace; !important;
+}
+
+td, th{
+    margin: 0;
+    border: none;
+    padding: 0;
 }
 
 /*#header{
