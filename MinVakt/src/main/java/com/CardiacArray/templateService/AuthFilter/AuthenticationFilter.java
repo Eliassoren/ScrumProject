@@ -42,7 +42,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
                 throw new RedirectionException(Response.Status.SEE_OTHER, uri);
             } else {
                 LocalDateTime expiredTime = user.getExpired().toLocalDateTime();
-                if (expiredTime.isBefore(LocalDateTime.now())) {
+                if (expiredTime.isBefore(LocalDateTime.now()) || !user.isActive()) {
                     user.setToken(null);
                     user.setExpired(null);
                     userDb.updateUserToken(user);

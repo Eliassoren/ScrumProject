@@ -1,5 +1,7 @@
 <script type="text/javascript" src="/MinVakt/js/header.js"></script>
 <link rel="stylesheet" href="/MinVakt/css/header.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
 <div id="header" xmlns:th="http://www.w3.org/1999/xhtml">
     <div id="hamburger-menu">
         <div id="hamburger-text">
@@ -43,13 +45,5 @@
     <div id="header-user-profile">
         <i class="fa fa-user" aria-hidden="true"></i>
         <span id="header-user-profile-link" th:text="${user.firstName}"></span>
-    </div>
-    <div class="header-user-items-container">
-        <ul class="header-user-items">
-            <li class="hamburger-menu-item" id="header-user-user-profile">
-                <span><i class="fa fa-user" aria-hidden="true"></i>&nbsp;  Profil</span></li>
-            <li class="hamburger-menu-item" id="header-user-logout">
-                <span><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;  Logg ut</span></li>
-        </ul>
     </div>
 </div>

@@ -2,6 +2,9 @@ package com.CardiacArray.restService.db;
 
 import com.CardiacArray.restService.data.Available;
 import com.CardiacArray.restService.data.User;
+import com.CardiacArray.restService.data.Department;
+import com.CardiacArray.restService.data.UserCategory;
+
 import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -49,7 +52,6 @@ public class UserDb extends DbManager {
         }
         catch (SQLException e) {
             e.printStackTrace(System.err);
-            DbManager.rollback();
         }
         return user;
     }
@@ -93,7 +95,6 @@ public class UserDb extends DbManager {
         }
         catch (SQLException e) {
             e.printStackTrace(System.err);
-            DbManager.rollback();
         }
         return user;
     }
@@ -127,7 +128,6 @@ public class UserDb extends DbManager {
                 boolean active = res.getBoolean("active");
                 int workPercent = res.getInt("work_percent");
                 int departmentId = res.getInt("department_id");
-
                 User user = new User(id, firstName,lastName,mobile,email,password,adminRights,address,userCategoryInt, userCategoryString, token, expired, active, workPercent, departmentId);
                 res.close();
                 statement.close();
@@ -138,7 +138,6 @@ public class UserDb extends DbManager {
         }
         catch (SQLException e) {
             e.printStackTrace(System.err);
-            DbManager.rollback();
             return null;
         }
     }
@@ -210,7 +209,6 @@ public class UserDb extends DbManager {
             return true;
         }catch (SQLException e){
             e.printStackTrace(System.err);
-            DbManager.rollback();
             return false;
         }
     }
@@ -273,7 +271,6 @@ public class UserDb extends DbManager {
             statement.close();
         }catch (SQLException e){
             e.printStackTrace(System.err);
-            DbManager.rollback();
         }
     }
 
@@ -309,7 +306,6 @@ public class UserDb extends DbManager {
             statement.close();
         }catch (SQLException e){
             e.printStackTrace(System.err);
-            DbManager.rollback();
         }
         return returnValue;
     }
@@ -336,8 +332,6 @@ public class UserDb extends DbManager {
             return true;
         } catch (SQLException e) {
             e.printStackTrace(System.err);
-            DbManager.rollback();
-
             return false;
         }
     }
@@ -449,9 +443,56 @@ public class UserDb extends DbManager {
         }
         catch (SQLException e) {
             e.printStackTrace(System.err);
-            DbManager.rollback();
         }
         return al;
+    }
+    /**
+     *
+     * @return ArrayList of all departments.
+     */
+    public ArrayList<Department> getDepartments() {
+         ArrayList<Department> departments = new ArrayList<>();
+         try {
+             String toSQL = "SELECT * FROM department ORDER BY department_id ASC";
+             statement = connection.prepareStatement(toSQL);
+             res = statement.executeQuery();
+             while (res.next()) {
+                 int departmentId = res.getInt("department_id");
+                 String departmentName = res.getString("department_name");
+                 int departmentPhone = res.getInt("phone");
+                 Department department = new Department(departmentId, departmentName, departmentPhone);
+                 departments.add(department);
+             }
+             statement.close();
+             res.close();
+            }catch (SQLException e) {
+             e.printStackTrace(System.err);
+         }
+         return departments;
+    }
+
+    /**
+     *
+     * @return ArrayList of all user categories.
+     */
+    public ArrayList<UserCategory> getUserCategories() {
+        ArrayList<UserCategory> userCategories = new ArrayList<>();
+        try {
+            String toSQL = "SELECT * FROM user_category ORDER BY user_category_id ASC";
+            statement = connection.prepareStatement(toSQL);
+            res = statement.executeQuery();
+            while (res.next()) {
+                int userCategoryId = res.getInt("user_category_id");
+                String userCategoryType = res.getString("type");
+                UserCategory userCategory = new UserCategory(userCategoryId, userCategoryType);
+                userCategories.add(userCategory);
+            }
+            statement.close();
+            res.close();
+        }catch (SQLException e) {
+            e.printStackTrace(System.err);
+        }
+        return userCategories;
     }
 
 

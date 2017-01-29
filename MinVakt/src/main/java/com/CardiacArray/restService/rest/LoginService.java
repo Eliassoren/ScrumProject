@@ -52,7 +52,7 @@ public class    LoginService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(@FormParam("login_email") String email, @FormParam("login_password") String password) {
         User user = userDb.getUserByEmail(email);
-        if(user != null) {
+        if(user != null || !user.isActive()) {
             if(passwordUtil.verifyPassword(password, user.getFirstName(), user.getPassword())) {
                 SecureRandom random = new SecureRandom();
                 String token = new BigInteger(130, random).toString(32);

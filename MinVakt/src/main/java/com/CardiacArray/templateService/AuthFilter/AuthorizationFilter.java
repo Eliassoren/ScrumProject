@@ -97,7 +97,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         } else {
             System.out.println("Authoriz: User found");
             LocalDateTime expiredTime = user.getExpired().toLocalDateTime();
-            if (expiredTime.isBefore(LocalDateTime.now())) {
+            if (expiredTime.isBefore(LocalDateTime.now()) || !user.isActive()) {
                 user.setToken(null);
                 user.setExpired(null);
                 userDb.updateUserToken(user);

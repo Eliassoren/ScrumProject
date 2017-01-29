@@ -442,7 +442,7 @@ function getTradeableShifts(year, month){
             $(".free-event-text").click(function(){
                 console.log($(this).parent());
                 $(".container").addClass("blur");
-                $("#overlay-placer").load("template/free-shift.html", function(){
+                $("#overlay-placer").load("/MinVakt/html/template/free-shift.html", function(){
                     $(".absolute-dropdown").click(function(){
                         $(this).toggleClass("dropdown-active");
                     });

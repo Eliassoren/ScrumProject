@@ -17,6 +17,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.servlet.http.Cookie;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -103,6 +104,29 @@ public class UserService {
             throw new BadRequestException();
         }
         return updateResponse;
+    }
+
+    /**
+     *
+     * @param token token cookie
+     * @param password new password
+     * @return HTTP 200 if updated, 400 if not
+     */
+    @PUT
+    @Path("/updatePassword")
+    public Response updateUserPassword(@CookieParam("token") String token, @FormParam("currentPassword") String currentPassword, @FormParam("password") String password) {
+        User user = userDb.getUserByToken(token);
+        if(user == null) {
+            throw new BadRequestException();
+        } else {
+            String current = passwordUtil.hashPassword(currentPassword, user.getFirstName());
+            if(!current.equals(user.getPassword())) {
+                throw new BadRequestException();
+            }
+            user.setPassword(passwordUtil.hashPassword(password, user.getFirstName()));
+            userDb.updateUser(user);
+            return Response.ok().build();
+        }
     }
 
 
@@ -283,6 +307,7 @@ public class UserService {
      */
     @GET
     @Path("/absence/get/{startTime}/{endTime}")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Absence> getAbsenceFromUser(User user, @PathParam("startTime") long startTime, @PathParam("endTime") long endTime){
         ArrayList<Absence> absenceArrayList = absenceDb.getAbsenceForUser(user.getId(),new Timestamp(startTime),new Timestamp(endTime));

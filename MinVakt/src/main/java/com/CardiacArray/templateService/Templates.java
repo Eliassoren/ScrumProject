@@ -5,6 +5,7 @@ import com.CardiacArray.restService.AuthFilter.Role;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -24,7 +25,11 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import javax.ws.rs.GET;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-
+/**
+ *
+ * Parses the URL of HTTP GET requests to /MinVakt/site/* and returns the correct HTML page.
+ *
+ */
 @Path("")
 public class Templates {
 
@@ -34,14 +39,19 @@ public class Templates {
     private HttpServletResponse response;
     @Inject
     private ServletContext servletContext;
-    @Context
-    private UriInfo uriInfo;
     private @CookieParam("token") Cookie cookie;
     private ServletContextTemplateResolver templateResolver;
     private TemplateEngine templateEngine;
     private WebContext context;
     private UserDb userDb = new UserDb();
     private User user;
+
+    /**
+     *
+     * Initializes the Thymeleaf template engine and sets the default values. If the token cookie is set, the user
+     * object is initialized.
+     *
+     */
 
     @PostConstruct
     public void postConstruct() {
@@ -59,6 +69,14 @@ public class Templates {
         }
         context.setVariable("header", "header");
     }
+
+    /**
+     *
+     * Checks users that try to access /MinVakt/site/ if they are logged in and what user they are. Regular users are
+     * redirected to calendar; admin users are redirected to the admin dashboard. If user is not logged in, the login
+     * page is returned.
+     *
+     */
 
     @GET
     @Path("/")
@@ -92,8 +110,6 @@ public class Templates {
     @Path("/calendar")
     @Produces(MediaType.TEXT_HTML)
     public String calendar() {
-
-        context.setVariable("header", "header");
         return templateEngine.process("calendar", context);
     }
 
@@ -136,6 +152,7 @@ public class Templates {
     public String overtime() {
         return templateEngine.process("admin-overtime", context);
     }
+
     @SecuredTpl({Role.USER, Role.ADMIN})
     @GET
     @Path("/admin/absence")
@@ -150,6 +167,19 @@ public class Templates {
     @Produces(MediaType.TEXT_HTML)
     public String availability() {
         return templateEngine.process("availability", context);
+    }
+
+    @SecuredTpl({Role.USER, Role.ADMIN})
+    @GET
+    @Path("/dialog-update-password")
+    @Produces(MediaType.TEXT_HTML)
+    public String dialogUpdatePassword() {
+        UserDb userDb = new UserDb();
+        ArrayList<Department> departments = userDb.getDepartments();
+        ArrayList<UserCategory> userCategories = userDb.getUserCategories();
+        context.setVariable("departments", departments);
+        context.setVariable("userCategories", userCategories);
+        return templateEngine.process("dialog-update-password", context);
     }
 
 }

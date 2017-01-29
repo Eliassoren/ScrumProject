@@ -1,3 +1,5 @@
+var $popupDialog;
+
 $(document).ready(function() {
     $("#hamburger-menu").click(function () {
         $("#hamburger-text").toggleClass("hamburger-text-activate");
@@ -21,8 +23,31 @@ $(document).ready(function() {
         document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
         window.location.replace("/MinVakt/site");
     });
-    $("#header-user-profile").click(function() {
-        $(".header-user-items-container").toggleClass("header-user-items-container-activate");
-        $("#header-user-profile").toggleClass("header-user-activate");
-    });
+    createDialog("#header-user-profile", "Forandre passord", "/MinVakt/site/dialog-update-password", 600);
 });
+
+function createDialog(selector, title, url, width) {
+    $(selector).each(function() {
+        $popupDialog = $("<div/>");
+        var $link = $(this).one("click", function() {
+            $popupDialog.dialog({
+                title: title,
+                modal: true,
+                closeOnEscape: true,
+                width: width,
+                resizable: false,
+                autoOpen: false,
+                show: "fade",
+                hide: "fade",
+                position: {my: "center", at: "center", of: window}
+            }).load(url, function() {
+                $(this).dialog("open");
+            });
+            $link.click(function() {
+                $popupDialog.dialog("open");
+                return false;
+            });
+            return false;
+        });
+    });
+}

@@ -1,7 +1,7 @@
-var $lostPasswordDialog;
+var $popupDialog;
 
 $(document).ready(function() {
-    createDialog("#login-lost-password", "Glemt passord", "/MinVakt/html/dialogs/login-password.html");
+    createDialog("#login-lost-password", "Glemt passord", "/MinVakt/html/dialogs/login-password.html", 400);
     $("#login-form").validate({
         rules: {
             login_email: {
@@ -48,15 +48,15 @@ $(document).ready(function() {
     });
 });
 
-function createDialog(selector, title, url) {
+function createDialog(selector, title, url, width) {
     $(selector).each(function() {
-        $lostPasswordDialog = $("<div/>");
+        $popupDialog = $("<div/>");
         var $link = $(this).one("click", function() {
-            $lostPasswordDialog.dialog({
+            $popupDialog.dialog({
                 title: title,
                 modal: true,
                 closeOnEscape: true,
-                width: 400,
+                width: width,
                 resizable: false,
                 autoOpen: false,
                 show: "fade",
@@ -66,7 +66,7 @@ function createDialog(selector, title, url) {
                 $(this).dialog("open");
             });
             $link.click(function() {
-                $lostPasswordDialog.dialog("open");
+                $popupDialog.dialog("open");
                 return false;
             });
             return false;

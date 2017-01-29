@@ -87,3 +87,28 @@ function bannerConfirm(message, callBack) {
         });
     });
 }
+
+function bannerMessage(message, callBack) {
+    $("body").prepend("<div id='banner-div'></div>");
+    $("#banner-div").load("/MinVakt/html/template/banner-alert.html", function () {
+        $("#alert").text(message);
+        $(".container").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")) {
+                $(".container").removeClass("blur")
+            }
+            ;
+            $(".container").unbind();
+        });
+        $(".container").addClass("blur");
+        $(".closer").click(function () {
+            $("#banner-div").remove();
+            if ($(".container").hasClass("blur")) {
+                $(".container").removeClass("blur")
+            }
+            ;
+            $(".container").unbind();
+            callBack();
+        });
+    });
+}
