@@ -372,11 +372,20 @@ public class ShiftService {
         }
     }
 
+    /**
+     *
+     * @return true if shifts deleted successfully, else false
+     */
     @DELETE
     public boolean deleteApprovedShift(){
         return shiftDb.deleteApproved();
     }
 
+    /**
+     *
+     * @param changeover to be deleted
+     * @return true if shifts deleted successfully
+     */
     @DELETE
     @Path("/delete")
     public boolean deleteApprovedShift(Changeover changeover){
@@ -437,7 +446,6 @@ public class ShiftService {
     }
 
     /**
-     *
      * @return collection of users who want to do a shift changeover
      */
     @GET
@@ -460,7 +468,6 @@ public class ShiftService {
     }
 
     /**
-     *
      * @return a collection of all overtime requests
      */
     @GET
@@ -487,7 +494,5 @@ public class ShiftService {
     }
 
     public static void main(String args[]) throws Exception {
-        ShiftDb s = new ShiftDb();
-        s.assignShift(3,16);
     }
 }

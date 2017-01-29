@@ -13,8 +13,8 @@
     width:100%;
     text-align: center;
     font-weight: normal;
+    font-family: 'Source Sans Pro', monospace; !important;
 
-    font-family: 'Source Sans Pro', sans-serif;
 }
 
 #login-title{
@@ -29,7 +29,7 @@
 html, body{
     height: 100%;
     width: 100%;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Source Sans Pro', monospace; !important;
 }
 
 body {
@@ -136,7 +136,9 @@ footer{
     width: 100%;
     text-align: center;
 }
+@media(max-width: 768px) {
 
+}
 .blur-box{
     z-index: 100;
     pointer-events: none;

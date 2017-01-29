@@ -195,6 +195,7 @@ public class UserService {
     }
 
     /**
+     * Calculating hours for a given period
      *
      * @param startTime start time of the period
      * @param endTime end time of the period
@@ -216,6 +217,7 @@ public class UserService {
     }
 
     /**
+     * Calculation overtime hours for a period
      *
      * @param shift a Shift objet
      * @param startTime start time of the period
@@ -236,6 +238,7 @@ public class UserService {
     }
 
     /**
+     * Finds overtime for a period
      *
      * @param userId id of the user
      * @param startTime start time of the period
@@ -318,6 +321,13 @@ public class UserService {
         return map.values();
     }
 
+    /**
+     *
+     * @param userId id of the user
+     * @param startTime start of absence
+     * @param endTime end of absence
+     * @return true if success, else false
+     */
     @POST
     @Path("/absence/set/{userId}/{startTime}/{endTime}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -327,11 +337,18 @@ public class UserService {
         return absenceDb.setAbsence(userId,new Timestamp(startTime),new Timestamp(endTime));
     }
 
+    /**
+     *
+     * @param userId id of the user
+     * @param date for shift to check
+     * @return true if user has shift, else false
+     */
     @Path("/available/{userId}/{date}")
     @Produces(MediaType.APPLICATION_JSON)
     public boolean userHasShift(@PathParam("userId") int userId, @PathParam("date") long date) {
         return userDb.userHasShift(userId, new java.sql.Date(date));
     }
+
     /*
     @GET
     @Path("/{userId}/timesheet/{startTime}/{endTime}")

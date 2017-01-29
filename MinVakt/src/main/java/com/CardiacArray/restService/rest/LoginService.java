@@ -88,6 +88,7 @@ public class    LoginService {
     }
 
     /**
+     * Checks if token is active
      *
      * @return response ok if token is active
      */
