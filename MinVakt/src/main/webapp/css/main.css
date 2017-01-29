@@ -1278,6 +1278,38 @@ option{
     color: white;
 }
 
+.free-shift-table{
+    width: 100%;
+}
+
+#shift-day-table td{
+    border: 0;
+    padding: 0;
+}
+
+.dropdown-button{
+    cursor: pointer;
+}
+
+.free-shift-table th{
+    background-color: lawngreen;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.free-shift-table tr{
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.free-shift-table tbody{
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
 /*#header{
     position: relative;
     top:0;
