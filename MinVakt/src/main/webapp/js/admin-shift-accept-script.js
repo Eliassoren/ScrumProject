@@ -11,7 +11,7 @@
  */
 
 $(document).on("input", function() {
-    refreshTable()
+    refreshTable();
 });
 
 function refreshTable() {
@@ -107,6 +107,17 @@ function rejectChangeover(shiftid) {
             console.log("Result: " + data);
             returnValue = JSON.parse(data);
             return returnValue;
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
+            }
         }
     });
 }
@@ -125,6 +136,17 @@ function approveChange(shiftid,userid) {
             console.log("Result: " + data);
             returnValue = JSON.parse(data);
             return returnValue;
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
+            }
         }
     });
 }
@@ -133,9 +155,21 @@ function getChangeover(){
     $.ajax({
         type: "GET",
         url: "/MinVakt/rest/shifts/changeover",
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
             console.log(data);
             addRow(data);
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
+            }
         }
     })
 }
@@ -144,9 +178,21 @@ function getShiftAndTrade(id, bool){
     $.ajax({
         type: "GET",
         url: "/MinVakt/rest/shifts/" + id,
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function(data){
             console.log(data);
             setShiftTradeablePut(data, bool)
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
+            }
         }
     })
 }
@@ -172,6 +218,17 @@ function setShiftTradeablePut(shift, bool) {
             console.log("Result: " + data);
             returnValue = JSON.parse(data);
             return returnValue;
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
+            }
         }
     })
 }
@@ -186,6 +243,17 @@ function getAvailableShiftNumber(startTime, endTime) {
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data) {
             getCount(data);
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
+            }
         }
     })
 }
@@ -218,13 +286,29 @@ function assignAvailableShift(shiftId) {
                 statusCode: {
                     401: function () {
                         localStorage.removeItem("token");
-                        window.location.replace("/MinVakt/");
+                        localStorage.removeItem("userid");
+                        var date = new Date();
+                        date.setTime(date.getTime()+(-1*24*60*60*1000));
+                        var expires = " expires="+date.toUTCString();
+                        document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                        window.location.replace("/MinVakt/site");
                     },
                     400: function () {
                         console.log(data);
                     }
                 }
             })
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
+            }
         }
     })
 }
@@ -251,7 +335,12 @@ function setUserAvailable(start, end) {
         statusCode: {
             401: function () {
                 localStorage.removeItem("token");
-                window.location.replace("/MinVakt/");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
             },
             400: function () {
                 console.log(data);
@@ -272,7 +361,12 @@ function getAvailableUsers(startTime, endTime) {
         statusCode: {
             401: function () {
                 localStorage.removeItem("token");
-                window.location.replace("/MinVakt/");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
             },
             400: function () {
                 console.log(data);
@@ -286,13 +380,19 @@ function getAllOvertimeRequest(){
     $.ajax({
         type: "GET",
         url: "MinVakt/rest/shifts/overtime",
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data){
             console.log(data);
         },
         statusCode: {
             401: function () {
                 localStorage.removeItem("token");
-                window.location.replace("/MinVakt/");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
             },
             400: function () {
                 console.log(data);
@@ -316,6 +416,17 @@ function approveChangeover(changeover) {
             console.log("Result: " + data);
             returnValue = JSON.parse(data);
             return returnValue;
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
+            }
         }
     })
 }

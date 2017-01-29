@@ -25,6 +25,17 @@ function getAllUsers() {
         headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
         success: function (data) {
             addRowEmployee(data);
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
+            }
         }
     })
 }
@@ -83,16 +94,22 @@ function addRowEmployee(data) {
                                 headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
                                 success: function (data) {
                                     location.reload(true);
+                                },
+                                statusCode: {
+                                    401: function () {
+                                        localStorage.removeItem("token");
+                                        localStorage.removeItem("userid");
+                                        var date = new Date();
+                                        date.setTime(date.getTime()+(-1*24*60*60*1000));
+                                        var expires = " expires="+date.toUTCString();
+                                        document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                                        window.location.replace("/MinVakt/site");
+                                    }
                                 }
                             })
                     })
                 })
             })
-
-
-
         });
-
-
     }
 }

@@ -13,11 +13,12 @@ $(document).ready(function() {
         window.location.href = "/MinVakt/site/shift-tradeable";
     });
     $("#hamburger-logout").click(function() {
-        alert("This function works, but it doesnt log-out. Needs fixing? just remove " +
-            "this alert if everything is working as it should");
         localStorage.removeItem("token");
         localStorage.removeItem("userid");
-        $.cookie("token", null, { path: '/' });
+        var date = new Date();
+        date.setTime(date.getTime()+(-1*24*60*60*1000));
+        var expires = " expires="+date.toUTCString();
+        document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
         window.location.replace("/MinVakt/site");
     });
     $("#header-user-profile").click(function() {

@@ -1,7 +1,7 @@
-<script type="text/javascript" src="/MinVakt/js/new.js"></script>
-<link rel="stylesheet" href="/MinVakt/css/new.css">
+<script type="text/javascript" src="/MinVakt/js/header.js"></script>
+<link rel="stylesheet" href="/MinVakt/css/header.css">
 <div id="header" xmlns:th="http://www.w3.org/1999/xhtml">
-    <div th:if="${page} != 'login'" id="hamburger-menu">
+    <div id="hamburger-menu">
         <div id="hamburger-text">
             <span><i class="fa fa-bars"></i>meny</span>
         </div>
@@ -40,7 +40,7 @@
         </div>
     </div>
     <h1 id="header-title"><a id="header-title-link" style="color: white; text-decoration: none;" href="/MinVakt/site/">MinVakt</a></h1>
-    <div th:if="${page} != 'login'" id="header-user-profile">
+    <div id="header-user-profile">
         <i class="fa fa-user" aria-hidden="true"></i>
         <span id="header-user-profile-link" th:text="${user.firstName}"></span>
     </div>

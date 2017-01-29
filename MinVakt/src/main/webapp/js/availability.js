@@ -121,7 +121,12 @@ function setUserAvailable(start, end) {
         statusCode: {
             401: function () {
                 localStorage.removeItem("token");
-                window.location.replace("/MinVakt/");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
             },
             400: function () {
                 console.log(data);

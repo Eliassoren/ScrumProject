@@ -81,7 +81,12 @@ $(document).ready(function() {
                 statusCode: {
                     401: function () {
                         localStorage.removeItem("token");
-                        window.location.replace("/MinVakt/");
+                        localStorage.removeItem("userid");
+                        var date = new Date();
+                        date.setTime(date.getTime()+(-1*24*60*60*1000));
+                        var expires = " expires="+date.toUTCString();
+                        document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                        window.location.replace("/MinVakt/site");
                     }
                 }
             });
@@ -168,7 +173,12 @@ function getShiftsForWeek() {
         statusCode: {
             401: function () {
                 localStorage.removeItem("token");
-                window.location.replace("/MinVakt/");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
             }
         }
     })
@@ -188,7 +198,12 @@ function getAvailableUsers(starter, ender, place) {
         statusCode: {
             401: function () {
                 localStorage.removeItem("token");
-                window.location.replace("/MinVakt/");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
             }
         }
     })
@@ -282,7 +297,12 @@ function createShifts(start, end, department, role) {
                 statusCode: {
                     401: function () {
                         localStorage.removeItem("token");
-                        window.location.replace("/MinVakt/");
+                        localStorage.removeItem("userid");
+                        var date = new Date();
+                        date.setTime(date.getTime()+(-1*24*60*60*1000));
+                        var expires = " expires="+date.toUTCString();
+                        document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                        window.location.replace("/MinVakt/site");
                     }
                 }
             });
@@ -318,7 +338,12 @@ function getAllUsers(){
         statusCode: {
             401: function () {
                 localStorage.removeItem("token");
-                window.location.replace("/MinVakt/");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
             }
         }
     })
@@ -336,7 +361,12 @@ function getShiftsMissingNurse(start, end, day) {
         statusCode: {
             401: function () {
                 localStorage.removeItem("token");
-                window.location.replace("/MinVakt/");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
             }
         }
     })
@@ -354,7 +384,12 @@ function getShiftsMissingHealthWorker(start, end, day) {
         statusCode: {
             401: function () {
                 localStorage.removeItem("token");
-                window.location.replace("/MinVakt/");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
             }
         }
     })

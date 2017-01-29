@@ -28,6 +28,17 @@ $(document).ready(
                 console.log(user.departmentId);
                 $("#position_cb").val(user.userCategoryInt);
                 $("#spinner").val(user.workPercent);
+            },
+            statusCode: {
+                401: function () {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("userid");
+                    var date = new Date();
+                    date.setTime(date.getTime()+(-1*24*60*60*1000));
+                    var expires = " expires="+date.toUTCString();
+                    document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                    window.location.replace("/MinVakt/site");
+                }
             }
         })
     }
@@ -89,7 +100,12 @@ function editPassword(){
                     },
                     401: function () {
                         localStorage.removeItem("token");
-                        window.location.replace("/MinVakt/");
+                        localStorage.removeItem("userid");
+                        var date = new Date();
+                        date.setTime(date.getTime()+(-1*24*60*60*1000));
+                        var expires = " expires="+date.toUTCString();
+                        document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                        window.location.replace("/MinVakt/site");
                     }
                 },
                 success: function(data) {
@@ -113,6 +129,17 @@ function updateUser (user) {
         data: user,
         success: function(){
             console.log()
+        },
+        statusCode: {
+            401: function () {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userid");
+                var date = new Date();
+                date.setTime(date.getTime()+(-1*24*60*60*1000));
+                var expires = " expires="+date.toUTCString();
+                document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                window.location.replace("/MinVakt/site");
+            }
         }
     })
 }

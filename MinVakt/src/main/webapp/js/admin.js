@@ -11,7 +11,6 @@ function newUser() {
             url: "/MinVakt/rest/users/",
             headers: {
                 'Accept': 'application/json',
-
                 "Authorization": "Bearer " + localStorage.getItem("token")
             },
             contentType: 'application/json',
@@ -38,7 +37,12 @@ function newUser() {
                 },
                 401: function () {
                     localStorage.removeItem("token");
-                    window.location.replace("/MinVakt/");
+                    localStorage.removeItem("userid");
+                    var date = new Date();
+                    date.setTime(date.getTime()+(-1*24*60*60*1000));
+                    var expires = " expires="+date.toUTCString();
+                    document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                    window.location.replace("/MinVakt/site");
                 },
                 400: function (data) {
                     console.log("Feil under oppretting");
@@ -138,7 +142,12 @@ function editUser() {
                     },
                     401: function () {
                         localStorage.removeItem("token");
-                        window.location.replace("/MinVakt/");
+                        localStorage.removeItem("userid");
+                        var date = new Date();
+                        date.setTime(date.getTime()+(-1*24*60*60*1000));
+                        var expires = " expires="+date.toUTCString();
+                        document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                        window.location.replace("/MinVakt/site");
                     }
                 },
                 success: function (data) {
@@ -190,6 +199,7 @@ $("#new-shift-form").validate({
     submitHandler: function(form) {
         $.ajax({
             type: "POST",
+            headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
             url: "MinVakt/rest/shifts/",
             data: $(form).serialize(),
             datatype: "text",
@@ -201,7 +211,12 @@ $("#new-shift-form").validate({
                 },
                 401: function () {
                     localStorage.removeItem("token");
-                    window.location.replace("/MinVakt/");
+                    localStorage.removeItem("userid");
+                    var date = new Date();
+                    date.setTime(date.getTime()+(-1*24*60*60*1000));
+                    var expires = " expires="+date.toUTCString();
+                    document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                    window.location.replace("/MinVakt/site");
                 }
             },
             success: function (data) {
@@ -235,6 +250,7 @@ $("#assign-shift-form").validate({
     submitHandler: function(form) {
         $.ajax({
             type: "POST",
+            headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
             url: "MinVakt/rest/shifts/assign" ,
             data: $(form).serialize(),
             datatype: "text",
@@ -246,7 +262,12 @@ $("#assign-shift-form").validate({
                 },
                 401: function () {
                     localStorage.removeItem("token");
-                    window.location.replace("/MinVakt/");
+                    localStorage.removeItem("userid");
+                    var date = new Date();
+                    date.setTime(date.getTime()+(-1*24*60*60*1000));
+                    var expires = " expires="+date.toUTCString();
+                    document.cookie = "token=;" + expires + "; path=/MinVakt;"; // Deletes cookie by setting expiration date to yesterday
+                    window.location.replace("/MinVakt/site");
                 }
             },
             success: function (data) {
