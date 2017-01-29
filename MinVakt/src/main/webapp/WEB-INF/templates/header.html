@@ -6,7 +6,6 @@
             <span><i class="fa fa-bars"></i>meny</span>
         </div>
         <ul id="hamburger-menu-items">
-            <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-admin-home"><span>Hjem</span></li>
             <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-admin-shift"><span>Sett opp vakter</span></li>
             <li th:if="${user.admin}" class="hamburger-menu-item" id="admin-shift-accept"><span>Vaktbytter</span></li>
             <li th:if="${user.admin}" class="hamburger-menu-item" id="admin-overtime-accept"><span>Overtid</span></li>

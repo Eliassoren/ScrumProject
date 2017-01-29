@@ -137,4 +137,12 @@ public class Templates {
         return templateEngine.process("admin-overtime", context);
     }
 
+    @SecuredTpl({Role.USER, Role.ADMIN})
+    @GET
+    @Path("/availability")
+    @Produces(MediaType.TEXT_HTML)
+    public String availability() {
+        return templateEngine.process("availability", context);
+    }
+
 }

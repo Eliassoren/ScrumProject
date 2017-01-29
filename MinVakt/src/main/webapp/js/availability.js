@@ -132,7 +132,7 @@ function setUserAvailable(start, end) {
 
 function bannerConfirm(message, callBack) {
     $("body").prepend("<div id='banner-div'></div>");
-    $("#banner-div").load("template/banner-alertConfirm.html", function () {
+    $("#banner-div").load("/MinVakt/html/template/banner-alertConfirm.html", function () {
         $("#alert").text(message);
         $(".container").click(function () {
             $("#banner-div").remove();
