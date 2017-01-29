@@ -1,4 +1,4 @@
-<div class="employee-form-banner">
+<div class="employee-form-banner" xmlns:th="http://java.sun.com/jsf/composite">
     <div class="form-container">
         <i class="fa fa-times" aria-hidden="true"></i>
         <div class="employee-picture">
@@ -21,8 +21,8 @@
                 </div>
 
                 <div class="fifth-line line">
-                    <div class="employee-form-button employee-form-edit-button">Rediger</div>
-                    <div class="employee-form-button employee-form-delete-button">Slett</div>
+                    <div th:if="${user.admin}" class="employee-form-button employee-form-edit-button">Rediger</div>
+                    <div th:if="${user.admin}" class="employee-form-button employee-form-delete-button">Slett</div>
                 </div>
             </form>
         </div>
