@@ -119,11 +119,13 @@ body {
 }
 @media(max-width: 768px){
     #hamburger-menu {
-        width: 120px;
+        width: 120px !important;
         height: 45px;
-        cursor: pointer;
     }
+    #hamburger-text {
+        width: 120px !important;
 
+    }
     .hamburger-items-container{
         font-size: 12px;
     }
