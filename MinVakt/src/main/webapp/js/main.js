@@ -201,23 +201,6 @@ function generateCalendar(tradeableShifts,shiftArray,year,month){
 }
 $(document).ready(function() {
     var userId = localStorage.getItem("userid");
-    $("#hamburger-toggle").click(function () {
-        $("#hamburger-menu").toggleClass("hamburger-menu-open");
-        $("#hamburger-toggle").toggleClass("hamburger-toggle-open");
-    });
-    $("#hamburger-calendar").click(function() {
-        window.location.href = "/MinVakt/html/calendar.html";
-    });
-    $("#hamburger-shift").click(function() {
-       window.location.href = "/MinVakt/html/not-currently-in-use.html";
-    });
-    $("#hamburger-shifttrade").click(function() {
-        window.location.href = "/MinVakt/html/user-shift-view.html";
-    });
-    $("#hamburger-logout").click(function() {
-        localStorage.removeItem("token");
-        window.location.replace("/MinVakt/");
-    });
 
 //alert(out);
     //alert(getMonday(new Date(2017, 0, 1)));
