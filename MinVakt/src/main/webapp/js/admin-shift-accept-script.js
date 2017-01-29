@@ -76,7 +76,8 @@ function addRow(data) {
                     .attr("data-shiftid", obj[i].shiftId)
                     .attr("data-userid", obj[i].userId)
                     .click(function() {
-                        approveOvertime($(this).attr("data-shiftid"), $(this).attr("data-userid"));
+                        approveChange($(this).attr("data-shiftid"),$(this).attr("data-userid"));
+                        location.reload();
                     })
                 ).append($("<td/>")
                     .text("Ikke godkjenn")
@@ -85,13 +86,48 @@ function addRow(data) {
                     .attr("data-shiftid", obj[i].shiftId)
                     .attr("data-userid", obj[i].userId)
                     .click(function() {
-                        rejectOvertime($(this).attr("data-shiftid"), $(this).attr("data-userid"));
+                        rejectChangeover($(this).attr("data-shiftid"));
+                        location.reload();
                     })
                 )
             )
     }
 }
 
+function rejectChangeover(shiftid) {
+    $.ajax({
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        type: "DELETE",
+        url: "/MinVakt/rest/shifts/delete",
+        contentType: 'application/json',
+        data: JSON.stringify({
+            shiftId: shiftid
+        }),
+        success: function (data) {
+            console.log("Result: " + data);
+            returnValue = JSON.parse(data);
+            return returnValue;
+        }
+    });
+}
+
+function approveChange(shiftid,userid) {
+    $.ajax({
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        type: "PUT",
+        url: "/MinVakt/rest/shifts/approveChange",
+        contentType: 'application/json',
+        data: JSON.stringify({
+            newUserId: userid,
+            shiftId: shiftid
+        }),
+        success: function (data) {
+            console.log("Result: " + data);
+            returnValue = JSON.parse(data);
+            return returnValue;
+        }
+    });
+}
 
 function getChangeover(){
     $.ajax({
@@ -261,6 +297,25 @@ function getAllOvertimeRequest(){
             400: function () {
                 console.log(data);
             }
+        }
+    })
+}
+
+function approveChangeover(changeover) {
+    $.ajax({
+        headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+        type: "PUT",
+        url: "/MinVakt/rest/shifts/approveChange",
+        contentType: 'application/json',
+        data: JSON.stringify({
+            newUserId: changeover.newUserId,
+            shiftId: changeover.shiftId,
+            approved: 1,
+        }),
+        success: function (data) {
+            console.log("Result: " + data);
+            returnValue = JSON.parse(data);
+            return returnValue;
         }
     })
 }

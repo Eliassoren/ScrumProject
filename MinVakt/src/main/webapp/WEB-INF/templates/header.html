@@ -5,21 +5,51 @@
         <div id="hamburger-text">
             <span><i class="fa fa-bars"></i>meny</span>
         </div>
-        <ul id="hamburger-menu-items">
-            <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-admin-shift"><span>Sett opp vakter</span></li>
-            <li th:if="${user.admin}" class="hamburger-menu-item" id="admin-shift-accept"><span>Vaktbytter</span></li>
-            <li th:if="${user.admin}" class="hamburger-menu-item" id="admin-overtime-accept"><span>Overtid</span></li>
-            <li class="hamburger-menu-item" id="hamburger-calendar"><span>Kalender</span></li>
-            <li class="hamburger-menu-item" id="hamburger-user-profile"><span>Profil</span></li>
-            <li class="hamburger-menu-item" id="hamburger-availability"><span>Tilgjengelighet</span></li>
-            <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-user-list"><span>Ansatte</span></li>
-            <li class="hamburger-menu-item" id="hamburger-shift"><span>Vaktlister</span></li>
+        <div class="hamburger-items-container">
+            <ul id="hamburger-menu-items">
+                <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-admin-home">
+                    <span><i class="fa fa-home" aria-hidden="true"></i>&nbsp;  Hjem</span></li>
 
-            <li class="hamburger-menu-item" id="hamburger-logout"><span>Logg ut</span></li>
-        </ul>
+                <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-admin-shift">
+                    <span><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;  Sett opp vakter</span></li>
+
+                <li th:if="${user.admin}" class="hamburger-menu-item" id="admin-shift-accept">
+                    <span><i class="fa fa-exchange" aria-hidden="true"></i>&nbsp;  Vaktbytter</span></li>
+
+                <li th:if="${user.admin}" class="hamburger-menu-item" id="admin-overtime-accept">
+                    <span><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;  Overtid</span></li>
+
+                <li class="hamburger-menu-item" id="hamburger-calendar">
+                    <span><i class="fa fa-calendar-o" aria-hidden="true"></i>&nbsp;  Kalender</span></li>
+
+                <li class="hamburger-menu-item" id="hamburger-user-profile">
+                    <span><i class="fa fa-user" aria-hidden="true"></i>&nbsp;  Profil</span></li>
+
+                <li class="hamburger-menu-item" id="hamburger-availability">
+                    <span><i class="fa fa-calendar-check-o" aria-hidden="true"></i>&nbsp;  Tilgjengelighet</span></li>
+
+                <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-user-list">
+                    <span><i class="fa fa-users" aria-hidden="true"></i>&nbsp;  Ansatte</span></li>
+
+                <li class="hamburger-menu-item" id="hamburger-shift">
+                    <span><i class="fa fa-list-ul" aria-hidden="true"></i>&nbsp;  Vaktlister</span></li>
+
+                <li class="hamburger-menu-item" id="hamburger-logout">
+                    <span><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;  Logg ut</span></li>
+            </ul>
+        </div>
     </div>
     <h1 id="header-title"><a id="header-title-link" style="color: white; text-decoration: none;" href="/MinVakt/site/">MinVakt</a></h1>
     <div th:if="${page} != 'login'" id="header-user-profile">
+        <i class="fa fa-user" aria-hidden="true"></i>
         <span id="header-user-profile-link" th:text="${user.firstName}"></span>
+    </div>
+    <div class="header-user-items-container">
+        <ul class="header-user-items">
+            <li class="hamburger-menu-item" id="header-user-user-profile">
+                <span><i class="fa fa-user" aria-hidden="true"></i>&nbsp;  Profil</span></li>
+            <li class="hamburger-menu-item" id="header-user-logout">
+                <span><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;  Logg ut</span></li>
+        </ul>
     </div>
 </div>

@@ -587,14 +587,31 @@ public class ShiftDb extends DbManager{
     public boolean deleteApproved(){
         boolean returnValue = false;
 
-        String toSQL = "DELETE changeover WHERE approved = 1";
+        String toSQL = "DELETE FROM changeover WHERE approved = 1";
         try{
             statement = connection.prepareStatement(toSQL);
             int status = statement.executeUpdate();
             if (status != 0){
                 returnValue = true;
             }
-            res.close();
+            statement.close();
+        } catch (SQLException e ){
+            e.printStackTrace();
+        }
+        return returnValue;
+    }
+
+    public boolean deleteApproved(int shiftId){
+        boolean returnValue = false;
+
+        String toSQL = "DELETE FROM changeover WHERE shift_id = ?";
+        try{
+            statement = connection.prepareStatement(toSQL);
+            statement.setInt(1, shiftId);
+            int status = statement.executeUpdate();
+            if (status != 0){
+                returnValue = true;
+            }
             statement.close();
         } catch (SQLException e ){
             e.printStackTrace();

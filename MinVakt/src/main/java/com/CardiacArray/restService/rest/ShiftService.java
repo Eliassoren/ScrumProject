@@ -377,6 +377,12 @@ public class ShiftService {
         return shiftDb.deleteApproved();
     }
 
+    @DELETE
+    @Path("/delete")
+    public boolean deleteApprovedShift(Changeover changeover){
+        return shiftDb.deleteApproved(changeover.getShiftId());
+    }
+
     /**
      *
      * @param changeoverShift a Changeover object
@@ -387,7 +393,8 @@ public class ShiftService {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response approveChangeover(Changeover changeoverShift){
         //TODO Slette godkjenning fra databasen
-
+        System.out.println(changeoverShift.getNewUserId());
+        System.out.println(changeoverShift.getShiftId());
         //Setter shift til approved og blir borte fra "til godkjenning"
         shiftDb.setApproved(changeoverShift.getShiftId());
         User newUser = userDb.getUserById(changeoverShift.getNewUserId());
@@ -402,6 +409,7 @@ public class ShiftService {
             Mail.sendMail(oldUser.getEmail(), "Endring av vakt", email);
             email = "Hei./nDu har nå tatt over skiftet til " + oldUser.getFirstName() + " " + oldUser.getLastName() + "./nHilsen Minvakt.";
             Mail.sendMail(newUser.getEmail(), "Endring av vakt", email);
+            shiftDb.deleteApproved();
             return Response.ok().build();
         } else {
             return Response.status(Response.Status.BAD_REQUEST).build();

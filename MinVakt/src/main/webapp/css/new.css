@@ -46,11 +46,12 @@ body {
 }
 
 #hamburger-menu {
+    transition: 0.5s;
     position: absolute;
-    height: 100%;
+    height: 45px;
     font-weight: 300;
     font-size: 2rem;
-    width: 15%;
+    width: 200px;
     cursor: pointer;
     z-index: 2500;
 }
@@ -60,7 +61,12 @@ body {
     height: 100%;
 }
 
+#hamburger-text:hover{
+    background-color: #FC4A1A;
+}
+
 #hamburger-text {
+    transition: 0.5s;
     position: relative;
     width: 100%;
     height: 100%;
@@ -80,29 +86,60 @@ body {
     margin-right: 3px;
 }
 
+.hamburger-items-container{
+    z-index: 10;
+    overflow: hidden;
+    position: fixed;
+    height: auto;
+    width: 0;
+    transition: 0.8s ease-in-out;
+}
+
+.hamburger-menu-item span{
+    min-width: 200px;
+}
+
+.hamburger-items-container-activate{
+    width: 200px;
+}
+
 #hamburger-menu-items {
+    display: block !important;
     list-style-type: none;
-    display: none;
-    width: 100%;
+    width: 200px;
     padding-left: 0;
     margin-top: 0;
     z-index: 100;
 }
 @media(max-width: 768px){
     #hamburger-menu {
-        height: 100%;
-        width: 45%;
+        width: 120px;
+        height: 45px;
         cursor: pointer;
+    }
+
+    .hamburger-items-container{
+        font-size: 12px;
+    }
+
+    .hamburger-menu-item {
+        font-size: 12px !important;
+    }
+
+    .hamburger-items-container-activate{
+        width: 120px;
     }
 }
 .hamburger-menu-item {
+    z-index: 10000;
+    font-size: 2rem;
+    pointer-events: auto;
     background-color: #1b4472;
     display: block;
     height: 50px;
     width: 100%;
     padding-left: 10px;
     color: white;
-    z-index: 100;
 }
 
 .hamburger-menu-item > span {
@@ -117,22 +154,32 @@ body {
     background-color: #3b6492;
 }
 
-.hamburger-menu-open {
-    display: block !important;
-}
-
 #header-title, #header-title-link {
     font-weight: normal;
     margin: auto;
 }
 
+#header-user-profile .fa-user{
+    float: left;
+    display: block;
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+#header-user-profile:hover {
+    background-color: #FC4A1A;
+}
+
 #header-user-profile {
+    transition: 0.5s;
     position: absolute;
+    padding-left: 17px;
+    width: 127px;
     right: 0;
     height: 100%;
     font-weight: 300;
     font-size: 2rem;
-    width: 8%;
     cursor: pointer;
 }
 
@@ -154,4 +201,18 @@ footer{
     text-align: center;
     bottom: 0;
     text-size-adjust: 100%;
+}
+
+.header-user-items-container{
+    position: fixed;
+    z-index: 10000;
+    top: 45px;
+    right: 0;
+    width: 0;
+    overflow: hidden;
+    transition: 0.8s;
+}
+
+.header-user-items-container-activate{
+    width: 127px;
 }
