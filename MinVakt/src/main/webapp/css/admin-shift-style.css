@@ -17,6 +17,7 @@ body {
 .fa{
     text-align: center;
     color: white;
+    text-decoration: none;
 }
 
 .hamburger-area {
@@ -82,24 +83,32 @@ body {
 }
 
 #left-arrow{
-//user-select: none;
     -webkit-user-select: none;
+    text-decoration: none;
 }
 #right-arrow{
-//user-select: none;
     -webkit-user-select: none;
+    text-decoration: none;
 }
 .fa-chevron-left{
     display: inline;
     color: #2D5684;
     font-size: 3rem;
 }
+.fa-chevron-left:hover{
+    color: #90BAED
+}
 .fa-chevron-right{
     display: inline;
     color: #2D5684;
     font-size: 3rem;
 }
-
+.fa-chevron-right:hover{
+   color: #90BAED;
+}
+option[value=""][disabled]{
+    display: none;
+}
 .calendar-head{
     text-align: center;
     position: relative;

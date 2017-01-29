@@ -107,7 +107,7 @@ public class Templates {
 
     @SecuredTpl({Role.USER, Role.ADMIN})
     @GET
-    @Path("/admin/shift")
+    @Path("/admin/admin-shift")
     @Produces(MediaType.TEXT_HTML)
     public String adminShift() {
         return templateEngine.process("admin-shift", context);
@@ -115,7 +115,7 @@ public class Templates {
 
     @SecuredTpl({Role.USER, Role.ADMIN})
     @GET
-    @Path("/admin/shift-accept")
+    @Path("/admin/admin-shift-accept")
     @Produces(MediaType.TEXT_HTML)
     public String adminShiftAccept() {
         return templateEngine.process("admin-shift-accept", context);
@@ -123,7 +123,7 @@ public class Templates {
 
     @SecuredTpl({Role.USER, Role.ADMIN})
     @GET
-    @Path("/admin/userlist")
+    @Path("/admin/admin-userlist")
     @Produces(MediaType.TEXT_HTML)
     public String userList() {
         return templateEngine.process("admin-userlist", context);
@@ -131,14 +131,14 @@ public class Templates {
 
     @SecuredTpl({Role.USER, Role.ADMIN})
     @GET
-    @Path("/admin/overtime")
+    @Path("/admin/admin-overtime")
     @Produces(MediaType.TEXT_HTML)
     public String overtime() {
         return templateEngine.process("admin-overtime", context);
     }
     @SecuredTpl({Role.USER, Role.ADMIN})
     @GET
-    @Path("/admin/absence")
+    @Path("/admin/admin-absence")
     @Produces(MediaType.TEXT_HTML)
     public String absence() {
         return templateEngine.process("admin-absence", context);

@@ -43,14 +43,15 @@
                         <th>Stilling</th>
                     </table>
 
-                    <label for="day-id">Velg tidspunkt: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Dag: <input type="radio" name="time-of-day" id="day-id" class="input-time"> </label>
-                    <label for="evening-id"> Kveld: <input type="radio" name="time-of-day" id="evening-id" class="input-time"> </label>
-                    <label for="night-id"> Natt: <input type="radio" name="time-of-day" id="night-id" class="input-time"> </label>
+                    <label for="day-id">Velg tidspunkt: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <input type="radio" name="time-of-day" id="day-id" class="input-time"> Dag </label>
+                    <label for="evening-id"><input type="radio" name="time-of-day" id="evening-id" class="input-time"> Kveld</label>
+                    <label for="night-id">  <input type="radio" name="time-of-day" id="night-id" class="input-time"> Natt</label>
                     <label for="department"><select id="department">
-                        <option value="1">1. Nord</option>
-                        <option value="2">2. Sør</option>
-                        <option value="3">3. Øst</option>
-                        <option value="4">4. Vest</option>
+                        <option value = "" disabled selected>Velg Avdeling..</option>
+                        <option value="1">Nord</option>
+                        <option value="2">Sør</option>
+                        <option value="3">Øst</option>
+                        <option value="4">Vest</option>
                     </select>
                     <label for="no-user"> Opprett vakt uten bruker: <input type="checkbox" name="no-user" id="no-user" class="no-user"> </label>
 
