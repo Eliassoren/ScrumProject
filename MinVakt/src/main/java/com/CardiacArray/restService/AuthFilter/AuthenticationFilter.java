@@ -13,6 +13,13 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.ext.Provider;
 import java.time.LocalDateTime;
 
+/**
+ *
+ * Authenticates user trying to access the rest service. It looks for the token in the AUTHORIZATION entry of the HTTP header.
+ * If the token is not found in the HTTP header or if a user with the received token is not found in the database, HTTP error code 401 is returned.
+ *
+ */
+
 @SecuredRest
 @Provider
 @Priority(Priorities.AUTHENTICATION)

@@ -26,6 +26,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ *
+ * Checks if a user is authorized to access the specified HTML page. MinVakt separates between regular users and admins. This filter will attempt to
+ * get the user from the database and compare its set role with that required by the requested HTML page.
+ * If the user is not authorized, HTTP error 403 is returned.
+ *
+ */
+
 @SecuredTpl
 @Provider
 @Priority(Priorities.AUTHORIZATION)

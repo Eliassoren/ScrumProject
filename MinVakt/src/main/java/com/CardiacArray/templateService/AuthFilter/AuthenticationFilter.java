@@ -16,7 +16,12 @@ import javax.ws.rs.ext.Provider;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
-
+/**
+ *
+ * Authenticates user trying to access the HTML pages. It looks for the token in the AUTHORIZATION entry of the HTTP header.
+ * If the token is not found in the HTTP header or if a user with the received token is not found in the database, HTTP error code 401 is returned.
+ *
+ */
 @SecuredTpl
 @Provider
 @Priority(Priorities.AUTHENTICATION)

@@ -21,6 +21,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ *
+ * Checks if a user is authorized to use the specified rest service. MinVakt separates between regular users and admins. This filter will attempt to
+ * get the user from the database and compare its set role with that required by the requested rest service.
+ * If the user is not authorized, HTTP error 403 is returned.
+ *
+ */
+
 @SecuredRest
 @Provider
 @Priority(Priorities.AUTHORIZATION)
