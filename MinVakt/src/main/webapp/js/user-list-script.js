@@ -72,7 +72,7 @@ function addRowEmployee(data) {
             $(".employee-form-banner").addClass("show-banner");
             var userId = $(this).attr("user-id");
             console.log(userId);
-            $("#overlay-placer").load("/MinVakt/html/template/user-list-user.html", function(){
+            $("#overlay-placer").load("/MinVakt/site/user-list-user", function(){
                 $(".stilling").text("Stilling: " + users[userId].userCategoryString);
                 $(".name").text(users[userId].firstName + " " + users[userId].lastName);
                 $(".telefon").text("Telefon: " + users[userId].mobile);

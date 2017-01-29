@@ -9,11 +9,8 @@
         </div>
         <div class="hamburger-items-container">
             <ul id="hamburger-menu-items">
-                <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-admin-home">
-                    <span><i class="fa fa-home" aria-hidden="true"></i>&nbsp;  Hjem</span></li>
-
                 <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-admin-shift">
-                    <span><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;  Sett opp vakter</span></li>
+                    <span><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;  Vaktlister</span></li>
 
                 <li th:if="${user.admin}" class="hamburger-menu-item" id="admin-shift-accept">
                     <span><i class="fa fa-exchange" aria-hidden="true"></i>&nbsp;  Vaktbytter</span></li>
@@ -24,17 +21,11 @@
                 <li class="hamburger-menu-item" id="hamburger-calendar">
                     <span><i class="fa fa-calendar-o" aria-hidden="true"></i>&nbsp;  Kalender</span></li>
 
-                <li class="hamburger-menu-item" id="hamburger-user-profile">
-                    <span><i class="fa fa-user" aria-hidden="true"></i>&nbsp;  Profil</span></li>
-
                 <li class="hamburger-menu-item" id="hamburger-availability">
                     <span><i class="fa fa-calendar-check-o" aria-hidden="true"></i>&nbsp;  Tilgjengelighet</span></li>
 
-                <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-user-list">
+                <li class="hamburger-menu-item" id="hamburger-user-list">
                     <span><i class="fa fa-users" aria-hidden="true"></i>&nbsp;  Ansatte</span></li>
-
-                <li class="hamburger-menu-item" id="hamburger-shift">
-                    <span><i class="fa fa-list-ul" aria-hidden="true"></i>&nbsp;  Vaktlister</span></li>
 
                 <li class="hamburger-menu-item" id="hamburger-logout">
                     <span><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;  Logg ut</span></li>

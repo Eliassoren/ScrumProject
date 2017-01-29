@@ -169,6 +169,16 @@ public class Templates {
         return templateEngine.process("availability", context);
     }
 
+
+    @SecuredTpl({Role.USER, Role.ADMIN})
+    @GET
+    @Path("/user-list-user")
+    @Produces(MediaType.TEXT_HTML)
+    public String userListUser() {
+        return templateEngine.process("user-list-user", context);
+    }
+
+
     @SecuredTpl({Role.USER, Role.ADMIN})
     @GET
     @Path("/dialog-update-password")

@@ -8,11 +8,20 @@ $(document).ready(function() {
     $("#hamburger-calendar").click(function() {
         window.location.href = "/MinVakt/site/calendar";
     });
-    $("#hamburger-shift").click(function() {
-        window.location.href = "/MinVakt/site/shift";
+    $("#hamburger-admin-shift").click(function() {
+        window.location.href = "/MinVakt/site/admin/shift";
     });
-    $("#hamburger-shifttrade").click(function() {
-        window.location.href = "/MinVakt/site/shift-tradeable";
+    $("#admin-shift-accept").click(function() {
+        window.location.href = "/MinVakt/site/admin/shift-accept";
+    });
+    $("#admin-overtime-accept").click(function() {
+        window.location.href = "/MinVakt/site/admin/overtime";
+    });
+    $("#hamburger-availability").click(function() {
+        window.location.href = "/MinVakt/site/availability";
+    });
+    $("#hamburger-user-list").click(function() {
+        window.location.href = "/MinVakt/site/admin/userlist";
     });
     $("#hamburger-logout").click(function() {
         localStorage.removeItem("token");

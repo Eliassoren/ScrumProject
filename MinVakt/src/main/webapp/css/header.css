@@ -67,7 +67,7 @@ body {
 }
 
 #hamburger-text:hover{
-    background-color: #FC4A1A;
+    background-color: #FC4A1A !important;
 }
 
 #hamburger-text {
