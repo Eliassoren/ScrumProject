@@ -35,6 +35,9 @@ public class DbManager {
             }
         }
 
+    /**
+     *
+     */
     public static void rollback(){
         try{
             connection.rollback();

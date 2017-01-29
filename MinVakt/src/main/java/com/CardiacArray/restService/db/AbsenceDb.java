@@ -55,6 +55,13 @@ public class AbsenceDb extends DbManager {
         return absenceList;
     }
 
+    /**
+     *
+     * @param userId
+     * @param startTime
+     * @param endTime
+     * @return
+     */
     public boolean setAbsence(int userId, Timestamp startTime, Timestamp endTime){
         boolean returnValue = false;
         String toSql = "INSERT INTO absence (user_id, start_time, end_time) VALUES (?, ?,?)";

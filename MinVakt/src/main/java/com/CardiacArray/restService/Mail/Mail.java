@@ -5,8 +5,16 @@ import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 
+/**
+ * A class tool for sending an email.
+ */
 public class Mail {
-
+    /**
+     *
+     * @param to recipient of email
+     * @param subject subject of email
+     * @param body text of email
+     */
     public static void sendMail(String to, String subject, String body) {
         try {
             ReadConfig readConfig = new ReadConfig();

@@ -112,6 +112,11 @@ public class OvertimeDb extends DbManager {
         return null;
     }
 
+    /**
+     *
+     * @param shiftId
+     * @return
+     */
     public Overtime getOvertimeByShiftId(int shiftId){
 
         String toSQL = "Select overtime.overtime_id, overtime.shift_id, overtime.approved, user.user_id, user.first_name, user.last_name, shift.date, overtime.start, overtime.end\n" +

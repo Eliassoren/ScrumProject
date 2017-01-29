@@ -3,6 +3,9 @@ package com.CardiacArray.restService.data;
 
 import java.util.Date;
 
+/**
+ * Data class that corresponds to overtime objects in database
+ */
 public class Overtime {
     private int overtimeId;
     private int shiftId;
@@ -13,6 +16,17 @@ public class Overtime {
     private String lastName;
     private boolean approved;
 
+    /**
+     *
+     * @param overtimeId
+     * @param shiftId
+     * @param userId
+     * @param firstName
+     * @param lastName
+     * @param startTime
+     * @param endTime
+     * @param approved
+     */
     public Overtime(int overtimeId, int shiftId, int userId, String firstName, String lastName, Date startTime, Date endTime, boolean approved) {
         this.overtimeId = overtimeId;
         this.shiftId = shiftId;

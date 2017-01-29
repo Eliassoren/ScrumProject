@@ -4,6 +4,9 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.TimeZone;
 
+/**
+ * Data class for shift objects in database
+ */
 public class Shift {
     private int shiftId;
     private Date startTime;
@@ -18,6 +21,19 @@ public class Shift {
     private Time startTimeTime;
     private Time endTimeTime;
 
+    /**
+     *
+     * @param shiftId
+     * @param startTime
+     * @param endTime
+     * @param userId
+     * @param userName
+     * @param departmentId
+     * @param role
+     * @param tradeable
+     * @param responsibleUser
+     * @param roleDescription
+     */
     public Shift(int shiftId, Date startTime, Date endTime, int userId, String userName, int departmentId, int role, boolean tradeable, boolean responsibleUser, String roleDescription) {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         if (startTime.getTime() >= endTime.getTime()) throw new IllegalArgumentException("Shift duration is less than 1 min");
@@ -33,6 +49,15 @@ public class Shift {
         this.roleDescription = roleDescription;
     }
 
+    /**
+     *
+     * @param startTime
+     * @param endTime
+     * @param departmentId
+     * @param role
+     * @param responsibleUser
+     * @param roleDescription
+     */
     public Shift(Date startTime, Date endTime, int departmentId, int role, boolean responsibleUser, String roleDescription) {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Oslo"));
         if (startTime.getTime() >= endTime.getTime()) throw new IllegalArgumentException("Shift duration is less than 1 min");

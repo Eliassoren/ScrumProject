@@ -34,7 +34,24 @@ public class User {
     private int workPercent;
     private int departmentId;
 
-
+    /**
+     *
+     * @param id
+     * @param firstName
+     * @param lastName
+     * @param mobile
+     * @param email
+     * @param password
+     * @param admin
+     * @param address
+     * @param userCategoryInt
+     * @param userCategoryString
+     * @param token
+     * @param expired
+     * @param active
+     * @param workPercent
+     * @param departmentId
+     */
     public User(int id, String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, String userCategoryString, String token, Timestamp expired, boolean active, int workPercent, int departmentId) {
         this.id = id;
         this.firstName = firstName;
@@ -58,8 +75,18 @@ public class User {
         }
     }
 
-    /*
-     *Constructor used to create new users that needs to be added to the database.
+    /**
+     * Constructor used to create new users that needs to be added to the database.
+     * @param firstName
+     * @param lastName
+     * @param mobile
+     * @param email
+     * @param password
+     * @param admin
+     * @param address
+     * @param userCategoryInt
+     * @param active
+     * @param workPercent
      */
     public User(String firstName, String lastName, int mobile, String email, String password, boolean admin, String address, int userCategoryInt, boolean active, int workPercent) {
         //if (firstName == null || lastName == null || email == null || password == null) throw new IllegalArgumentException("Name, password or email cannot be null");
