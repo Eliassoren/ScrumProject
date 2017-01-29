@@ -24,7 +24,11 @@ import java.time.LocalDateTime;
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class AuthenticationFilter implements ContainerRequestFilter {
-
+    /**
+     *
+     * @param containerRequest The request from session
+     * @throws WebApplicationException
+     */
     @Override
     public void filter(ContainerRequestContext containerRequest) throws WebApplicationException {
         System.out.println("AuthenticationFilter");

@@ -206,7 +206,7 @@ body {
 }
 
 footer{
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Source Sans Pro', monospace; !important;
     text-align: center;
     bottom: 0;
     text-size-adjust: 100%;

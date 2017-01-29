@@ -9,23 +9,18 @@ public class Absence {
     private Timestamp startTime;
     private Timestamp endTime;
     private int userId;
-
-    /**
-     *
-     * @param startTime
-     * @param endTime
-     * @param userId
-     */
+    
     public Absence(Timestamp startTime, Timestamp endTime, int userId) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.userId = userId;
     }
 
-    /**
+   /**
      *
      * @return the start time of absence in timestamp
      */
+
     public Timestamp getStartTime() {
         return startTime;
     }
