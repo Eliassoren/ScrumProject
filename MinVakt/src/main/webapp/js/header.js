@@ -5,6 +5,9 @@ $(document).ready(function() {
         $("#hamburger-text").toggleClass("hamburger-text-activate");
         $(".hamburger-items-container").toggleClass("hamburger-items-container-activate");
     });
+    $("#hamburger-admin-home").click(function() {
+        window.location.href = "/MinVakt/site/";
+    });
     $("#hamburger-calendar").click(function() {
         window.location.href = "/MinVakt/site/calendar";
     });
