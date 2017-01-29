@@ -139,10 +139,10 @@ public class Templates {
 
     @SecuredTpl({Role.USER, Role.ADMIN})
     @GET
-    @Path("/admin/admin-userlist")
+    @Path("/userlist")
     @Produces(MediaType.TEXT_HTML)
     public String userList() {
-        return templateEngine.process("admin-userlist", context);
+        return templateEngine.process("userlist", context);
     }
 
     @SecuredTpl({Role.USER, Role.ADMIN})

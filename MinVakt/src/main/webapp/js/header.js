@@ -9,19 +9,19 @@ $(document).ready(function() {
         window.location.href = "/MinVakt/site/calendar";
     });
     $("#hamburger-admin-shift").click(function() {
-        window.location.href = "/MinVakt/site/admin/shift";
+        window.location.href = "/MinVakt/site/admin/admin-shift";
     });
     $("#admin-shift-accept").click(function() {
-        window.location.href = "/MinVakt/site/admin/shift-accept";
+        window.location.href = "/MinVakt/site/admin/admin-shift-accept";
     });
     $("#admin-overtime-accept").click(function() {
-        window.location.href = "/MinVakt/site/admin/overtime";
+        window.location.href = "/MinVakt/site/admin/admin-overtime";
     });
     $("#hamburger-availability").click(function() {
         window.location.href = "/MinVakt/site/availability";
     });
     $("#hamburger-user-list").click(function() {
-        window.location.href = "/MinVakt/site/admin/userlist";
+        window.location.href = "/MinVakt/site/userlist";
     });
     $("#hamburger-logout").click(function() {
         localStorage.removeItem("token");
