@@ -660,7 +660,6 @@ function absenceAlert(time, format) {
             if (aFromTime >= aToTime){
                 bannerAlert("Ugyldig tidspunkt");
             } else {
-
                 $.ajax({
                     type: "POST",
                     url: "/MinVakt/rest/users/absence/set/" + localStorage.getItem('userid') + "/" + fromTimeDate + "/" + toTimeDate,
