@@ -1,0 +1,15 @@
+language: java
+sudo: false
+install: /bin/true
+script:
+        - cd MinVakt
+        - mvn verify
+jdk:
+  - oraclejdk8
+branches:
+   only:
+      - master
+      - development
+notifications:
+  slack: dat15hscrum1:STbUzEN3OEb7Kd8SfUGahsDd
+  email: false

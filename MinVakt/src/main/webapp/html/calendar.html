@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel= "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,900">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/af.js"></script>
+    <script type="text/javascript" src="../js/checklogin.js"></script>
+    <script type="text/javascript" src="../js/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/af.js"></script>
+    <script type="text/javascript" src="../js/main.js"></script>
+    <link rel="stylesheet" href="../css/main.css">
+
+    <title>MinVakt</title>
+</head>
+<body>
+<div id="overlay-placer"></div>
+
+
+<div id="header">
+    <div class="icon-bar">
+        <a id="hamburger-toggle" class="fa fa-bars"></a>
+        <ul id="hamburger-menu">
+            <li id="hamburger-calendar">Kalender</li>
+            <li id="hamburger-shift">Vaktliste</li>
+            <li id="hamburger-shifttrade">Ledige vakter</li>
+            <li id="hamburger-logout">Logg ut</li>
+        </ul>
+    </div>
+    <h1 id="h1-title">
+        <a id="search-toggle" href="/MinVakt/">MinVakt</a>
+    </h1>
+    <div class="icon-bar">
+        <a id="search" href="#" class="fa fa-search-right"></a>
+
+    </div>
+</div>
+<div class = "container">
+    <div class = "calendar-head">
+        <a id= "left-arrow" class="fa fa-chevron-left fa-2x"></a>
+        <h2 id="month-title"></h2>
+        <a id="right-arrow" class = "fa fa-chevron-right fa-2x"></a>
+    </div>
+    <div id="calendar">
+        <ul class="weekdays">
+            <li id="uke">Uke</li>
+            <li>Man</li>
+            <li>Tir</li>
+            <li>Ons</li>
+            <li>Tor</li>
+            <li>Fre</li>
+            <li>Lør</li>
+            <li>Søn</li>
+        </ul>
+
+        <!-- Days from previous month -->
+
+        <ul id="week1" class="days">
+            <li class="week-number">
+                <div class="week-name">
+                    Uke
+                </div>
+                <div class="week">
+                    52
+                </div>
+            </li>
+            <li class="day">
+                <div class="date">26</div>
+            </li>
+            <li class="day">
+
+                <div class="date">27</div>
+            </li>
+            <li class="day">
+                <div class="date">28</div>
+            </li>
+            <li class="day">
+                <div class="date">29</div>
+            </li>
+            <li class="day">
+                <div class="date">30</div>
+            </li>
+
+            <!-- Days in current month -->
+
+            <li class="day">
+                <div class="date">31</div>
+            </li>
+            <li class="day">
+                <div class="date">1</div>
+            </li>
+        </ul>
+
+        <!-- Row #2 -->
+
+        <ul id= "week2" class="days">
+            <li class="week-number">
+                <div class="week-name">
+                    Uke
+                </div>
+                <div class="week">
+                    1
+                </div>
+            </li>
+            <li class="day">
+                <div class="date">2</div>
+            </li>
+            <li class="day">
+                <div class="date">3</div>
+            </li>
+            <li class="day">
+                <div class="date">4</div>
+            </li>
+            <li class="day">
+                <div class="date">5</div>
+            </li>
+            <li class="day">
+                <div class="date">6</div>
+
+            </li>
+            <li class="day">
+                <div class="date">7</div>
+            </li>
+            <li class="day">
+                <div class="date">8</div>
+            </li>
+        </ul>
+
+        <!-- Row #3 -->
+
+        <ul id="week3" class="days">
+            <li class="week-number">
+                <div class="week-name">
+                    Uke
+                </div>
+                <div class="week">
+                    2
+                </div>
+            </li>
+            <li class="day">
+                <div class="date">9</div>
+            </li>
+            <li class="day">
+                <div class="date">10</div>
+            </li>
+            <li class="day">
+                <div class="date">11</div>
+            </li>
+            <li class="day">
+                <div class="date">12</div>
+            </li>
+            <li class="day">
+                <div class="date">13</div>
+            </li>
+            <li class="day">
+                <div class="date">14</div>
+            </li>
+            <li class="day">
+                <div class="date">15</div>
+            </li>
+        </ul>
+
+        <!-- Row #4 -->
+
+        <ul id="week4" class="days">
+            <li class="week-number">
+                <div class="week-name">
+                    Uke
+                </div>
+                <div class="week">
+                    3
+                </div>
+            </li>
+            <li class="day">
+                <div class="date">16</div>
+            </li>
+            <li class="day">
+                <div class="date">17</div>
+            </li>
+            <li class="day">
+                <div class="date">18</div>
+            </li>
+            <li class="day">
+                <div class="date">19</div>
+            </li>
+            <li class="day">
+                <div class="date">20</div>
+            </li>
+            <li class="day">
+                <div class="date">21</div>
+            </li>
+            <li class="day">
+                <div class="date">22</div>
+            </li>
+        </ul>
+
+        <!-- Row #5 -->
+
+        <ul id="week5" class="days">
+            <li class="week-number">
+                <div class="week-name">
+                    Uke
+                </div>
+                <div class="week">
+                    4
+                </div>
+            </li>
+            <li class="day">
+                <div class="date">23</div>
+            </li>
+            <li class="day">
+                <div class="date">24</div>
+
+            </li>
+            <li class="day">
+                <div class="date">25</div>
+            </li>
+            <li class="day">
+                <div class="date">26</div>
+            </li>
+            <li class="day">
+                <div class="date">27</div>
+            </li>
+            <li class="day">
+                <div class="date">28</div>
+            </li>
+            <li class="day">
+                <div class="date">29</div>
+            </li>
+        </ul>
+
+        <!-- Row #6 -->
+
+        <ul id="week6" class="days">
+            <li class="week-number">
+                <div class="week-name">
+                    Uke
+                </div>
+                <div class="week">
+                    5
+                </div>
+            </li>
+            <li class="day">
+                <div class="date">30</div>
+            </li>
+            <li class="day">
+                <div class="date">31</div> <!-- Next Month -->
+            </li>
+            <li class="day">
+                <div class="date">1</div>
+            </li>
+            <li class="day">
+                <div class="date">2</div>
+            </li>
+            <li class="day">
+                <div class="date">3</div>
+            </li>
+            <li class="day">
+                <div class="date">4</div>
+            </li>
+            <li class="day">
+                <div class="date">5</div>
+            </li>
+        </ul>
+
+    </div><!-- /. calendar -->
+</div><!-- /. wrap -->
+</div>
+<footer>
+    <p>&copy; 2017 Cardiac Array</p>
+    <p>
+        <a href="#" class="footer-link">Brukervilkår</a> &bullet;
+        <a href="#" class="footer-link">Hjelp</a> &bullet;
+        <a href="#" class="footer-link">Kontakt</a>
+    </p>
+</footer>
+</body>
+</html>

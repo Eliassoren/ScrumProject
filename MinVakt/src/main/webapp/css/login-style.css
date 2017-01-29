@@ -1,0 +1,154 @@
+#header{
+    width:100%;
+    height: 7%;
+    background-color: #2D5684;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#header-title{
+    color: white;
+    width:100%;
+    text-align: center;
+    font-weight: normal;
+    font-family: 'Source Sans Pro', monospace; !important;
+
+}
+
+#login-title{
+    text-align: center;
+    width: 60%;
+    font-size: 2.3rem;
+    font-weight: normal;
+    display: block;
+    margin: 0.2rem auto 1rem auto;
+}
+
+html, body{
+    height: 100%;
+    width: 100%;
+    font-family: 'Source Sans Pro', monospace; !important;
+}
+
+body {
+    background: url(http://www.imageif.com/images/medical-physician-doctor-hands-healthcare-background-banner-cmipa.jpg);
+    background-size: cover;
+    margin: 0;
+}
+
+#login-form{
+    position: absolute;
+    z-index: 1000;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    padding: 1rem;
+    margin: 3rem auto 0 auto;
+    width: 30rem;
+    border: 1px solid #2D5684;
+    background: #F3F3F3;
+}
+
+#button:active {
+    text-decoration: none;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    color: black;
+}
+
+.button:active {
+    transform: translate(0px,3px);
+    background-color: #a5a5a5;
+}
+
+#login-lost-password {
+    text-align: center;
+    margin: 0.5rem auto 0.5rem auto;
+    font-size: 1.4rem;
+}
+
+#login-lost-password > a, footer a {
+    text-decoration: none;
+}
+
+#login-lost-password-form {
+    justify-content: center;
+    align-content: center;
+}
+
+.user-input {
+    margin: 0.5rem auto 0.5rem auto;
+    width: 80%;
+    font-size: 1.3rem;
+    display: block;
+}
+
+#error-message {
+    margin: auto;
+    width: 90%;
+    height: 1.4rem;
+    font-size: 1.4rem;
+    color: red;
+    text-align: center;
+}
+
+#lostpassword-message {
+    margin: auto;
+    width: 90%;
+    height: 3rem;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.lostpassword-information-message {
+    color: black;
+}
+
+.lostpassword-error-message {
+    color: red;
+}
+
+#lostpassword-close {
+    margin: 0.5rem auto 0.5rem auto;
+    width: 80%;
+    font-size: 1rem;
+    display: none;
+    font-family: Arial,Helvetica,sans-serif;
+}
+
+.login-error {
+    width: 80%;
+    margin: 0.1rem auto 0.1rem auto;
+    color: red;
+    font-size: 0.8rem;
+    height: 1.3rem;
+    font-weight: bold;
+}
+
+footer{
+    position: absolute;
+    bottom: 0;
+    font-size: 1.2rem;
+    text-align: center;
+    width: 100%;
+    text-align: center;
+}
+@media(max-width: 768px) {
+
+}
+.blur-box{
+    z-index: 100;
+    pointer-events: none;
+    bottom: 0;
+    position: absolute;
+    height: 93%;
+    width: 100%;
+    background: radial-gradient(transparent 50%, transparent 50%, #97A2AE);
+    filter: blur(5px);
+}
+
+
+

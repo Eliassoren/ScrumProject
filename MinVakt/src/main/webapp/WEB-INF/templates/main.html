@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,900" rel="stylesheet">
+        <link rel="stylesheet" href="/MinVakt/css/new.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/af.js"></script>
+        <script type="text/javascript" src="/MinVakt/js/moment.js"></script>
+        <script type="text/javascript" src="/MinVakt/js/new.js"></script>
+        <script type="text/javascript" src="/MinVakt/js/lib.js"></script>
+        <link rel="stylesheet" href="/MinVakt/css/main.css">
+        <title>MinVakt</title>
+    </head>
+    <body>
+        <div id="header">
+            <div th:if="${page} != 'login'" id="hamburger-menu">
+                <div id="hamburger-text">
+                    <span><i class="fa fa-bars"></i>meny</span>
+                </div>
+                <ul id="hamburger-menu-items">
+                    <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-admin-home"><span>Hjem</span></li>
+                    <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-admin-shift"><span>Sett opp vakter</span></li>
+                    <li th:if="${user.admin}" class="hamburger-menu-item" id="admin-shift-accept"><span>Vaktbytter</span></li>
+                    <li th:if="${user.admin}" class="hamburger-menu-item" id="admin-overtime-accept"><span>Overtid</span></li>
+                    <li class="hamburger-menu-item" id="hamburger-calendar"><span>Kalender</span></li>
+                    <li class="hamburger-menu-item" id="hamburger-user-profile"><span>Profil</span></li>
+                    <li class="hamburger-menu-item" id="hamburger-availability"><span>Tilgjengelighet</span></li>
+                    <li th:if="${user.admin}" class="hamburger-menu-item" id="hamburger-user-list"><span>Ansatte</span></li>
+                    <li class="hamburger-menu-item" id="hamburger-shift"><span>Vaktlister</span></li>
+
+                    <li class="hamburger-menu-item" id="hamburger-logout"><span>Logg ut</span></li>
+                </ul>
+            </div>
+            <h1 id="header-title">MinVakt</h1>
+            <div th:if="${page} != 'login'" id="header-user-profile">
+                <span id="header-user-profile-link" th:text="${user.firstName}"></span>
+            </div>
+        </div>
+        <div class="main-area" th:replace="${page}">
+        </div>
+        <footer>
+            <p>&copy; 2017 Cardiac Array</p>
+            <p>
+                <a href="#" class="footer-link">Brukervilkår</a> &bullet;
+                <a href="#" class="footer-link">Hjelp</a> &bullet;
+                <a href="#" class="footer-link">Kontakt</a>
+            </p>
+        </footer>
+    </body>
+</html>

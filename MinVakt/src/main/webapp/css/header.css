@@ -1,0 +1,367 @@
+/*
+COLORS
+RØD: #FC4A1A
+Mørkere blå: #1b4472
+Mørk blå: #2D5684
+Mørk grå: #979797
+Lys blå: #90BAED
+Lysest grå: #F3F3F3
+ */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 10px;
+}
+
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    margin: 0;
+}
+
+#header a:focus, #header a:hover {
+    color: #23527c;
+    text-decoration: underline;
+}
+#header a:active, #header a:hover {
+    outline: 0;
+}
+
+#header .fa{
+    text-align: center;
+    color: white;
+}
+
+#header {
+    position: relative;
+    height: 4.5rem;
+    width: 100%;
+    background-color: #2D5684;
+    color: white;
+    display: flex;
+}
+
+#hamburger-menu {
+    transition: 0.5s;
+    position: absolute;
+    height: 45px;
+    font-weight: 300;
+    font-size: 2rem;
+    width: 200px;
+    cursor: pointer;
+    z-index: 2500;
+}
+
+.hamburger-menu-open {
+    background-color: #1b4472 !important;
+    height: 100%;
+}
+
+.hamburger-text-activate{
+    position: fixed !important;
+    background-color: #1b4472 !important;
+}
+
+#hamburger-text:hover{
+    background-color: #FC4A1A !important;
+}
+
+#hamburger-text {
+    transition: 0.5s;
+    position: relative;
+    width: 200px;
+    height: 45px;
+    vertical-align: center;
+    text-align: center;
+}
+
+#hamburger-text > span {
+    margin: auto;
+    display: block;
+    position: relative;
+    top: 50%;
+    transform: translate(-15%, -50%);
+}
+
+#hamburger-text > span > i {
+    margin-right: 3px;
+}
+
+.hamburger-items-container{
+    z-index: 10;
+    overflow: hidden;
+    position: fixed;
+    height: auto;
+    top: 45px;
+    width: 0;
+    transition: 0.5s;
+}
+
+.hamburger-menu-item span{
+    min-width: 200px;
+}
+
+.hamburger-items-container-activate{
+    width: 200px;
+}
+
+#hamburger-menu-items {
+    display: block !important;
+    list-style-type: none;
+    width: 200px;
+    padding-left: 0;
+    margin-top: 0;
+    z-index: 100;
+}
+@media(max-width: 768px){
+    #hamburger-menu {
+        width: 120px !important;
+        height: 45px;
+    }
+    #hamburger-text {
+        width: 120px !important;
+
+    }
+    .hamburger-items-container{
+        font-size: 12px;
+    }
+
+    .hamburger-menu-item {
+        font-size: 12px !important;
+    }
+
+    .hamburger-items-container-activate{
+        width: 120px;
+    }
+}
+.hamburger-menu-item {
+    cursor: pointer;
+    z-index: 10000;
+    font-size: 2rem;
+    pointer-events: auto;
+    background-color: #1b4472;
+    display: block;
+    height: 50px;
+    width: 100%;
+    padding-left: 10px;
+    color: white;
+}
+
+.hamburger-menu-item > span {
+    margin: auto;
+    display: block;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.hamburger-menu-item:hover {
+    background-color: #3b6492;
+}
+
+#header-title, #header-title-link {
+    font-weight: normal;
+    margin: auto;
+}
+
+#header-user-profile .fa-user{
+    float: left;
+    display: block;
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+#header-user-profile:hover {
+    background-color: #FC4A1A;
+}
+
+#header-user-profile {
+    transition: 0.5s;
+    position: absolute;
+    padding-left: 17px;
+    width: 127px;
+    right: 0;
+    height: 45px;
+    font-weight: 300;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+#header-user-profile > span {
+    float: right;
+    display: block;
+    position: relative;
+    top: 50%;
+    transform: translate(-20%, -50%);
+}
+
+#page-title {
+    text-align: center;
+    margin-top: 6rem;
+}
+
+footer{
+    font-family: 'Source Sans Pro', monospace; !important;
+    text-align: center;
+    bottom: 0;
+    text-size-adjust: 100%;
+}
+
+.header-user-items-container{
+    position: fixed;
+    z-index: 10000;
+    top: 45px;
+    right: 0;
+    width: 0;
+    overflow: hidden;
+    transition: 0.5s;
+}
+
+.header-user-items-container-activate{
+    width: 127px;
+}
+
+.header-user-activate{
+    background-color: #1b4472;
+    position: fixed !important;
+}
+
+.update-user-form{
+    background-color: white;
+    padding: 1rem;
+    height: 80%;
+    width: 560px;
+    border: 2px solid #2D5684;
+    position: relative;
+    margin: auto;
+    top: 60%;
+    overflow: hidden;
+    color: #2D5684;
+    font-family: 'Source Sans Pro', monospace; !important;
+}
+.update-user-form .user-input {
+    display: block;
+    margin: auto;
+    width: 100%;
+    border: 2px solid #2D5684;
+}
+.update-user-form .select{
+    width: 100%;
+    margin: 0 0.3rem 0.8rem 0.3rem;
+    border: 2px solid #2D5684;
+    /* margin: 0.5rem 0.3rem;*/
+}
+.update-user-form .button{
+    display: inline;
+    width: 20%;
+    margin: auto;
+    background: white;
+    border: 2px solid #2D5684;
+    color: #2D5684;
+}
+.update-user-form #button_ok{
+    float: left;
+}
+.update-user-form #button_cancel{
+    float: right;
+}
+.update-user-form h2 .form-title{
+    text-align: center;
+}
+/*h4 .{
+    border-bottom: 1px solid #2D5684;
+}*/
+.update-user-form .check-box-label {
+    margin: 0;
+    width: auto;
+}
+.update-user-form label{
+    display: block;
+    width: 100%;
+    margin: auto;
+}
+
+.update-user-form .register-user-label{
+    font-size: 15px;
+}
+
+.update-user-form #spinner{
+    color: #2D5684;
+}
+
+.update-user-form #postal_code{
+    display: inline-block;
+    width: 20%;
+}
+.update-user-form .user-inline-container {
+    width: 100%;
+    margin: 0;
+    position: relative;
+    display: block;
+}
+.update-user-form #admin_checkbox{
+    display: inline;
+    width: auto;
+    background: white;
+    height: auto;
+}
+.update-user-form #active_checkbox{
+    display: inline;
+    width: auto;
+    background: white;
+    height: auto;
+}
+.update-user-form .button-group{
+    width: 100%;
+    margin-top: 1.6rem;
+}
+.update-user-form .label-line{
+    margin-bottom: 0;
+}
+.update-user-form fieldset{
+    position: relative;
+    display: block;
+    padding: 1rem 0.5rem 1rem 0.5rem;
+    margin: 1.5rem auto 1rem auto;
+    border-top: 1px solid #2D5684;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+}
+.update-user-form legend{
+    position: absolute;
+    top: -1.8rem;
+
+}
+.update-user-form select:required:invalid .user-select{
+    color: gray;
+}
+.update-user-form option[value=""][disabled]{
+    display: none;
+}
+.update-user-form option{
+    color: #2D5684;
+    z-index: 2;
+    display: list-item;
+}
+
+.update-user-form .user-inline-div {
+    width: 33%;
+    float: left;
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+}
+
+.error-p {
+    color: red;
+    font-size: 1.2rem;
+    height: 1.2rem;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 0;
+}

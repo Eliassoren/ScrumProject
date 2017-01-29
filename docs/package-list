@@ -1,0 +1,7 @@
+com.CardiacArray.restService.AuthFilter
+com.CardiacArray.restService.Mail
+com.CardiacArray.restService.data
+com.CardiacArray.restService.db
+com.CardiacArray.restService.rest
+com.CardiacArray.templateService
+com.CardiacArray.templateService.AuthFilter

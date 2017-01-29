@@ -1,0 +1,55 @@
+<!--h4 class = "subform-title">Kontaktinfo</h4-->
+<script type="text/javascript" src="/MinVakt/js/update-password.js"></script>
+<form class="update-user-form" id="update-user-form" action="#" method="post" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="user-inline-container">
+    </div>
+    <fieldset class ="user-fieldset">
+        <legend class ="user-legend">Kontaktinfo</legend>
+        <label class="user-label user-text-label name-labels" for="firstName">Fornavn</label>
+        <input th:value="${user.firstName}" class = "user-input" id = "firstName" type = "text" placeholder = "Fornavn" name="firstName">
+        <p class="error-p" id="firstName-error"></p>
+        <label class="user-label user-text-label name-labels" for="lastName">Etternavn</label>
+        <input th:value="${user.lastName}" class = "user-input" id = "lastName" type = "text" placeholder = "Etternavn" name="lastName">
+        <p class="error-p" id="lastName-error"></p>
+        <label class = "user-label postal-label" for="address">Adresse</label>
+        <input th:value="${user.address}" class = "user-input" id = "address" type = "text" placeholder = "Adresse" name="address">
+        <p class="error-p" id="address-error"></p>
+        <label class = "user-label user-text-label" for="mobile">Telefon</label>
+        <input th:value="${user.mobile}" class = "user-input" id = "mobile" type = "text" placeholder = "Telefon" name="mobile">
+        <p class="error-p" id="mobile-error"></p>
+        <label class = "user-label user-text-label" for="email">Epost</label>
+        <input th:value="${user.email}" class = "user-input" id = "email" type = "text" placeholder = "Epost" name="email">
+        <p class="error-p" id="email-error"></p>
+    </fieldset>
+    <fieldset class ="user-fieldset">
+        <legend class="user-legend">Ansattinfo</legend>
+        <div class="user-inline-div">
+            <label class = "user-label select-label" for="departmentId">Avdeling</label>
+            <select class = "user-select select picker" id = "departmentId" name="departmentId">
+                <option value = "" disabled selected>Velg Avdeling..</option>
+                <option th:each="department : ${departments}" th:value="${department.departmentId}" th:text="${department.departmentName}" th:selected="${user.departmentId = department.departmentId}"></option>
+            </select>
+            <p class="error-p" id="departmentId-error"></p>
+        </div>
+        <div class="user-inline-div">
+            <label class = "user-label select-label" for="userCategoryInt">Stillingstype</label>
+            <select class = "user-select select picker" id = "userCategoryInt" name="userCategoryInt">
+                <option value = "" disabled selected>Velg Stillingstype..</option>
+                <option th:each="userCategory : ${userCategories}" th:value="${userCategory.userCategoryId}" th:text="${userCategory.userCategoryType}" th:selected="${user.userCategoryInt = userCategory.userCategoryId}"></option>
+                <option value = "3">Assistent</option>
+                <option value = "1">Helsefagarbeider</option>
+                <option value = "2">Sykepleier</option>
+            </select>
+            <p class="error-p" id="userCategoryInt-error"></p>
+        </div>
+        <div class="user-inline-div">
+            <label class = "user-label select-label" for = "workPercent" id = "work-percent-label">Stillingsprosent</label>
+            <input th:value="${user.workPercent}" class ="select" id= "workPercent" type="number" min="0" max = "100" step="1" value="0" size = "6" name="workPercent">
+            <p class="error-p" id="workPercent-error"></p>
+        </div>
+        <div class = "button-group">
+            <input class="button user-button" type="submit" value="Lagre">
+            <button class="button user-button" id="button_cancel">Avbryt</button>
+        </div>
+    </fieldset>
+</form>

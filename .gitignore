@@ -11,3 +11,9 @@ MinVakt/.idea/artifacts/MinVakt_war_exploded.xml
 MinVakt/.idea/libraries/Maven__mysql_mysql_connector_java_5_1_6.xml
 
 MinVakt/.idea/workspace.xml
+
+MinVakt/.idea
+
+MinVakt/.ideaDataSources/
+Minvakt/dataSources/
+Minvakt/src/main/java/com/CardiacArray/rest/.LoginService.java.swp
